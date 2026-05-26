@@ -24,9 +24,7 @@
   "total_equity": 60000.0,
   "total_orders": 0,
   "total_fills": 0,
-  "elapsed_s": 282.7,
-  "errors": [
-    "[sticks] predict_today_orders failed: Feature shape mismatch, expected: 4, got 2"
-  ],
-  "status": "partial"
+  "elapsed_s": 261.1,
+  "errors": [],
+  "status": "ok"
 }
