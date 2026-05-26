@@ -1,0 +1,32 @@
+{
+  "date": "2026-05-26",
+  "strategies_run": [
+    "sticks",
+    "markowitz",
+    "drl"
+  ],
+  "order_counts": {
+    "sticks": 0,
+    "markowitz": 0,
+    "drl": 0
+  },
+  "fill_counts": {
+    "sticks": 0,
+    "markowitz": 0,
+    "drl": 0
+  },
+  "equity": {
+    "sticks": 10000.0,
+    "markowitz": 10000.0,
+    "drl": 10000.0,
+    "total": 30000.0
+  },
+  "total_equity": 60000.0,
+  "total_orders": 0,
+  "total_fills": 0,
+  "elapsed_s": 68.3,
+  "errors": [
+    "[drl] predict_today_orders failed: cannot convert float NaN to integer"
+  ],
+  "status": "partial"
+}
