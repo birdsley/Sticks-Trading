@@ -7,12 +7,12 @@
   ],
   "order_counts": {
     "sticks": 8,
-    "markowitz": 50,
+    "markowitz": 0,
     "drl": 9
   },
   "fill_counts": {
     "sticks": 8,
-    "markowitz": 50,
+    "markowitz": 0,
     "drl": 9
   },
   "equity": {
@@ -21,9 +21,9 @@
     "drl": 10000.0
   },
   "total_equity": 30000.0,
-  "total_orders": 67,
-  "total_fills": 67,
-  "elapsed_s": 158.4,
+  "total_orders": 17,
+  "total_fills": 17,
+  "elapsed_s": 131.9,
   "errors": [],
   "status": "ok"
 }
