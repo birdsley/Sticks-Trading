@@ -382,6 +382,119 @@
             .ticker-controls      { grid-template-columns: 1fr; }
             .secondary-charts     { grid-template-columns: 1fr; }
             .comparison-stats     { grid-template-columns: repeat(2, 1fr); }
+            .macro-layout         { grid-template-columns: 1fr; }
+            .macro-charts-2col    { grid-template-columns: 1fr; }
+            .macro-kpi-grid       { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* ── Macro Tab ── */
+        .macro-layout {
+            display: grid;
+            grid-template-columns: 270px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        .news-pane {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 16px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+        .news-pane::-webkit-scrollbar { width: 4px; }
+        .news-pane::-webkit-scrollbar-track { background: #0f0f0f; }
+        .news-pane::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+        .news-pane-title {
+            font-size: 11px; font-weight: 600; color: #808080;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 12px; padding-bottom: 10px;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .news-item {
+            padding: 11px 0;
+            border-bottom: 1px solid #1f1f1f;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+        .news-item:last-child { border-bottom: none; }
+        .news-item:hover { opacity: 0.8; }
+        .news-headline {
+            font-size: 12.5px; color: #d0d0d0; line-height: 1.45;
+            margin-bottom: 5px;
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .news-meta { font-size: 10.5px; color: #606060; display: flex; gap: 6px; }
+        .news-source { color: #00d4aa; }
+        .macro-main { display: flex; flex-direction: column; gap: 20px; }
+        .narrative-card {
+            background: linear-gradient(135deg, rgba(0,212,170,0.07) 0%, rgba(0,168,255,0.07) 100%);
+            border: 1px solid rgba(0,212,170,0.18);
+            border-radius: 10px; padding: 20px 24px;
+        }
+        .narrative-label {
+            font-size: 10px; color: #00d4aa; text-transform: uppercase;
+            letter-spacing: 1.2px; margin-bottom: 10px; font-weight: 600;
+        }
+        .narrative-text { font-size: 14px; color: #e0e0e0; line-height: 1.65; }
+        .narrative-date { font-size: 11px; color: #606060; margin-top: 10px; }
+        .macro-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+        }
+        .indicator-card {
+            background-color: #1a1a1a; border: 1px solid #2a2a2a;
+            border-radius: 10px; padding: 15px 14px;
+            position: relative; overflow: hidden;
+        }
+        .indicator-card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            border-radius: 10px 10px 0 0;
+        }
+        .indicator-card.green::before  { background-color: #00d4aa; }
+        .indicator-card.yellow::before { background-color: #ff9f43; }
+        .indicator-card.red::before    { background-color: #ff4757; }
+        .indicator-card.neutral::before{ background-color: #444; }
+        .indicator-label {
+            font-size: 10px; color: #808080;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+        }
+        .indicator-value { font-size: 22px; font-weight: 700; color: #ffffff; margin-bottom: 2px; }
+        .indicator-change { font-size: 11px; margin-bottom: 8px; }
+        .indicator-change.pos { color: #00d4aa; }
+        .indicator-change.neg { color: #ff4757; }
+        .indicator-change.neutral { color: #606060; }
+        .traffic-light { display: flex; align-items: center; gap: 5px; }
+        .tl-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .tl-dot.green  { background-color: #00d4aa; box-shadow: 0 0 5px #00d4aa88; }
+        .tl-dot.yellow { background-color: #ff9f43; box-shadow: 0 0 5px #ff9f4388; }
+        .tl-dot.red    { background-color: #ff4757; box-shadow: 0 0 5px #ff475788; }
+        .tl-dot.neutral{ background-color: #606060; }
+        .tl-text { font-size: 11px; }
+        .tl-text.green  { color: #00d4aa; }
+        .tl-text.yellow { color: #ff9f43; }
+        .tl-text.red    { color: #ff4757; }
+        .tl-text.neutral{ color: #606060; }
+        .macro-charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .release-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+        .release-table th {
+            font-size: 10px; color: #808080; text-transform: uppercase;
+            letter-spacing: 0.5px; padding: 8px 10px; text-align: left;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .release-table td { padding: 9px 10px; font-size: 13px; border-bottom: 1px solid #1f1f1f; }
+        .release-table tr:last-child td { border-bottom: none; }
+        .release-beat  { color: #00d4aa; font-weight: 600; }
+        .release-miss  { color: #ff4757; font-weight: 600; }
+        .release-inline{ color: #808080; }
+        .macro-empty {
+            text-align: center; padding: 40px 20px;
+            color: #606060; font-size: 13px; line-height: 1.6;
         }
     </style>
 </head>
@@ -424,6 +537,7 @@
     <div class="main-tab active" onclick="switchMainTab(event,'performance')">Performance</div>
     <div class="main-tab"        onclick="switchMainTab(event,'analytics')">Analytics</div>
     <div class="main-tab"        onclick="switchMainTab(event,'ticker')">Ticker Analysis</div>
+    <div class="main-tab"        onclick="switchMainTab(event,'macro')">Macro</div>
 </div>
 
 <!-- ══════════════════════════════════════════════ PERFORMANCE TAB ══ -->
@@ -770,6 +884,105 @@
     </div>
 </div><!-- /ticker-tab -->
 
+<!-- ══════════════════════════════════════════════ MACRO TAB ══ -->
+<div id="macro-tab" class="tab-content">
+    <div class="macro-layout">
+
+        <!-- LEFT: News pane -->
+        <div class="news-pane">
+            <div class="news-pane-title">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="#00d4aa">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h12v2H6zm0 4h8v2H6z"/>
+                </svg>
+                Macro Headlines
+            </div>
+            <div id="macroNewsFeed">
+                <div class="macro-empty" style="padding:24px 8px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.25;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                    Loading headlines…
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Macro dashboard -->
+        <div class="macro-main">
+
+            <!-- Narrative story card -->
+            <div class="narrative-card">
+                <div class="narrative-label">Macro Context — Today's Story</div>
+                <div class="narrative-text" id="macroNarrativeText">Loading macroeconomic data…</div>
+                <div class="narrative-date" id="macroNarrativeDate"></div>
+            </div>
+
+            <!-- KPI traffic-light cards -->
+            <div class="macro-kpi-grid" id="macroKpiGrid">
+                <!-- filled by JS -->
+            </div>
+
+            <!-- Yield Spread chart (full-width, equity overlay) -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Yield Spread (10Y − 3M) &amp; Portfolio Equity</div>
+                        <div class="chart-subtitle">Inversion below zero = historical recession signal. Shaded bands: 18-mo lag to recession.</div>
+                    </div>
+                </div>
+                <div id="macroYieldChart" style="height:300px;"></div>
+            </div>
+
+            <!-- VIX + CPI (2-column) -->
+            <div class="macro-charts-2col">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">VIX — Fear Index</div>
+                        <div class="chart-subtitle">Below 18 = calm &nbsp;|&nbsp; 18–28 = elevated &nbsp;|&nbsp; &gt;28 = crisis</div>
+                    </div>
+                    <div id="macroVixChart" style="height:240px;"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">CPI Inflation (YoY %)</div>
+                        <div class="chart-subtitle">Fed target 2%. Elevated CPI → hawkish risk → vol headwinds.</div>
+                    </div>
+                    <div id="macroCpiChart" style="height:240px;"></div>
+                </div>
+            </div>
+
+            <!-- Fed Funds + Unemployment (2-column) -->
+            <div class="macro-charts-2col">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Fed Funds Rate</div>
+                        <div class="chart-subtitle">Policy rate trajectory drives risk premium &amp; discount rates.</div>
+                    </div>
+                    <div id="macroFedChart" style="height:220px;"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">HY Credit Spread (OAS, bps)</div>
+                        <div class="chart-subtitle">Below 350 = risk-on &nbsp;|&nbsp; 350–500 = stress &nbsp;|&nbsp; &gt;500 = crisis</div>
+                    </div>
+                    <div id="macroHyChart" style="height:220px;"></div>
+                </div>
+            </div>
+
+            <!-- Data releases table -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Recent Economic Releases — Beat / Miss</div>
+                    <div class="chart-subtitle">Actual vs consensus. Surprises drive short-term regime shifts.</div>
+                </div>
+                <div id="macroReleasesTable">
+                    <div class="macro-empty">Loading release data…</div>
+                </div>
+            </div>
+
+        </div><!-- /macro-main -->
+    </div><!-- /macro-layout -->
+</div><!-- /macro-tab -->
+
 
 <script>
 // ══════════════════════════════════════════════════════════════
@@ -835,6 +1048,7 @@ function switchMainTab(e, name) {
     document.getElementById(name + '-tab').classList.add('active');
     if (name === 'analytics') renderAnalyticsTab();
     if (name === 'ticker')    initTickerTab();
+    if (name === 'macro')     loadMacroTab();
 }
 
 function switchInnerTab(e, name) {
@@ -1881,6 +2095,482 @@ function renderTickerCharts(data, ticker) {
             {type:'line', x0:zX[0], x1:zX[zX.length-1], y0:-2, y1:-2, line:{color:'#404040',dash:'dot',width:1}}
         ]
     }, {responsive:true});
+}
+
+// ══════════════════════════════════════════════════════════════
+//  MACRO TAB
+// ══════════════════════════════════════════════════════════════
+
+let macroLoaded = false;   // only fetch once per page load
+
+async function loadMacroTab() {
+    if (macroLoaded) return;
+    macroLoaded = true;
+
+    const [fredData, mktData, newsData] = await Promise.all([
+        fetchJSON('data/macro/fred_data.json').catch(() => null),
+        fetchJSON('data/macro/market_data.json').catch(() => null),
+        fetchJSON('data/macro/news.json').catch(() => null),
+    ]);
+
+    renderMacroNews(newsData);
+
+    if (!fredData && !mktData) {
+        document.getElementById('macroNarrativeText').textContent =
+            'Macro data has not been fetched yet. The GitHub Actions daily workflow ' +
+            'will populate data/macro/ on the next run. Add FRED_KEY to your repository ' +
+            'secrets and push to trigger the workflow.';
+        document.getElementById('macroKpiGrid').innerHTML =
+            '<div class="macro-empty" style="grid-column:1/-1;">No data — run the daily workflow first.</div>';
+        return;
+    }
+
+    const allEquity = [
+        ...(state.equity.sticks    || []),
+        ...(state.equity.markowitz || []),
+        ...(state.equity.drl       || []),
+    ];
+
+    renderMacroNarrative(fredData, mktData);
+    renderMacroKPIs(fredData, mktData);
+    renderMacroCharts(fredData, mktData, allEquity);
+    renderMacroReleases(fredData);
+}
+
+// ── Helpers ────────────────────────────────────────────────────
+
+function tlClass(value, thresholds) {
+    // thresholds: { green: fn, yellow: fn }  — each returns bool
+    if (thresholds.green(value))  return 'green';
+    if (thresholds.yellow(value)) return 'yellow';
+    return 'red';
+}
+
+function macroPlotLayout(yTitle) {
+    return {
+        paper_bgcolor: '#0a0a0a', plot_bgcolor: '#0a0a0a',
+        font: { color: '#e0e0e0', size: 11 },
+        xaxis: { gridcolor: '#1a1a1a', showgrid: true, type: 'date', zeroline: false },
+        yaxis: { gridcolor: '#1a1a1a', showgrid: true, title: yTitle, zeroline: false },
+        margin: { l: 55, r: 20, t: 15, b: 40 },
+        showlegend: true,
+        legend: { x: 0.01, y: 0.99, bgcolor: 'rgba(26,26,26,0.85)', bordercolor: '#2a2a2a', borderwidth: 1 },
+        hovermode: 'x unified',
+    };
+}
+
+function seriesXY(series, valueKey = 'value') {
+    if (!series) return { x: [], y: [] };
+    return {
+        x: series.map(d => d.date),
+        y: series.map(d => d[valueKey]),
+    };
+}
+
+// ── News ───────────────────────────────────────────────────────
+
+function renderMacroNews(newsData) {
+    const el = document.getElementById('macroNewsFeed');
+
+    if (!newsData || !newsData.articles || newsData.articles.length === 0) {
+        el.innerHTML = '<div class="macro-empty" style="padding:20px 8px; font-size:12px; line-height:1.6;">' +
+            'Headlines are pre-fetched by the daily workflow.<br>' +
+            'Once <code style="color:#00d4aa;font-size:11px;">data/macro/news.json</code> exists, articles appear here.' +
+            '</div>';
+        return;
+    }
+
+    const articles = newsData.articles.slice(0, 18);
+    el.innerHTML = articles.map(a => {
+        const pubDate = a.published ? new Date(a.published) : null;
+        const age = pubDate ? _newsAge(pubDate) : '';
+        return `<div class="news-item" onclick="window.open(${JSON.stringify(a.url || '#')},'_blank')">
+            <div class="news-headline">${_esc(a.headline)}</div>
+            <div class="news-meta">
+                <span class="news-source">${_esc(a.source || '')}</span>
+                <span>${age}</span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function _newsAge(d) {
+    const mins = Math.floor((Date.now() - d) / 60000);
+    if (mins < 60)    return mins + 'm ago';
+    if (mins < 1440)  return Math.floor(mins/60) + 'h ago';
+    return Math.floor(mins/1440) + 'd ago';
+}
+function _esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Narrative story ─────────────────────────────────────────────
+
+function renderMacroNarrative(fred, mkt) {
+    const spread   = fred?.T10Y3M?.value  ?? null;
+    const vix      = mkt?.VIX?.value      ?? null;
+    const cpiYoy   = fred?.CPIAUCSL?.yoy  ?? null;
+    const fedFunds = fred?.DFF?.value     ?? null;
+    const unrate   = fred?.UNRATE?.value  ?? null;
+    const hySpread = fred?.BAMLH0A0HYM2?.value ?? null;
+    const asOf     = fred?.as_of || mkt?.as_of || '';
+
+    const parts = [];
+
+    // Yield curve signal
+    if (spread !== null) {
+        if (spread < -0.5)
+            parts.push(`The yield curve is <strong>inverted by ${Math.abs(spread).toFixed(2)}%</strong> (10Y−3M), a historically reliable recession precursor. Mean-reversion strategies typically face headwinds when credit conditions tighten post-inversion.`);
+        else if (spread < 0)
+            parts.push(`The yield curve is <strong>slightly inverted (${spread.toFixed(2)}%)</strong>, signaling mild stress but not yet a clear recession warning.`);
+        else
+            parts.push(`The yield curve is <strong>normal (+${spread.toFixed(2)}%)</strong>, consistent with expansionary conditions that historically favor equity mean-reversion strategies.`);
+    }
+
+    // VIX signal
+    if (vix !== null) {
+        if (vix > 28)
+            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> indicates a <strong>crisis-level fear regime</strong> — expect wide bid/ask spreads, momentum overrides, and elevated false-signal rates for residual mean reversion.`);
+        else if (vix > 18)
+            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> flags <strong>elevated uncertainty</strong>. The DRL risk budget likely scaled down gross exposure; monitor fill quality closely.`);
+        else
+            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> reflects <strong>calm conditions</strong> — low implied vol typically widens the opportunity set for statistical arbitrage.`);
+    }
+
+    // Inflation + Fed
+    if (cpiYoy !== null && fedFunds !== null) {
+        const realRate = (fedFunds - cpiYoy).toFixed(2);
+        if (cpiYoy > 4)
+            parts.push(`CPI running at <strong>${cpiYoy.toFixed(1)}% YoY</strong> with fed funds at ${fedFunds.toFixed(2)}% implies a real rate of <strong>${realRate}%</strong>. Elevated inflation sustains hawkish policy risk — a meaningful discount-rate headwind for growth names.`);
+        else if (cpiYoy < 2.5)
+            parts.push(`Inflation at <strong>${cpiYoy.toFixed(1)}% YoY</strong> is near or below the Fed's 2% target, leaving room for accommodative pivots that historically support risk assets.`);
+        else
+            parts.push(`CPI at <strong>${cpiYoy.toFixed(1)}% YoY</strong> with fed funds at ${fedFunds.toFixed(2)}% keeps real rates at ${realRate}% — a balanced regime with no dominant macro headwind.`);
+    }
+
+    // HY Spread
+    if (hySpread !== null) {
+        if (hySpread > 500)
+            parts.push(`High-yield OAS at <strong>${hySpread} bps</strong> signals <strong>credit market stress</strong> — funding conditions have tightened materially, and correlation among names rises, compressing diversification benefits.`);
+        else if (hySpread > 350)
+            parts.push(`HY spreads at <strong>${hySpread} bps</strong> reflect <strong>moderate stress</strong> in credit — watch for spread widening coinciding with strategy drawdowns.`);
+        else
+            parts.push(`HY OAS at <strong>${hySpread} bps</strong> reflects <strong>benign credit conditions</strong>, consistent with ample liquidity and low default risk.`);
+    }
+
+    if (parts.length === 0) {
+        document.getElementById('macroNarrativeText').textContent = 'Macro data loaded — insufficient series for narrative generation.';
+    } else {
+        document.getElementById('macroNarrativeText').innerHTML = parts.join(' ');
+    }
+    document.getElementById('macroNarrativeDate').textContent = asOf ? 'Data as of ' + asOf : '';
+}
+
+// ── KPI Traffic-Light Cards ─────────────────────────────────────
+
+function renderMacroKPIs(fred, mkt) {
+    const indicators = [];
+
+    // Yield Spread
+    const spread = fred?.T10Y3M?.value;
+    if (spread !== null && spread !== undefined) {
+        const cls = tlClass(spread, {
+            green:  v => v > 0.5,
+            yellow: v => v >= -0.5,
+        });
+        indicators.push({
+            label: '10Y−3M Spread', value: (spread >= 0 ? '+' : '') + spread.toFixed(2) + '%',
+            change: '', changeClass: 'neutral',
+            status: cls, statusLabel: cls === 'green' ? 'Normal curve' : cls === 'yellow' ? 'Flattening' : 'Inverted',
+        });
+    }
+
+    // VIX
+    const vix = mkt?.VIX?.value;
+    if (vix !== null && vix !== undefined) {
+        const cls = tlClass(vix, { green: v => v < 18, yellow: v => v < 28 });
+        const prev = mkt?.VIX?.prev;
+        const chg  = prev ? (vix - prev).toFixed(1) : null;
+        indicators.push({
+            label: 'VIX', value: vix.toFixed(1),
+            change: chg ? (chg > 0 ? '+' : '') + chg + ' vs prev' : '',
+            changeClass: chg > 0 ? 'neg' : chg < 0 ? 'pos' : 'neutral',
+            status: cls, statusLabel: cls === 'green' ? 'Calm' : cls === 'yellow' ? 'Elevated' : 'Crisis',
+        });
+    }
+
+    // CPI YoY
+    const cpiYoy = fred?.CPIAUCSL?.yoy;
+    if (cpiYoy !== null && cpiYoy !== undefined) {
+        const cls = tlClass(cpiYoy, { green: v => v < 3, yellow: v => v < 4.5 });
+        indicators.push({
+            label: 'CPI YoY', value: cpiYoy.toFixed(1) + '%',
+            change: 'Fed target: 2%', changeClass: 'neutral',
+            status: cls, statusLabel: cls === 'green' ? 'Near target' : cls === 'yellow' ? 'Elevated' : 'Hot',
+        });
+    }
+
+    // Fed Funds Rate
+    const dff = fred?.DFF?.value;
+    if (dff !== null && dff !== undefined) {
+        const cls = tlClass(dff, { green: v => v < 3, yellow: v => v < 5.5 });
+        indicators.push({
+            label: 'Fed Funds', value: dff.toFixed(2) + '%',
+            change: '', changeClass: 'neutral',
+            status: cls, statusLabel: cls === 'green' ? 'Accommodative' : cls === 'yellow' ? 'Restrictive' : 'Very tight',
+        });
+    }
+
+    // Unemployment
+    const unrate = fred?.UNRATE?.value;
+    if (unrate !== null && unrate !== undefined) {
+        const cls = tlClass(unrate, { green: v => v < 4.5, yellow: v => v < 5.5 });
+        indicators.push({
+            label: 'Unemployment', value: unrate.toFixed(1) + '%',
+            change: '', changeClass: 'neutral',
+            status: cls, statusLabel: cls === 'green' ? 'Full employment' : cls === 'yellow' ? 'Softening' : 'Stressed',
+        });
+    }
+
+    // HY OAS
+    const hy = fred?.BAMLH0A0HYM2?.value;
+    if (hy !== null && hy !== undefined) {
+        const cls = tlClass(hy, { green: v => v < 350, yellow: v => v < 500 });
+        indicators.push({
+            label: 'HY OAS', value: hy.toFixed(0) + 'bps',
+            change: 'Credit stress indicator', changeClass: 'neutral',
+            status: cls, statusLabel: cls === 'green' ? 'Risk-on' : cls === 'yellow' ? 'Stress' : 'Crisis',
+        });
+    }
+
+    // NFP
+    const nfp = fred?.PAYEMS?.mom_change;
+    if (nfp !== null && nfp !== undefined) {
+        const cls = tlClass(nfp, { green: v => v > 150, yellow: v => v > 50 });
+        indicators.push({
+            label: 'NFP MoM (k)', value: (nfp > 0 ? '+' : '') + nfp.toFixed(0),
+            change: 'Nonfarm payrolls', changeClass: nfp > 0 ? 'pos' : 'neg',
+            status: cls, statusLabel: cls === 'green' ? 'Strong jobs' : cls === 'yellow' ? 'Softening' : 'Weak',
+        });
+    }
+
+    // 10Y Yield
+    const tnx = mkt?.TNX?.value;
+    if (tnx !== null && tnx !== undefined) {
+        indicators.push({
+            label: '10Y Yield', value: tnx.toFixed(2) + '%',
+            change: '', changeClass: 'neutral',
+            status: 'neutral', statusLabel: 'Reference rate',
+        });
+    }
+
+    document.getElementById('macroKpiGrid').innerHTML = indicators.map(ind => `
+        <div class="indicator-card ${ind.status}">
+            <div class="indicator-label">${ind.label}</div>
+            <div class="indicator-value">${ind.value}</div>
+            <div class="indicator-change ${ind.changeClass}">${ind.change || '&nbsp;'}</div>
+            <div class="traffic-light">
+                <div class="tl-dot ${ind.status}"></div>
+                <span class="tl-text ${ind.status}">${ind.statusLabel}</span>
+            </div>
+        </div>
+    `).join('') || '<div class="macro-empty" style="grid-column:1/-1;">No indicator data available.</div>';
+}
+
+// ── Charts ─────────────────────────────────────────────────────
+
+function renderMacroCharts(fred, mkt, allEquity) {
+    const plotCfg = { responsive: true, displayModeBar: false };
+
+    // ─── Yield Spread (with zero-line + equity overlay) ───────────────
+    if (fred?.T10Y3M?.series) {
+        const { x, y } = seriesXY(fred.T10Y3M.series);
+        const traces = [
+            {
+                x, y, type: 'scatter', mode: 'lines', name: '10Y−3M Spread (%)',
+                line: { color: '#00a8ff', width: 2 },
+                fill: 'tozeroy',
+                fillcolor: y.map(v => v >= 0 ? 'rgba(0,212,170,0.08)' : 'rgba(255,71,87,0.08)')[0],
+            },
+            {
+                x: [x[0], x[x.length - 1]], y: [0, 0],
+                type: 'scatter', mode: 'lines',
+                line: { color: '#ff4757', width: 1, dash: 'dot' },
+                name: 'Inversion line', hoverinfo: 'skip', showlegend: false,
+            },
+        ];
+        // Overlay portfolio equity (normalised to spread scale for visual comparison)
+        if (allEquity.length > 0) {
+            const eqDates = allEquity.map(d => d.date);
+            const eqVals  = allEquity.map(d => d.equity || d.value || 0);
+            const eqMin   = Math.min(...eqVals), eqMax = Math.max(...eqVals);
+            const yMin    = Math.min(...y), yMax = Math.max(...y);
+            const scale   = (yMax - yMin) / (eqMax - eqMin || 1);
+            const norm    = eqVals.map(v => yMin + (v - eqMin) * scale);
+            traces.push({
+                x: eqDates, y: norm, type: 'scatter', mode: 'lines',
+                name: 'Portfolio (scaled)',
+                line: { color: '#ff9f43', width: 1.5, dash: 'dot' },
+                yaxis: 'y', opacity: 0.6,
+            });
+        }
+        Plotly.newPlot('macroYieldChart', traces, {
+            ...macroPlotLayout('Spread (%)'),
+            shapes: [{
+                type: 'rect', xref: 'paper', yref: 'y',
+                x0: 0, x1: 1, y0: -10, y1: 0,
+                fillcolor: 'rgba(255,71,87,0.04)', line: { width: 0 },
+            }],
+        }, plotCfg);
+    }
+
+    // ─── VIX ─────────────────────────────────────────────────────────
+    if (mkt?.VIX?.series) {
+        const { x, y } = seriesXY(mkt.VIX.series);
+        Plotly.newPlot('macroVixChart', [
+            {
+                x, y, type: 'scatter', mode: 'lines', name: 'VIX',
+                line: { color: '#ff4757', width: 2 },
+                fill: 'tozeroy', fillcolor: 'rgba(255,71,87,0.09)',
+            },
+        ], {
+            ...macroPlotLayout('VIX'),
+            shapes: [
+                { type: 'line', xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: 18, y1: 18, line: { color: '#ff9f43', width: 1, dash: 'dash' } },
+                { type: 'line', xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: 28, y1: 28, line: { color: '#ff4757', width: 1, dash: 'dash' } },
+            ],
+            annotations: [
+                { xref: 'paper', yref: 'y', x: 0.01, y: 18, text: 'Elevated', showarrow: false, font: { color: '#ff9f43', size: 10 }, yanchor: 'bottom' },
+                { xref: 'paper', yref: 'y', x: 0.01, y: 28, text: 'Crisis',   showarrow: false, font: { color: '#ff4757', size: 10 }, yanchor: 'bottom' },
+            ],
+        }, plotCfg);
+    }
+
+    // ─── CPI ─────────────────────────────────────────────────────────
+    if (fred?.CPIAUCSL?.series) {
+        const series = fred.CPIAUCSL.series;
+        // compute 12-month YoY% from levels
+        const x = [], y = [];
+        for (let i = 12; i < series.length; i++) {
+            if (series[i-12].value > 0) {
+                x.push(series[i].date);
+                y.push(((series[i].value / series[i-12].value - 1) * 100));
+            }
+        }
+        Plotly.newPlot('macroCpiChart', [
+            {
+                x, y, type: 'scatter', mode: 'lines', name: 'CPI YoY %',
+                line: { color: '#ff9f43', width: 2 },
+                fill: 'tozeroy', fillcolor: 'rgba(255,159,67,0.09)',
+            },
+        ], {
+            ...macroPlotLayout('YoY %'),
+            shapes: [{ type: 'line', xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: 2, y1: 2, line: { color: '#00d4aa', width: 1, dash: 'dash' } }],
+            annotations: [{ xref: 'paper', yref: 'y', x: 0.01, y: 2, text: 'Fed 2% target', showarrow: false, font: { color: '#00d4aa', size: 10 }, yanchor: 'bottom' }],
+        }, plotCfg);
+    }
+
+    // ─── Fed Funds ───────────────────────────────────────────────────
+    if (fred?.DFF?.series) {
+        const { x, y } = seriesXY(fred.DFF.series);
+        Plotly.newPlot('macroFedChart', [
+            { x, y, type: 'scatter', mode: 'lines', name: 'Fed Funds Rate', line: { color: '#8172B3', width: 2 } },
+        ], macroPlotLayout('Rate (%)'), plotCfg);
+    }
+
+    // ─── HY OAS ──────────────────────────────────────────────────────
+    if (fred?.BAMLH0A0HYM2?.series) {
+        const { x, y } = seriesXY(fred.BAMLH0A0HYM2.series);
+        Plotly.newPlot('macroHyChart', [
+            {
+                x, y, type: 'scatter', mode: 'lines', name: 'HY OAS (bps)',
+                line: { color: '#ff9f43', width: 2 },
+            },
+        ], {
+            ...macroPlotLayout('OAS (bps)'),
+            shapes: [
+                { type: 'line', xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: 350, y1: 350, line: { color: '#ff9f43', width: 1, dash: 'dash' } },
+                { type: 'line', xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: 500, y1: 500, line: { color: '#ff4757', width: 1, dash: 'dash' } },
+            ],
+        }, plotCfg);
+    }
+}
+
+// ── Data Releases Table ─────────────────────────────────────────
+
+function renderMacroReleases(fred) {
+    const releases = [];
+
+    if (fred?.PAYEMS) {
+        const v = fred.PAYEMS;
+        releases.push({
+            name: 'Nonfarm Payrolls', date: v.release_date || fred.as_of,
+            actual: v.mom_change != null ? (v.mom_change > 0 ? '+' : '') + v.mom_change.toFixed(0) + 'k' : '—',
+            forecast: v.forecast != null ? (v.forecast > 0 ? '+' : '') + v.forecast.toFixed(0) + 'k' : '—',
+            beat: v.mom_change != null && v.forecast != null ? v.mom_change > v.forecast : null,
+            unit: 'MoM jobs',
+        });
+    }
+    if (fred?.CPIAUCSL) {
+        const v = fred.CPIAUCSL;
+        releases.push({
+            name: 'CPI (YoY)', date: v.release_date || fred.as_of,
+            actual:   v.yoy   != null ? v.yoy.toFixed(1) + '%'      : '—',
+            forecast: v.forecast_yoy != null ? v.forecast_yoy.toFixed(1) + '%' : '—',
+            beat: v.yoy != null && v.forecast_yoy != null ? v.yoy < v.forecast_yoy : null,
+            unit: 'lower = beat for markets',
+        });
+    }
+    if (fred?.GDPC1) {
+        const v = fred.GDPC1;
+        releases.push({
+            name: 'Real GDP (QoQ ann.)', date: v.release_date || fred.as_of,
+            actual:   v.qoq_pct   != null ? v.qoq_pct.toFixed(1) + '%'      : '—',
+            forecast: v.forecast_qoq != null ? v.forecast_qoq.toFixed(1) + '%' : '—',
+            beat: v.qoq_pct != null && v.forecast_qoq != null ? v.qoq_pct > v.forecast_qoq : null,
+            unit: 'annualized',
+        });
+    }
+    if (fred?.UNRATE) {
+        const v = fred.UNRATE;
+        releases.push({
+            name: 'Unemployment Rate', date: v.release_date || fred.as_of,
+            actual:   v.value    != null ? v.value.toFixed(1) + '%'    : '—',
+            forecast: v.forecast != null ? v.forecast.toFixed(1) + '%' : '—',
+            beat: v.value != null && v.forecast != null ? v.value < v.forecast : null,
+            unit: 'lower = beat',
+        });
+    }
+
+    if (releases.length === 0) {
+        document.getElementById('macroReleasesTable').innerHTML =
+            '<div class="macro-empty">No release data in fred_data.json. Add <code>release_date</code>, <code>forecast</code> fields to each series.</div>';
+        return;
+    }
+
+    const rows = releases.map(r => {
+        const beatClass = r.beat === true ? 'release-beat' : r.beat === false ? 'release-miss' : 'release-inline';
+        const beatLabel = r.beat === true ? '✓ Beat' : r.beat === false ? '✗ Miss' : '—';
+        return `<tr>
+            <td style="color:#e0e0e0;">${r.name}</td>
+            <td style="color:#808080;">${r.date || '—'}</td>
+            <td><strong>${r.actual}</strong></td>
+            <td style="color:#606060;">${r.forecast}</td>
+            <td class="${beatClass}">${beatLabel}</td>
+            <td style="color:#606060;font-size:11px;">${r.unit}</td>
+        </tr>`;
+    }).join('');
+
+    document.getElementById('macroReleasesTable').innerHTML = `
+        <table class="release-table">
+            <thead>
+                <tr>
+                    <th>Indicator</th><th>Release Date</th><th>Actual</th>
+                    <th>Consensus</th><th>Result</th><th>Note</th>
+                </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+        </table>`;
 }
 
 // ══════════════════════════════════════════════════════════════
