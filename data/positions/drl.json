@@ -1,0 +1,73 @@
+{
+  "as_of": "2026-06-02",
+  "cash": 919.418141,
+  "equity_estimate": 10009.068144433228,
+  "last_run_id": "2026-06-02_drl_live",
+  "open_orders": [],
+  "pending_orders": [],
+  "positions": [
+    {
+      "avg_cost": 757.55995,
+      "entry_date": "2026-06-02",
+      "shares": 1,
+      "strategy": "drl",
+      "ticker": "SPY"
+    },
+    {
+      "avg_cost": 104.663209,
+      "entry_date": "2026-06-02",
+      "shares": 10,
+      "strategy": "drl",
+      "ticker": "EFA"
+    },
+    {
+      "avg_cost": 94.386024,
+      "entry_date": "2026-06-02",
+      "shares": 11,
+      "strategy": "drl",
+      "ticker": "IEF"
+    },
+    {
+      "avg_cost": 414.369843,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "drl",
+      "ticker": "GLD"
+    },
+    {
+      "avg_cost": 94.195888,
+      "entry_date": "2026-06-02",
+      "shares": 11,
+      "strategy": "drl",
+      "ticker": "VNQ"
+    },
+    {
+      "avg_cost": 30.021,
+      "entry_date": "2026-06-02",
+      "shares": 37,
+      "strategy": "drl",
+      "ticker": "DBC"
+    },
+    {
+      "avg_cost": 110.187078,
+      "entry_date": "2026-06-02",
+      "shares": 10,
+      "strategy": "drl",
+      "ticker": "TIP"
+    },
+    {
+      "avg_cost": 31.241853,
+      "entry_date": "2026-06-02",
+      "shares": 35,
+      "strategy": "drl",
+      "ticker": "DBMF"
+    },
+    {
+      "avg_cost": 82.08742,
+      "entry_date": "2026-06-02",
+      "shares": 13,
+      "strategy": "drl",
+      "ticker": "SHY"
+    }
+  ]
+}

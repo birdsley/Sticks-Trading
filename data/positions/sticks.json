@@ -1,0 +1,73 @@
+{
+  "as_of": "2026-06-02",
+  "cash": 15230.518024,
+  "equity_estimate": 10013.108081373048,
+  "last_run_id": "2026-06-02_sticks_live",
+  "open_orders": [],
+  "pending_orders": [],
+  "positions": [
+    {
+      "avg_cost": 465.783708,
+      "entry_date": "2026-06-02",
+      "shares": -4,
+      "strategy": "sticks",
+      "ticker": "DELL"
+    },
+    {
+      "avg_cost": 1048.950279,
+      "entry_date": "2026-06-02",
+      "shares": -2,
+      "strategy": "sticks",
+      "ticker": "MU"
+    },
+    {
+      "avg_cost": 129.809064,
+      "entry_date": "2026-06-02",
+      "shares": -7,
+      "strategy": "sticks",
+      "ticker": "NOW"
+    },
+    {
+      "avg_cost": 48.665911,
+      "entry_date": "2026-06-02",
+      "shares": -42,
+      "strategy": "sticks",
+      "ticker": "SMCI"
+    },
+    {
+      "avg_cost": 558.720848,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "sticks",
+      "ticker": "WDC"
+    },
+    {
+      "avg_cost": 1751.285101,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "sticks",
+      "ticker": "SNDK"
+    },
+    {
+      "avg_cost": 57.9594,
+      "entry_date": "2026-06-02",
+      "shares": -17,
+      "strategy": "sticks",
+      "ticker": "FISV"
+    },
+    {
+      "avg_cost": 161.59681,
+      "entry_date": "2026-06-02",
+      "shares": -6,
+      "strategy": "sticks",
+      "ticker": "MRSH"
+    },
+    {
+      "avg_cost": 140.281739,
+      "entry_date": "2026-06-02",
+      "shares": -7,
+      "strategy": "sticks",
+      "ticker": "CDW"
+    }
+  ]
+}

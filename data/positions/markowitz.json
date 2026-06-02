@@ -1,0 +1,360 @@
+{
+  "as_of": "2026-06-02",
+  "cash": -13166.298985,
+  "equity_estimate": 10227.501010422364,
+  "last_run_id": "2026-06-02_markowitz_live",
+  "open_orders": [],
+  "pending_orders": [],
+  "positions": [
+    {
+      "avg_cost": 133.373295,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "A"
+    },
+    {
+      "avg_cost": 307.675213,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AAPL"
+    },
+    {
+      "avg_cost": 211.157702,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ABBV"
+    },
+    {
+      "avg_cost": 136.335373,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ABNB"
+    },
+    {
+      "avg_cost": 87.311075,
+      "entry_date": "2026-06-02",
+      "shares": 4,
+      "strategy": "markowitz",
+      "ticker": "ABT"
+    },
+    {
+      "avg_cost": 88.471891,
+      "entry_date": "2026-06-02",
+      "shares": 4,
+      "strategy": "markowitz",
+      "ticker": "ACGL"
+    },
+    {
+      "avg_cost": 190.823485,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ACN"
+    },
+    {
+      "avg_cost": 268.167597,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ADBE"
+    },
+    {
+      "avg_cost": 409.78665,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ADI"
+    },
+    {
+      "avg_cost": 82.918003,
+      "entry_date": "2026-06-02",
+      "shares": 4,
+      "strategy": "markowitz",
+      "ticker": "ADM"
+    },
+    {
+      "avg_cost": 229.790746,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ADP"
+    },
+    {
+      "avg_cost": 241.789129,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ADSK"
+    },
+    {
+      "avg_cost": 105.163559,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AEE"
+    },
+    {
+      "avg_cost": 124.296946,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AEP"
+    },
+    {
+      "avg_cost": 14.700283,
+      "entry_date": "2026-06-02",
+      "shares": 26,
+      "strategy": "markowitz",
+      "ticker": "AES"
+    },
+    {
+      "avg_cost": 112.628788,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AFL"
+    },
+    {
+      "avg_cost": 73.291266,
+      "entry_date": "2026-06-02",
+      "shares": 4,
+      "strategy": "markowitz",
+      "ticker": "AIG"
+    },
+    {
+      "avg_cost": 250.965546,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AIZ"
+    },
+    {
+      "avg_cost": 204.432996,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AJG"
+    },
+    {
+      "avg_cost": 151.337857,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AKAM"
+    },
+    {
+      "avg_cost": 170.349157,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ALB"
+    },
+    {
+      "avg_cost": 170.139018,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ALGN"
+    },
+    {
+      "avg_cost": 208.165618,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ALL"
+    },
+    {
+      "avg_cost": 130.631371,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ALLE"
+    },
+    {
+      "avg_cost": 467.096728,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AMAT"
+    },
+    {
+      "avg_cost": 37.76642,
+      "entry_date": "2026-06-02",
+      "shares": 10,
+      "strategy": "markowitz",
+      "ticker": "AMCR"
+    },
+    {
+      "avg_cost": 506.654398,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AMD"
+    },
+    {
+      "avg_cost": 225.347635,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AME"
+    },
+    {
+      "avg_cost": 326.458372,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AMGN"
+    },
+    {
+      "avg_cost": 443.820467,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AMP"
+    },
+    {
+      "avg_cost": 187.451131,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AMT"
+    },
+    {
+      "avg_cost": 257.340016,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AMZN"
+    },
+    {
+      "avg_cost": 170.819487,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ANET"
+    },
+    {
+      "avg_cost": 317.802293,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AON"
+    },
+    {
+      "avg_cost": 56.269361,
+      "entry_date": "2026-06-02",
+      "shares": 6,
+      "strategy": "markowitz",
+      "ticker": "AOS"
+    },
+    {
+      "avg_cost": 37.666347,
+      "entry_date": "2026-06-02",
+      "shares": 10,
+      "strategy": "markowitz",
+      "ticker": "APA"
+    },
+    {
+      "avg_cost": 279.375419,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "APD"
+    },
+    {
+      "avg_cost": 146.762666,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "APH"
+    },
+    {
+      "avg_cost": 128.660006,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "APO"
+    },
+    {
+      "avg_cost": 615.060246,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "APP"
+    },
+    {
+      "avg_cost": 69.0483,
+      "entry_date": "2026-06-02",
+      "shares": 4,
+      "strategy": "markowitz",
+      "ticker": "APTV"
+    },
+    {
+      "avg_cost": 48.644028,
+      "entry_date": "2026-06-02",
+      "shares": 8,
+      "strategy": "markowitz",
+      "ticker": "ARE"
+    },
+    {
+      "avg_cost": 128.319757,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ARES"
+    },
+    {
+      "avg_cost": 168.247696,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "ATO"
+    },
+    {
+      "avg_cost": 182.747829,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AVB"
+    },
+    {
+      "avg_cost": 488.351617,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AVGO"
+    },
+    {
+      "avg_cost": 155.538794,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AVY"
+    },
+    {
+      "avg_cost": 122.035362,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AWK"
+    },
+    {
+      "avg_cost": 460.967441,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AXON"
+    },
+    {
+      "avg_cost": 313.549318,
+      "entry_date": "2026-06-02",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "AXP"
+    }
+  ]
+}
