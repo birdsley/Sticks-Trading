@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-02",
-  "cash": 15230.518024,
-  "equity_estimate": 10013.108081373048,
-  "last_run_id": "2026-06-02_sticks_live",
+  "as_of": "2026-06-03",
+  "cash": 18700.087624,
+  "equity_estimate": 10386.527725623535,
+  "last_run_id": "2026-06-03_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -40,13 +40,6 @@
       "shares": 2,
       "strategy": "sticks",
       "ticker": "WDC"
-    },
-    {
-      "avg_cost": 1751.285101,
-      "entry_date": "2026-06-02",
-      "shares": 2,
-      "strategy": "sticks",
-      "ticker": "SNDK"
     },
     {
       "avg_cost": 57.9594,
