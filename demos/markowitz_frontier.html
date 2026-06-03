@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Markowitz — Efficient Frontier</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0d12; overflow: hidden; }
+  canvas { display: block; }
+  #hud { position: absolute; bottom: 12px; left: 14px; font-family: 'SF Mono','JetBrains Mono',monospace; font-size: 10.5px; color: rgba(0,168,255,0.38); pointer-events: none; }
+  #rebal-flash { position: absolute; top: 12px; right: 14px; font-family: -apple-system,BlinkMacSystemFont,sans-serif; font-size: 11px; color: #00a8ff; font-weight: 600; pointer-events: none; opacity: 0; transition: opacity 0.25s; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">320 combinations · Ledoit-Wolf shrinkage · max Sharpe · weekly rebalance</div>
+<div id="rebal-flash">↻ Rebalancing</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+
+// ── Tickers: all capped ≤ 0.30 risk — realistic S&P 500 range ─
+const ALL_TICKERS = [
+  // Defensive / low vol
+  { t:'KO',    r:0.118, ret:0.080 },
+  { t:'JNJ',   r:0.138, ret:0.088 },
+  { t:'PG',    r:0.128, ret:0.093 },
+  { t:'MCD',   r:0.153, ret:0.116 },
+  { t:'WMT',   r:0.145, ret:0.105 },
+  // Mid-vol blue chips
+  { t:'V',     r:0.182, ret:0.152 },
+  { t:'JPM',   r:0.192, ret:0.142 },
+  { t:'UNH',   r:0.183, ret:0.158 },
+  { t:'XOM',   r:0.218, ret:0.116 },
+  { t:'HD',    r:0.195, ret:0.162 },
+  { t:'COST',  r:0.198, ret:0.182 },
+  { t:'MSFT',  r:0.218, ret:0.208 },
+  // Growth
+  { t:'AAPL',  r:0.240, ret:0.195 },
+  { t:'GOOGL', r:0.242, ret:0.172 },
+  { t:'LLY',   r:0.252, ret:0.232 },
+  { t:'AMZN',  r:0.262, ret:0.163 },
+  { t:'META',  r:0.280, ret:0.228 },
+  // Niche / growth (capped at 0.30)
+  { t:'VRTX',  r:0.228, ret:0.185 },
+  { t:'GRMN',  r:0.238, ret:0.145 },
+  { t:'DECK',  r:0.268, ret:0.198 },
+  { t:'NVO',   r:0.255, ret:0.215 },
+  { t:'MPWR',  r:0.285, ret:0.248 },
+  { t:'CRWD',  r:0.292, ret:0.212 },
+  { t:'AXON',  r:0.298, ret:0.265 },
+];
+
+const N_VISIBLE = 10, N_SELECTED = 8;
+let activeTickers = [];
+let rebalTimer = 0, flashOpacity = 0;
+
+function initTickers() {
+  const pool = [...ALL_TICKERS].sort(()=>Math.random()-0.5);
+  activeTickers = pool.slice(0, N_VISIBLE).map((tk, i) => ({
+    ...tk,
+    curR:    tk.r   + (Math.random()-0.5)*0.012,
+    curRet:  tk.ret + (Math.random()-0.5)*0.010,
+    driftR:  (Math.random()-0.5)*0.000085,
+    driftRet:(Math.random()-0.5)*0.000065,
+    selected: i < N_SELECTED,
+    alpha: 1.0, _fadingOut: false,
+  }));
+}
+initTickers();
+
+function doRebalance() {
+  const pool = ALL_TICKERS.filter(a=>!activeTickers.some(b=>b.t===a.t));
+  if (!pool.length) return;
+  const newTk = pool[Math.floor(Math.random()*pool.length)];
+  const selIdx = activeTickers.findIndex(a=>a.selected&&!a._fadingOut);
+  if (selIdx<0) return;
+  activeTickers[selIdx]._fadingOut = true;
+  activeTickers[selIdx]._replaceWith = {
+    ...newTk,
+    curR: newTk.r+(Math.random()-0.5)*0.012,
+    curRet: newTk.ret+(Math.random()-0.5)*0.010,
+    driftR:(Math.random()-0.5)*0.000085,
+    driftRet:(Math.random()-0.5)*0.000065,
+    selected:true, alpha:0, _fadingOut:false,
+  };
+  flashOpacity = 1;
+}
+
+// ── Chart layout ──────────────────────────────────────────────
+const RISK_MAX = 0.34, RET_MAX = 0.30;
+
+function PAD() { return { l:60, r:50, t:28, b:44 }; }
+function toScreen(r, ret) {
+  const p=PAD(), w=canvas.width, h=canvas.height;
+  const pw=w-p.l-p.r, ph=h-p.t-p.b;
+  return [p.l+(r/RISK_MAX)*pw, p.t+ph-(ret/RET_MAX)*ph];
+}
+
+// ── Frontier: animates by morphing parabola shape — NO vertical shift ──
+// Parabola: ret = a + b*risk - c*risk²
+// Vertex risk  = b/(2c),  vertex ret = a + b²/(4c)
+// Animating b and c slides the vertex left/right and slightly up/down realistically
+let t=0;
+let fp  = { a:0.050, b:0.92, c:1.82 };  // current params
+let fpt = { a:0.050, b:0.92, c:1.82 };  // target params
+let paramTimer = 0;
+
+function updateFrontierParams() {
+  if (++paramTimer >= 220) {
+    paramTimer = 0;
+    // Shift b and c for shape change (vertex slides, curvature changes)
+    fpt.b = 0.72 + Math.random()*0.55;  // 0.72-1.27 → vertex at 20-34% risk
+    fpt.c = 1.55 + Math.random()*0.75;  // 1.55-2.30 → curvature variation
+    fpt.a = 0.038 + Math.random()*0.018;
+  }
+  fp.a += (fpt.a-fp.a)*0.004;
+  fp.b += (fpt.b-fp.b)*0.004;
+  fp.c += (fpt.c-fp.c)*0.004;
+}
+
+function frontierRet(r) {
+  return Math.min(RET_MAX-0.01, Math.max(0.005, fp.a + fp.b*r - fp.c*r*r));
+}
+
+function getFrontier(n=90) {
+  const pts=[];
+  for (let i=0;i<n;i++) { const r=0.05+(i/(n-1))*0.28; pts.push([r, frontierRet(r)]); }
+  return pts;
+}
+
+// ── Background scatter ────────────────────────────────────────
+const N_SC = 320;
+const scatter = Array.from({length:N_SC}, ()=>{
+  const r=0.05+Math.random()*0.28;
+  const mx=frontierRet(r);
+  return { r, ret:mx*(0.06+Math.random()*0.91)*(0.60+Math.random()*0.38), dr:(Math.random()-0.5)*0.00006, dret:(Math.random()-0.5)*0.000048 };
+});
+
+function frame() {
+  t++;
+  updateFrontierParams();
+
+  const w=canvas.width, h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  const bg=ctx.createLinearGradient(0,0,0,h); bg.addColorStop(0,'#0d1219'); bg.addColorStop(1,'#090d12');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,w,h);
+
+  const p=PAD(), pw=w-p.l-p.r, ph=h-p.t-p.b;
+
+  // Grid
+  ctx.setLineDash([1,5]); ctx.lineWidth=1;
+  [0.08,0.14,0.20,0.26,0.32].forEach(r=>{
+    const [x]=toScreen(r,0); ctx.beginPath(); ctx.moveTo(x,p.t); ctx.lineTo(x,p.t+ph); ctx.strokeStyle='#151c24'; ctx.stroke();
+  });
+  [0.05,0.10,0.15,0.20,0.25].forEach(ret=>{
+    const [,y]=toScreen(0,ret); ctx.beginPath(); ctx.moveTo(p.l,y); ctx.lineTo(p.l+pw,y); ctx.strokeStyle='#151c24'; ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  // Scatter
+  const curve = getFrontier();
+  scatter.forEach(s=>{
+    s.r+=s.dr; if(s.r<0.05||s.r>0.32) s.dr*=-1;
+    s.ret+=s.dret; if(s.ret<0.004||s.ret>frontierRet(s.r)*0.95) s.dret*=-1;
+    const [x,y]=toScreen(s.r,s.ret);
+    if(x<p.l||x>w-p.r||y<p.t||y>h-p.b) return;
+    const sh=s.ret/s.r, norm=Math.min(1,sh/0.85);
+    ctx.beginPath(); ctx.arc(x,y,1.5,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,${Math.floor(72+norm*105)},${Math.floor(norm*165)},${0.07+norm*0.18})`;
+    ctx.fill();
+  });
+
+  // Frontier filled area
+  ctx.beginPath();
+  const [f0x,f0y]=toScreen(curve[0][0],curve[0][1]);
+  ctx.moveTo(f0x,p.t+ph); ctx.lineTo(f0x,f0y);
+  curve.forEach(([r,ret])=>{ const [x,y]=toScreen(r,ret); ctx.lineTo(x,y); });
+  const [flx]=toScreen(curve[curve.length-1][0],curve[curve.length-1][1]);
+  ctx.lineTo(flx,p.t+ph); ctx.closePath();
+  const aG=ctx.createLinearGradient(p.l,0,p.l+pw,0);
+  aG.addColorStop(0,'rgba(0,168,255,0.05)'); aG.addColorStop(1,'rgba(0,212,170,0.06)');
+  ctx.fillStyle=aG; ctx.fill();
+
+  // Frontier line
+  ctx.beginPath();
+  curve.forEach(([r,ret],i)=>{ const [x,y]=toScreen(r,ret); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  const lG=ctx.createLinearGradient(p.l,0,p.l+pw,0);
+  lG.addColorStop(0,'rgba(0,168,255,0.95)'); lG.addColorStop(0.5,'rgba(0,200,160,0.95)'); lG.addColorStop(1,'rgba(0,212,170,0.5)');
+  ctx.strokeStyle=lG; ctx.lineWidth=2.2; ctx.stroke();
+
+  // Max-Sharpe marker
+  const mxSh=curve.reduce((b,p2)=>p2[1]/p2[0]>b[1]/b[0]?p2:b);
+  const [msx,msy]=toScreen(mxSh[0],mxSh[1]);
+  const pulse=1+Math.sin(t*0.07)*0.22;
+  ctx.beginPath(); ctx.arc(msx,msy,11*pulse,0,Math.PI*2); ctx.strokeStyle='rgba(0,212,170,0.18)'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.beginPath(); ctx.arc(msx,msy,6.5,0,Math.PI*2); ctx.strokeStyle='rgba(0,212,170,0.55)'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.beginPath(); ctx.arc(msx,msy,3.8,0,Math.PI*2); ctx.fillStyle='#00d4aa'; ctx.fill();
+  ctx.fillStyle='#00d4aa'; ctx.font='11px -apple-system,sans-serif'; ctx.fillText('Max Sharpe', msx+8, msy-5);
+
+  // Tickers
+  if (++rebalTimer>=150) { doRebalance(); rebalTimer=0; }
+  if (flashOpacity>0) { flashOpacity=Math.max(0,flashOpacity-0.022); document.getElementById('rebal-flash').style.opacity=flashOpacity; }
+
+  ctx.font='bold 11px -apple-system,BlinkMacSystemFont,sans-serif';
+  activeTickers.forEach(tk=>{
+    tk.curR+=tk.driftR; if(tk.curR<0.06||tk.curR>0.30) tk.driftR*=-1;
+    tk.curRet+=tk.driftRet;
+    const capR=frontierRet(tk.curR)*0.94;
+    if(tk.curRet<0.04) tk.driftRet=Math.abs(tk.driftRet);
+    if(tk.curRet>capR) tk.curRet=capR;
+
+    if (tk._fadingOut) {
+      tk.alpha-=0.05;
+      if(tk.alpha<=0&&tk._replaceWith) { Object.assign(tk,tk._replaceWith); delete tk._replaceWith; }
+    } else if(tk.alpha<1) { tk.alpha=Math.min(1,tk.alpha+0.04); }
+
+    const [x,y]=toScreen(tk.curR,tk.curRet);
+    const pp=PAD(); if(x<pp.l-2||x>w-pp.r+2||y<pp.t-2||y>h-pp.b+2) return;
+    const a=Math.max(0,Math.min(1,tk.alpha));
+    const isSel=tk.selected&&!tk._fadingOut;
+    const dotR=isSel?5.5:3;
+
+    if(isSel) { ctx.beginPath(); ctx.arc(x,y,dotR+4.5,0,Math.PI*2); ctx.strokeStyle=`rgba(0,168,255,${.18*a})`; ctx.lineWidth=1.5; ctx.stroke(); }
+    ctx.beginPath(); ctx.arc(x,y,dotR,0,Math.PI*2);
+    ctx.fillStyle=isSel?`rgba(0,168,255,${a})`:`rgba(35,55,85,${a*.75})`; ctx.fill();
+    if(isSel) { ctx.strokeStyle=`rgba(100,200,255,${a*.55})`; ctx.lineWidth=0.8; ctx.stroke(); }
+
+    // Label — flip side to avoid right-edge clustering
+    const isRight = tk.curR > 0.22;
+    ctx.textAlign=isRight?'right':'left';
+    const lx=isRight?x-7:x+7;
+    ctx.fillStyle=isSel?`rgba(155,215,255,${a})`:`rgba(55,82,108,${a*.75})`;
+    ctx.fillText(tk.t, lx, y-5);
+    if(isSel) {
+      ctx.font='9px "SF Mono",monospace'; ctx.fillStyle=`rgba(65,125,165,${a*.7})`;
+      ctx.fillText(`${(tk.curRet*100).toFixed(1)}%`, lx, y+6);
+      ctx.font='bold 11px -apple-system,BlinkMacSystemFont,sans-serif';
+    }
+    ctx.textAlign='left';
+  });
+
+  // Axes
+  ctx.strokeStyle='#1e2a35'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(p.l,p.t); ctx.lineTo(p.l,p.t+ph); ctx.lineTo(p.l+pw,p.t+ph); ctx.stroke();
+
+  ctx.font='10px "SF Mono",monospace'; ctx.fillStyle='#2a3848'; ctx.textAlign='center';
+  [0.08,0.14,0.20,0.26,0.32].forEach(r=>{ const [x]=toScreen(r,0); ctx.fillText((r*100).toFixed(0)+'%',x,p.t+ph+14); });
+  ctx.textAlign='right';
+  [0.05,0.10,0.15,0.20,0.25].forEach(ret=>{ const [,y]=toScreen(0,ret); ctx.fillText((ret*100).toFixed(0)+'%',p.l-5,y+4); });
+  ctx.textAlign='center'; ctx.fillStyle='#2a3848'; ctx.font='10.5px -apple-system,sans-serif';
+  ctx.fillText('Portfolio Risk  σ (annualized)', p.l+pw/2, canvas.height-6);
+  ctx.save(); ctx.translate(13,p.t+ph/2); ctx.rotate(-Math.PI/2); ctx.fillText('Expected Return',0,0); ctx.restore();
+  ctx.textAlign='left';
+
+  // Legend
+  ctx.beginPath(); ctx.arc(p.l+12,p.t+12,4.5,0,Math.PI*2); ctx.fillStyle='#00a8ff'; ctx.fill();
+  ctx.font='10.5px -apple-system,sans-serif'; ctx.fillStyle='#364552';
+  ctx.fillText('Current holdings', p.l+20, p.t+16);
+
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body>
+</html>
