@@ -625,6 +625,21 @@
         </div>
     </div>
 
+    <!-- Per-strategy holdings panel (visible only when a single strategy is selected) -->
+    <div id="strategyHoldingsPanel" style="display:none; margin-bottom:20px;">
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title" id="holdingsPanelTitle">Open Positions</div>
+                    <div class="chart-subtitle" id="holdingsPanelSub">Current holdings for this strategy</div>
+                </div>
+                <a id="holdingsAnalyticsLink" style="font-size:12px;color:#00d4aa;cursor:pointer;text-decoration:none;"
+                   onclick="switchMainTab(event,'analytics')">Full analytics →</a>
+            </div>
+            <div id="holdingsPanelContent" style="min-height:60px;"></div>
+        </div>
+    </div>
+
     <!-- Diagnostics row -->
     <div class="diagnostics-container">
         <!-- Strategy return breakdown (donut) -->
@@ -995,11 +1010,12 @@ const START_EQUITY = 10000; // per strategy
 
 let currentStrategy = 'all';
 let state = {
-    equity: { sticks:[], markowitz:[], drl:[] },  // [{date,equity}]
-    spy: [],                                        // [{date,price}]
-    snapshot: null,                                 // equity_snapshot.json
-    runSummary: null,                               // run_summary.json
-    history: [],                                    // [run_summary, ...]
+    equity:    { sticks:[], markowitz:[], drl:[] },   // [{date,equity}]
+    positions: { sticks:null, markowitz:null, drl:null }, // positions.json per strategy
+    spy: [],                                           // [{date,price}]
+    snapshot: null,                                    // equity_snapshot.json
+    runSummary: null,                                  // run_summary.json
+    history: [],                                       // [run_summary, ...]
 };
 let charts = {};
 let showAllRuns = false;
@@ -1070,23 +1086,35 @@ function setStrategy(e, name) {
 // ══════════════════════════════════════════════════════════════
 //  DATA LOADING
 // ══════════════════════════════════════════════════════════════
+
+// Strip leading rows where equity == startEquity (flat pre-trading days)
+function filterTradingDays(rows, startEquity = START_EQUITY) {
+    const first = rows.findIndex(r => r.equity != null && r.equity !== startEquity);
+    return first < 0 ? [] : rows.slice(first);
+}
+
 async function loadAll() {
     try {
         setStatus('pending', 'Loading…');
 
-        const [eSticks, eMarkowitz, eDrl, snap, summary] = await Promise.all([
+        const [eSticks, eMarkowitz, eDrl, snap, summary,
+               posSticks, posMarkowitz, posDrl] = await Promise.all([
             fetchCSV('data/equity/sticks.csv').catch(() => []),
             fetchCSV('data/equity/markowitz.csv').catch(() => []),
             fetchCSV('data/equity/drl.csv').catch(() => []),
             fetchJSON('data/daily/equity_snapshot.json').catch(() => null),
             fetchJSON('data/daily/run_summary.json').catch(() => null),
+            fetchJSON('data/positions/sticks.json').catch(() => null),
+            fetchJSON('data/positions/markowitz.json').catch(() => null),
+            fetchJSON('data/positions/drl.json').catch(() => null),
         ]);
 
-        state.equity.sticks    = eSticks;
-        state.equity.markowitz = eMarkowitz;
-        state.equity.drl       = eDrl;
+        state.equity.sticks    = filterTradingDays(eSticks);
+        state.equity.markowitz = filterTradingDays(eMarkowitz);
+        state.equity.drl       = filterTradingDays(eDrl);
         state.snapshot         = snap;
         state.runSummary       = summary;
+        state.positions        = { sticks: posSticks, markowitz: posMarkowitz, drl: posDrl };
 
         // Load 30-day run history
         state.history = await loadRunHistory();
@@ -1141,7 +1169,17 @@ async function loadRunHistory() {
 }
 
 async function fetchSpy() {
-    // Yahoo Finance v8 — 2-year daily bars for SPY
+    // 1. Try local CSV pushed by daily workflow (data/spy.csv)
+    try {
+        const rows = await fetchCSV('data/spy.csv');
+        if (rows && rows.length > 10) {
+            return rows.map(r => ({
+                date:  String(r.date || ''),
+                price: parseFloat(r.close ?? r.price ?? 0),
+            })).filter(d => d.price > 0);
+        }
+    } catch {}
+    // 2. Fall back to Yahoo Finance v8 API
     try {
         const url = 'https://query1.finance.yahoo.com/v8/finance/chart/SPY?range=2y&interval=1d';
         const r   = await fetch(url);
@@ -1315,6 +1353,7 @@ function refreshPerformanceTab() {
 
     updateEquityChart();
     updateAllocationPanel();
+    updateStrategyHoldingsPanel();
     updateActivitySection();
     updateStrategyDonut();
     updateRunHistoryTable();
@@ -1488,6 +1527,84 @@ function updateAllocationPanel() {
 }
 
 // ══════════════════════════════════════════════════════════════
+//  STRATEGY HOLDINGS PANEL (performance tab, single-strategy view)
+// ══════════════════════════════════════════════════════════════
+function updateStrategyHoldingsPanel() {
+    const panel   = document.getElementById('strategyHoldingsPanel');
+    const content = document.getElementById('holdingsPanelContent');
+    const title   = document.getElementById('holdingsPanelTitle');
+    const sub     = document.getElementById('holdingsPanelSub');
+
+    if (currentStrategy === 'all') {
+        panel.style.display = 'none';
+        return;
+    }
+    panel.style.display = 'block';
+    title.textContent = LABELS[currentStrategy] + ' — Open Positions';
+
+    const posData = state.positions?.[currentStrategy];
+    const posList = posData?.positions || [];
+    const cash    = posData?.cash;
+    const asOf    = posData?.as_of || '';
+    sub.textContent = asOf ? 'As of ' + asOf : 'Current holdings';
+
+    if (!posData) {
+        content.innerHTML = '<p style="color:#606060;font-size:13px;padding:10px 0;">Positions file not yet available — data syncs after next daily run.</p>';
+        return;
+    }
+    if (posList.length === 0) {
+        content.innerHTML = `<p style="color:#606060;font-size:13px;padding:10px 0;">
+            No open positions${asOf ? ' as of ' + asOf : ''}.
+            Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
+        </p>`;
+        return;
+    }
+
+    const rows = posList.map(p => {
+        const shares   = p.shares ?? 0;
+        const side     = shares < 0 ? 'SHORT' : 'LONG';
+        const sideColor= shares < 0 ? '#ff6b6b' : '#00d4aa';
+        const notional = Math.abs(shares) * (p.avg_cost ?? 0);
+        const tickerLink = `<span style="color:#00d4aa;cursor:pointer;font-weight:600;"
+            onclick="document.getElementById('tickerInput').value='${p.ticker}';
+                     selectedTicker='${p.ticker}';
+                     document.getElementById('analyzeBtn').disabled=false;
+                     switchMainTab({target:document.querySelectorAll('.main-tab')[2]},'ticker');"
+            title="Analyze in Ticker tab">${p.ticker ?? '—'}</span>`;
+        return `<tr>
+            <td>${tickerLink}</td>
+            <td><span style="color:${sideColor};font-size:11px;font-weight:700;">${side}</span></td>
+            <td style="text-align:right;">${Math.abs(shares).toLocaleString()}</td>
+            <td style="text-align:right;">$${(p.avg_cost ?? 0).toFixed(2)}</td>
+            <td style="text-align:right;">$${notional.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+            <td style="color:#808080;">${p.entry_date ?? '—'}</td>
+        </tr>`;
+    }).join('');
+
+    content.innerHTML = `
+        <div style="font-size:12px;color:#808080;margin-bottom:8px;">
+            ${posList.length} position${posList.length !== 1 ? 's' : ''}
+            &nbsp;|&nbsp; Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
+            &nbsp;|&nbsp; <em style="font-size:11px;">Click a ticker to analyze it</em>
+        </div>
+        <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+                <tr style="color:#808080;border-bottom:1px solid #2a2a2a;">
+                    <th style="text-align:left;padding:4px 8px 4px 0;">Ticker</th>
+                    <th style="text-align:left;padding:4px 8px;">Side</th>
+                    <th style="text-align:right;padding:4px 8px;">Shares</th>
+                    <th style="text-align:right;padding:4px 8px;">Avg Cost</th>
+                    <th style="text-align:right;padding:4px 8px;">Notional</th>
+                    <th style="text-align:left;padding:4px 0 4px 8px;">Entry</th>
+                </tr>
+            </thead>
+            <tbody style="color:#e0e0e0;">${rows}</tbody>
+        </table>
+        </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
 //  STRATEGY DONUT
 // ══════════════════════════════════════════════════════════════
 function updateStrategyDonut() {
@@ -1598,9 +1715,14 @@ function updateRunHistoryTable() {
     body.innerHTML = show.map(r => {
         const eq     = r.equity || {};
         const total  = r.total_equity ?? Object.values(eq).reduce((a,b)=>a+b,0);
-        const badge  = `<span class="status-badge ${r.status||'skipped'}">${r.status||'skipped'}</span>`;
+        // Flag days where no actual trading happened (all equity == start capital)
+        const isFlat = total > 0 && Math.abs(total - START_EQUITY * 3) < 1 &&
+                       (r.total_fills === 0 || r.total_fills == null);
+        const badge  = isFlat
+            ? `<span class="status-badge skipped">no trades</span>`
+            : `<span class="status-badge ${r.status||'skipped'}">${r.status||'skipped'}</span>`;
         const fmtEq  = v => v ? fmtDollars(v) : '—';
-        return `<tr>
+        return `<tr style="${isFlat ? 'opacity:0.45;' : ''}">
             <td><strong>${r.date}</strong></td>
             <td>${badge}</td>
             <td>${fmtEq(eq.sticks)}</td>
@@ -1773,6 +1895,63 @@ function renderStrategyCards(s) {
             <div class="analytics-card-sub">${c.sub}</div>
          </div>`
     ).join('');
+
+    // ── Open positions table ───────────────────────────────────────
+    const posData  = state.positions?.[s];
+    const posList  = posData?.positions || [];
+    const cash     = posData?.cash;
+    const asOf     = posData?.as_of || '';
+    const containerId = s + 'PositionsContainer';
+
+    // Create container div once if needed
+    let container = document.getElementById(containerId);
+    if (!container) {
+        container = document.createElement('div');
+        container.id = containerId;
+        container.style.cssText = 'margin-top:14px;';
+        document.getElementById(s + 'AnalyticsCards').parentElement.appendChild(container);
+    }
+
+    if (!posData) {
+        container.innerHTML = '';   // positions file not yet synced — stay silent
+    } else if (posList.length === 0) {
+        container.innerHTML = `<div style="font-size:13px;color:#606060;margin-top:4px;">No open positions${asOf ? ' as of ' + asOf : ''} — cash $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}</div>`;
+    } else {
+        const rows = posList.map(p => {
+            const shares = p.shares ?? 0;
+            const side   = shares < 0 ? 'SHORT' : 'LONG';
+            const sideColor = shares < 0 ? '#ff6b6b' : '#00d4aa';
+            const notional = Math.abs(shares) * (p.avg_cost ?? 0);
+            return `<tr>
+                <td style="font-weight:600;">${p.ticker ?? '—'}</td>
+                <td><span style="color:${sideColor};font-size:11px;font-weight:700;">${side}</span></td>
+                <td style="text-align:right;">${Math.abs(shares).toLocaleString()}</td>
+                <td style="text-align:right;">$${(p.avg_cost ?? 0).toFixed(2)}</td>
+                <td style="text-align:right;">$${notional.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+                <td style="color:#808080;">${p.entry_date ?? '—'}</td>
+            </tr>`;
+        }).join('');
+        container.innerHTML = `
+            <div style="font-size:12px;color:#808080;margin-bottom:6px;">
+                Open positions${asOf ? ' — as of ' + asOf : ''}
+                &nbsp;|&nbsp; Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
+            </div>
+            <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                <thead>
+                    <tr style="color:#808080;border-bottom:1px solid #2a2a2a;">
+                        <th style="text-align:left;padding:4px 8px 4px 0;">Ticker</th>
+                        <th style="text-align:left;padding:4px 8px;">Side</th>
+                        <th style="text-align:right;padding:4px 8px;">Shares</th>
+                        <th style="text-align:right;padding:4px 8px;">Avg Cost</th>
+                        <th style="text-align:right;padding:4px 8px;">Notional</th>
+                        <th style="text-align:left;padding:4px 0 4px 8px;">Entry</th>
+                    </tr>
+                </thead>
+                <tbody style="color:#e0e0e0;">${rows}</tbody>
+            </table>
+            </div>`;
+    }
 }
 
 function renderStrategyCompareChart() {
@@ -1956,8 +2135,18 @@ async function analyzeTicker() {
     btn.textContent = 'Loading…';
 
     try {
-        const data = await fetchYahooDaily(selectedTicker, period);
-        if (!data.length) { alert(`No data for ${selectedTicker}`); return; }
+        // Try local cached CSV first (data/tickers/TICKER.csv pushed by daily workflow)
+        let data = await fetchTickerLocal(selectedTicker, period);
+
+        // Fall back to Yahoo Finance API
+        if (!data || !data.length) {
+            data = await fetchYahooDaily(selectedTicker, period);
+        }
+
+        if (!data || !data.length) {
+            showTickerError(selectedTicker);
+            return;
+        }
 
         renderTickerMetrics(data, selectedTicker);
         renderTickerCharts(data, selectedTicker);
@@ -1967,11 +2156,57 @@ async function analyzeTicker() {
         document.getElementById('tkChartTitle').textContent     = `${selectedTicker} — Daily OHLCV`;
     } catch(err) {
         console.error(err);
-        alert('Failed to load data: ' + err.message);
+        showTickerError(selectedTicker, err.message);
     } finally {
         btn.disabled = false;
         btn.textContent = 'Analyze Ticker';
     }
+}
+
+function showTickerError(ticker, detail) {
+    const noData = document.getElementById('noTickerData');
+    noData.style.display = 'block';
+    document.getElementById('tickerResults').style.display = 'none';
+    noData.innerHTML = `
+        <div class="no-data-message">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:48px;height:48px;opacity:0.3;margin-bottom:14px;">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            <h3 style="margin-bottom:8px;">Could not load data for ${ticker}</h3>
+            <p style="font-size:13px;max-width:420px;margin:0 auto;line-height:1.6;">
+                ${detail ? detail + '<br><br>' : ''}
+                Live price data may be unavailable from GitHub Pages due to browser security restrictions.
+                Try one of the tickers currently held by a strategy — those are cached locally.
+                Or open the dashboard locally to use the live Yahoo Finance feed.
+            </p>
+        </div>`;
+}
+
+async function fetchTickerLocal(ticker, period) {
+    // Load from data/tickers/TICKER.csv (generated by daily workflow for held positions)
+    try {
+        const rows = await fetchCSV(`data/tickers/${ticker}.csv`);
+        if (!rows || rows.length < 5) return null;
+
+        let data = rows.map(r => ({
+            date:   String(r.date || ''),
+            open:   parseFloat(r.open  ?? r.Open  ?? 0),
+            high:   parseFloat(r.high  ?? r.High  ?? 0),
+            low:    parseFloat(r.low   ?? r.Low   ?? 0),
+            close:  parseFloat(r.close ?? r.Close ?? 0),
+            volume: parseInt(r.volume  ?? r.Volume ?? 0, 10) || 0,
+        })).filter(d => d.close > 0 && d.date);
+
+        // Trim to requested period
+        const periodDays = { '1mo': 31, '3mo': 93, '6mo': 186, '1y': 366, '2y': 732 };
+        const cutDays    = periodDays[period] ?? 93;
+        const cutDate    = new Date();
+        cutDate.setDate(cutDate.getDate() - cutDays);
+        const cutStr     = cutDate.toISOString().split('T')[0];
+        data = data.filter(d => d.date >= cutStr);
+
+        return data.length >= 5 ? data : null;
+    } catch { return null; }
 }
 
 async function fetchYahooDaily(ticker, period = '1y') {
@@ -2212,7 +2447,8 @@ function renderMacroNarrative(fred, mkt) {
     const cpiYoy   = fred?.CPIAUCSL?.yoy  ?? null;
     const fedFunds = fred?.DFF?.value     ?? null;
     const unrate   = fred?.UNRATE?.value  ?? null;
-    const hySpread = fred?.BAMLH0A0HYM2?.value ?? null;
+    // BAMLH0A0HYM2 from FRED is stored in percent (e.g. 2.74 = 274 bps) — multiply ×100
+    const hySpread = fred?.BAMLH0A0HYM2?.value != null ? fred.BAMLH0A0HYM2.value * 100 : null;
     const asOf     = fred?.as_of || mkt?.as_of || '';
 
     const parts = [];
@@ -2332,8 +2568,9 @@ function renderMacroKPIs(fred, mkt) {
         });
     }
 
-    // HY OAS
-    const hy = fred?.BAMLH0A0HYM2?.value;
+    // HY OAS — BAMLH0A0HYM2 from FRED is in percent; multiply ×100 for bps
+    const hyRaw = fred?.BAMLH0A0HYM2?.value;
+    const hy = hyRaw != null ? hyRaw * 100 : undefined;
     if (hy !== null && hy !== undefined) {
         const cls = tlClass(hy, { green: v => v < 350, yellow: v => v < 500 });
         indicators.push({
@@ -2479,8 +2716,10 @@ function renderMacroCharts(fred, mkt, allEquity) {
     }
 
     // ─── HY OAS ──────────────────────────────────────────────────────
+    // BAMLH0A0HYM2 from FRED is in percent (e.g. 2.74 = 274 bps) — multiply ×100
     if (fred?.BAMLH0A0HYM2?.series) {
-        const { x, y } = seriesXY(fred.BAMLH0A0HYM2.series);
+        const { x, y: yRaw } = seriesXY(fred.BAMLH0A0HYM2.series);
+        const y = yRaw.map(v => v * 100);
         Plotly.newPlot('macroHyChart', [
             {
                 x, y, type: 'scatter', mode: 'lines', name: 'HY OAS (bps)',
