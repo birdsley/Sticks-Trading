@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1165,6 +1166,8 @@
 
 <!-- ══════════════════════════════════════════════ TICKER TAB ══ -->
 <div id="ticker-tab" class="tab-content">
+
+    <!-- Controls row -->
     <div class="ticker-controls">
         <div class="control-group">
             <label class="control-label">Ticker Symbol</label>
@@ -1177,7 +1180,11 @@
             <div class="ticker-count" id="tickerCount">505 S&amp;P 500 tickers available</div>
         </div>
         <div class="control-group">
-            <label class="control-label">Period</label>
+            <label class="control-label">Date (intraday)</label>
+            <input type="date" class="control-input" id="minuteDate">
+        </div>
+        <div class="control-group">
+            <label class="control-label">Daily period</label>
             <select class="control-select" id="tickerPeriod">
                 <option value="1mo">1 Month</option>
                 <option value="3mo" selected>3 Months</option>
@@ -1193,75 +1200,92 @@
         </div>
     </div>
 
-    <div id="tickerResults" style="display:none;">
-        <div class="ticker-metrics-grid">
-            <div class="ticker-metric-card">
-                <div class="ticker-metric-label">Period Return</div>
-                <div class="ticker-metric-value" id="tkReturn">—</div>
-                <div class="ticker-metric-sub" id="tkReturnSub">—</div>
-            </div>
-            <div class="ticker-metric-card">
-                <div class="ticker-metric-label">Realized Vol</div>
-                <div class="ticker-metric-value" id="tkVol">—</div>
-                <div class="ticker-metric-sub">Annualized daily vol</div>
-            </div>
-            <div class="ticker-metric-card">
-                <div class="ticker-metric-label">Current Price</div>
-                <div class="ticker-metric-value" id="tkPrice">—</div>
-                <div class="ticker-metric-sub" id="tkPriceSub">—</div>
-            </div>
-            <div class="ticker-metric-card">
-                <div class="ticker-metric-label">Avg Daily Range</div>
-                <div class="ticker-metric-value" id="tkRange">—</div>
-                <div class="ticker-metric-sub">Avg H-L / Close</div>
-            </div>
-            <div class="ticker-metric-card">
-                <div class="ticker-metric-label">Mean Reversion</div>
-                <div class="ticker-metric-value" id="tkMeanRev">—</div>
-                <div class="ticker-metric-sub" id="tkMeanRevSub">—</div>
-            </div>
-            <div class="ticker-metric-card">
-                <div class="ticker-metric-label">Avg Daily Volume</div>
-                <div class="ticker-metric-value" id="tkVolume">—</div>
-                <div class="ticker-metric-sub">Shares</div>
+    <!-- Sub-tabs: Intraday | Daily -->
+    <div class="inner-tabs" id="tickerInnerTabs">
+        <div class="inner-tab active" onclick="switchTickerView(event,'intraday')">Intraday Minute</div>
+        <div class="inner-tab"        onclick="switchTickerView(event,'daily')">Daily OHLCV</div>
+    </div>
+
+    <!-- ── INTRADAY VIEW ── -->
+    <div id="ticker-intraday-view">
+        <div id="intradayLoading" style="display:none;" class="chart-container">
+            <div class="no-data-message" style="padding:40px 20px;">
+                <div style="color:#00d4aa;margin-bottom:12px;">Loading minute data…</div>
             </div>
         </div>
 
-        <div class="chart-container">
-            <div class="chart-header">
-                <div class="chart-title" id="tkChartTitle">Price Chart</div>
-                <div class="chart-subtitle">Daily OHLCV with 20-day SMA &amp; Bollinger Bands</div>
+        <div id="intradayResults" style="display:none;">
+            <!-- Intraday KPIs -->
+            <div class="ticker-metrics-grid" id="intradayMetrics" style="margin-bottom:20px;"></div>
+
+            <!-- Main intraday chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title" id="intradayChartTitle">Intraday Price</div>
+                        <div class="chart-subtitle" id="intradayChartSub">1-minute bars · Buy/sell markers from fills</div>
+                    </div>
+                </div>
+                <div id="intradayChart" style="height:480px;"></div>
             </div>
-            <div id="tkMainChart" class="plotly-chart"></div>
+
+            <!-- Volume bar chart -->
+            <div class="chart-container" style="margin-top:20px;">
+                <div class="chart-header">
+                    <div class="chart-title">Intraday Volume</div>
+                    <div class="chart-subtitle">1-minute volume bars</div>
+                </div>
+                <div id="intradayVolChart" style="height:200px;"></div>
+            </div>
         </div>
 
-        <div class="secondary-charts">
-            <div class="chart-container">
-                <div class="chart-header">
-                    <div class="chart-title">Rolling Volatility</div>
-                    <div class="chart-subtitle">20-day realized vol (annualized)</div>
-                </div>
-                <div id="tkVolChart" class="plotly-chart" style="height:280px;"></div>
-            </div>
-            <div class="chart-container">
-                <div class="chart-header">
-                    <div class="chart-title">Z-Score (Mean Reversion)</div>
-                    <div class="chart-subtitle">Price deviation from 20-day SMA</div>
-                </div>
-                <div id="tkZScoreChart" class="plotly-chart" style="height:280px;"></div>
+        <div id="noIntradayData" class="chart-container">
+            <div class="no-data-message">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                <h3 style="margin-bottom:10px;">Select a ticker &amp; date</h3>
+                <p style="font-size:13px;color:#505050;">Minute data is synced daily for all held positions.<br>Only tickers traded by a strategy will have data available.</p>
             </div>
         </div>
     </div>
 
-    <div id="noTickerData" class="chart-container">
-        <div class="no-data-message">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 2v1h6V2c0-.55.45-1 1-1s1 .45 1 1v1h3c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h3V2c0-.55.45-1 1-1s1 .45 1 1zm11 5H4v14h16V7zM6 10h5v5H6v-5z"/>
-            </svg>
-            <h3 style="margin-bottom:10px;">Select a ticker to begin analysis</h3>
-            <p style="font-size:14px;">Loads daily OHLCV data from Yahoo Finance for any S&amp;P 500 constituent</p>
+    <!-- ── DAILY OHLCV VIEW ── -->
+    <div id="ticker-daily-view" style="display:none;">
+        <div id="tickerResults" style="display:none;">
+            <div class="ticker-metrics-grid">
+                <div class="ticker-metric-card"><div class="ticker-metric-label">Period Return</div><div class="ticker-metric-value" id="tkReturn">—</div><div class="ticker-metric-sub" id="tkReturnSub">—</div></div>
+                <div class="ticker-metric-card"><div class="ticker-metric-label">Realized Vol</div><div class="ticker-metric-value" id="tkVol">—</div><div class="ticker-metric-sub">Annualized daily vol</div></div>
+                <div class="ticker-metric-card"><div class="ticker-metric-label">Current Price</div><div class="ticker-metric-value" id="tkPrice">—</div><div class="ticker-metric-sub" id="tkPriceSub">—</div></div>
+                <div class="ticker-metric-card"><div class="ticker-metric-label">Avg Daily Range</div><div class="ticker-metric-value" id="tkRange">—</div><div class="ticker-metric-sub">Avg H-L / Close</div></div>
+                <div class="ticker-metric-card"><div class="ticker-metric-label">Mean Reversion</div><div class="ticker-metric-value" id="tkMeanRev">—</div><div class="ticker-metric-sub" id="tkMeanRevSub">—</div></div>
+                <div class="ticker-metric-card"><div class="ticker-metric-label">Avg Daily Volume</div><div class="ticker-metric-value" id="tkVolume">—</div><div class="ticker-metric-sub">Shares</div></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title" id="tkChartTitle">Price Chart</div>
+                    <div class="chart-subtitle">Daily OHLCV with 20-day SMA &amp; Bollinger Bands</div>
+                </div>
+                <div id="tkMainChart" class="plotly-chart"></div>
+            </div>
+            <div class="secondary-charts">
+                <div class="chart-container">
+                    <div class="chart-header"><div class="chart-title">Rolling Volatility</div><div class="chart-subtitle">20-day realized vol (annualized)</div></div>
+                    <div id="tkVolChart" class="plotly-chart" style="height:280px;"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header"><div class="chart-title">Z-Score (Mean Reversion)</div><div class="chart-subtitle">Price deviation from 20-day SMA</div></div>
+                    <div id="tkZScoreChart" class="plotly-chart" style="height:280px;"></div>
+                </div>
+            </div>
+        </div>
+        <div id="noTickerData" class="chart-container">
+            <div class="no-data-message">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 2v1h6V2c0-.55.45-1 1-1s1 .45 1 1v1h3c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h3V2c0-.55.45-1 1-1s1 .45 1 1zm11 5H4v14h16V7zM6 10h5v5H6v-5z"/></svg>
+                <h3 style="margin-bottom:10px;">Select a ticker to begin analysis</h3>
+                <p style="font-size:14px;">Loads OHLCV data from the public repo cache</p>
+            </div>
         </div>
     </div>
+
 </div><!-- /ticker-tab -->
 
 <!-- ══════════════════════════════════════════════ MACRO TAB ══ -->
@@ -1975,12 +1999,17 @@ function updateStrategyHoldingsPanel() {
         const side     = shares < 0 ? 'SHORT' : 'LONG';
         const sideColor= shares < 0 ? '#ff6b6b' : '#00d4aa';
         const notional = Math.abs(shares) * (p.avg_cost ?? 0);
+        const entryDate = p.entry_date || '';
         const tickerLink = `<span style="color:#00d4aa;cursor:pointer;font-weight:600;"
-            onclick="document.getElementById('tickerInput').value='${p.ticker}';
-                     selectedTicker='${p.ticker}';
-                     document.getElementById('analyzeBtn').disabled=false;
-                     switchMainTab({target:document.querySelectorAll('.main-tab')[2]},'ticker');"
-            title="Analyze in Ticker tab">${p.ticker ?? '—'}</span>`;
+            onclick="(function(){
+                document.getElementById('tickerInput').value='${p.ticker}';
+                selectedTicker='${p.ticker}';
+                document.getElementById('analyzeBtn').disabled=false;
+                if('${entryDate}') document.getElementById('minuteDate').value='${entryDate}';
+                currentTickerView='intraday';
+                switchMainTab({target:document.querySelectorAll('.main-tab')[2]},'ticker');
+            })()"
+            title="View intraday chart for entry date">${p.ticker ?? '—'}</span>`;
         return `<tr>
             <td>${tickerLink}</td>
             <td><span style="color:${sideColor};font-size:11px;font-weight:700;">${side}</span></td>
@@ -2535,11 +2564,207 @@ function initOverviewCanvas() {
 let selectedTicker = null;
 let highlightIdx   = -1;
 
+// ══════════════════════════════════════════════════════════════
+//  TICKER TAB — intraday view
+// ══════════════════════════════════════════════════════════════
+
+let currentTickerView = 'intraday';
+
+function switchTickerView(e, view) {
+    document.querySelectorAll('#tickerInnerTabs .inner-tab').forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+    currentTickerView = view;
+    document.getElementById('ticker-intraday-view').style.display = view === 'intraday' ? 'block' : 'none';
+    document.getElementById('ticker-daily-view').style.display    = view === 'daily'    ? 'block' : 'none';
+    // Trigger load for whichever view is now active if ticker already selected
+    if (selectedTicker) {
+        if (view === 'intraday') loadIntradayData();
+        else                    analyzeTicker();
+    }
+}
+
+// Decompress a .csv.gz URL using pako and parse with Papa
+async function fetchGzCSV(url) {
+    const resp = await fetch(url);
+    if (!resp.ok) return null;
+    const buf  = await resp.arrayBuffer();
+    let text;
+    try {
+        text = pako.inflate(new Uint8Array(buf), { to: 'string' });
+    } catch(e) {
+        // Try plain CSV (in case server strips gz)
+        text = new TextDecoder().decode(buf);
+    }
+    return new Promise(resolve => {
+        Papa.parse(text, {
+            header: true, dynamicTyping: true, skipEmptyLines: true,
+            complete: r => resolve(r.data)
+        });
+    });
+}
+
+async function loadIntradayData() {
+    if (!selectedTicker) return;
+    const dateEl = document.getElementById('minuteDate');
+    const dateStr = dateEl.value; // YYYY-MM-DD
+    if (!dateStr) return;
+
+    document.getElementById('noIntradayData').style.display    = 'none';
+    document.getElementById('intradayResults').style.display   = 'none';
+    document.getElementById('intradayLoading').style.display   = 'block';
+
+    const ticker = selectedTicker.toLowerCase();
+    const url    = `data/minute/${ticker}/${dateStr}.csv.gz`;
+    let rows     = null;
+    try { rows = await fetchGzCSV(url); } catch(e) {}
+
+    document.getElementById('intradayLoading').style.display = 'none';
+
+    if (!rows || rows.length < 2) {
+        document.getElementById('noIntradayData').style.display = 'block';
+        document.getElementById('noIntradayData').querySelector('h3').textContent =
+            `No minute data for ${selectedTicker} on ${dateStr}`;
+        document.getElementById('noIntradayData').querySelector('p').textContent =
+            'Minute data is only available for tickers held by a strategy on that day. Data is synced nightly.';
+        return;
+    }
+
+    // Detect column names (may vary: datetime/Datetime/timestamp, open/Open, etc.)
+    const firstRow = rows[0];
+    const keys = Object.keys(firstRow);
+    const col = (candidates) => candidates.find(c => keys.find(k => k.toLowerCase() === c.toLowerCase()));
+    const dtCol    = col(['datetime','Datetime','timestamp','Timestamp','time','Time','date','Date']);
+    const openCol  = col(['open','Open']);
+    const highCol  = col(['high','High']);
+    const lowCol   = col(['low','Low']);
+    const closeCol = col(['close','Close']);
+    const volCol   = col(['volume','Volume']);
+
+    const times  = rows.map(r => r[dtCol]);
+    const opens  = rows.map(r => parseFloat(r[openCol]  ?? r[closeCol]));
+    const highs  = rows.map(r => parseFloat(r[highCol]  ?? r[closeCol]));
+    const lows   = rows.map(r => parseFloat(r[lowCol]   ?? r[closeCol]));
+    const closes = rows.map(r => parseFloat(r[closeCol]));
+    const vols   = rows.map(r => parseFloat(r[volCol] ?? 0));
+
+    // Find fills for this ticker on this date from all strategy positions
+    const buys = [], sells = [];
+    STRATEGIES.forEach(s => {
+        const pos = state.positions?.[s];
+        if (!pos) return;
+        (pos.positions || []).forEach(p => {
+            if (p.ticker?.toUpperCase() !== selectedTicker.toUpperCase()) return;
+            // MOO fills happen at 9:30 ET — approximate as first bar of data
+            if (p.entry_date === dateStr) {
+                const side = (p.shares ?? 0) < 0 ? 'sell' : 'buy';
+                const mooTime = times.find(t => t) || times[0];
+                if (side === 'buy') buys.push({ x: mooTime, y: opens[0], label: `Buy ${Math.abs(p.shares)} @ MOO` });
+                else               sells.push({ x: mooTime, y: opens[0], label: `Sell ${Math.abs(p.shares)} @ MOO` });
+            }
+        });
+    });
+
+    // KPI cards
+    const dayRet = closes.length > 1 ? (closes[closes.length-1] - closes[0]) / closes[0] * 100 : 0;
+    const dayHigh = Math.max(...highs), dayLow = Math.min(...lows);
+    const totalVol = vols.reduce((a,b)=>a+b,0);
+    document.getElementById('intradayMetrics').innerHTML = `
+        <div class="ticker-metric-card"><div class="ticker-metric-label">Day Return</div>
+          <div class="ticker-metric-value ${dayRet>=0?'positive':'negative'}">${dayRet>=0?'+':''}${dayRet.toFixed(2)}%</div>
+          <div class="ticker-metric-sub">${selectedTicker} · ${dateStr}</div></div>
+        <div class="ticker-metric-card"><div class="ticker-metric-label">Day High</div>
+          <div class="ticker-metric-value">$${dayHigh.toFixed(2)}</div>
+          <div class="ticker-metric-sub">Intraday high</div></div>
+        <div class="ticker-metric-card"><div class="ticker-metric-label">Day Low</div>
+          <div class="ticker-metric-value">$${dayLow.toFixed(2)}</div>
+          <div class="ticker-metric-sub">Intraday low</div></div>
+        <div class="ticker-metric-card"><div class="ticker-metric-label">Close</div>
+          <div class="ticker-metric-value">$${closes[closes.length-1].toFixed(2)}</div>
+          <div class="ticker-metric-sub">Last minute bar</div></div>
+        <div class="ticker-metric-card"><div class="ticker-metric-label">Volume</div>
+          <div class="ticker-metric-value">${(totalVol/1e6).toFixed(2)}M</div>
+          <div class="ticker-metric-sub">Total shares</div></div>
+        <div class="ticker-metric-card"><div class="ticker-metric-label">Bars</div>
+          <div class="ticker-metric-value">${rows.length}</div>
+          <div class="ticker-metric-sub">1-minute bars</div></div>
+    `;
+
+    document.getElementById('intradayChartTitle').textContent =
+        `${selectedTicker} — ${dateStr} (1-min bars)`;
+    const hasTrades = buys.length + sells.length > 0;
+    document.getElementById('intradayChartSub').textContent =
+        hasTrades ? `1-minute bars · ${buys.length} buy, ${sells.length} sell markers from fills`
+                  : '1-minute bars — no fills recorded for this ticker on this date';
+
+    const plotLayout = {
+        paper_bgcolor: '#1a1a1a', plot_bgcolor: '#1a1a1a',
+        font: { color: '#e0e0e0', size: 11 },
+        xaxis: { gridcolor: '#2a2a2a', color: '#808080' },
+        yaxis: { gridcolor: '#2a2a2a', color: '#808080', title: 'Price ($)' },
+        margin: { l: 60, r: 20, t: 20, b: 40 },
+        showlegend: hasTrades,
+        legend: { bgcolor: '#1a1a1a', bordercolor: '#2a2a2a', borderwidth: 1 },
+    };
+    const plotConfig = { responsive: true, displayModeBar: false };
+
+    const traces = [
+        {
+            type: 'candlestick',
+            x: times, open: opens, high: highs, low: lows, close: closes,
+            name: selectedTicker,
+            increasing: { line: { color: '#00d4aa' }, fillcolor: 'rgba(0,212,170,0.3)' },
+            decreasing: { line: { color: '#ff4757' }, fillcolor: 'rgba(255,71,87,0.3)' },
+        },
+    ];
+
+    if (buys.length) traces.push({
+        type: 'scatter', mode: 'markers+text',
+        x: buys.map(b=>b.x), y: buys.map(b=>b.y - (dayHigh-dayLow)*0.03),
+        name: 'Buy (MOO)',
+        marker: { symbol: 'triangle-up', size: 14, color: '#00d4aa' },
+        text: buys.map(b=>b.label), textposition: 'bottom center',
+        textfont: { size: 10, color: '#00d4aa' },
+    });
+    if (sells.length) traces.push({
+        type: 'scatter', mode: 'markers+text',
+        x: sells.map(s=>s.x), y: sells.map(s=>s.y + (dayHigh-dayLow)*0.03),
+        name: 'Sell (MOO)',
+        marker: { symbol: 'triangle-down', size: 14, color: '#ff4757' },
+        text: sells.map(s=>s.label), textposition: 'top center',
+        textfont: { size: 10, color: '#ff4757' },
+    });
+
+    Plotly.newPlot('intradayChart', traces, plotLayout, plotConfig);
+
+    // Volume chart
+    const volColors = closes.map((c, i) => i === 0 ? '#606060' : (c >= closes[i-1] ? 'rgba(0,212,170,0.6)' : 'rgba(255,71,87,0.6)'));
+    Plotly.newPlot('intradayVolChart', [{
+        type: 'bar', x: times, y: vols, name: 'Volume',
+        marker: { color: volColors }, showlegend: false,
+    }], {
+        ...plotLayout,
+        yaxis: { ...plotLayout.yaxis, title: 'Volume' },
+        margin: { l: 60, r: 20, t: 10, b: 40 },
+    }, plotConfig);
+
+    document.getElementById('intradayResults').style.display = 'block';
+}
+
 function initTickerTab() {
     const input    = document.getElementById('tickerInput');
     const dropdown = document.getElementById('tickerDropdown');
     if (input._init) return;
     input._init = true;
+
+    // Default date picker to most recent trading day
+    const today = new Date();
+    const dow = today.getDay();
+    const offset = dow === 0 ? 2 : dow === 1 ? 3 : 1; // skip weekends
+    // Actually just use today — the fetch will handle "no data"
+    document.getElementById('minuteDate').value = today.toISOString().split('T')[0];
+    document.getElementById('minuteDate').addEventListener('change', () => {
+        if (selectedTicker && currentTickerView === 'intraday') loadIntradayData();
+    });
 
     input.addEventListener('input', function() {
         const q = this.value.toUpperCase().trim();
@@ -2583,6 +2808,11 @@ function pickTicker(ticker) {
 
 async function analyzeTicker() {
     if (!selectedTicker) return;
+    // Route to correct view
+    if (currentTickerView === 'intraday') {
+        await loadIntradayData();
+        return;
+    }
     const btn    = document.getElementById('analyzeBtn');
     const period = document.getElementById('tickerPeriod').value;
     btn.disabled = true;
