@@ -1186,10 +1186,12 @@
         <div class="control-group">
             <label class="control-label">Daily period</label>
             <select class="control-select" id="tickerPeriod">
+                <option value="all">All available (from date ↑)</option>
                 <option value="1mo">1 Month</option>
-                <option value="3mo" selected>3 Months</option>
+                <option value="3mo">3 Months</option>
                 <option value="6mo">6 Months</option>
                 <option value="1y">1 Year</option>
+                <option value="2y">2 Years</option>
             </select>
         </div>
         <div class="control-group">
@@ -2825,6 +2827,11 @@ async function analyzeTicker() {
         // Fall back to Yahoo Finance API
         if (!data || !data.length) {
             data = await fetchYahooDaily(selectedTicker, period);
+            // Apply start-date filter to Yahoo results too (matches local CSV behaviour)
+            if (data && period === 'all') {
+                const cutStr = document.getElementById('minuteDate')?.value || '2000-01-01';
+                data = data.filter(d => d.date >= cutStr);
+            }
         }
 
         if (!data || !data.length) {
@@ -2882,11 +2889,17 @@ async function fetchTickerLocal(ticker, period) {
         })).filter(d => d.close > 0 && d.date);
 
         // Trim to requested period
-        const periodDays = { '1mo': 31, '3mo': 93, '6mo': 186, '1y': 366, '2y': 732 };
-        const cutDays    = periodDays[period] ?? 93;
-        const cutDate    = new Date();
-        cutDate.setDate(cutDate.getDate() - cutDays);
-        const cutStr     = cutDate.toISOString().split('T')[0];
+        // 'all' uses the intraday date picker as the start date (or beginning of data)
+        let cutStr;
+        if (period === 'all') {
+            cutStr = document.getElementById('minuteDate')?.value || '2000-01-01';
+        } else {
+            const periodDays = { '1mo': 31, '3mo': 93, '6mo': 186, '1y': 366, '2y': 732 };
+            const cutDays    = periodDays[period] ?? 93;
+            const cutDate    = new Date();
+            cutDate.setDate(cutDate.getDate() - cutDays);
+            cutStr = cutDate.toISOString().split('T')[0];
+        }
         data = data.filter(d => d.date >= cutStr);
 
         return data.length >= 5 ? data : null;
@@ -2894,7 +2907,9 @@ async function fetchTickerLocal(ticker, period) {
 }
 
 async function fetchYahooDaily(ticker, period = '1y') {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${period}&interval=1d`;
+    // 'all' maps to a long range; the local CSV filter handles the start-date cutoff
+    const apiPeriod = period === 'all' ? '5y' : period;
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${apiPeriod}&interval=1d`;
     const r   = await fetch(url);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const j   = await r.json();
@@ -3103,13 +3118,14 @@ function renderMacroNews(newsData) {
     el.innerHTML = articles.map(a => {
         const pubDate = a.published ? new Date(a.published) : null;
         const age = pubDate ? _newsAge(pubDate) : '';
-        return `<div class="news-item" onclick="window.open(${JSON.stringify(a.url || '#')},'_blank')">
+        const href = a.url || '#';
+        return `<a class="news-item" href="${href}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:block;">
             <div class="news-headline">${_esc(a.headline)}</div>
             <div class="news-meta">
                 <span class="news-source">${_esc(a.source || '')}</span>
                 <span>${age}</span>
             </div>
-        </div>`;
+        </a>`;
     }).join('');
 }
 
