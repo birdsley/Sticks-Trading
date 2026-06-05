@@ -781,7 +781,7 @@
     <div class="overview-hero">
         <div class="overview-badge">Alpha Experiment</div>
         <h2>Trading Research Suite</h2>
-        <p>A quantitative experiment identifying the limits of informational edge on point-in-time daily S&amp;P 500 OHLCV data. Rather than competing on execution latency, the suite tests whether structural signals extracted from graph topology, portfolio theory, and reinforcement learning remain statistically significant at daily resolution, and what their failure modes reveal about current market microstructure.</p>
+        <p>This quantitative experiment analyzes the limits of informational edge using point-in-time daily S&amp;P 500 OHLCV data. Instead of focusing on execution latency, the research suite evaluates whether structural signals derived from graph topology, portfolio theory, and reinforcement learning retain statistical significance at daily resolution. Additionally, it examines what the failure modes of these signals reveal about contemporary market microstructure.</p>
     </div>
 
     <!-- Strategy cards + Canvas -->
@@ -796,7 +796,7 @@
                     <span class="strategy-section-badge sticks">Sticks TGA</span>
                     <span class="strat-card-freq">Daily &nbsp;·&nbsp; Mean Reversion</span>
                 </div>
-                <div class="strat-card-desc">Builds a Minimum Spanning Tree on the correlation-distance matrix of S&amp;P 500 daily returns, then measures how far each stock's return has "diffused" from its expected MST position. The residual is the tradeable signal — stocks that drift far from the graph mean-revert on a 3–7 day horizon. Entry gated by z-score threshold <em>and</em> XGBoost probability, sized by ATR-inverse volatility parity.</div>
+                <div class="strat-card-desc">This strategy constructs a Minimum Spanning Tree (MST) on the correlation-distance matrix of S&amp;P 500 daily returns and quantifies the extent to which each stock's return deviates from its expected MST position. The resulting residual serves as the tradable signal; stocks that differ substantially from the graph tend to mean-revert over a 3 to 7 day horizon. Trade entry is determined by a z-score threshold and XGBoost probability, with position sizing based on ATR-inverse volatility parity.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">S&amp;P 500 PIT Universe</span>
                     <span class="strat-pill">MST Heat Diffusion</span>
@@ -811,7 +811,7 @@
                     <span class="strategy-section-badge markowitz">Markowitz</span>
                     <span class="strat-card-freq">Weekly &nbsp;·&nbsp; Portfolio Optimization</span>
                 </div>
-                <div class="strat-card-desc">Classical mean-variance optimization across S&amp;P 500 stocks and commodity futures (gold, silver, crude, natgas, corn, wheat, soy). Estimates a Ledoit-Wolf shrunk covariance matrix over a 252-day rolling window, then solves for maximum Sharpe subject to long-only, full-investment, and 10% per-position constraints. Rebalances every Monday at market open.</div>
+                <div class="strat-card-desc">This approach applies classical mean-variance optimization to a universe comprising S&amp;P 500 stocks and selected commodity futures (gold, silver, crude oil, natural gas, corn, wheat, and soy). It estimates a Ledoit-Wolf-shrunk covariance matrix over a 252-day rolling window and solves for the maximum Sharpe ratio, subject to long-only, full-investment, and 10% per-position constraints. The portfolio is rebalanced weekly at the market open.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">S&amp;P 500 + Commodities</span>
                     <span class="strat-pill">Ledoit-Wolf Shrinkage</span>
@@ -826,7 +826,7 @@
                     <span class="strategy-section-badge drl">DRL Vol</span>
                     <span class="strat-card-freq">Daily &nbsp;·&nbsp; Reinforcement Learning</span>
                 </div>
-                <div class="strat-card-desc">A Proximal Policy Optimization (PPO) agent trained to target consistent risk-adjusted returns across 9 diversifying ETFs. The agent learns a nonlinear policy for risk scaling — compressing exposure in high-vol regimes, expanding in calm markets — subject to per-asset turnover constraints and a quadratic turnover penalty that discourages excessive churn.</div>
+                <div class="strat-card-desc">A Proximal Policy Optimization (PPO) agent is trained to achieve consistent risk-adjusted returns across nine diversifying ETFs. The agent develops a nonlinear policy for risk scaling, reducing exposure during periods of high volatility and increasing it in stable market conditions. This process is subject to per-asset turnover constraints and incorporates a quadratic turnover penalty to restrain excessive trading activity.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">9-ETF Fixed Universe</span>
                     <span class="strat-pill">PPO · Walk-Forward</span>
@@ -856,22 +856,22 @@
     <!-- Manifesto -->
     <div class="overview-manifesto">
         <div class="manifesto-title">What We're Testing</div>
-        <div class="manifesto-subtitle">Institutional infrastructure trades at sub-millisecond latency. Operating on daily bars is a deliberate constraint — the question is not whether we can beat HFT, but whether structural signals remain statistically significant across macroeconomic regimes, and what their failure modes reveal about market efficiency.</div>
+        <div class="manifesto-subtitle">Institutional trading infrastructure operates at sub-millisecond latency. The use of daily bars is an intentional constraint; the main goal is not to outperform high-frequency trading, but to determine whether structural signals retain statistical significance throughout various macroeconomic regimes and to analyze what their failure modes indicate about market efficiency.</div>
         <div class="manifesto-grid">
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 1</span>
                 <h4>Graph Topology as Alpha</h4>
-                <p>Cross-sectional deviations from MST-predicted positions encode temporary mispricing that mean-reverts on a 3–7 day horizon. The topological signal fails gracefully — if it doesn't work, the residuals scatter randomly rather than reversing, giving a clean null signal.</p>
+                <p>Cross-sectional variations from MST-predicted positions are thought to represent temporary mispricing that mean-reverts over a 3 to 7 day horizon. The topological signal is expected to fail gracefully; when ineffective, the residuals disperse randomly rather than reversing, thereby yielding a clear null signal.</p>
             </div>
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 2</span>
                 <h4>Regime Non-Stationarity</h4>
-                <p>Markets switch between structural states (bull, bear, crisis, neutral) detectable from cross-sectional correlation and trailing momentum. Allocating across regimes rather than blindly extrapolating should extract diversification alpha beyond naïve buy-and-hold.</p>
+                <p>Markets transition among structural states, such as bull, bear, crisis, and neutral, which can be identified through cross-sectional correlation and trailing momentum. Allocating assets based on regime identification, rather than relying on simple extrapolation, is expected to generate diversification alpha beyond that of a naïve buy-and-hold strategy.</p>
             </div>
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 3</span>
                 <h4>RL as Risk Budget</h4>
-                <p>A PPO agent can learn a nonlinear risk-scaling policy that outperforms simple volatility-targeting heuristics. The controlled 9-ETF universe isolates the learning problem and avoids survivorship bias — the agent's failures are interpretable and informative.</p>
+                <p>A PPO agent is believed to learn a nonlinear risk-scaling policy that surpasses the performance of basic volatility-targeting heuristics. The use of a controlled nine-ETF universe isolates the learning problem and mitigates survivorship bias, making certain that the agent's failures remain interpretable and informative.</p>
             </div>
         </div>
     </div>
