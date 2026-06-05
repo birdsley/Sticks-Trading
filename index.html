@@ -8,6 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -730,6 +733,311 @@
             text-align: center; padding: 40px 20px;
             color: #606060; font-size: 13px; line-height: 1.6;
         }
+        /* ════════════════════════════════════════════════════════════
+           ║  PROFESSIONAL ENHANCEMENT LAYER  ·  v_test                  ║
+           ║  Refines the existing theme — same palette & class names,   ║
+           ║  added depth, typography, polish. Pure visual layer.        ║
+           ════════════════════════════════════════════════════════════ */
+        :root {
+            --teal:   #00d4aa;  --teal-soft:  rgba(0,212,170,0.14);
+            --blue:   #00a8ff;  --blue-soft:  rgba(0,168,255,0.14);
+            --orange: #ff9f43;  --orange-soft:rgba(255,159,67,0.14);
+            --red:    #ff4757;  --red-soft:   rgba(255,71,87,0.14);
+            --bg:     #07090c;
+            --surface: #14161b;
+            --surface-2: #181b21;
+            --line:   #23262e;
+            --line-soft: #1b1e24;
+            --txt:    #e6e8ec;
+            --txt-dim:#8b919c;
+            --txt-faint:#5d626c;
+            --font-ui:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono:'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+            --shadow-md: 0 4px 18px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.02) inset;
+            --shadow-lg: 0 14px 44px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.03) inset;
+        }
+
+        /* ── Global canvas: layered radial depth + subtle grid ── */
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(900px 520px at 78% -8%, rgba(0,212,170,0.07), transparent 60%),
+                radial-gradient(820px 500px at 8% 4%, rgba(0,168,255,0.06), transparent 58%),
+                radial-gradient(700px 600px at 100% 100%, rgba(255,159,67,0.035), transparent 60%),
+                linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px);
+            background-size: auto, auto, auto, 46px 46px, 46px 46px;
+            background-attachment: fixed;
+            color: var(--txt);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 26px 32px 60px;
+            letter-spacing: 0.1px;
+        }
+        @media (max-width: 768px) { body { padding: 16px 14px 40px; } }
+
+        /* tabular, mono figures everywhere numbers live */
+        .metric-value, .analytics-card-value, .ticker-metric-value,
+        .comparison-stat-value, .indicator-value, .total-equity-value,
+        .strategy-equity, .stat-row-value, .overview-stat-value,
+        .strategy-return, .indicator-change, .history-table td, .release-table td {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum" 1, "cv01" 1;
+        }
+
+        /* ── Header: glassy bar ── */
+        .header {
+            background: linear-gradient(180deg, rgba(22,25,31,0.66), rgba(18,20,26,0.42));
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px 22px;
+            margin-bottom: 26px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+        }
+        .logo-icon {
+            width: 38px; height: 38px; border-radius: 9px;
+            box-shadow: 0 4px 14px rgba(0,212,170,0.4), 0 0 0 1px rgba(255,255,255,0.06) inset;
+        }
+        .logo-icon svg { width: 22px; height: 22px; }
+        .logo-text h1 {
+            font-size: 19px; font-weight: 700; letter-spacing: -0.3px;
+            background: linear-gradient(95deg, #ffffff 30%, #b8f4e7 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-text p { font-size: 11.5px; color: var(--txt-faint); letter-spacing: 0.3px; }
+        .status {
+            background: rgba(0,0,0,0.35); border: 1px solid var(--line);
+            padding: 7px 13px; border-radius: 20px; color: var(--txt-dim); font-size: 12px;
+        }
+        .status-dot { box-shadow: 0 0 0 3px rgba(0,212,170,0.16), 0 0 10px var(--teal); }
+        .status-dot.error   { box-shadow: 0 0 0 3px rgba(255,71,87,0.16), 0 0 10px var(--red); }
+        .status-dot.pending { box-shadow: 0 0 0 3px rgba(255,159,67,0.16), 0 0 10px var(--orange); }
+        .refresh-btn {
+            background: linear-gradient(180deg, #1f232b, #171a20);
+            border: 1px solid var(--line); border-radius: 9px; padding: 9px 16px;
+            font-weight: 500; box-shadow: var(--shadow-sm); transition: all 0.18s ease;
+        }
+        .refresh-btn:hover {
+            background: linear-gradient(180deg, #262b34, #1c2027);
+            border-color: #34a; border-color: rgba(0,212,170,0.4);
+            transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+        .refresh-btn:active { transform: translateY(0); }
+
+        /* ── Main tabs: pill-row segmented control ── */
+        .main-tabs {
+            gap: 4px; border-bottom: none;
+            background: rgba(20,22,27,0.6); border: 1px solid var(--line);
+            padding: 5px; border-radius: 12px; margin-bottom: 28px;
+            display: inline-flex; backdrop-filter: blur(8px); box-shadow: var(--shadow-sm);
+        }
+        .main-tab {
+            padding: 9px 20px; font-size: 13.5px; font-weight: 600; border-radius: 8px;
+            border-bottom: none !important; color: var(--txt-faint); letter-spacing: 0.1px;
+        }
+        .main-tab:hover { color: var(--txt); background: rgba(255,255,255,0.03); }
+        .main-tab.active {
+            color: #04110d;
+            background: linear-gradient(180deg, #00e6b8, #00c89f);
+            box-shadow: 0 4px 14px rgba(0,212,170,0.34), 0 1px 0 rgba(255,255,255,0.25) inset;
+        }
+
+        /* ── Universal card treatment ── */
+        .metric-card, .chart-container, .allocation-container, .diagnostic-card,
+        .benchmark-comparison, .history-container, .analytics-card, .mini-chart-container,
+        .ticker-controls, .ticker-metric-card, .indicator-card, .news-pane,
+        .overview-stats-bar, .overview-manifesto, .overview-canvas-wrapper {
+            background: linear-gradient(180deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* ── Metric cards: accent top-rail + lift ── */
+        .metric-card {
+            border-radius: 13px; padding: 20px 22px; position: relative; overflow: hidden;
+        }
+        .metric-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--teal), var(--blue));
+            opacity: 0.85;
+        }
+        .metric-card::after {
+            content: ''; position: absolute; top: -40%; right: -20%;
+            width: 180px; height: 180px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,212,170,0.06), transparent 70%);
+            pointer-events: none;
+        }
+        .metric-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0,212,170,0.28);
+            box-shadow: var(--shadow-lg);
+        }
+        .metric-label, .analytics-card-label, .ticker-metric-label, .control-label,
+        .indicator-label, .comparison-stat-label, .metric-subtitle {
+            color: var(--txt-faint); font-weight: 600;
+        }
+        .metric-value {
+            font-size: 30px; font-weight: 700; letter-spacing: -0.5px;
+            text-shadow: 0 0 22px rgba(0,212,170,0.12);
+        }
+        .metric-value.positive { color: var(--teal); text-shadow: 0 0 24px rgba(0,212,170,0.28); }
+        .metric-value.negative { color: var(--red);  text-shadow: 0 0 24px rgba(255,71,87,0.22); }
+
+        /* ── Chart & panel containers ── */
+        .chart-container, .allocation-container, .diagnostic-card, .benchmark-comparison,
+        .history-container, .mini-chart-container { border-radius: 14px; padding: 22px 24px; }
+        .chart-title { letter-spacing: -0.2px; }
+        .chart-subtitle, .strategy-sub, .analytics-card-sub, .ticker-metric-sub,
+        .overview-stat-sub, .strat-card-freq { color: var(--txt-faint); }
+
+        /* ── Strategy filter pills ── */
+        .strategy-filter {
+            background: linear-gradient(180deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm);
+        }
+        .pill-btn {
+            background: rgba(0,0,0,0.25); border: 1px solid var(--line);
+            border-radius: 18px; font-weight: 600; transition: all 0.18s ease;
+        }
+        .pill-btn:hover { color: var(--txt); border-color: #3a3f49; background: rgba(255,255,255,0.04); }
+        .pill-btn[data-strategy="all"].active     { background: linear-gradient(180deg,#f0f2f5,#d6d9de); box-shadow:0 3px 10px rgba(255,255,255,0.12); }
+        .pill-btn[data-strategy="sticks"].active  { background: linear-gradient(180deg,#00e6b8,#00c29a); box-shadow:0 3px 12px rgba(0,212,170,0.4); }
+        .pill-btn[data-strategy="markowitz"].active { background: linear-gradient(180deg,#33b8ff,#0090e6); color:#04121d; box-shadow:0 3px 12px rgba(0,168,255,0.4); }
+        .pill-btn[data-strategy="drl"].active     { background: linear-gradient(180deg,#ffb05f,#f08d2a); color:#1d1304; box-shadow:0 3px 12px rgba(255,159,67,0.4); }
+
+        /* ── Analytics / ticker small cards ── */
+        .analytics-card, .ticker-metric-card { border-radius: 11px; }
+        .analytics-card:hover, .ticker-metric-card:hover {
+            transform: translateY(-2px); border-color: #2f343d; box-shadow: var(--shadow-lg);
+        }
+        .analytics-card-value, .ticker-metric-value { letter-spacing: -0.3px; }
+
+        /* ── Allocation bar ── */
+        .alloc-bar-track {
+            height: 12px; border-radius: 6px; background: #0a0c0f;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.6);
+        }
+        .alloc-bar-segment.sticks    { background: linear-gradient(90deg,#00d4aa,#00e6b8); }
+        .alloc-bar-segment.markowitz { background: linear-gradient(90deg,#00a8ff,#33b8ff); }
+        .alloc-bar-segment.drl       { background: linear-gradient(90deg,#ff9f43,#ffb567); }
+        .total-equity-value { font-size: 28px; letter-spacing: -0.5px; text-shadow: 0 0 24px rgba(0,212,170,0.28); }
+        .strategy-dot { box-shadow: 0 0 8px currentColor; }
+        .strategy-dot.sticks    { color: var(--teal); }
+        .strategy-dot.markowitz { color: var(--blue); }
+        .strategy-dot.drl       { color: var(--orange); }
+
+        /* ── Tables ── */
+        .history-table th, .release-table th { color: var(--txt-faint); font-weight: 700; }
+        .history-table td, .release-table td { border-bottom-color: var(--line-soft); }
+        .history-table tbody tr { transition: background 0.14s ease; }
+        .history-table tbody tr:hover { background: rgba(0,212,170,0.05); }
+        .status-badge { border-radius: 6px; font-weight: 600; letter-spacing: 0.2px; }
+        .status-badge.ok      { box-shadow: inset 0 0 0 1px rgba(0,212,170,0.3); }
+        .status-badge.partial { box-shadow: inset 0 0 0 1px rgba(255,159,67,0.3); }
+        .status-badge.error   { box-shadow: inset 0 0 0 1px rgba(255,71,87,0.3); }
+
+        /* ── Inner tabs ── */
+        .inner-tab.active { color: var(--teal); }
+        .inner-tab { font-weight: 600; }
+
+        /* ── Buttons / inputs ── */
+        .analyze-btn {
+            background: linear-gradient(135deg, var(--teal), var(--blue));
+            border-radius: 9px; font-weight: 600;
+            box-shadow: 0 6px 18px rgba(0,168,255,0.3); transition: all 0.18s ease;
+        }
+        .analyze-btn:hover { transform: translateY(-1px); box-shadow: 0 9px 24px rgba(0,168,255,0.4); opacity: 1; }
+        .control-input, .control-select, .autocomplete-input {
+            background: rgba(0,0,0,0.3); border-radius: 8px; transition: all 0.16s ease;
+        }
+        .control-input:focus, .control-select:focus, .autocomplete-input:focus {
+            border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,212,170,0.15);
+        }
+        .show-more-btn, .refresh-btn { border-radius: 9px; }
+
+        /* ── Comparison stats ── */
+        .comparison-stat-value { font-size: 24px; letter-spacing: -0.4px; }
+
+        /* ── Overview hero: richer gradient + glow ── */
+        .overview-hero {
+            border-radius: 16px;
+            background:
+                radial-gradient(700px 360px at 88% -30%, rgba(0,212,170,0.16), transparent 60%),
+                linear-gradient(135deg, rgba(0,212,170,0.07), rgba(0,168,255,0.06) 55%, rgba(255,159,67,0.04));
+            border: 1px solid rgba(0,212,170,0.22);
+            box-shadow: var(--shadow-lg);
+        }
+        .overview-hero h2 {
+            font-size: 36px; letter-spacing: -1px;
+            background: linear-gradient(100deg, #ffffff 35%, #9ff0df);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .overview-hero p { color: #a4abb5; }
+        .overview-badge {
+            background: rgba(0,212,170,0.16); box-shadow: 0 0 18px rgba(0,212,170,0.18) inset;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ── Strategy overview cards ── */
+        .strat-overview-card {
+            background: linear-gradient(180deg, #15171c, #111318);
+            border: 1px solid var(--line); border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+        .strat-overview-card:hover { transform: translateX(3px); border-color: #34394300; box-shadow: var(--shadow-md); }
+        .strat-overview-card.active-tga       { box-shadow: -3px 0 0 var(--teal), var(--shadow-md); }
+        .strat-overview-card.active-markowitz { box-shadow: -3px 0 0 var(--blue), var(--shadow-md); }
+        .strat-overview-card.active-drl       { box-shadow: -3px 0 0 var(--orange), var(--shadow-md); }
+        .strategy-section-badge { font-weight: 700; letter-spacing: 0.2px; }
+        .strat-pill { background: rgba(255,255,255,0.03); border-color: var(--line); border-radius: 8px; }
+
+        .overview-canvas-wrapper { border-radius: 14px; box-shadow: var(--shadow-lg); }
+        .overview-canvas-header { background: rgba(0,0,0,0.25); }
+        .canvas-label-text { font-family: var(--font-mono); }
+
+        .overview-manifesto, .overview-stats-bar { border-radius: 14px; }
+        .manifesto-title { letter-spacing: -0.3px; }
+        .manifesto-tag { color: var(--teal); }
+        .overview-stat-value { letter-spacing: -0.2px; }
+
+        /* ── Macro tab polish ── */
+        .indicator-card { border-radius: 12px; }
+        .indicator-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .narrative-card {
+            border-radius: 12px;
+            background:
+                radial-gradient(500px 200px at 100% 0%, rgba(0,212,170,0.12), transparent 60%),
+                linear-gradient(135deg, rgba(0,212,170,0.07), rgba(0,168,255,0.07));
+            box-shadow: var(--shadow-md);
+        }
+        .news-source { color: var(--teal); font-weight: 600; }
+
+        /* ── Section dividers ── */
+        .section-divider span, .overview-section-label { color: var(--txt-faint); }
+
+        /* ── Global custom scrollbars ── */
+        * { scrollbar-width: thin; scrollbar-color: #2b2f37 transparent; }
+        *::-webkit-scrollbar { width: 10px; height: 10px; }
+        *::-webkit-scrollbar-track { background: transparent; }
+        *::-webkit-scrollbar-thumb {
+            background: #2b2f37; border-radius: 6px; border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        *::-webkit-scrollbar-thumb:hover { background: #3a3f49; background-clip: padding-box; }
+
+        /* ── Selection ── */
+        ::selection { background: rgba(0,212,170,0.28); color: #fff; }
+
+        /* ── Entrance animation for tab content ── */
+        @keyframes fadeRise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content.active { animation: fadeRise 0.4s ease both; }
     </style>
 </head>
 <body>
@@ -845,9 +1153,9 @@
                     <span class="canvas-label-text" id="canvasLabelText">MST Network — Topological Graph Arbitrage</span>
                 </div>
                 <div style="position:relative; height:420px;">
-                    <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
-                    <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
-                    <iframe id="demo-drl"        src="demos/drl_wave.html"            style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="DRL Wave"></iframe>
+                    <iframe id="demo-tga"        src="demos/tga_network_test.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
+                    <iframe id="demo-markowitz"  src="demos/markowitz_frontier_test.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
+                    <iframe id="demo-drl"        src="demos/drl_wave_test.html"            style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="DRL Wave"></iframe>
                 </div>
             </div>
         </div>
