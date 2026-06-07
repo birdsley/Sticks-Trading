@@ -1434,6 +1434,25 @@
         </div>
     </div>
 
+    <!-- Per-strategy closed trade log (visible only when a single strategy is selected) -->
+    <div id="strategyTradeLogPanel" style="display:none; margin-bottom:20px;">
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title" id="tradeLogTitle">Recent Closed Trades</div>
+                    <div class="chart-subtitle" id="tradeLogSub">Entry &amp; exit prices from orders log · click a ticker to inspect minute data</div>
+                </div>
+            </div>
+            <div id="tradeLogContent" style="overflow-x:auto;"></div>
+            <div id="tradeLogFooter" style="margin-top:12px;display:flex;align-items:center;gap:16px;">
+                <button id="tradeLogExpandBtn"
+                    style="display:none;background:none;border:1px solid #2a2a2a;color:#808080;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;"
+                    onclick="toggleTradeLogExpand()">Show more</button>
+                <span id="tradeLogCount" style="font-size:11px;color:#505050;"></span>
+            </div>
+        </div>
+    </div>
+
     <!-- Diagnostics row -->
     <div class="diagnostics-container">
         <!-- Strategy return breakdown (donut) -->
@@ -1792,11 +1811,13 @@ let currentStrategy = 'all';
 let state = {
     equity:    { sticks:[], markowitz:[], drl:[] },   // [{date,equity}]
     positions: { sticks:null, markowitz:null, drl:null }, // positions.json per strategy
+    orders:    { sticks:[], markowitz:[], drl:[] },   // orders.jsonl per strategy
     spy: [],                                           // [{date,price}]
     snapshot: null,                                    // equity_snapshot.json
     runSummary: null,                                  // run_summary.json
     history: [],                                       // [run_summary, ...]
 };
+let tradeLogExpanded = false;
 let charts = {};
 let showAllRuns = false;
 
@@ -1884,7 +1905,8 @@ async function loadAll() {
         setStatus('pending', 'Loading…');
 
         const [eSticks, eMarkowitz, eDrl, snap, summary,
-               posSticks, posMarkowitz, posDrl] = await Promise.all([
+               posSticks, posMarkowitz, posDrl,
+               ordSticks, ordMarkowitz, ordDrl] = await Promise.all([
             fetchCSV('data/equity/sticks.csv').catch(() => []),
             fetchCSV('data/equity/markowitz.csv').catch(() => []),
             fetchCSV('data/equity/drl.csv').catch(() => []),
@@ -1893,6 +1915,9 @@ async function loadAll() {
             fetchJSON('data/positions/sticks.json').catch(() => null),
             fetchJSON('data/positions/markowitz.json').catch(() => null),
             fetchJSON('data/positions/drl.json').catch(() => null),
+            fetchJSONL('data/orders/sticks.jsonl').catch(() => []),
+            fetchJSONL('data/orders/markowitz.jsonl').catch(() => []),
+            fetchJSONL('data/orders/drl.jsonl').catch(() => []),
         ]);
 
         state.equity.sticks    = filterTradingDays(eSticks);
@@ -1901,6 +1926,7 @@ async function loadAll() {
         state.snapshot         = snap;
         state.runSummary       = summary;
         state.positions        = { sticks: posSticks, markowitz: posMarkowitz, drl: posDrl };
+        state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, drl: ordDrl };
 
         // Load 30-day run history
         state.history = await loadRunHistory();
@@ -1967,6 +1993,19 @@ async function fetchJSON(url) {
     const r = await fetch(url);
     if (!r.ok) return null;
     return r.json();
+}
+
+// Fetch a newline-delimited JSON file and return array of parsed objects
+async function fetchJSONL(url) {
+    try {
+        const r = await fetch(url);
+        if (!r.ok) return [];
+        const text = await r.text();
+        return text.trim().split('\n')
+            .filter(l => l.trim())
+            .map(l => { try { return JSON.parse(l); } catch(e) { return null; } })
+            .filter(Boolean);
+    } catch(e) { return []; }
 }
 
 async function loadRunHistory() {
@@ -2174,6 +2213,7 @@ function refreshPerformanceTab() {
     updateEquityChart();
     updateAllocationPanel();
     updateStrategyHoldingsPanel();
+    updateTradeLogPanel();
     updateActivitySection();
     updateStrategyDonut();
     updateRunHistoryTable();
@@ -2431,6 +2471,208 @@ function updateStrategyHoldingsPanel() {
             <tbody style="color:#e0e0e0;">${rows}</tbody>
         </table>
         </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CLOSED TRADE LOG — per-strategy, collapsible
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * Match opens → closes from a strategy's orders array.
+ * Returns closed trades sorted most-recent-exit first.
+ * Open (unmatched) orders are ignored — they're shown in the holdings panel.
+ */
+function buildClosedTrades(orders) {
+    // Sort chronologically (decision timestamp is most precise)
+    const sorted = [...orders].sort((a, b) =>
+        a.decision_ts_utc.localeCompare(b.decision_ts_utc)
+    );
+
+    // Per-ticker queue of open lots (FIFO)
+    const openBook = {};   // ticker → [{price, shares, date, side}]
+    const closed   = [];
+
+    for (const o of sorted) {
+        if (o.position_action === 'open') {
+            if (!openBook[o.ticker]) openBook[o.ticker] = [];
+            openBook[o.ticker].push({
+                price:  o.intended_price,
+                shares: o.intended_shares,
+                date:   o.trade_date,
+                side:   o.side,          // 'buy' | 'short'
+                ts:     o.decision_ts_utc,
+                signal: o.strategy_metrics?.signal || {},
+            });
+
+        } else if (o.position_action === 'close') {
+            const lots = openBook[o.ticker] || [];
+
+            // Weighted-average entry price across all open lots for this ticker
+            const totalOpenShares = lots.reduce((s, l) => s + l.shares, 0);
+            const wAvgEntry = totalOpenShares > 0
+                ? lots.reduce((s, l) => s + l.price * l.shares, 0) / totalOpenShares
+                : o.intended_price;
+
+            const entryDate = lots.length ? lots[0].date : o.trade_date;
+            const openSide  = lots.length ? lots[0].side : (o.side === 'sell' ? 'buy' : 'short');
+            const isLong    = openSide === 'buy';
+
+            const exitPrice  = o.intended_price;
+            const exitShares = o.intended_shares;
+
+            // P&L: long = (exit - entry) * shares; short = (entry - exit) * shares
+            const pnl = isLong
+                ? (exitPrice - wAvgEntry) * exitShares
+                : (wAvgEntry - exitPrice) * exitShares;
+
+            closed.push({
+                ticker:     o.ticker,
+                direction:  isLong ? 'LONG' : 'SHORT',
+                shares:     exitShares,
+                entryDate,
+                exitDate:   o.trade_date,
+                entryPrice: wAvgEntry,
+                exitPrice,
+                pnl,
+                exitReason: o.strategy_metrics?.exit_reason || null,
+                strategy:   o.strategy,
+                openSignal: lots[0]?.signal || {},
+            });
+
+            // Remove consumed lots
+            delete openBook[o.ticker];
+        }
+    }
+
+    // Most-recent exit first
+    return closed.sort((a, b) => b.exitDate.localeCompare(a.exitDate));
+}
+
+const EXIT_REASON_LABELS = {
+    stale_loser_cut:  { label: 'Stale-Loser Cut', color: '#ff4757' },
+    ou_halflife_cap:  { label: 'OU Cap',           color: '#ff9f43' },
+    zero_cross:       { label: 'Zero Cross',        color: '#00d4aa' },
+    atr_stop:         { label: 'ATR Stop',          color: '#ff4757' },
+    rebalance:        { label: 'Rebalance',         color: '#00a8ff' },
+    profit_target:    { label: 'Profit Target',     color: '#00d4aa' },
+};
+
+function exitReasonBadge(reason) {
+    if (!reason) return '<span style="color:#505050;">—</span>';
+    const r   = reason.toLowerCase().replace(/ /g,'_');
+    const cfg = EXIT_REASON_LABELS[r] || { label: reason, color: '#808080' };
+    return `<span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;
+        background:${cfg.color}22;color:${cfg.color};">${cfg.label}</span>`;
+}
+
+function updateTradeLogPanel() {
+    const panel = document.getElementById('strategyTradeLogPanel');
+
+    if (currentStrategy === 'all') {
+        panel.style.display = 'none';
+        return;
+    }
+
+    const orders = state.orders?.[currentStrategy] || [];
+    const closed = buildClosedTrades(orders);
+
+    panel.style.display = 'block';
+    tradeLogExpanded = false;   // reset on strategy switch
+
+    const title = document.getElementById('tradeLogTitle');
+    const sub   = document.getElementById('tradeLogSub');
+    title.textContent = LABELS[currentStrategy] + ' — Closed Trades';
+    sub.textContent   = 'Entry & exit prices from orders log · click a ticker to inspect minute data';
+
+    if (closed.length === 0) {
+        document.getElementById('tradeLogContent').innerHTML =
+            '<p style="color:#606060;font-size:13px;padding:10px 0;">No closed trades yet — positions are still open.</p>';
+        document.getElementById('tradeLogExpandBtn').style.display = 'none';
+        document.getElementById('tradeLogCount').textContent = '';
+        return;
+    }
+
+    renderTradeLogRows(closed);
+}
+
+function renderTradeLogRows(closed) {
+    const SHOW_DEFAULT = 8, SHOW_MAX = 20;
+    const limit = tradeLogExpanded ? Math.min(SHOW_MAX, closed.length) : Math.min(SHOW_DEFAULT, closed.length);
+    const toShow = closed.slice(0, limit);
+
+    const isSticks = currentStrategy === 'sticks';
+
+    const rows = toShow.map(t => {
+        const pnlColor = t.pnl >= 0 ? '#00d4aa' : '#ff4757';
+        const pnlSign  = t.pnl >= 0 ? '+' : '';
+        const dirColor = t.direction === 'LONG' ? '#00d4aa' : '#ff6b6b';
+
+        const tickerLink = `<span style="color:#00d4aa;cursor:pointer;font-weight:600;"
+            onclick="(function(){
+                document.getElementById('tickerInput').value='${t.ticker}';
+                selectedTicker='${t.ticker}';
+                document.getElementById('analyzeBtn').disabled=false;
+                document.getElementById('minuteDate').value='${t.exitDate}';
+                switchMainTab({target:document.querySelectorAll('.main-tab')[2]},'ticker');
+            })()" title="View minute data on exit date">${t.ticker}</span>`;
+
+        const reasonCell = isSticks ? `<td>${exitReasonBadge(t.exitReason)}</td>` : '';
+
+        return `<tr style="border-bottom:1px solid #1a1a1a;">
+            <td style="padding:6px 8px 6px 0;">${tickerLink}</td>
+            <td style="padding:6px 8px;"><span style="color:${dirColor};font-size:11px;font-weight:700;">${t.direction}</span></td>
+            <td style="padding:6px 8px;text-align:right;">${t.shares.toLocaleString()}</td>
+            <td style="padding:6px 8px;color:#808080;font-size:12px;">${t.entryDate}</td>
+            <td style="padding:6px 8px;text-align:right;color:#909090;">$${t.entryPrice.toFixed(2)}</td>
+            <td style="padding:6px 8px;color:#808080;font-size:12px;">${t.exitDate}</td>
+            <td style="padding:6px 8px;text-align:right;color:#e0e0e0;">$${t.exitPrice.toFixed(2)}</td>
+            <td style="padding:6px 8px;text-align:right;font-weight:600;color:${pnlColor};">${pnlSign}$${Math.abs(t.pnl).toFixed(2)}</td>
+            ${reasonCell}
+        </tr>`;
+    }).join('');
+
+    const reasonHeader = isSticks ? '<th style="padding:4px 8px;">Exit Reason</th>' : '';
+
+    document.getElementById('tradeLogContent').innerHTML = `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+                <tr style="color:#606060;border-bottom:1px solid #2a2a2a;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;">
+                    <th style="text-align:left;padding:4px 8px 4px 0;">Ticker</th>
+                    <th style="text-align:left;padding:4px 8px;">Dir</th>
+                    <th style="text-align:right;padding:4px 8px;">Shares</th>
+                    <th style="text-align:left;padding:4px 8px;">Entry Date</th>
+                    <th style="text-align:right;padding:4px 8px;">Entry $</th>
+                    <th style="text-align:left;padding:4px 8px;">Exit Date</th>
+                    <th style="text-align:right;padding:4px 8px;">Exit $</th>
+                    <th style="text-align:right;padding:4px 8px;">P&amp;L</th>
+                    ${reasonHeader}
+                </tr>
+            </thead>
+            <tbody style="color:#e0e0e0;">${rows}</tbody>
+        </table>`;
+
+    // Expand button
+    const expandBtn   = document.getElementById('tradeLogExpandBtn');
+    const countSpan   = document.getElementById('tradeLogCount');
+    const totalClosed = closed.length;
+
+    if (!tradeLogExpanded && totalClosed > SHOW_DEFAULT) {
+        expandBtn.style.display = 'inline-block';
+        expandBtn.textContent   = `Show more (${Math.min(SHOW_MAX, totalClosed) - SHOW_DEFAULT} more, ${totalClosed} total)`;
+    } else if (tradeLogExpanded && totalClosed > SHOW_DEFAULT) {
+        expandBtn.style.display = 'inline-block';
+        expandBtn.textContent   = 'Show less';
+    } else {
+        expandBtn.style.display = 'none';
+    }
+    countSpan.textContent = totalClosed > 0 ? `${totalClosed} closed trade${totalClosed !== 1 ? 's' : ''} total` : '';
+}
+
+function toggleTradeLogExpand() {
+    tradeLogExpanded = !tradeLogExpanded;
+    const orders = state.orders?.[currentStrategy] || [];
+    const closed = buildClosedTrades(orders);
+    renderTradeLogRows(closed);
 }
 
 // ══════════════════════════════════════════════════════════════
