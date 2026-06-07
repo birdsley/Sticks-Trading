@@ -820,107 +820,106 @@
         }
         @media (max-width: 768px) { body { padding: 16px 14px 40px; } }
 
-        /* ══ Mobile — vertical/phone layout (≤ 520px) ══════════════════ */
-        @media (max-width: 520px) {
-            body { padding: 10px 10px 32px; }
+        /* ══ Prevent any element from blowing out mobile layout ═══════ */
+        @media (max-width: 900px) {
+            html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
 
-            /* Header: tighten up */
-            .header { flex-wrap: wrap; gap: 8px; padding-bottom: 14px; margin-bottom: 16px; }
+            /* Force macro to single-column before large breakpoint triggers */
+            .macro-layout      { grid-template-columns: 1fr !important; }
+            .macro-charts-2col { grid-template-columns: 1fr !important; }
+            .macro-kpi-grid    { grid-template-columns: repeat(2, 1fr) !important; }
+            /* News pane: full-width strip with comfortable scroll height */
+            .news-pane { max-height: none; height: auto; border-right: none;
+                         border-bottom: 1px solid #1f1f1f; padding-bottom: 12px; }
+        }
+
+        /* ══ Phone layout (≤ 520px) ═════════════════════════════════════ */
+        @media (max-width: 520px) {
+            body { padding: 10px 12px 32px; }
+
+            /* ── Header ────────────────────────────────────────────────── */
+            .header { padding-bottom: 14px; margin-bottom: 16px; gap: 8px; }
             .logo-text h1 { font-size: 16px; }
-            .logo-text p  { display: none; }         /* hide "Performance Dashboard" on tiny screens */
+            .logo-text p  { display: none; }
             .refresh-btn  { padding: 6px 10px; font-size: 12px; }
 
-            /* Main tabs: horizontally scrollable row, no wrapping */
+            /* ── Navigation tabs: all 4 fit by using short labels ───────── */
             .main-tabs {
-                gap: 0; overflow-x: auto; white-space: nowrap;
-                -webkit-overflow-scrolling: touch; padding-bottom: 0;
-                margin-bottom: 18px; scrollbar-width: none;
+                gap: 0; overflow-x: visible; white-space: normal;
+                display: flex; flex-wrap: nowrap; align-items: stretch;
+                padding-bottom: 0; margin-bottom: 18px;
             }
-            .main-tabs::-webkit-scrollbar { display: none; }
-            .main-tab { padding: 10px 14px; font-size: 13px; display: inline-block; flex-shrink: 0; }
+            /* Show short label via data-short attribute; hide full text */
+            .main-tab[data-short] { font-size: 0; }
+            .main-tab[data-short]::before {
+                content: attr(data-short);
+                font-size: 13px;
+            }
+            .main-tab { padding: 10px 10px; font-size: 13px; flex: 1; text-align: center; }
 
-            /* Strategy filter: wrap to 2 rows, run-status below pills */
-            .strategy-filter { flex-wrap: wrap; gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+            /* ── Strategy filter ─────────────────────────────────────────── */
+            .strategy-filter { flex-wrap: wrap; gap: 6px; padding: 10px 12px; margin-bottom: 18px; }
             .filter-label    { font-size: 12px; }
             .pill-btn        { font-size: 11px; padding: 5px 10px; }
             .filter-right    { width: 100%; font-size: 11px; color: #606060; margin-left: 0; margin-top: 2px; }
 
-            /* Top-level metric cards: 2 columns */
-            .metrics-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px; margin-bottom: 20px;
-            }
+            /* ── Top metrics: 2-col ─────────────────────────────────────── */
+            .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
             .metric-card  { padding: 14px 12px; }
             .metric-value { font-size: 21px; }
             .metric-label { font-size: 10px; }
 
-            /* Main content: equity + allocation already stack, reduce gap */
-            .main-content { gap: 12px; margin-bottom: 20px; }
+            /* ── Equity chart + allocation ──────────────────────────────── */
+            .main-content  { gap: 12px; margin-bottom: 18px; }
             .chart-wrapper { height: 240px; }
-
-            /* Allocation container: compact */
             .allocation-container { padding: 14px 12px; }
-
-            /* Diagnostics row */
-            .diagnostics-container { gap: 12px; margin-bottom: 20px; }
-
-            /* vs SPY comparison stats: 2+1 cols */
+            .diagnostics-container { gap: 12px; margin-bottom: 18px; }
             .comparison-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
 
-            /* Analytics cards (strategy detail): 2 columns */
+            /* ── Analytics cards: 2-col ─────────────────────────────────── */
             .analytics-cards      { grid-template-columns: 1fr 1fr; gap: 10px; }
             .analytics-card       { padding: 12px 10px; }
             .analytics-card-value { font-size: 18px; }
             .analytics-card-sub   { font-size: 10px; }
 
-            /* Ticker tab KPI grid: 2 columns */
-            .ticker-metrics-grid  { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-            .ticker-metric-card   { padding: 12px 10px; }
-            .ticker-metric-value  { font-size: 17px; }
-            .ticker-metric-label  { font-size: 10px; }
+            /* ── Ticker KPI cards: 2-col ─────────────────────────────────── */
+            .ticker-metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+            .ticker-metric-card  { padding: 12px 10px; }
+            .ticker-metric-value { font-size: 17px; }
+            .ticker-metric-label { font-size: 10px; }
 
-            /* Ticker controls: already 1-col, just tighten */
-            .ticker-controls { gap: 12px; padding: 14px 12px; margin-bottom: 14px; }
+            /* ── Ticker controls ─────────────────────────────────────────── */
+            .ticker-controls { gap: 10px; padding: 14px 12px; margin-bottom: 14px; }
             .autocomplete-input, .control-input { padding: 8px 10px; font-size: 13px; }
             .analyze-btn { padding: 9px 14px; font-size: 13px; }
 
-            /* Held-ticker pills: smaller, wrap tightly */
+            /* ── Held-ticker strip ───────────────────────────────────────── */
             .held-pill        { min-width: 50px; padding: 5px 8px; }
             .held-pill-ticker { font-size: 11px; }
             .held-pill-date   { font-size: 8.5px; }
 
-            /* Position info bar: smaller, wrapping */
-            .pos-info-bar     { font-size: 11px; padding: 6px 10px; gap: 5px; margin-bottom: 12px; }
-            .pos-info-badge   { font-size: 9px; padding: 2px 6px; }
+            /* ── Position info bar ───────────────────────────────────────── */
+            .pos-info-bar   { font-size: 11px; padding: 6px 10px; gap: 5px; margin-bottom: 12px; }
+            .pos-info-badge { font-size: 9px; padding: 2px 6px; }
 
-            /* 3-col sub-charts → 1-col on mobile */
-            .sub-charts-3col  { grid-template-columns: 1fr !important; gap: 12px !important; }
+            /* ── Sub-charts 3-col → 1-col ────────────────────────────────── */
+            .sub-charts-3col { grid-template-columns: 1fr !important; gap: 12px !important; }
 
-            /* Main intraday chart: shorter on mobile */
-            #intradayChart    { height: 300px !important; }
-
-            /* Mini chart wrappers */
+            /* ── Intraday chart height ────────────────────────────────────── */
+            #intradayChart  { height: 300px !important; }
             .mini-chart-wrapper { height: 160px; }
 
-            /* Macro KPI grid: 2-col */
-            .macro-kpi-grid   { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
-
-            /* Macro news pane: full width, shorter max-height */
-            .news-pane        { max-height: 280px; }
-
-            /* Overview hero */
-            .overview-hero    { padding: 20px 16px; }
-            .overview-hero h2 { font-size: 20px; }
-
-            /* Overview stats bar: 2-col */
+            /* ── Overview ────────────────────────────────────────────────── */
+            .overview-hero      { padding: 20px 16px; }
+            .overview-hero h2   { font-size: 20px; }
             .overview-stats-bar { grid-template-columns: 1fr 1fr; }
 
-            /* Run history table: horizontal scroll */
+            /* ── Run history: horizontal scroll ─────────────────────────── */
             .history-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .history-table { min-width: 600px; }
+            .history-table     { min-width: 560px; }
 
-            /* Chart containers: reduce padding */
-            .chart-container  { padding: 14px 12px; }
+            /* ── Chart containers ────────────────────────────────────────── */
+            .chart-container      { padding: 14px 12px; }
             .mini-chart-container { padding: 12px 10px; }
         }
 
@@ -1342,8 +1341,8 @@
 <!-- ══════════════════════════════════════════════ TABS ══ -->
 <div class="main-tabs">
     <div class="main-tab active" onclick="switchMainTab(event,'overview')">Overview</div>
-    <div class="main-tab"        onclick="switchMainTab(event,'performance')">Performance &amp; Analytics</div>
-    <div class="main-tab"        onclick="switchMainTab(event,'ticker')">Ticker Analysis</div>
+    <div class="main-tab"        onclick="switchMainTab(event,'performance')" data-short="Performance">Performance &amp; Analytics</div>
+    <div class="main-tab"        onclick="switchMainTab(event,'ticker')"      data-short="Tickers">Ticker Analysis</div>
     <div class="main-tab"        onclick="switchMainTab(event,'macro')">Macro</div>
 </div>
 
