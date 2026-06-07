@@ -820,6 +820,110 @@
         }
         @media (max-width: 768px) { body { padding: 16px 14px 40px; } }
 
+        /* ══ Mobile — vertical/phone layout (≤ 520px) ══════════════════ */
+        @media (max-width: 520px) {
+            body { padding: 10px 10px 32px; }
+
+            /* Header: tighten up */
+            .header { flex-wrap: wrap; gap: 8px; padding-bottom: 14px; margin-bottom: 16px; }
+            .logo-text h1 { font-size: 16px; }
+            .logo-text p  { display: none; }         /* hide "Performance Dashboard" on tiny screens */
+            .refresh-btn  { padding: 6px 10px; font-size: 12px; }
+
+            /* Main tabs: horizontally scrollable row, no wrapping */
+            .main-tabs {
+                gap: 0; overflow-x: auto; white-space: nowrap;
+                -webkit-overflow-scrolling: touch; padding-bottom: 0;
+                margin-bottom: 18px; scrollbar-width: none;
+            }
+            .main-tabs::-webkit-scrollbar { display: none; }
+            .main-tab { padding: 10px 14px; font-size: 13px; display: inline-block; flex-shrink: 0; }
+
+            /* Strategy filter: wrap to 2 rows, run-status below pills */
+            .strategy-filter { flex-wrap: wrap; gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+            .filter-label    { font-size: 12px; }
+            .pill-btn        { font-size: 11px; padding: 5px 10px; }
+            .filter-right    { width: 100%; font-size: 11px; color: #606060; margin-left: 0; margin-top: 2px; }
+
+            /* Top-level metric cards: 2 columns */
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px; margin-bottom: 20px;
+            }
+            .metric-card  { padding: 14px 12px; }
+            .metric-value { font-size: 21px; }
+            .metric-label { font-size: 10px; }
+
+            /* Main content: equity + allocation already stack, reduce gap */
+            .main-content { gap: 12px; margin-bottom: 20px; }
+            .chart-wrapper { height: 240px; }
+
+            /* Allocation container: compact */
+            .allocation-container { padding: 14px 12px; }
+
+            /* Diagnostics row */
+            .diagnostics-container { gap: 12px; margin-bottom: 20px; }
+
+            /* vs SPY comparison stats: 2+1 cols */
+            .comparison-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+            /* Analytics cards (strategy detail): 2 columns */
+            .analytics-cards      { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .analytics-card       { padding: 12px 10px; }
+            .analytics-card-value { font-size: 18px; }
+            .analytics-card-sub   { font-size: 10px; }
+
+            /* Ticker tab KPI grid: 2 columns */
+            .ticker-metrics-grid  { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+            .ticker-metric-card   { padding: 12px 10px; }
+            .ticker-metric-value  { font-size: 17px; }
+            .ticker-metric-label  { font-size: 10px; }
+
+            /* Ticker controls: already 1-col, just tighten */
+            .ticker-controls { gap: 12px; padding: 14px 12px; margin-bottom: 14px; }
+            .autocomplete-input, .control-input { padding: 8px 10px; font-size: 13px; }
+            .analyze-btn { padding: 9px 14px; font-size: 13px; }
+
+            /* Held-ticker pills: smaller, wrap tightly */
+            .held-pill        { min-width: 50px; padding: 5px 8px; }
+            .held-pill-ticker { font-size: 11px; }
+            .held-pill-date   { font-size: 8.5px; }
+
+            /* Position info bar: smaller, wrapping */
+            .pos-info-bar     { font-size: 11px; padding: 6px 10px; gap: 5px; margin-bottom: 12px; }
+            .pos-info-badge   { font-size: 9px; padding: 2px 6px; }
+
+            /* 3-col sub-charts → 1-col on mobile */
+            .sub-charts-3col  { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+            /* Main intraday chart: shorter on mobile */
+            #intradayChart    { height: 300px !important; }
+
+            /* Mini chart wrappers */
+            .mini-chart-wrapper { height: 160px; }
+
+            /* Macro KPI grid: 2-col */
+            .macro-kpi-grid   { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+
+            /* Macro news pane: full width, shorter max-height */
+            .news-pane        { max-height: 280px; }
+
+            /* Overview hero */
+            .overview-hero    { padding: 20px 16px; }
+            .overview-hero h2 { font-size: 20px; }
+
+            /* Overview stats bar: 2-col */
+            .overview-stats-bar { grid-template-columns: 1fr 1fr; }
+
+            /* Run history table: horizontal scroll */
+            .history-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .history-table { min-width: 600px; }
+
+            /* Chart containers: reduce padding */
+            .chart-container  { padding: 14px 12px; }
+            .mini-chart-container { padding: 12px 10px; }
+        }
+
         /* tabular, mono figures everywhere numbers live */
         .metric-value, .analytics-card-value, .ticker-metric-value,
         .comparison-stat-value, .indicator-value, .total-equity-value,
@@ -1713,7 +1817,7 @@
         </div>
 
         <!-- 3 sub-charts -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px;">
+        <div class="sub-charts-3col" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px;">
             <div class="chart-container">
                 <div class="chart-header">
                     <div class="chart-title">Rolling Volatility</div>
