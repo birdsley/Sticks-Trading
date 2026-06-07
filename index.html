@@ -1302,6 +1302,41 @@
         button:focus-visible, .main-tab:focus-visible, .pill-btn:focus-visible {
             outline: 2px solid var(--teal); outline-offset: 2px;
         }
+
+        /* ══ END-OF-CASCADE MOBILE OVERRIDES ═══════════════════════════════
+           These rules appear last to beat dark-theme defaults (e.g. inline-flex). */
+
+        /* ── Nav tabs: force full-width flex on phone ── */
+        @media (max-width: 520px) {
+            .main-tabs {
+                display: flex !important;
+                width: 100% !important;
+            }
+        }
+
+        /* ── Macro tab: remove news-pane sticky so whole page scrolls ── */
+        @media (max-width: 900px) {
+            .news-pane {
+                position: static !important;
+                max-height: 320px;
+                overflow-y: auto;
+            }
+        }
+
+        /* ── Overview canvas: remove sticky + shrink iframe height on phone ── */
+        @media (max-width: 520px) {
+            .overview-canvas-wrapper {
+                position: static !important;
+            }
+            .overview-canvas-wrapper > div {
+                height: 280px !important;
+            }
+        }
+        @media (min-width: 521px) and (max-width: 900px) {
+            .overview-canvas-wrapper {
+                position: static !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -3353,6 +3388,18 @@ function renderCorrelationChart() {
             }
         }
     });
+
+    // Update subtitle to reflect actual rolling window
+    const corrSubEl = document.getElementById('correlationChart')
+        ?.closest('.mini-chart-container')?.querySelector('.chart-subtitle');
+    if (corrSubEl) {
+        if (allDates.length < 63) {
+            const needed = 63 - allDates.length;
+            corrSubEl.textContent = `Between strategies (rolling ${window}-day · need ${needed} more day${needed === 1 ? '' : 's'} for full 63-day window)`;
+        } else {
+            corrSubEl.textContent = 'Between strategies (rolling 63-day)';
+        }
+    }
 }
 
 // ══════════════════════════════════════════════════════════════
