@@ -1767,7 +1767,7 @@
             <div class="chart-container">
                 <div class="chart-header">
                     <div class="chart-title">Recent Economic Releases — Beat / Miss</div>
-                    <div class="chart-subtitle">Actual vs consensus. Surprises drive short-term regime shifts.</div>
+                    <div class="chart-subtitle">Actual vs prior period · SPY % reaction on release day. Surprises drive short-term regime shifts.</div>
                 </div>
                 <div id="macroReleasesTable">
                     <div class="macro-empty">Loading release data…</div>
@@ -3737,60 +3737,75 @@ function renderMacroReleases(fred) {
 
     if (fred?.PAYEMS) {
         const v = fred.PAYEMS;
+        const beat = v.mom_change != null && v.prior_mom != null ? v.mom_change > v.prior_mom : null;
         releases.push({
-            name: 'Nonfarm Payrolls', date: v.release_date || fred.as_of,
+            name:  'Nonfarm Payrolls',
+            date:  v.release_date || fred.as_of,
             actual: v.mom_change != null ? (v.mom_change > 0 ? '+' : '') + v.mom_change.toFixed(0) + 'k' : '—',
-            forecast: v.forecast != null ? (v.forecast > 0 ? '+' : '') + v.forecast.toFixed(0) + 'k' : '—',
-            beat: v.mom_change != null && v.forecast != null ? v.mom_change > v.forecast : null,
-            unit: 'MoM jobs',
+            prior:  v.prior_mom  != null ? (v.prior_mom  > 0 ? '+' : '') + v.prior_mom.toFixed(0)  + 'k' : '—',
+            beat, spy: v.spy_reaction, unit: 'MoM jobs',
         });
     }
     if (fred?.CPIAUCSL) {
         const v = fred.CPIAUCSL;
+        const beat = v.yoy != null && v.prior_yoy != null ? v.yoy < v.prior_yoy : null;
         releases.push({
-            name: 'CPI (YoY)', date: v.release_date || fred.as_of,
-            actual:   v.yoy   != null ? v.yoy.toFixed(1) + '%'      : '—',
-            forecast: v.forecast_yoy != null ? v.forecast_yoy.toFixed(1) + '%' : '—',
-            beat: v.yoy != null && v.forecast_yoy != null ? v.yoy < v.forecast_yoy : null,
-            unit: 'lower = beat for markets',
+            name:  'CPI (YoY)',
+            date:  v.release_date || fred.as_of,
+            actual: v.yoy       != null ? v.yoy.toFixed(1)       + '%' : '—',
+            prior:  v.prior_yoy != null ? v.prior_yoy.toFixed(1) + '%' : '—',
+            beat, spy: v.spy_reaction, unit: 'lower = beat for markets',
         });
     }
     if (fred?.GDPC1) {
         const v = fred.GDPC1;
+        const beat = v.qoq_pct != null && v.prior_qoq != null ? v.qoq_pct > v.prior_qoq : null;
         releases.push({
-            name: 'Real GDP (QoQ ann.)', date: v.release_date || fred.as_of,
-            actual:   v.qoq_pct   != null ? v.qoq_pct.toFixed(1) + '%'      : '—',
-            forecast: v.forecast_qoq != null ? v.forecast_qoq.toFixed(1) + '%' : '—',
-            beat: v.qoq_pct != null && v.forecast_qoq != null ? v.qoq_pct > v.forecast_qoq : null,
-            unit: 'annualized',
+            name:  'Real GDP (QoQ ann.)',
+            date:  v.release_date || fred.as_of,
+            actual: v.qoq_pct  != null ? v.qoq_pct.toFixed(1)  + '%' : '—',
+            prior:  v.prior_qoq != null ? v.prior_qoq.toFixed(1) + '%' : '—',
+            beat, spy: v.spy_reaction, unit: 'annualized',
         });
     }
     if (fred?.UNRATE) {
         const v = fred.UNRATE;
+        const beat = v.value != null && v.prior_val != null ? v.value < v.prior_val : null;
         releases.push({
-            name: 'Unemployment Rate', date: v.release_date || fred.as_of,
-            actual:   v.value    != null ? v.value.toFixed(1) + '%'    : '—',
-            forecast: v.forecast != null ? v.forecast.toFixed(1) + '%' : '—',
-            beat: v.value != null && v.forecast != null ? v.value < v.forecast : null,
-            unit: 'lower = beat',
+            name:  'Unemployment Rate',
+            date:  v.release_date || fred.as_of,
+            actual: v.value    != null ? v.value.toFixed(1)    + '%' : '—',
+            prior:  v.prior_val != null ? v.prior_val.toFixed(1) + '%' : '—',
+            beat, spy: v.spy_reaction, unit: 'lower = beat',
         });
     }
 
     if (releases.length === 0) {
         document.getElementById('macroReleasesTable').innerHTML =
-            '<div class="macro-empty">No release data in fred_data.json. Add <code>release_date</code>, <code>forecast</code> fields to each series.</div>';
+            '<div class="macro-empty">No release data available. Confirm the daily workflow has run.</div>';
         return;
     }
 
     const rows = releases.map(r => {
+        // Beat/miss badge
         const beatClass = r.beat === true ? 'release-beat' : r.beat === false ? 'release-miss' : 'release-inline';
-        const beatLabel = r.beat === true ? '✓ Beat' : r.beat === false ? '✗ Miss' : '—';
+        const beatLabel = r.beat === true ? '↑ vs Prior' : r.beat === false ? '↓ vs Prior' : '—';
+
+        // SPY reaction cell
+        let spyHtml = '—';
+        if (r.spy != null) {
+            const spyColor = r.spy > 0 ? '#00d4aa' : r.spy < 0 ? '#ff4757' : '#808080';
+            const spySign  = r.spy > 0 ? '+' : '';
+            spyHtml = `<span style="color:${spyColor};font-weight:600;">${spySign}${r.spy.toFixed(2)}%</span>`;
+        }
+
         return `<tr>
             <td style="color:#e0e0e0;">${r.name}</td>
             <td style="color:#808080;">${r.date || '—'}</td>
             <td><strong>${r.actual}</strong></td>
-            <td style="color:#606060;">${r.forecast}</td>
+            <td style="color:#909090;">${r.prior}</td>
             <td class="${beatClass}">${beatLabel}</td>
+            <td>${spyHtml}</td>
             <td style="color:#606060;font-size:11px;">${r.unit}</td>
         </tr>`;
     }).join('');
@@ -3799,8 +3814,8 @@ function renderMacroReleases(fred) {
         <table class="release-table">
             <thead>
                 <tr>
-                    <th>Indicator</th><th>Release Date</th><th>Actual</th>
-                    <th>Consensus</th><th>Result</th><th>Note</th>
+                    <th>Indicator</th><th>Date</th><th>Actual</th>
+                    <th>Prior Period</th><th>vs Prior</th><th>SPY React.</th><th>Note</th>
                 </tr>
             </thead>
             <tbody>${rows}</tbody>
