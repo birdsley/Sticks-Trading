@@ -3028,20 +3028,27 @@ function renderStrategyCards(s) {
     ).join('');
 
     // ── Open positions table ───────────────────────────────────────
-    const posData     = state.positions?.[s];
-    const posListRaw  = posData?.positions || [];
-    const cash        = posData?.cash;
-    const asOf        = posData?.as_of || '';
+    // In single-strategy view the holdings panel at the top already shows positions,
+    // so skip the duplicate table here. Only render when "All Strategies" is active.
     const containerId = s + 'PositionsContainer';
-
-    // Create container div once if needed (append after analytics cards)
     let container = document.getElementById(containerId);
     if (!container) {
         container = document.createElement('div');
-        container.id       = containerId;
+        container.id = containerId;
         container.style.cssText = 'margin-top:14px;';
         document.getElementById(s + 'AnalyticsCards').parentElement.appendChild(container);
     }
+
+    if (currentStrategy !== 'all') {
+        // Hide — positions already shown in the holdings panel above the analytics section
+        container.innerHTML = '';
+        return;
+    }
+
+    const posData    = state.positions?.[s];
+    const posListRaw = posData?.positions || [];
+    const cash       = posData?.cash;
+    const asOf       = posData?.as_of || '';
 
     if (!posData) {
         container.innerHTML = '';
@@ -3051,12 +3058,10 @@ function renderStrategyCards(s) {
             Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
         </div>`;
     } else {
-        // Sort: oldest entry_date first (longest holding), then alphabetical
         const sorted = [...posListRaw].sort((a, b) => {
             const d = (a.entry_date || '').localeCompare(b.entry_date || '');
             return d !== 0 ? d : (a.ticker || '').localeCompare(b.ticker || '');
         });
-
         renderPositionsTable(container, s, sorted, false, cash, asOf);
     }
 }
@@ -3605,6 +3610,16 @@ async function loadIntradayData() {
     }, { responsive:true, displayModeBar:false });
 
     document.getElementById('intradayResults').style.display = 'block';
+
+    // Force Plotly to recalculate widths — necessary when the container is first
+    // made visible (before browser has painted the final layout dimensions).
+    const chartIds = ['intradayChart','intradayVolatilityChart','intradayVolumeProfileChart','intradayMeanRevChart'];
+    setTimeout(() => {
+        chartIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el._fullLayout) Plotly.Plots.resize(el);
+        });
+    }, 60);
 }
 
 // ── Held-ticker strip ────────────────────────────────────────────
