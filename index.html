@@ -348,6 +348,48 @@
         .autocomplete-item.highlighted    { background-color: #00d4aa; color: #0a0a0a; }
         .autocomplete-no-results          { padding: 10px 12px; color: #606060; font-size: 13px; font-style: italic; }
         .ticker-count                     { font-size: 11px; color: #606060; margin-top: 4px; }
+
+        /* ── Held-ticker quick-select strip ── */
+        .held-strip-label {
+            font-size: 10.5px; color: #505050; text-transform: uppercase;
+            letter-spacing: 0.6px; margin-bottom: 8px; font-weight: 600;
+        }
+        .held-strip {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            overflow-x: auto; padding-bottom: 2px;
+        }
+        .held-pill {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 6px 12px; border-radius: 8px; cursor: pointer;
+            border: 1px solid rgba(0,212,170,0.30);
+            background: rgba(0,212,170,0.07);
+            transition: background 0.15s, border-color 0.15s;
+            min-width: 62px; text-align: center; flex-shrink: 0;
+        }
+        .held-pill:hover { background: rgba(0,212,170,0.15); border-color: rgba(0,212,170,0.55); }
+        .held-pill.active {
+            background: rgba(0,212,170,0.22); border-color: #00d4aa;
+            box-shadow: 0 0 0 1px rgba(0,212,170,0.25);
+        }
+        .held-pill-ticker { font-size: 13px; font-weight: 700; color: #00d4aa; letter-spacing: 0.2px; }
+        .held-pill-side   { font-size: 9.5px; font-weight: 600; letter-spacing: 0.3px; margin-top: 1px; }
+        .held-pill-date   { font-size: 9px; color: #505050; margin-top: 1px; }
+
+        /* ── Position info bar ── */
+        .pos-info-bar {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            background: #0d0d0d; border: 1px solid #1f1f1f;
+            border-radius: 8px; padding: 8px 14px;
+            font-size: 12px; color: #808080; margin-bottom: 16px;
+        }
+        .pos-info-badge {
+            font-size: 10px; font-weight: 700; padding: 2px 8px;
+            border-radius: 4px; text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .pos-info-badge.held    { background: rgba(0,212,170,0.15); color: #00d4aa; }
+        .pos-info-badge.closed  { background: rgba(255,159,67,0.15); color: #ff9f43; }
+        .pos-info-badge.short   { background: rgba(255,107,107,0.15); color: #ff6b6b; }
+        .pos-info-sep           { color: #2a2a2a; }
         .analyze-btn {
             background: linear-gradient(135deg, #00d4aa 0%, #00a8ff 100%);
             border: none; color: white; padding: 10px 20px; border-radius: 6px;
@@ -1565,19 +1607,19 @@
 
         <!-- Per-strategy sections -->
         <div id="analyticsStrategyContent">
-            <div class="strategy-section-header">
+            <div class="strategy-section-header" id="sticksSection">
                 <span class="strategy-section-badge sticks">Sticks TGA</span>
                 <span style="font-size:13px;color:#606060;">Topological Graph Arbitrage — daily mean reversion</span>
             </div>
             <div class="analytics-cards" id="sticksAnalyticsCards"></div>
 
-            <div class="strategy-section-header">
+            <div class="strategy-section-header" id="markowitzSection">
                 <span class="strategy-section-badge markowitz">Markowitz</span>
                 <span style="font-size:13px;color:#606060;">Mean-variance optimization — Monday rebalance</span>
             </div>
             <div class="analytics-cards" id="markowitzAnalyticsCards"></div>
 
-            <div class="strategy-section-header">
+            <div class="strategy-section-header" id="drlSection">
                 <span class="strategy-section-badge drl">DRL Vol</span>
                 <span style="font-size:13px;color:#606060;">Deep RL volatility targeting — 9 ETF universe</span>
             </div>
@@ -1613,6 +1655,12 @@
 <!-- ══════════════════════════════════════════════ TICKER TAB ══ -->
 <div id="ticker-tab" class="tab-content">
 
+    <!-- Held-ticker quick-select (Sticks TGA current positions) -->
+    <div id="heldTickerStrip" style="display:none; margin-bottom:18px;">
+        <div class="held-strip-label">Currently Held — Sticks TGA &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
+        <div class="held-strip" id="heldTickerPills"></div>
+    </div>
+
     <!-- Controls: Ticker + Date + Button -->
     <div class="ticker-controls" style="grid-template-columns:2fr 1fr auto;">
         <div class="control-group">
@@ -1636,6 +1684,9 @@
             </button>
         </div>
     </div>
+
+    <!-- Position info bar: entry/sold info for selected ticker -->
+    <div id="tickerPositionBar" style="display:none;" class="pos-info-bar"></div>
 
     <!-- Loading -->
     <div id="intradayLoading" style="display:none;" class="chart-container">
@@ -1936,6 +1987,10 @@ async function loadAll() {
 
         refreshPerformanceTab();
         refreshOverviewStats();
+        // Refresh held-ticker strip if the ticker tab is visible
+        if (document.getElementById('ticker-tab').classList.contains('active')) {
+            renderHeldTickers();
+        }
         setStatus('ok', 'Updated ' + new Date().toLocaleTimeString());
 
     } catch(err) {
@@ -2192,9 +2247,10 @@ function refreshPerformanceTab() {
             const alphaShrpe  = m.sharpe - spyM.sharpe;
             const deltaDD  = m.maxDD - spyM.maxDD;
 
+            // Show SPY's own return here to stay consistent with the chart
             const alphaEl = document.getElementById('metAlpha');
-            alphaEl.textContent = fmtPct(alpha);
-            alphaEl.style.color = alpha >= 0 ? '#00d4aa' : '#ff4757';
+            alphaEl.textContent = fmtPct(spyM.totalReturn);
+            alphaEl.style.color = spyM.totalReturn >= 0 ? '#00d4aa' : '#ff4757';
 
             const setVal = (id, val, sign=true) => {
                 const el = document.getElementById(id);
@@ -2912,8 +2968,9 @@ function chartOptions() {
 //  ANALYTICS TAB
 // ══════════════════════════════════════════════════════════════
 function renderAnalyticsTab() {
-    // Summary cards across all three strategies
-    const cardsHtml = STRATEGIES.map(s => {
+    // Summary row: show all strategies when 'all', otherwise just the selected one
+    const summaryStrats = currentStrategy === 'all' ? STRATEGIES : [currentStrategy];
+    const cardsHtml = summaryStrats.map(s => {
         const m = computeMetrics(state.equity[s]);
         if (!m) return '';
         return `<div class="analytics-card">
@@ -2924,18 +2981,21 @@ function renderAnalyticsTab() {
     }).join('');
     document.getElementById('analyticsCards').innerHTML = cardsHtml;
 
-    // Per-strategy detail cards
-    renderStrategyCards('sticks');
-    renderStrategyCards('markowitz');
-    renderStrategyCards('drl');
+    // Per-strategy detail sections — show only selected strategy (or all when 'all')
+    STRATEGIES.forEach(s => {
+        const visible = currentStrategy === 'all' || currentStrategy === s;
+        const display = visible ? '' : 'none';
+        document.getElementById(s + 'Section').style.display           = display;
+        document.getElementById(s + 'AnalyticsCards').style.display    = display;
+        // positions container may not exist yet on first render — handled in renderStrategyCards
+        const posEl = document.getElementById(s + 'PositionsContainer');
+        if (posEl) posEl.style.display = display;
+        if (visible) renderStrategyCards(s);
+    });
 
     // Strategy comparison line chart
     renderStrategyCompareChart();
-
-    // Daily fill rate bar chart
     renderFillRateChart();
-
-    // Correlation chart (if enough data)
     renderCorrelationChart();
 }
 
@@ -2968,61 +3028,102 @@ function renderStrategyCards(s) {
     ).join('');
 
     // ── Open positions table ───────────────────────────────────────
-    const posData  = state.positions?.[s];
-    const posList  = posData?.positions || [];
-    const cash     = posData?.cash;
-    const asOf     = posData?.as_of || '';
+    const posData     = state.positions?.[s];
+    const posListRaw  = posData?.positions || [];
+    const cash        = posData?.cash;
+    const asOf        = posData?.as_of || '';
     const containerId = s + 'PositionsContainer';
 
-    // Create container div once if needed
+    // Create container div once if needed (append after analytics cards)
     let container = document.getElementById(containerId);
     if (!container) {
         container = document.createElement('div');
-        container.id = containerId;
+        container.id       = containerId;
         container.style.cssText = 'margin-top:14px;';
         document.getElementById(s + 'AnalyticsCards').parentElement.appendChild(container);
     }
 
     if (!posData) {
-        container.innerHTML = '';   // positions file not yet synced — stay silent
-    } else if (posList.length === 0) {
-        container.innerHTML = `<div style="font-size:13px;color:#606060;margin-top:4px;">No open positions${asOf ? ' as of ' + asOf : ''} — cash $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}</div>`;
+        container.innerHTML = '';
+    } else if (posListRaw.length === 0) {
+        container.innerHTML = `<div style="font-size:13px;color:#606060;margin-top:4px;">
+            No open positions${asOf ? ' as of ' + asOf : ''} &nbsp;|&nbsp;
+            Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
+        </div>`;
     } else {
-        const rows = posList.map(p => {
-            const shares = p.shares ?? 0;
-            const side   = shares < 0 ? 'SHORT' : 'LONG';
-            const sideColor = shares < 0 ? '#ff6b6b' : '#00d4aa';
-            const notional = Math.abs(shares) * (p.avg_cost ?? 0);
-            return `<tr>
-                <td style="font-weight:600;">${p.ticker ?? '—'}</td>
-                <td><span style="color:${sideColor};font-size:11px;font-weight:700;">${side}</span></td>
-                <td style="text-align:right;">${Math.abs(shares).toLocaleString()}</td>
-                <td style="text-align:right;">$${(p.avg_cost ?? 0).toFixed(2)}</td>
-                <td style="text-align:right;">$${notional.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
-                <td style="color:#808080;">${p.entry_date ?? '—'}</td>
-            </tr>`;
-        }).join('');
-        container.innerHTML = `
-            <div style="font-size:12px;color:#808080;margin-bottom:6px;">
-                Open positions${asOf ? ' — as of ' + asOf : ''}
-                &nbsp;|&nbsp; Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
-            </div>
-            <div style="overflow-x:auto;">
-            <table style="width:100%;border-collapse:collapse;font-size:13px;">
-                <thead>
-                    <tr style="color:#808080;border-bottom:1px solid #2a2a2a;">
-                        <th style="text-align:left;padding:4px 8px 4px 0;">Ticker</th>
-                        <th style="text-align:left;padding:4px 8px;">Side</th>
-                        <th style="text-align:right;padding:4px 8px;">Shares</th>
-                        <th style="text-align:right;padding:4px 8px;">Avg Cost</th>
-                        <th style="text-align:right;padding:4px 8px;">Notional</th>
-                        <th style="text-align:left;padding:4px 0 4px 8px;">Entry</th>
-                    </tr>
-                </thead>
-                <tbody style="color:#e0e0e0;">${rows}</tbody>
-            </table>
-            </div>`;
+        // Sort: oldest entry_date first (longest holding), then alphabetical
+        const sorted = [...posListRaw].sort((a, b) => {
+            const d = (a.entry_date || '').localeCompare(b.entry_date || '');
+            return d !== 0 ? d : (a.ticker || '').localeCompare(b.ticker || '');
+        });
+
+        renderPositionsTable(container, s, sorted, false, cash, asOf);
     }
+}
+
+// Track which strategies have their positions expanded
+const positionsExpanded = { sticks: false, markowitz: false, drl: false };
+
+function renderPositionsTable(container, s, sorted, expanded, cash, asOf) {
+    const LIMIT   = 8;
+    const toShow  = expanded ? sorted : sorted.slice(0, LIMIT);
+    const hasMore = sorted.length > LIMIT;
+
+    const rows = toShow.map(p => {
+        const shares    = p.shares ?? 0;
+        const side      = shares < 0 ? 'SHORT' : 'LONG';
+        const sideColor = shares < 0 ? '#ff6b6b' : '#00d4aa';
+        const notional  = Math.abs(shares) * (p.avg_cost ?? 0);
+        return `<tr style="border-bottom:1px solid #1a1a1a;">
+            <td style="padding:5px 8px 5px 0;font-weight:600;">${p.ticker ?? '—'}</td>
+            <td style="padding:5px 8px;"><span style="color:${sideColor};font-size:11px;font-weight:700;">${side}</span></td>
+            <td style="padding:5px 8px;text-align:right;">${Math.abs(shares).toLocaleString()}</td>
+            <td style="padding:5px 8px;text-align:right;">$${(p.avg_cost ?? 0).toFixed(2)}</td>
+            <td style="padding:5px 8px;text-align:right;">$${notional.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}</td>
+            <td style="padding:5px 0 5px 8px;color:#808080;font-size:12px;">${p.entry_date ?? '—'}</td>
+        </tr>`;
+    }).join('');
+
+    const expandBtn = hasMore ? `
+        <button onclick="togglePositionsExpand('${s}')"
+            style="margin-top:8px;background:none;border:1px solid #2a2a2a;color:#808080;
+                   padding:4px 12px;border-radius:5px;cursor:pointer;font-size:12px;">
+            ${expanded ? 'Show less' : 'Show all ' + sorted.length + ' positions'}
+        </button>` : '';
+
+    container.innerHTML = `
+        <div style="font-size:12px;color:#808080;margin-bottom:6px;">
+            ${LABELS[s]} — Open Positions${asOf ? ' as of ' + asOf : ''}
+            &nbsp;|&nbsp; Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
+            &nbsp;|&nbsp; ${sorted.length} position${sorted.length !== 1 ? 's' : ''} (showing ${toShow.length})
+        </div>
+        <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+                <tr style="color:#606060;border-bottom:1px solid #2a2a2a;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;">
+                    <th style="text-align:left;padding:4px 8px 4px 0;">Ticker</th>
+                    <th style="text-align:left;padding:4px 8px;">Side</th>
+                    <th style="text-align:right;padding:4px 8px;">Shares</th>
+                    <th style="text-align:right;padding:4px 8px;">Avg Cost</th>
+                    <th style="text-align:right;padding:4px 8px;">Notional</th>
+                    <th style="text-align:left;padding:4px 0 4px 8px;">Entry</th>
+                </tr>
+            </thead>
+            <tbody style="color:#e0e0e0;">${rows}</tbody>
+        </table>
+        </div>${expandBtn}`;
+}
+
+function togglePositionsExpand(s) {
+    positionsExpanded[s] = !positionsExpanded[s];
+    const posData = state.positions?.[s];
+    if (!posData) return;
+    const sorted = [...(posData.positions || [])].sort((a, b) => {
+        const d = (a.entry_date || '').localeCompare(b.entry_date || '');
+        return d !== 0 ? d : (a.ticker || '').localeCompare(b.ticker || '');
+    });
+    const container = document.getElementById(s + 'PositionsContainer');
+    if (container) renderPositionsTable(container, s, sorted, positionsExpanded[s], posData.cash, posData.as_of || '');
 }
 
 function renderStrategyCompareChart() {
@@ -3506,11 +3607,143 @@ async function loadIntradayData() {
     document.getElementById('intradayResults').style.display = 'block';
 }
 
+// ── Held-ticker strip ────────────────────────────────────────────
+function renderHeldTickers() {
+    const strip   = document.getElementById('heldTickerStrip');
+    const pillBox = document.getElementById('heldTickerPills');
+    const countEl = document.getElementById('heldStripCount');
+    const pos     = state.positions?.sticks?.positions || [];
+
+    if (!pos.length) { strip.style.display = 'none'; return; }
+
+    strip.style.display = 'block';
+    countEl.textContent = `(${pos.length})`;
+
+    // Sort: oldest entry first, then alpha
+    const sorted = [...pos].sort((a, b) => {
+        const d = (a.entry_date || '').localeCompare(b.entry_date || '');
+        return d !== 0 ? d : (a.ticker || '').localeCompare(b.ticker || '');
+    });
+
+    pillBox.innerHTML = sorted.map(p => {
+        const shares   = p.shares ?? 0;
+        const side     = shares < 0 ? 'SHORT' : 'LONG';
+        const sideColor= shares < 0 ? '#ff6b6b' : '#00d4aa';
+        return `<div class="held-pill" id="pill-${p.ticker}"
+                    onclick="selectHeldTicker('${p.ticker}','${p.entry_date || ''}')">
+            <div class="held-pill-ticker">${p.ticker}</div>
+            <div class="held-pill-side" style="color:${sideColor}">${side}</div>
+            <div class="held-pill-date">${(p.entry_date || '').slice(5)}</div>
+        </div>`;
+    }).join('');
+}
+
+function selectHeldTicker(ticker, entryDate) {
+    // Highlight pill
+    document.querySelectorAll('.held-pill').forEach(el => el.classList.remove('active'));
+    const pill = document.getElementById('pill-' + ticker);
+    if (pill) pill.classList.add('active');
+
+    pickTicker(ticker);
+
+    // Set date to today so we see the most recent minute data (fallback logic handles it)
+    const today = new Date();
+    const dow = today.getDay();
+    const daysBack = dow === 0 ? 2 : dow === 6 ? 1 : 0;
+    const dt = new Date(today);
+    dt.setDate(dt.getDate() - daysBack);
+    document.getElementById('minuteDate').value = dt.toISOString().split('T')[0];
+
+    loadIntradayData();
+}
+
+// Build position info bar for any ticker (held or past)
+function updateTickerPositionBar(ticker) {
+    const bar   = document.getElementById('tickerPositionBar');
+    const upper = (ticker || '').toUpperCase();
+
+    // Check if currently held by Sticks
+    const held = (state.positions?.sticks?.positions || [])
+        .find(p => (p.ticker || '').toUpperCase() === upper);
+
+    // Find all Sticks orders for this ticker, sorted chronologically
+    const orders = (state.orders?.sticks || [])
+        .filter(o => (o.ticker || '').toUpperCase() === upper)
+        .sort((a, b) => a.decision_ts_utc.localeCompare(b.decision_ts_utc));
+
+    const opens  = orders.filter(o => o.position_action === 'open');
+    const closes = orders.filter(o => o.position_action === 'close');
+
+    if (!held && closes.length === 0 && opens.length === 0) {
+        bar.style.display = 'none';
+        return;
+    }
+
+    bar.style.display = 'flex';
+
+    if (held) {
+        // Currently held
+        const shares = held.shares ?? 0;
+        const side   = shares < 0 ? 'SHORT' : 'LONG';
+        const sideClass = shares < 0 ? 'short' : 'held';
+        const days   = held.entry_date
+            ? Math.round((new Date() - new Date(held.entry_date)) / 86400000)
+            : '?';
+        bar.innerHTML = `
+            <span class="pos-info-badge held">Sticks TGA</span>
+            <span class="pos-info-badge ${sideClass}">${side}</span>
+            <span class="pos-info-sep">·</span>
+            <span>Entered <strong style="color:#e0e0e0;">${held.entry_date || '—'}</strong></span>
+            <span class="pos-info-sep">·</span>
+            <span>@ <strong style="color:#e0e0e0;">$${(held.avg_cost || 0).toFixed(2)}</strong></span>
+            <span class="pos-info-sep">·</span>
+            <span style="color:#00d4aa;">${Math.abs(shares)} shares</span>
+            <span class="pos-info-sep">·</span>
+            <span>Holding <strong style="color:#e0e0e0;">${days} day${days !== 1 ? 's' : ''}</strong></span>`;
+    } else if (closes.length > 0) {
+        // Past closed trade
+        const lastClose = closes[closes.length - 1];
+        const firstOpen = opens[0];
+        const isLong    = firstOpen?.side === 'buy';
+        const side      = isLong ? 'LONG' : 'SHORT';
+        const sideClass = isLong ? 'held' : 'short';
+        const exitReason= lastClose.strategy_metrics?.exit_reason || 'closed';
+        const exitLabel = exitReason.replace(/_/g, ' ');
+        const entryDate = firstOpen?.trade_date || '—';
+        const exitDate  = lastClose.trade_date  || '—';
+        const days = (entryDate !== '—' && exitDate !== '—')
+            ? Math.round((new Date(exitDate) - new Date(entryDate)) / 86400000)
+            : '?';
+        const entryP = firstOpen?.intended_price || 0;
+        const exitP  = lastClose.intended_price  || 0;
+        const qty    = lastClose.intended_shares  || 0;
+        const pnl    = isLong ? (exitP - entryP) * qty : (entryP - exitP) * qty;
+        const pnlColor = pnl >= 0 ? '#00d4aa' : '#ff4757';
+        bar.innerHTML = `
+            <span class="pos-info-badge closed">Sticks TGA — Closed</span>
+            <span class="pos-info-badge ${sideClass}">${side}</span>
+            <span class="pos-info-sep">·</span>
+            <span>Entered <strong style="color:#e0e0e0;">${entryDate}</strong>
+                @ <strong style="color:#e0e0e0;">$${entryP.toFixed(2)}</strong></span>
+            <span class="pos-info-sep">·</span>
+            <span>Sold <strong style="color:#ff9f43;">${exitDate}</strong>
+                @ <strong style="color:#e0e0e0;">$${exitP.toFixed(2)}</strong>
+                (${days} day${days !== 1 ? 's' : ''})</span>
+            <span class="pos-info-sep">·</span>
+            <span>P&amp;L: <strong style="color:${pnlColor};">${pnl >= 0 ? '+' : ''}$${Math.abs(pnl).toFixed(2)}</strong></span>
+            <span class="pos-info-sep">·</span>
+            <span style="color:#606060;font-size:11px;">${exitLabel}</span>`;
+    }
+}
+
 function initTickerTab() {
     const input    = document.getElementById('tickerInput');
     const dropdown = document.getElementById('tickerDropdown');
     if (input._init) return;
     input._init = true;
+
+    // Populate the held-ticker strip whenever the tab opens
+    renderHeldTickers();
 
     // Default to most recent non-weekend day
     const today = new Date();
@@ -3561,6 +3794,13 @@ function pickTicker(ticker) {
     document.getElementById('tickerDropdown').classList.remove('active');
     document.getElementById('analyzeBtn').disabled = false;
     highlightIdx = -1;
+    // Deactivate all pills when picking via search (selectHeldTicker activates its own)
+    const isHeldPill = document.getElementById('pill-' + ticker);
+    if (!isHeldPill) {
+        document.querySelectorAll('.held-pill').forEach(el => el.classList.remove('active'));
+    }
+    // Show position info bar immediately
+    updateTickerPositionBar(ticker);
 }
 
 async function analyzeTicker() {
