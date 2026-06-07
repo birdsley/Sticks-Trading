@@ -1038,6 +1038,125 @@
         /* ── Entrance animation for tab content ── */
         @keyframes fadeRise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .tab-content.active { animation: fadeRise 0.4s ease both; }
+
+        /* ════════════════════════════════════════════════════════════
+           ║  INTENSITY LAYER 2  ·  motion, glow, life                  ║
+           ════════════════════════════════════════════════════════════ */
+
+        /* ── Slow-drifting aurora behind everything ── */
+        body::before {
+            content: ''; position: fixed; inset: -25% -12% -12% -12%;
+            z-index: -1; pointer-events: none;
+            background:
+                radial-gradient(40% 50% at 18% 28%, rgba(0,212,170,0.11), transparent 60%),
+                radial-gradient(38% 48% at 84% 20%, rgba(0,168,255,0.10), transparent 60%),
+                radial-gradient(46% 56% at 66% 90%, rgba(255,159,67,0.06), transparent 62%);
+            filter: blur(46px) saturate(125%);
+            animation: auroraDrift 28s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        @keyframes auroraDrift {
+            0%   { transform: translate3d(0,0,0) scale(1); }
+            50%  { transform: translate3d(2.6%,1.6%,0) scale(1.09); }
+            100% { transform: translate3d(-2.2%,-1.1%,0) scale(1.05); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            body::before, .metric-card::before, .main-tab.active,
+            .status-dot, .canvas-dot-ind { animation: none !important; }
+        }
+
+        /* ── Shimmering accent rail on metric cards ── */
+        .metric-card::before {
+            background: linear-gradient(90deg, var(--teal), var(--blue), var(--orange), var(--teal));
+            background-size: 300% 100%;
+            animation: railShimmer 6s linear infinite;
+            height: 2.5px;
+        }
+        @keyframes railShimmer { to { background-position: -300% 0; } }
+
+        /* ── Major panels: glow border on hover ── */
+        .chart-container:hover, .allocation-container:hover, .diagnostic-card:hover,
+        .benchmark-comparison:hover, .history-container:hover, .mini-chart-container:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0,212,170,0.28);
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,212,170,0.10), 0 0 30px rgba(0,212,170,0.05);
+        }
+
+        /* ── Animated pulse-ring on the active main tab ── */
+        .main-tab.active {
+            position: relative;
+            animation: tabGlow 3.4s ease-in-out infinite;
+        }
+        @keyframes tabGlow {
+            0%,100% { box-shadow: 0 4px 14px rgba(0,212,170,0.34), 0 1px 0 rgba(255,255,255,0.25) inset; }
+            50%     { box-shadow: 0 6px 22px rgba(0,212,170,0.55), 0 1px 0 rgba(255,255,255,0.3) inset; }
+        }
+
+        /* ── Staggered card reveal on tab activation ── */
+        .tab-content.active .metrics-grid .metric-card,
+        .tab-content.active .analytics-cards .analytics-card,
+        .tab-content.active .ticker-metrics-grid .ticker-metric-card,
+        .tab-content.active .macro-kpi-grid .indicator-card {
+            animation: cardRise 0.55s cubic-bezier(.2,.7,.2,1) both;
+        }
+        @keyframes cardRise {
+            from { opacity: 0; transform: translateY(16px) scale(.975); }
+            to   { opacity: 1; transform: none; }
+        }
+        .tab-content.active .metric-card:nth-child(1),
+        .tab-content.active .analytics-card:nth-child(1),
+        .tab-content.active .ticker-metric-card:nth-child(1),
+        .tab-content.active .indicator-card:nth-child(1) { animation-delay: .03s; }
+        .tab-content.active .metric-card:nth-child(2),
+        .tab-content.active .analytics-card:nth-child(2),
+        .tab-content.active .ticker-metric-card:nth-child(2),
+        .tab-content.active .indicator-card:nth-child(2) { animation-delay: .08s; }
+        .tab-content.active .metric-card:nth-child(3),
+        .tab-content.active .analytics-card:nth-child(3),
+        .tab-content.active .ticker-metric-card:nth-child(3),
+        .tab-content.active .indicator-card:nth-child(3) { animation-delay: .13s; }
+        .tab-content.active .metric-card:nth-child(4),
+        .tab-content.active .analytics-card:nth-child(4),
+        .tab-content.active .ticker-metric-card:nth-child(4),
+        .tab-content.active .indicator-card:nth-child(4) { animation-delay: .18s; }
+        .tab-content.active .metric-card:nth-child(5),
+        .tab-content.active .analytics-card:nth-child(5),
+        .tab-content.active .ticker-metric-card:nth-child(5),
+        .tab-content.active .indicator-card:nth-child(5) { animation-delay: .23s; }
+        .tab-content.active .metric-card:nth-child(6),
+        .tab-content.active .analytics-card:nth-child(6),
+        .tab-content.active .ticker-metric-card:nth-child(6),
+        .tab-content.active .indicator-card:nth-child(6) { animation-delay: .28s; }
+        .tab-content.active .metric-card:nth-child(n+7),
+        .tab-content.active .indicator-card:nth-child(n+7) { animation-delay: .33s; }
+
+        /* ── Value-change flash (driven by count-up JS) ── */
+        .cu-flash { animation: cuFlash 0.7s ease-out; }
+        @keyframes cuFlash {
+            0%   { text-shadow: 0 0 4px currentColor; filter: brightness(1.55); }
+            100% { text-shadow: none; filter: brightness(1); }
+        }
+
+        /* ── Animated gradient drift on hero & narrative ── */
+        .overview-hero, .narrative-card { background-size: 100% 100%, 200% 200%; }
+        .overview-hero::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: radial-gradient(600px 200px at var(--mx,80%) var(--my,10%), rgba(0,212,170,0.08), transparent 60%);
+            opacity: .8; transition: background-position .3s;
+        }
+
+        /* ── Logo mark: gentle living gradient ── */
+        .logo-icon {
+            background: linear-gradient(135deg, #00e6b8 0%, #00a8ff 100%);
+            background-size: 160% 160%;
+            animation: logoFlow 8s ease infinite;
+        }
+        @keyframes logoFlow { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+        /* ── Refined focus-visible for accessibility ── */
+        button:focus-visible, .main-tab:focus-visible, .pill-btn:focus-visible {
+            outline: 2px solid var(--teal); outline-offset: 2px;
+        }
     </style>
 </head>
 <body>
@@ -1153,9 +1272,9 @@
                     <span class="canvas-label-text" id="canvasLabelText">MST Network — Topological Graph Arbitrage</span>
                 </div>
                 <div style="position:relative; height:420px;">
-                    <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
-                    <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
-                    <iframe id="demo-drl"        src="demos/drl_wave.html"            style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="DRL Wave"></iframe>
+                    <iframe id="demo-tga"        src="demos/tga_network_test.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
+                    <iframe id="demo-markowitz"  src="demos/markowitz_frontier_test.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
+                    <iframe id="demo-drl"        src="demos/drl_wave_test.html"            style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="DRL Wave"></iframe>
                 </div>
             </div>
         </div>
@@ -1475,14 +1594,13 @@
 <!-- ══════════════════════════════════════════════ TICKER TAB ══ -->
 <div id="ticker-tab" class="tab-content">
 
-    <!-- Controls row -->
-    <div class="ticker-controls">
+    <!-- Controls: Ticker + Date + Button -->
+    <div class="ticker-controls" style="grid-template-columns:2fr 1fr auto;">
         <div class="control-group">
             <label class="control-label">Ticker Symbol</label>
             <div class="autocomplete-container">
                 <input type="text" class="autocomplete-input" id="tickerInput"
-                    placeholder="Type to search (e.g., AAPL, MSFT, TSLA…)"
-                    autocomplete="off">
+                    placeholder="Type to search (e.g., AAPL, MSFT, TSLA…)" autocomplete="off">
                 <div class="autocomplete-dropdown" id="tickerDropdown"></div>
             </div>
             <div class="ticker-count" id="tickerCount">505 S&amp;P 500 tickers available</div>
@@ -1490,17 +1608,7 @@
         <div class="control-group">
             <label class="control-label">Date (intraday)</label>
             <input type="date" class="control-input" id="minuteDate">
-        </div>
-        <div class="control-group">
-            <label class="control-label">Daily period</label>
-            <select class="control-select" id="tickerPeriod">
-                <option value="all">All available (from date ↑)</option>
-                <option value="1mo">1 Month</option>
-                <option value="3mo">3 Months</option>
-                <option value="6mo">6 Months</option>
-                <option value="1y">1 Year</option>
-                <option value="2y">2 Years</option>
-            </select>
+            <div style="font-size:11px;color:#505050;margin-top:4px;">Falls back to most recent day if no data on selected date</div>
         </div>
         <div class="control-group">
             <label class="control-label" style="opacity:0;">Action</label>
@@ -1510,89 +1618,62 @@
         </div>
     </div>
 
-    <!-- Sub-tabs: Intraday | Daily -->
-    <div class="inner-tabs" id="tickerInnerTabs">
-        <div class="inner-tab active" onclick="switchTickerView(event,'intraday')">Intraday Minute</div>
-        <div class="inner-tab"        onclick="switchTickerView(event,'daily')">Daily OHLCV</div>
-    </div>
-
-    <!-- ── INTRADAY VIEW ── -->
-    <div id="ticker-intraday-view">
-        <div id="intradayLoading" style="display:none;" class="chart-container">
-            <div class="no-data-message" style="padding:40px 20px;">
-                <div style="color:#00d4aa;margin-bottom:12px;">Loading minute data…</div>
-            </div>
-        </div>
-
-        <div id="intradayResults" style="display:none;">
-            <!-- Intraday KPIs -->
-            <div class="ticker-metrics-grid" id="intradayMetrics" style="margin-bottom:20px;"></div>
-
-            <!-- Main intraday chart -->
-            <div class="chart-container">
-                <div class="chart-header">
-                    <div>
-                        <div class="chart-title" id="intradayChartTitle">Intraday Price</div>
-                        <div class="chart-subtitle" id="intradayChartSub">1-minute bars · Buy/sell markers from fills</div>
-                    </div>
-                </div>
-                <div id="intradayChart" style="height:480px;"></div>
-            </div>
-
-            <!-- Volume bar chart -->
-            <div class="chart-container" style="margin-top:20px;">
-                <div class="chart-header">
-                    <div class="chart-title">Intraday Volume</div>
-                    <div class="chart-subtitle">1-minute volume bars</div>
-                </div>
-                <div id="intradayVolChart" style="height:200px;"></div>
-            </div>
-        </div>
-
-        <div id="noIntradayData" class="chart-container">
-            <div class="no-data-message">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                <h3 style="margin-bottom:10px;">Select a ticker &amp; date</h3>
-                <p style="font-size:13px;color:#505050;">Minute data is synced daily for all held positions.<br>Only tickers traded by a strategy will have data available.</p>
-            </div>
+    <!-- Loading -->
+    <div id="intradayLoading" style="display:none;" class="chart-container">
+        <div class="no-data-message" style="padding:40px 20px;">
+            <div style="color:#00d4aa;margin-bottom:12px;">Loading minute data…</div>
         </div>
     </div>
 
-    <!-- ── DAILY OHLCV VIEW ── -->
-    <div id="ticker-daily-view" style="display:none;">
-        <div id="tickerResults" style="display:none;">
-            <div class="ticker-metrics-grid">
-                <div class="ticker-metric-card"><div class="ticker-metric-label">Period Return</div><div class="ticker-metric-value" id="tkReturn">—</div><div class="ticker-metric-sub" id="tkReturnSub">—</div></div>
-                <div class="ticker-metric-card"><div class="ticker-metric-label">Realized Vol</div><div class="ticker-metric-value" id="tkVol">—</div><div class="ticker-metric-sub">Annualized daily vol</div></div>
-                <div class="ticker-metric-card"><div class="ticker-metric-label">Current Price</div><div class="ticker-metric-value" id="tkPrice">—</div><div class="ticker-metric-sub" id="tkPriceSub">—</div></div>
-                <div class="ticker-metric-card"><div class="ticker-metric-label">Avg Daily Range</div><div class="ticker-metric-value" id="tkRange">—</div><div class="ticker-metric-sub">Avg H-L / Close</div></div>
-                <div class="ticker-metric-card"><div class="ticker-metric-label">Mean Reversion</div><div class="ticker-metric-value" id="tkMeanRev">—</div><div class="ticker-metric-sub" id="tkMeanRevSub">—</div></div>
-                <div class="ticker-metric-card"><div class="ticker-metric-label">Avg Daily Volume</div><div class="ticker-metric-value" id="tkVolume">—</div><div class="ticker-metric-sub">Shares</div></div>
+    <!-- Results -->
+    <div id="intradayResults" style="display:none;">
+
+        <!-- 6 KPI boxes -->
+        <div class="ticker-metrics-grid" id="intradayMetrics" style="margin-bottom:20px;"></div>
+
+        <!-- Main candlestick chart -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title" id="intradayChartTitle">Intraday Price</div>
+                    <div class="chart-subtitle" id="intradayChartSub">Candlesticks with VWAP &amp; Bollinger Bands</div>
+                </div>
+            </div>
+            <div id="intradayChart" style="height:500px;"></div>
+        </div>
+
+        <!-- 3 sub-charts -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px;">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Rolling Volatility</div>
+                    <div class="chart-subtitle">15-minute realized vol</div>
+                </div>
+                <div id="intradayVolatilityChart" style="height:280px;"></div>
             </div>
             <div class="chart-container">
                 <div class="chart-header">
-                    <div class="chart-title" id="tkChartTitle">Price Chart</div>
-                    <div class="chart-subtitle">Daily OHLCV with 20-day SMA &amp; Bollinger Bands</div>
+                    <div class="chart-title">Volume Profile</div>
+                    <div class="chart-subtitle">Liquidity by price level</div>
                 </div>
-                <div id="tkMainChart" class="plotly-chart"></div>
+                <div id="intradayVolumeProfileChart" style="height:280px;"></div>
             </div>
-            <div class="secondary-charts">
-                <div class="chart-container">
-                    <div class="chart-header"><div class="chart-title">Rolling Volatility</div><div class="chart-subtitle">20-day realized vol (annualized)</div></div>
-                    <div id="tkVolChart" class="plotly-chart" style="height:280px;"></div>
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Mean Reversion Behavior</div>
+                    <div class="chart-subtitle">Z-score over time</div>
                 </div>
-                <div class="chart-container">
-                    <div class="chart-header"><div class="chart-title">Z-Score (Mean Reversion)</div><div class="chart-subtitle">Price deviation from 20-day SMA</div></div>
-                    <div id="tkZScoreChart" class="plotly-chart" style="height:280px;"></div>
-                </div>
+                <div id="intradayMeanRevChart" style="height:280px;"></div>
             </div>
         </div>
-        <div id="noTickerData" class="chart-container">
-            <div class="no-data-message">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 2v1h6V2c0-.55.45-1 1-1s1 .45 1 1v1h3c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h3V2c0-.55.45-1 1-1s1 .45 1 1zm11 5H4v14h16V7zM6 10h5v5H6v-5z"/></svg>
-                <h3 style="margin-bottom:10px;">Select a ticker to begin analysis</h3>
-                <p style="font-size:14px;">Loads OHLCV data from the public repo cache</p>
-            </div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="noIntradayData" class="chart-container">
+        <div class="no-data-message">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <h3 style="margin-bottom:10px;">Select a ticker &amp; date</h3>
+            <p style="font-size:13px;color:#505050;">Minute data is synced daily for all S&amp;P 500 tickers.<br>If no data exists on the chosen date, the most recent available day is shown automatically.</p>
         </div>
     </div>
 
@@ -2316,7 +2397,6 @@ function updateStrategyHoldingsPanel() {
                 selectedTicker='${p.ticker}';
                 document.getElementById('analyzeBtn').disabled=false;
                 if('${entryDate}') document.getElementById('minuteDate').value='${entryDate}';
-                currentTickerView='intraday';
                 switchMainTab({target:document.querySelectorAll('.main-tab')[2]},'ticker');
             })()"
             title="View intraday chart for entry date">${p.ticker ?? '—'}</span>`;
@@ -2875,23 +2955,8 @@ let selectedTicker = null;
 let highlightIdx   = -1;
 
 // ══════════════════════════════════════════════════════════════
-//  TICKER TAB — intraday view
+//  TICKER TAB — minute data only
 // ══════════════════════════════════════════════════════════════
-
-let currentTickerView = 'intraday';
-
-function switchTickerView(e, view) {
-    document.querySelectorAll('#tickerInnerTabs .inner-tab').forEach(t => t.classList.remove('active'));
-    e.target.classList.add('active');
-    currentTickerView = view;
-    document.getElementById('ticker-intraday-view').style.display = view === 'intraday' ? 'block' : 'none';
-    document.getElementById('ticker-daily-view').style.display    = view === 'daily'    ? 'block' : 'none';
-    // Trigger load for whichever view is now active if ticker already selected
-    if (selectedTicker) {
-        if (view === 'intraday') loadIntradayData();
-        else                    analyzeTicker();
-    }
-}
 
 // Decompress a .csv.gz URL using pako and parse with Papa
 async function fetchGzCSV(url) {
@@ -2899,12 +2964,8 @@ async function fetchGzCSV(url) {
     if (!resp.ok) return null;
     const buf  = await resp.arrayBuffer();
     let text;
-    try {
-        text = pako.inflate(new Uint8Array(buf), { to: 'string' });
-    } catch(e) {
-        // Try plain CSV (in case server strips gz)
-        text = new TextDecoder().decode(buf);
-    }
+    try { text = pako.inflate(new Uint8Array(buf), { to: 'string' }); }
+    catch(e) { text = new TextDecoder().decode(buf); }
     return new Promise(resolve => {
         Papa.parse(text, {
             header: true, dynamicTyping: true, skipEmptyLines: true,
@@ -2913,149 +2974,292 @@ async function fetchGzCSV(url) {
     });
 }
 
+// Scan backward up to 45 calendar days to find the most recent day with minute data
+async function findMostRecentMinuteData(ticker) {
+    const today = new Date();
+    for (let i = 0; i < 45; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const dow = d.getDay();
+        if (dow === 0 || dow === 6) continue; // skip weekends
+        const dateStr = d.toISOString().split('T')[0];
+        try {
+            const resp = await fetch(`data/minute/${ticker}/${dateStr}.csv.gz`, { method: 'HEAD' });
+            if (resp.ok) return dateStr;
+        } catch(e) {}
+    }
+    return null;
+}
+
 async function loadIntradayData() {
     if (!selectedTicker) return;
-    const dateEl = document.getElementById('minuteDate');
-    const dateStr = dateEl.value; // YYYY-MM-DD
-    if (!dateStr) return;
+    const ticker        = selectedTicker.toLowerCase();
+    const requestedDate = document.getElementById('minuteDate').value;
 
-    document.getElementById('noIntradayData').style.display    = 'none';
-    document.getElementById('intradayResults').style.display   = 'none';
-    document.getElementById('intradayLoading').style.display   = 'block';
+    document.getElementById('noIntradayData').style.display  = 'none';
+    document.getElementById('intradayResults').style.display = 'none';
+    document.getElementById('intradayLoading').style.display = 'block';
 
-    const ticker = selectedTicker.toLowerCase();
-    const url    = `data/minute/${ticker}/${dateStr}.csv.gz`;
-    let rows     = null;
-    try { rows = await fetchGzCSV(url); } catch(e) {}
+    let rows = null, usedDate = requestedDate;
+
+    // 1. Try the exact requested date
+    if (requestedDate) {
+        rows = await fetchGzCSV(`data/minute/${ticker}/${requestedDate}.csv.gz`).catch(() => null);
+    }
+
+    // 2. Fallback: find most recent day with data
+    if (!rows || rows.length < 2) {
+        usedDate = await findMostRecentMinuteData(ticker);
+        if (usedDate) {
+            rows = await fetchGzCSV(`data/minute/${ticker}/${usedDate}.csv.gz`).catch(() => null);
+        }
+    }
 
     document.getElementById('intradayLoading').style.display = 'none';
 
     if (!rows || rows.length < 2) {
-        document.getElementById('noIntradayData').style.display = 'block';
-        document.getElementById('noIntradayData').querySelector('h3').textContent =
-            `No minute data for ${selectedTicker} on ${dateStr}`;
-        document.getElementById('noIntradayData').querySelector('p').textContent =
-            'Minute data is only available for tickers held by a strategy on that day. Data is synced nightly.';
+        const noData = document.getElementById('noIntradayData');
+        noData.style.display = 'block';
+        noData.innerHTML = `
+            <div class="no-data-message">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width:48px;height:48px;opacity:0.3;margin-bottom:14px;">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <h3 style="margin-bottom:8px;">No minute data found for ${selectedTicker}</h3>
+                <p style="font-size:13px;max-width:420px;margin:0 auto;line-height:1.6;">
+                    The minute pipeline has not yet run for this ticker, or data hasn't been pushed to the public repo.
+                    Confirm the daily workflow ran and produced data for ${selectedTicker}.
+                </p>
+            </div>`;
         return;
     }
 
-    // Detect column names (may vary: datetime/Datetime/timestamp, open/Open, etc.)
-    const firstRow = rows[0];
-    const keys = Object.keys(firstRow);
-    const col = (candidates) => candidates.find(c => keys.find(k => k.toLowerCase() === c.toLowerCase()));
-    const dtCol    = col(['datetime','Datetime','timestamp','Timestamp','time','Time','date','Date']);
-    const openCol  = col(['open','Open']);
-    const highCol  = col(['high','High']);
-    const lowCol   = col(['low','Low']);
-    const closeCol = col(['close','Close']);
-    const volCol   = col(['volume','Volume']);
+    // ── Parse columns (handle yfinance naming variations) ──
+    const keys   = Object.keys(rows[0]);
+    const col    = (c) => c.find(x => keys.some(k => k.toLowerCase() === x.toLowerCase()));
+    const dtCol  = col(['datetime','timestamp','time','date']) || keys[0];
+    const oCol   = col(['open']);
+    const hCol   = col(['high']);
+    const lCol   = col(['low']);
+    const cCol   = col(['close']);
+    const vCol   = col(['volume']);
 
-    const times  = rows.map(r => r[dtCol]);
-    const opens  = rows.map(r => parseFloat(r[openCol]  ?? r[closeCol]));
-    const highs  = rows.map(r => parseFloat(r[highCol]  ?? r[closeCol]));
-    const lows   = rows.map(r => parseFloat(r[lowCol]   ?? r[closeCol]));
-    const closes = rows.map(r => parseFloat(r[closeCol]));
-    const vols   = rows.map(r => parseFloat(r[volCol] ?? 0));
-
-    // Find fills for this ticker on this date from all strategy positions
-    const buys = [], sells = [];
-    STRATEGIES.forEach(s => {
-        const pos = state.positions?.[s];
-        if (!pos) return;
-        (pos.positions || []).forEach(p => {
-            if (p.ticker?.toUpperCase() !== selectedTicker.toUpperCase()) return;
-            // MOO fills happen at 9:30 ET — approximate as first bar of data
-            if (p.entry_date === dateStr) {
-                const side = (p.shares ?? 0) < 0 ? 'sell' : 'buy';
-                const mooTime = times.find(t => t) || times[0];
-                if (side === 'buy') buys.push({ x: mooTime, y: opens[0], label: `Buy ${Math.abs(p.shares)} @ MOO` });
-                else               sells.push({ x: mooTime, y: opens[0], label: `Sell ${Math.abs(p.shares)} @ MOO` });
-            }
-        });
+    // Build clean arrays, skip bars with no close price
+    const T=[], O=[], H=[], L=[], C=[], V=[];
+    rows.forEach(r => {
+        const c = parseFloat(r[cCol]);
+        if (!c || isNaN(c)) return;
+        T.push(r[dtCol]);
+        O.push(parseFloat(r[oCol]) || c);
+        H.push(parseFloat(r[hCol]) || c);
+        L.push(parseFloat(r[lCol]) || c);
+        C.push(c);
+        V.push(parseFloat(r[vCol]) || 0);
     });
 
-    // KPI cards
-    const dayRet = closes.length > 1 ? (closes[closes.length-1] - closes[0]) / closes[0] * 100 : 0;
-    const dayHigh = Math.max(...highs), dayLow = Math.min(...lows);
-    const totalVol = vols.reduce((a,b)=>a+b,0);
+    if (C.length < 2) { document.getElementById('noIntradayData').style.display = 'block'; return; }
+
+    // ── Compute statistics ──
+    // VWAP across all bars
+    let sumPV = 0, sumV = 0;
+    T.forEach((_, i) => { const tp = (H[i]+L[i]+C[i])/3; sumPV += tp*V[i]; sumV += V[i]; });
+    const vwap     = sumV > 0 ? sumPV / sumV : C[C.length-1];
+    const vwapDist = (C[C.length-1] - vwap) / vwap * 100;
+
+    // Realized vol (annualized, 1-min bars: sqrt(252 * 390))
+    const logRets = [];
+    for (let i=1; i<C.length; i++) if (C[i-1]>0) logRets.push(Math.log(C[i]/C[i-1]));
+    const variance   = logRets.reduce((s,r)=>s+r*r, 0) / (logRets.length||1);
+    const realizedVol= Math.sqrt(variance * 252 * 390) * 100;
+
+    // Avg HL range per bar
+    const avgHLRange = T.reduce((s,_,i) => s + (C[i]>0?(H[i]-L[i])/C[i]:0), 0) / T.length * 100;
+
+    // Avg volume per bar
+    const avgVol = V.reduce((s,v)=>s+v, 0) / (V.length||1);
+
+    // Session return (first open → last close)
+    const sessionRet = (C[C.length-1] - O[0]) / O[0] * 100;
+
+    // 20-bar SMA + Bollinger Bands (±1σ)
+    const W = 20;
+    const smaT=[], smaY=[], upperY=[], lowerY=[];
+    for (let i=W-1; i<C.length; i++) {
+        const sl   = C.slice(i-W+1, i+1);
+        const mean = sl.reduce((a,b)=>a+b,0)/W;
+        const std  = Math.sqrt(sl.reduce((a,b)=>a+(b-mean)**2,0)/W);
+        smaT.push(T[i]); smaY.push(mean);
+        upperY.push(mean+std); lowerY.push(mean-std);
+    }
+
+    // Z-scores for mean reversion sub-chart
+    const zT=[], zY=[];
+    for (let i=W-1; i<C.length; i++) {
+        const sl   = C.slice(i-W+1, i+1);
+        const mean = sl.reduce((a,b)=>a+b,0)/W;
+        const std  = Math.sqrt(sl.reduce((a,b)=>a+(b-mean)**2,0)/W);
+        zT.push(T[i]); zY.push(std>0?(C[i]-mean)/std:0);
+    }
+    const extremeZ = zY.filter(z=>Math.abs(z)>1).length;
+    const mrScore  = zY.length>0 ? extremeZ/zY.length*100 : 0;
+
+    // ── KPI cards ──
+    const fallbackNote = (usedDate && usedDate !== requestedDate)
+        ? ` · showing ${usedDate} (no data on ${requestedDate||'selected date'})`
+        : '';
     document.getElementById('intradayMetrics').innerHTML = `
-        <div class="ticker-metric-card"><div class="ticker-metric-label">Day Return</div>
-          <div class="ticker-metric-value ${dayRet>=0?'positive':'negative'}">${dayRet>=0?'+':''}${dayRet.toFixed(2)}%</div>
-          <div class="ticker-metric-sub">${selectedTicker} · ${dateStr}</div></div>
-        <div class="ticker-metric-card"><div class="ticker-metric-label">Day High</div>
-          <div class="ticker-metric-value">$${dayHigh.toFixed(2)}</div>
-          <div class="ticker-metric-sub">Intraday high</div></div>
-        <div class="ticker-metric-card"><div class="ticker-metric-label">Day Low</div>
-          <div class="ticker-metric-value">$${dayLow.toFixed(2)}</div>
-          <div class="ticker-metric-sub">Intraday low</div></div>
-        <div class="ticker-metric-card"><div class="ticker-metric-label">Close</div>
-          <div class="ticker-metric-value">$${closes[closes.length-1].toFixed(2)}</div>
-          <div class="ticker-metric-sub">Last minute bar</div></div>
-        <div class="ticker-metric-card"><div class="ticker-metric-label">Volume</div>
-          <div class="ticker-metric-value">${(totalVol/1e6).toFixed(2)}M</div>
-          <div class="ticker-metric-sub">Total shares</div></div>
-        <div class="ticker-metric-card"><div class="ticker-metric-label">Bars</div>
-          <div class="ticker-metric-value">${rows.length}</div>
-          <div class="ticker-metric-sub">1-minute bars</div></div>
+        <div class="ticker-metric-card">
+            <div class="ticker-metric-label">Session Return</div>
+            <div class="ticker-metric-value ${sessionRet>=0?'positive':'negative'}">${sessionRet>=0?'+':''}${sessionRet.toFixed(2)}%</div>
+            <div class="ticker-metric-sub">First to last${fallbackNote}</div>
+        </div>
+        <div class="ticker-metric-card">
+            <div class="ticker-metric-label">VWAP</div>
+            <div class="ticker-metric-value">$${vwap.toFixed(2)}</div>
+            <div class="ticker-metric-sub" style="color:${vwapDist>=0?'#00d4aa':'#ff4757'}">Distance: ${vwapDist>=0?'+':''}${vwapDist.toFixed(2)}%</div>
+        </div>
+        <div class="ticker-metric-card">
+            <div class="ticker-metric-label">Realized Vol</div>
+            <div class="ticker-metric-value">${realizedVol.toFixed(1)}%</div>
+            <div class="ticker-metric-sub">Annualized</div>
+        </div>
+        <div class="ticker-metric-card">
+            <div class="ticker-metric-label">Avg HL Range</div>
+            <div class="ticker-metric-value">${avgHLRange.toFixed(2)}%</div>
+            <div class="ticker-metric-sub">Per minute</div>
+        </div>
+        <div class="ticker-metric-card">
+            <div class="ticker-metric-label">Avg Volume</div>
+            <div class="ticker-metric-value">${avgVol>=1e6?(avgVol/1e6).toFixed(2)+'M':(avgVol/1e3).toFixed(1)+'K'}</div>
+            <div class="ticker-metric-sub">Per minute</div>
+        </div>
+        <div class="ticker-metric-card">
+            <div class="ticker-metric-label">Mean Reversion</div>
+            <div class="ticker-metric-value">${mrScore.toFixed(0)}%</div>
+            <div class="ticker-metric-sub">${mrScore>30?'Strong mean reversion':mrScore>15?'Moderate mean reversion':'Weak mean reversion'}</div>
+        </div>
     `;
 
-    document.getElementById('intradayChartTitle').textContent =
-        `${selectedTicker} — ${dateStr} (1-min bars)`;
-    const hasTrades = buys.length + sells.length > 0;
-    document.getElementById('intradayChartSub').textContent =
-        hasTrades ? `1-minute bars · ${buys.length} buy, ${sells.length} sell markers from fills`
-                  : '1-minute bars — no fills recorded for this ticker on this date';
+    // ── Chart title ──
+    const spanDays = [...new Set(T.map(t => String(t).split('T')[0].replace(' ','-').slice(0,10)))].sort();
+    const dateLabel = spanDays.length > 1
+        ? `${spanDays[0]} to ${spanDays[spanDays.length-1]}`
+        : (usedDate || spanDays[0] || '');
+    document.getElementById('intradayChartTitle').textContent = `${selectedTicker} — ${dateLabel}`;
+    document.getElementById('intradayChartSub').textContent   =
+        'Candlesticks with VWAP & Bollinger Bands' +
+        (usedDate && usedDate !== requestedDate ? ` · Fallback to ${usedDate} (no data on ${requestedDate})` : '');
 
-    const plotLayout = {
-        paper_bgcolor: '#1a1a1a', plot_bgcolor: '#1a1a1a',
-        font: { color: '#e0e0e0', size: 11 },
-        xaxis: { gridcolor: '#2a2a2a', color: '#808080' },
-        yaxis: { gridcolor: '#2a2a2a', color: '#808080', title: 'Price ($)' },
-        margin: { l: 60, r: 20, t: 20, b: 40 },
-        showlegend: hasTrades,
-        legend: { bgcolor: '#1a1a1a', bordercolor: '#2a2a2a', borderwidth: 1 },
-    };
-    const plotConfig = { responsive: true, displayModeBar: false };
+    // Day-boundary vertical markers (dashed lines where date changes)
+    const dayShapes = [];
+    let lastDay = null;
+    T.forEach(t => {
+        const day = String(t).slice(0, 10);
+        if (lastDay && day !== lastDay) {
+            dayShapes.push({
+                type:'line', xref:'x', yref:'paper',
+                x0: t, x1: t, y0: 0, y1: 1,
+                line: { color:'rgba(255,255,255,0.12)', width:1.5, dash:'dash' }
+            });
+        }
+        lastDay = day;
+    });
 
-    const traces = [
-        {
-            type: 'candlestick',
-            x: times, open: opens, high: highs, low: lows, close: closes,
-            name: selectedTicker,
-            increasing: { line: { color: '#00d4aa' }, fillcolor: 'rgba(0,212,170,0.3)' },
-            decreasing: { line: { color: '#ff4757' }, fillcolor: 'rgba(255,71,87,0.3)' },
-        },
+    // rangebreaks removes overnight gaps (EDT = UTC-4: market 13:30–20:00 UTC)
+    const rangeBreaks = [
+        { bounds: ['sat', 'mon'] },
+        { bounds: [20, 13.5], pattern: 'hour' }
     ];
 
-    if (buys.length) traces.push({
-        type: 'scatter', mode: 'markers+text',
-        x: buys.map(b=>b.x), y: buys.map(b=>b.y - (dayHigh-dayLow)*0.03),
-        name: 'Buy (MOO)',
-        marker: { symbol: 'triangle-up', size: 14, color: '#00d4aa' },
-        text: buys.map(b=>b.label), textposition: 'bottom center',
-        textfont: { size: 10, color: '#00d4aa' },
-    });
-    if (sells.length) traces.push({
-        type: 'scatter', mode: 'markers+text',
-        x: sells.map(s=>s.x), y: sells.map(s=>s.y + (dayHigh-dayLow)*0.03),
-        name: 'Sell (MOO)',
-        marker: { symbol: 'triangle-down', size: 14, color: '#ff4757' },
-        text: sells.map(s=>s.label), textposition: 'top center',
-        textfont: { size: 10, color: '#ff4757' },
+    const BG = '#0f0f0f', GRID = '#1f1f1f';
+    const subLayout = (yTitle) => ({
+        paper_bgcolor: BG, plot_bgcolor: BG,
+        font: { color: '#e0e0e0', size: 10 },
+        xaxis: { gridcolor: GRID, color: '#808080', type: 'date', rangebreaks: rangeBreaks },
+        yaxis: { gridcolor: GRID, color: '#808080', title: yTitle },
+        margin: { l: 55, r: 10, t: 10, b: 35 },
+        showlegend: false
     });
 
-    Plotly.newPlot('intradayChart', traces, plotLayout, plotConfig);
+    // ── Main chart ──
+    Plotly.newPlot('intradayChart', [
+        {
+            type:'candlestick', x:T, open:O, high:H, low:L, close:C, name:selectedTicker,
+            increasing:{ line:{color:'#00d4aa',width:1}, fillcolor:'rgba(0,212,170,0.22)' },
+            decreasing:{ line:{color:'#ff4757',width:1}, fillcolor:'rgba(255,71,87,0.22)' },
+        },
+        { type:'scatter', mode:'lines', x:T, y:Array(T.length).fill(vwap),
+          name:'VWAP', line:{color:'#ff9f43',width:2} },
+        { type:'scatter', mode:'lines', x:smaT, y:smaY,
+          name:'20-min SMA', line:{color:'#00a8ff',width:1.5} },
+        { type:'scatter', mode:'lines', x:smaT, y:upperY,
+          name:'+1σ', line:{color:'#555',width:1,dash:'dot'}, showlegend:false },
+        { type:'scatter', mode:'lines', x:smaT, y:lowerY,
+          name:'-1σ', line:{color:'#555',width:1,dash:'dot'},
+          fill:'tonexty', fillcolor:'rgba(85,85,85,0.08)', showlegend:false },
+    ], {
+        paper_bgcolor: BG, plot_bgcolor: BG,
+        font: { color:'#e0e0e0', size:11 },
+        xaxis: { gridcolor:GRID, color:'#808080', type:'date', rangebreaks: rangeBreaks },
+        yaxis: { gridcolor:GRID, color:'#808080', title:'Price ($)' },
+        margin: { l:60, r:20, t:20, b:40 },
+        showlegend: true,
+        legend: { x:0.01, y:0.99, bgcolor:'rgba(15,15,15,0.85)', bordercolor:'#2a2a2a', borderwidth:1 },
+        hovermode: 'x unified',
+        shapes: dayShapes,
+    }, { responsive:true, displayModeBar:true });
 
-    // Volume chart
-    const volColors = closes.map((c, i) => i === 0 ? '#606060' : (c >= closes[i-1] ? 'rgba(0,212,170,0.6)' : 'rgba(255,71,87,0.6)'));
-    Plotly.newPlot('intradayVolChart', [{
-        type: 'bar', x: times, y: vols, name: 'Volume',
-        marker: { color: volColors }, showlegend: false,
-    }], {
-        ...plotLayout,
-        yaxis: { ...plotLayout.yaxis, title: 'Volume' },
-        margin: { l: 60, r: 20, t: 10, b: 40 },
-    }, plotConfig);
+    // ── Sub-chart 1: Rolling Volatility (15-bar window) ──
+    const volW=15, rvT=[], rvY=[];
+    for (let i=volW; i<C.length; i++) {
+        const rets=[];
+        for (let j=i-volW+1;j<=i;j++) if(C[j-1]>0) rets.push(Math.log(C[j]/C[j-1]));
+        if (rets.length) {
+            rvT.push(T[i]);
+            rvY.push(Math.sqrt(rets.reduce((s,r)=>s+r*r,0)/rets.length * 252*390)*100);
+        }
+    }
+    Plotly.newPlot('intradayVolatilityChart', [{
+        type:'scatter', mode:'lines', fill:'tozeroy',
+        x:rvT, y:rvY, line:{color:'#00d4aa',width:2}, fillcolor:'rgba(0,212,170,0.15)'
+    }], subLayout('Volatility (%)'), { responsive:true, displayModeBar:false });
+
+    // ── Sub-chart 2: Volume Profile (horizontal bars by price level) ──
+    const pMin=Math.min(...L), pMax=Math.max(...H), nB=30, bSz=(pMax-pMin)/nB||1;
+    const bkt={};
+    T.forEach((_,i)=>{ const b=Math.floor((C[i]-pMin)/bSz)*bSz+pMin; bkt[b]=(bkt[b]||0)+V[i]; });
+    const bkts=Object.keys(bkt).map(Number).sort((a,b)=>a-b);
+    Plotly.newPlot('intradayVolumeProfileChart', [{
+        type:'bar', orientation:'h',
+        x:bkts.map(b=>bkt[b]), y:bkts,
+        marker:{color:'#00d4aa', line:{color:'#00a8ff',width:0.5}}
+    }], { ...subLayout('Price ($)'), xaxis:{...subLayout('').xaxis,title:'Volume',type:'linear'} },
+    { responsive:true, displayModeBar:false });
+
+    // ── Sub-chart 3: Mean Reversion Z-score + linear trend line ──
+    const n=zY.length;
+    let sx=0,sy=0,sxy=0,sx2=0;
+    zY.forEach((_,i)=>{sx+=i;sy+=zY[i];sxy+=i*zY[i];sx2+=i*i;});
+    const slope=(n*sxy-sx*sy)/(n*sx2-sx*sx)||0;
+    const intercept=(sy-slope*sx)/n||0;
+    const trendY=zY.map((_,i)=>slope*i+intercept);
+
+    Plotly.newPlot('intradayMeanRevChart', [
+        { type:'bar', x:zT, y:zY, name:'Z-Score',
+          marker:{color:zY.map(z=>`rgba(0,168,255,${Math.min(0.9,0.3+Math.abs(z)*0.2)})`)} },
+        { type:'scatter', mode:'lines', x:zT, y:trendY,
+          line:{color:'#00a8ff',width:2}, showlegend:false },
+        { type:'scatter', mode:'lines', x:[zT[0],zT[zT.length-1]], y:[0,0],
+          line:{color:'#505050',width:1}, showlegend:false, hoverinfo:'skip' }
+    ], {
+        ...subLayout('Z-Score'),
+        shapes: [
+            {type:'line',xref:'paper',yref:'y',x0:0,x1:1,y0: 1,y1: 1,line:{color:'#3a3a3a',dash:'dash',width:1}},
+            {type:'line',xref:'paper',yref:'y',x0:0,x1:1,y0:-1,y1:-1,line:{color:'#3a3a3a',dash:'dash',width:1}},
+            {type:'line',xref:'paper',yref:'y',x0:0,x1:1,y0: 2,y1: 2,line:{color:'#2a2a2a',dash:'dot', width:1}},
+            {type:'line',xref:'paper',yref:'y',x0:0,x1:1,y0:-2,y1:-2,line:{color:'#2a2a2a',dash:'dot', width:1}},
+        ]
+    }, { responsive:true, displayModeBar:false });
 
     document.getElementById('intradayResults').style.display = 'block';
 }
@@ -3066,14 +3270,15 @@ function initTickerTab() {
     if (input._init) return;
     input._init = true;
 
-    // Default date picker to most recent trading day
+    // Default to most recent non-weekend day
     const today = new Date();
     const dow = today.getDay();
-    const offset = dow === 0 ? 2 : dow === 1 ? 3 : 1; // skip weekends
-    // Actually just use today — the fetch will handle "no data"
-    document.getElementById('minuteDate').value = today.toISOString().split('T')[0];
+    const daysBack = dow === 0 ? 2 : dow === 6 ? 1 : 0;
+    const dt = new Date(today);
+    dt.setDate(dt.getDate() - daysBack);
+    document.getElementById('minuteDate').value = dt.toISOString().split('T')[0];
     document.getElementById('minuteDate').addEventListener('change', () => {
-        if (selectedTicker && currentTickerView === 'intraday') loadIntradayData();
+        if (selectedTicker) loadIntradayData();
     });
 
     input.addEventListener('input', function() {
@@ -3083,7 +3288,7 @@ function initTickerTab() {
         if (!matches.length) {
             dropdown.innerHTML = `<div class="autocomplete-no-results">No match for "${q}"</div>`;
         } else {
-            dropdown.innerHTML = matches.map((t, i) =>
+            dropdown.innerHTML = matches.map((t,i) =>
                 `<div class="autocomplete-item" data-ticker="${t}" data-idx="${i}">${t}</div>`
             ).join('');
             dropdown.querySelectorAll('.autocomplete-item').forEach(el =>
@@ -3096,11 +3301,11 @@ function initTickerTab() {
 
     input.addEventListener('keydown', function(e) {
         const items = [...dropdown.querySelectorAll('.autocomplete-item')];
-        if (e.key === 'ArrowDown') { e.preventDefault(); highlightIdx = Math.min(highlightIdx+1, items.length-1); }
-        else if (e.key === 'ArrowUp') { e.preventDefault(); highlightIdx = Math.max(highlightIdx-1, -1); }
-        else if (e.key === 'Enter') { e.preventDefault(); if (highlightIdx >= 0) pickTicker(items[highlightIdx].dataset.ticker); else if (items.length===1) pickTicker(items[0].dataset.ticker); }
-        else if (e.key === 'Escape') { dropdown.classList.remove('active'); }
-        items.forEach((it,i) => it.classList.toggle('highlighted', i===highlightIdx));
+        if (e.key==='ArrowDown')  { e.preventDefault(); highlightIdx=Math.min(highlightIdx+1,items.length-1); }
+        else if (e.key==='ArrowUp')   { e.preventDefault(); highlightIdx=Math.max(highlightIdx-1,-1); }
+        else if (e.key==='Enter')  { e.preventDefault(); if(highlightIdx>=0) pickTicker(items[highlightIdx].dataset.ticker); else if(items.length===1) pickTicker(items[0].dataset.ticker); }
+        else if (e.key==='Escape') { dropdown.classList.remove('active'); }
+        items.forEach((it,i)=>it.classList.toggle('highlighted',i===highlightIdx));
     });
 
     document.addEventListener('click', e => {
@@ -3118,225 +3323,7 @@ function pickTicker(ticker) {
 
 async function analyzeTicker() {
     if (!selectedTicker) return;
-    // Route to correct view
-    if (currentTickerView === 'intraday') {
-        await loadIntradayData();
-        return;
-    }
-    const btn    = document.getElementById('analyzeBtn');
-    const period = document.getElementById('tickerPeriod').value;
-    btn.disabled = true;
-    btn.textContent = 'Loading…';
-
-    try {
-        // Try local cached CSV first (data/tickers/TICKER.csv pushed by daily workflow)
-        let data = await fetchTickerLocal(selectedTicker, period);
-
-        // Fall back to Yahoo Finance API
-        if (!data || !data.length) {
-            data = await fetchYahooDaily(selectedTicker, period);
-            // Apply start-date filter to Yahoo results too (matches local CSV behaviour)
-            if (data && period === 'all') {
-                const cutStr = document.getElementById('minuteDate')?.value || '2000-01-01';
-                data = data.filter(d => d.date >= cutStr);
-            }
-        }
-
-        if (!data || !data.length) {
-            showTickerError(selectedTicker);
-            return;
-        }
-
-        renderTickerMetrics(data, selectedTicker);
-        renderTickerCharts(data, selectedTicker);
-
-        document.getElementById('noTickerData').style.display   = 'none';
-        document.getElementById('tickerResults').style.display  = 'block';
-        document.getElementById('tkChartTitle').textContent     = `${selectedTicker} — Daily OHLCV`;
-    } catch(err) {
-        console.error(err);
-        showTickerError(selectedTicker, err.message);
-    } finally {
-        btn.disabled = false;
-        btn.textContent = 'Analyze Ticker';
-    }
-}
-
-function showTickerError(ticker, detail) {
-    const noData = document.getElementById('noTickerData');
-    noData.style.display = 'block';
-    document.getElementById('tickerResults').style.display = 'none';
-    noData.innerHTML = `
-        <div class="no-data-message">
-            <svg viewBox="0 0 24 24" fill="currentColor" style="width:48px;height:48px;opacity:0.3;margin-bottom:14px;">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-            </svg>
-            <h3 style="margin-bottom:8px;">Could not load data for ${ticker}</h3>
-            <p style="font-size:13px;max-width:420px;margin:0 auto;line-height:1.6;">
-                ${detail ? detail + '<br><br>' : ''}
-                Live price data may be unavailable from GitHub Pages due to browser security restrictions.
-                Try one of the tickers currently held by a strategy — those are cached locally.
-                Or open the dashboard locally to use the live Yahoo Finance feed.
-            </p>
-        </div>`;
-}
-
-async function fetchTickerLocal(ticker, period) {
-    // Load from data/tickers/TICKER.csv (generated by daily workflow for held positions)
-    try {
-        const rows = await fetchCSV(`data/tickers/${ticker}.csv`);
-        if (!rows || rows.length < 5) return null;
-
-        let data = rows.map(r => ({
-            date:   String(r.date || ''),
-            open:   parseFloat(r.open  ?? r.Open  ?? 0),
-            high:   parseFloat(r.high  ?? r.High  ?? 0),
-            low:    parseFloat(r.low   ?? r.Low   ?? 0),
-            close:  parseFloat(r.close ?? r.Close ?? 0),
-            volume: parseInt(r.volume  ?? r.Volume ?? 0, 10) || 0,
-        })).filter(d => d.close > 0 && d.date);
-
-        // Trim to requested period
-        // 'all' uses the intraday date picker as the start date (or beginning of data)
-        let cutStr;
-        if (period === 'all') {
-            cutStr = document.getElementById('minuteDate')?.value || '2000-01-01';
-        } else {
-            const periodDays = { '1mo': 31, '3mo': 93, '6mo': 186, '1y': 366, '2y': 732 };
-            const cutDays    = periodDays[period] ?? 93;
-            const cutDate    = new Date();
-            cutDate.setDate(cutDate.getDate() - cutDays);
-            cutStr = cutDate.toISOString().split('T')[0];
-        }
-        data = data.filter(d => d.date >= cutStr);
-
-        return data.length >= 5 ? data : null;
-    } catch { return null; }
-}
-
-async function fetchYahooDaily(ticker, period = '1y') {
-    // 'all' maps to a long range; the local CSV filter handles the start-date cutoff
-    const apiPeriod = period === 'all' ? '5y' : period;
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${apiPeriod}&interval=1d`;
-    const r   = await fetch(url);
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const j   = await r.json();
-    const res = j?.chart?.result?.[0];
-    if (!res) throw new Error('No data returned');
-    const ts    = res.timestamp;
-    const q     = res.indicators.quote[0];
-    return ts.map((t,i) => ({
-        date:   new Date(t*1000).toISOString().split('T')[0],
-        open:   q.open[i],  high:  q.high[i],
-        low:    q.low[i],   close: q.close[i],
-        volume: q.volume[i]
-    })).filter(d => d.close != null);
-}
-
-function renderTickerMetrics(data, ticker) {
-    const first  = data[0].close, last = data[data.length-1].close;
-    const ret    = (last - first) / first * 100;
-
-    const logRets= [];
-    for (let i=1; i<data.length; i++) logRets.push(Math.log(data[i].close/data[i-1].close));
-    const variance = logRets.reduce((s,r)=>s+r*r,0)/logRets.length;
-    const vol    = Math.sqrt(variance) * Math.sqrt(252) * 100;
-
-    const hlRanges = data.map(d => d.close > 0 ? (d.high-d.low)/d.close*100 : 0);
-    const avgHL  = hlRanges.reduce((a,b)=>a+b,0)/hlRanges.length;
-    const avgVol = data.reduce((a,b)=>a+b.volume,0)/data.length;
-
-    // Z-score for mean reversion
-    const zScores = [];
-    for (let i=19; i<data.length; i++) {
-        const prices = data.slice(i-19,i+1).map(d=>d.close);
-        const mean   = prices.reduce((a,b)=>a+b,0)/20;
-        const std    = Math.sqrt(prices.reduce((a,b)=>a+(b-mean)**2,0)/20);
-        zScores.push(std>0 ? (data[i].close-mean)/std : 0);
-    }
-    const extremeZ = zScores.filter(z=>Math.abs(z)>1).length;
-    const mrScore  = zScores.length > 0 ? extremeZ/zScores.length*100 : 0;
-
-    const set = (id, v) => { document.getElementById(id).textContent = v; };
-    const retEl = document.getElementById('tkReturn');
-    retEl.textContent = fmtPct(ret);
-    retEl.className   = 'ticker-metric-value ' + colorClass(ret);
-    set('tkReturnSub', `${data[0].date} → ${data[data.length-1].date}`);
-    set('tkVol',   vol.toFixed(1)+'%');
-    set('tkPrice', '$'+last.toFixed(2));
-    set('tkPriceSub', `52w H: $${Math.max(...data.map(d=>d.high)).toFixed(2)} / L: $${Math.min(...data.map(d=>d.low)).toFixed(2)}`);
-    set('tkRange', avgHL.toFixed(2)+'%');
-    set('tkMeanRev', mrScore.toFixed(0)+'%');
-    set('tkMeanRevSub', mrScore > 30 ? 'Strong mean reversion' : mrScore > 15 ? 'Moderate' : 'Weak mean reversion');
-    set('tkVolume', (avgVol/1e6).toFixed(2)+'M');
-}
-
-function renderTickerCharts(data, ticker) {
-    const dates  = data.map(d=>d.date);
-    const colors = { paper:'#0a0a0a', grid:'#1a1a1a', font:'#e0e0e0', size:11 };
-    const layout = (yTitle, extraH=0) => ({
-        paper_bgcolor: colors.paper, plot_bgcolor: colors.paper,
-        font: {color:colors.font, size:colors.size},
-        xaxis: {gridcolor:colors.grid, showgrid:true, type:'date'},
-        yaxis: {gridcolor:colors.grid, showgrid:true, title:yTitle},
-        margin: {l:60, r:30, t:25, b:50+extraH}, showlegend:true, hovermode:'x unified',
-        legend: {x:0.01, y:0.99, bgcolor:'rgba(26,26,26,0.8)', bordercolor:'#2a2a2a', borderwidth:1}
-    });
-
-    // SMA + Bollinger
-    const sma20=[], upper=[], lower=[];
-    for (let i=19; i<data.length; i++) {
-        const prices = data.slice(i-19,i+1).map(d=>d.close);
-        const mean   = prices.reduce((a,b)=>a+b,0)/20;
-        const std    = Math.sqrt(prices.reduce((a,b)=>a+(b-mean)**2,0)/20);
-        sma20.push(mean); upper.push(mean+std); lower.push(mean-std);
-    }
-    const smaX = dates.slice(19);
-
-    Plotly.newPlot('tkMainChart', [
-        {x:dates, open:data.map(d=>d.open), high:data.map(d=>d.high), low:data.map(d=>d.low),
-         close:data.map(d=>d.close), type:'candlestick', name:ticker,
-         increasing:{line:{color:'#00d4aa',width:1}}, decreasing:{line:{color:'#ff4757',width:1}}, whiskerwidth:0.5},
-        {x:smaX, y:sma20, type:'scatter', mode:'lines', name:'20d SMA', line:{color:'#00a8ff',width:1.5}},
-        {x:smaX, y:upper, type:'scatter', mode:'lines', name:'+1σ', line:{color:'#606060',width:1,dash:'dot'}, showlegend:false},
-        {x:smaX, y:lower, type:'scatter', mode:'lines', name:'-1σ', line:{color:'#606060',width:1,dash:'dot'}, fill:'tonexty', fillcolor:'rgba(96,96,96,0.08)', showlegend:false}
-    ], layout('Price ($)'), {responsive:true});
-
-    // Rolling 20-day vol
-    const volX=[], volY=[];
-    for (let i=20; i<data.length; i++) {
-        const rets=[];
-        for (let j=i-20+1;j<=i;j++) rets.push(Math.log(data[j].close/data[j-1].close));
-        const v = Math.sqrt(rets.reduce((a,b)=>a+b*b,0)/rets.length) * Math.sqrt(252) * 100;
-        volX.push(dates[i]); volY.push(v);
-    }
-    Plotly.newPlot('tkVolChart',
-        [{x:volX, y:volY, type:'scatter', mode:'lines', fill:'tozeroy',
-          line:{color:'#00d4aa',width:2}, fillcolor:'rgba(0,212,170,0.12)'}],
-        {...layout('Ann. Vol (%)'), showlegend:false, margin:{l:60,r:30,t:25,b:50}},
-        {responsive:true}
-    );
-
-    // Z-score
-    const zX=[], zY=[];
-    for (let i=19; i<data.length; i++) {
-        const prices = data.slice(i-19,i+1).map(d=>d.close);
-        const mean   = prices.reduce((a,b)=>a+b,0)/20;
-        const std    = Math.sqrt(prices.reduce((a,b)=>a+(b-mean)**2,0)/20);
-        zX.push(dates[i]); zY.push(std>0?(data[i].close-mean)/std:0);
-    }
-    Plotly.newPlot('tkZScoreChart', [
-        {x:zX, y:zY, type:'scatter', mode:'lines', line:{color:'#00a8ff',width:2}},
-        {x:[zX[0],zX[zX.length-1]], y:[0,0], type:'scatter', mode:'lines', line:{color:'#808080',width:1}, showlegend:false, hoverinfo:'skip'}
-    ], {
-        ...layout('Z-Score'), showlegend:false, margin:{l:60,r:30,t:25,b:50},
-        shapes: [
-            {type:'line', x0:zX[0], x1:zX[zX.length-1], y0: 1, y1: 1, line:{color:'#606060',dash:'dash',width:1}},
-            {type:'line', x0:zX[0], x1:zX[zX.length-1], y0:-1, y1:-1, line:{color:'#606060',dash:'dash',width:1}},
-            {type:'line', x0:zX[0], x1:zX[zX.length-1], y0: 2, y1: 2, line:{color:'#404040',dash:'dot',width:1}},
-            {type:'line', x0:zX[0], x1:zX[zX.length-1], y0:-2, y1:-2, line:{color:'#404040',dash:'dot',width:1}}
-        ]
-    }, {responsive:true});
+    await loadIntradayData();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -3827,6 +3814,89 @@ window.addEventListener('DOMContentLoaded', () => {
     loadAll();
     initOverviewCanvas();   // start Overview tab animations immediately on page load
 });
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INTENSITY LAYER 2 — animated count-up (non-invasive).
+     Watches metric elements and animates whatever value the
+     existing data code writes into them. Never modifies data logic.
+     ══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+    const SELECTOR = [
+        '.metric-value', '.analytics-card-value', '.ticker-metric-value',
+        '.comparison-stat-value', '.total-equity-value', '.overview-stat-value',
+        '.indicator-value', '.strategy-equity'
+    ].join(', ');
+    const DUR = 680;
+
+    // Parse "$10,432.5%" → {prefix, num, suffix, decimals, comma}
+    function parse(str) {
+        const m = String(str).match(/^(\D*?)(-?[\d,]*\.?\d+)(.*)$/s);
+        if (!m) return null;
+        const numStr = m[2];
+        const num = parseFloat(numStr.replace(/,/g, ''));
+        if (!isFinite(num)) return null;
+        return {
+            prefix: m[1], suffix: m[3], num,
+            decimals: numStr.includes('.') ? numStr.split('.')[1].length : 0,
+            comma: numStr.includes(',')
+        };
+    }
+    function fmt(v, info) {
+        let s = info.decimals > 0 ? v.toFixed(info.decimals) : String(Math.round(v));
+        if (info.comma) {
+            const p = s.split('.');
+            p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            s = p.join('.');
+        }
+        return info.prefix + s + info.suffix;
+    }
+    function animate(el, targetStr) {
+        const info = parse(targetStr);
+        if (!info) return;
+        const prev = parse(el.dataset.cuLast || '');
+        const from = prev ? prev.num : 0;
+        const to = info.num;
+        if (from === to) { el.dataset.cuLast = targetStr; return; }
+        el.dataset.cuAnim = '1';
+        el.classList.remove('cu-flash');
+        void el.offsetWidth;            // restart flash animation
+        el.classList.add('cu-flash');
+        const t0 = performance.now();
+        (function step(now) {
+            const p = Math.min(1, (now - t0) / DUR);
+            const e = 1 - Math.pow(1 - p, 3);   // easeOutCubic
+            el.dataset.cuGuard = '1';
+            el.textContent = fmt(from + (to - from) * e, info);
+            el.dataset.cuGuard = '';
+            if (p < 1) requestAnimationFrame(step);
+            else { el.dataset.cuLast = targetStr; el.dataset.cuAnim = ''; }
+        })(t0);
+    }
+    function hook(el) {
+        if (parse(el.textContent)) el.dataset.cuLast = el.textContent;
+        new MutationObserver(() => {
+            if (el.dataset.cuAnim || el.dataset.cuGuard) return;   // ignore our own writes
+            const t = el.textContent;
+            if (el.dataset.cuLast === t) return;
+            if (!parse(t)) { el.dataset.cuLast = t; return; }       // non-numeric (—, n/a)
+            animate(el, t);
+        }).observe(el, { childList: true, characterData: true, subtree: true });
+    }
+    function init() { document.querySelectorAll(SELECTOR).forEach(hook); }
+    if (document.readyState === 'loading')
+        document.addEventListener('DOMContentLoaded', init);
+    else init();
+
+    // Hero: cursor-reactive glow
+    const hero = document.querySelector('.overview-hero');
+    if (hero) hero.addEventListener('pointermove', e => {
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+})();
 </script>
 </body>
 </html>
