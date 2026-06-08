@@ -1,8 +1,8 @@
 {
   "as_of": "2026-06-02",
   "cash": -13166.298985,
-  "equity_estimate": 9699.921111588135,
-  "last_run_id": "2026-06-05_markowitz_live",
+  "equity_estimate": 9649.611051087037,
+  "last_run_id": "2026-06-08_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
