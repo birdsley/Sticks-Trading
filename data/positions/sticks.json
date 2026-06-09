@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-08",
-  "cash": 19779.751374,
-  "equity_estimate": 10816.171242469238,
-  "last_run_id": "2026-06-08_sticks_live",
+  "as_of": "2026-06-09",
+  "cash": 19241.334768,
+  "equity_estimate": 11059.544713678712,
+  "last_run_id": "2026-06-09_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -54,6 +54,13 @@
       "shares": -7,
       "strategy": "sticks",
       "ticker": "CDW"
+    },
+    {
+      "avg_cost": 538.416606,
+      "entry_date": "2026-06-09",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "WDC"
     }
   ]
 }
