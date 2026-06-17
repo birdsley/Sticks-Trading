@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Trend + Carry — Cross-Asset Engine</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #04080d; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+  canvas { display: block; }
+  #hud { position: absolute; bottom: 12px; left: 14px; font-size: 11px; pointer-events: none; line-height: 1.7; }
+  #regime { font-size: 12px; font-weight: 700; letter-spacing: 0.4px; margin-bottom: 6px; color: #cdd3da; }
+  .leg { display: flex; align-items: center; gap: 7px; margin-bottom: 2px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .txt { color: #5a626c; }
+  #curve { position: absolute; top: 14px; right: 16px; font-size: 10px; color: #5a626c; text-align: right; line-height: 1.6; pointer-events: none; }
+  #curve b { color: #9fb0c2; font-size: 11px; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div id="regime">—</div>
+  <div class="leg"><div class="dot" style="background:radial-gradient(circle at 35% 30%,#7dffc0,#00d4aa);"></div><span class="txt">Long — positive trend (carry tailwind)</span></div>
+  <div class="leg"><div class="dot" style="background:radial-gradient(circle at 35% 30%,#ff9aa6,#ff4757);"></div><span class="txt">Short / flat — negative trend</span></div>
+  <div class="leg"><div class="dot" style="background:radial-gradient(circle at 35% 30%,#bfa9ff,#7b5cff);"></div><span class="txt">Risk-parity flow → portfolio core</span></div>
+</div>
+<div id="curve"></div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+
+// ── Cross-asset universe, grouped by class (mirrors the v29/v30 book) ──
+const CLASSES = [
+  { name:'Equity',    color:'#33b8ff', assets:['SPY','QQQ','IWM','EFA','EEM'] },
+  { name:'Rates',     color:'#00d4aa', assets:['TLT','IEF','SHY','TIP'] },
+  { name:'Credit',    color:'#9d7bff', assets:['LQD','HYG'] },
+  { name:'Commodity', color:'#ffb05f', assets:['GLD','DBC','USO','DBA'] },
+  { name:'FX',        color:'#ff6f9c', assets:['UUP','FXE','FXY'] },
+];
+let NODES = [];
+CLASSES.forEach((cl, ci) => cl.assets.forEach((a, ai) =>
+  NODES.push({ sym:a, cls:ci, color:cl.color,
+    // slow-evolving "trend" signal in [-1,1] and a vol for inverse-vol sizing
+    phase: Math.random()*Math.PI*2, freq: 0.0016 + Math.random()*0.0024,
+    vol: 0.6 + Math.random()*0.9, sig: 0, w: 0, x:0, y:0 })));
+
+// particles flowing from active assets into the core
+const particles = [];
+
+let t = 0;
+// yield-curve carry: slope cycles steep → flat → inverted → steep
+let slope = 1;
+
+const REGIMES = [
+  { label:'TRENDING — broad risk-on, curve steep', dur: 360 },
+  { label:'DEFENSIVE — bonds + gold lead, curve flat', dur: 320 },
+  { label:'CRISIS — equities short, carry cushions', dur: 300 },
+  { label:'RECOVERY — trend re-engages long', dur: 340 },
+];
+let regIdx = 0, regT = 0;
+
+function layout(){
+  const w = canvas.width, h = canvas.height;
+  const cx = w*0.5, cy = h*0.5;
+  const R = Math.min(w, h)*0.36;
+  // place each class on an arc sector; assets along a small radial fan
+  CLASSES.forEach((cl, ci) => {
+    const a0 = (ci/CLASSES.length)*Math.PI*2 - Math.PI/2;
+    const list = NODES.filter(n => n.cls===ci);
+    list.forEach((n, i) => {
+      const spread = (i - (list.length-1)/2) * 0.16;
+      const ang = a0 + spread;
+      const rr = R * (0.82 + 0.18*Math.sin(i*1.7));
+      n.x = cx + Math.cos(ang)*rr;
+      n.y = cy + Math.sin(ang)*rr;
+      n.ang = ang;
+    });
+  });
+  return { cx, cy, R };
+}
+
+function step(){
+  t++; regT++;
+  const reg = REGIMES[regIdx];
+  if (regT > reg.dur){ regT = 0; regIdx = (regIdx+1)%REGIMES.length; }
+  document.getElementById('regime').textContent = reg.label;
+
+  // slope (carry) drifts with regime: steep in trending/recovery, inverted in crisis
+  const slopeTarget = [1, 0.15, -0.6, 0.7][regIdx];
+  slope += (slopeTarget - slope) * 0.01;
+
+  const { cx, cy, R } = layout();
+
+  // update signals
+  let totW = 0;
+  NODES.forEach(n => {
+    let s = Math.sin(t*n.freq + n.phase);
+    // regime bias: crisis pushes equities short, lifts bonds/gold
+    const cls = CLASSES[n.cls].name;
+    if (regIdx===2){ if(cls==='Equity') s -= 0.9; if(cls==='Rates'||n.sym==='GLD') s += 0.9; }
+    if (regIdx===1){ if(cls==='Rates'||n.sym==='GLD') s += 0.5; if(cls==='Equity') s -= 0.2; }
+    if (regIdx===0||regIdx===3){ if(cls==='Equity') s += 0.5; }
+    // bond duration tilted by carry: inverted curve damps long bonds
+    if ((n.sym==='TLT'||n.sym==='IEF'||n.sym==='TIP') && slope < 0) s *= 0.35;
+    n.sig = Math.max(-1, Math.min(1, s));
+    // inverse-vol weight × |signal|
+    n.w = Math.abs(n.sig) / n.vol;
+    totW += n.w;
+  });
+  NODES.forEach(n => n.w = n.w/totW); // normalize
+
+  // spawn particles from strong-signal assets
+  NODES.forEach(n => {
+    if (Math.random() < n.w*7){
+      particles.push({ x:n.x, y:n.y, life:0, max: 42+Math.random()*20,
+        c: n.sig>=0 ? '#00d4aa' : '#ff4757', sx:n.x, sy:n.y });
+    }
+  });
+
+  // ── draw ──
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // links
+  NODES.forEach(n => {
+    ctx.beginPath();
+    ctx.moveTo(n.x, n.y); ctx.lineTo(cx, cy);
+    ctx.strokeStyle = `rgba(123,92,255,${0.04 + n.w*0.9})`;
+    ctx.lineWidth = 0.5 + n.w*10;
+    ctx.stroke();
+  });
+
+  // particles
+  for (let i=particles.length-1; i>=0; i--){
+    const p = particles[i]; p.life++;
+    const k = p.life/p.max;
+    p.x = p.sx + (cx-p.sx)*k; p.y = p.sy + (cy-p.sy)*k;
+    ctx.beginPath(); ctx.arc(p.x, p.y, 2.1*(1-k)+0.6, 0, 7);
+    ctx.fillStyle = p.c; ctx.globalAlpha = 0.7*(1-k); ctx.fill(); ctx.globalAlpha = 1;
+    if (p.life >= p.max) particles.splice(i,1);
+  }
+
+  // nodes
+  NODES.forEach(n => {
+    const r = 4 + n.w*120;
+    const long = n.sig >= 0;
+    const col = long ? [0,212,170] : [255,71,87];
+    const glow = 0.25 + Math.abs(n.sig)*0.6;
+    const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r*2.4);
+    g.addColorStop(0, `rgba(${col[0]},${col[1]},${col[2]},${glow})`);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(n.x, n.y, r*2.4, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 7);
+    ctx.fillStyle = `rgb(${col[0]},${col[1]},${col[2]})`; ctx.fill();
+    ctx.fillStyle = 'rgba(220,228,236,0.62)'; ctx.font = '9px -apple-system, sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText(n.sym, n.x, n.y - r - 4);
+  });
+
+  // portfolio core — pulses with net exposure
+  const net = NODES.reduce((s,n)=> s + n.w*Math.sign(n.sig), 0);
+  const coreR = 16 + Math.abs(net)*26 + 2*Math.sin(t*0.06);
+  const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR*2.2);
+  cg.addColorStop(0, 'rgba(159,176,194,0.9)');
+  cg.addColorStop(0.5, 'rgba(123,92,255,0.5)');
+  cg.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, coreR*2.2, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx, cy, coreR, 0, 7);
+  ctx.fillStyle = '#e8edf2'; ctx.fill();
+  ctx.fillStyle = '#04080d'; ctx.font = '700 10px -apple-system, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('BOOK', cx, cy);
+  ctx.textBaseline = 'alphabetic';
+
+  // yield-curve carry gauge (top-right text + mini curve)
+  const slopePct = (slope*1.8).toFixed(2);
+  const state = slope > 0.4 ? 'steep (carry +)' : slope < -0.1 ? 'INVERTED (duration damped)' : 'flat';
+  document.getElementById('curve').innerHTML =
+    `<b>Yield-curve carry</b><br>10y − 3m slope: ${slopePct}%<br>${state}<br><br>` +
+    `<b>Net exposure</b> ${(net>=0?'+':'')}${(net*100).toFixed(0)}%<br>` +
+    `gross ${(NODES.reduce((s,n)=>s+n.w,0)*100).toFixed(0)}% · ${NODES.length} ETFs`;
+
+  requestAnimationFrame(step);
+}
+layout(); step();
+</script>
+</body>
+</html>
