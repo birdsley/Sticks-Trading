@@ -306,6 +306,7 @@
         .strategy-section-badge.sticks    { background: rgba(0,212,170,0.2); color: #00d4aa; }
         .strategy-section-badge.markowitz { background: rgba(0,168,255,0.2); color: #00a8ff; }
         .strategy-section-badge.drl       { background: rgba(255,159,67,0.2); color: #ff9f43; }
+        .strategy-section-badge.carry     { background: rgba(123,92,255,0.2); color: #9d7bff; }
 
         /* ── Ticker Tab ── */
         .ticker-controls {
@@ -497,6 +498,7 @@
         .strat-overview-card.active-tga  { background:#121b18; border-color:rgba(0,212,170,0.3); }
         .strat-overview-card.active-markowitz { background:#12161f; border-color:rgba(0,168,255,0.3); }
         .strat-overview-card.active-drl  { background:#1b1610; border-color:rgba(255,159,67,0.3); }
+        .strat-overview-card.active-carry { background:#15121f; border-color:rgba(123,92,255,0.3); }
         .strat-card-header {
             display: flex;
             align-items: center;
@@ -533,6 +535,7 @@
         .strat-overview-card.active-tga .strat-active-indicator { background:#00d4aa; box-shadow:0 0 8px #00d4aa88; }
         .strat-overview-card.active-markowitz .strat-active-indicator { background:#00a8ff; box-shadow:0 0 8px #00a8ff88; }
         .strat-overview-card.active-drl .strat-active-indicator { background:#ff9f43; box-shadow:0 0 8px #ff9f4388; }
+        .strat-overview-card.active-carry .strat-active-indicator { background:#9d7bff; box-shadow:0 0 8px #9d7bff88; }
 
         .overview-canvas-wrapper {
             position: sticky;
@@ -1037,6 +1040,7 @@
         .strat-overview-card.active-tga       { box-shadow: -3px 0 0 var(--teal), var(--shadow-md); }
         .strat-overview-card.active-markowitz { box-shadow: -3px 0 0 var(--blue), var(--shadow-md); }
         .strat-overview-card.active-drl       { box-shadow: -3px 0 0 var(--orange), var(--shadow-md); }
+        .strat-overview-card.active-carry     { box-shadow: -3px 0 0 #9d7bff, var(--shadow-md); }
         .strategy-section-badge { font-weight: 700; letter-spacing: 0.2px; }
         .strat-pill { background: rgba(255,255,255,0.03); border-color: var(--line); border-radius: 8px; }
 
@@ -1304,6 +1308,21 @@
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
+
+            <div class="strat-overview-card" data-strat="carry" onclick="selectOverviewStrat('carry')">
+                <div class="strat-card-header">
+                    <span class="strategy-section-badge carry">Trend + Carry</span>
+                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Backtest — paper trade pending</span></span>
+                </div>
+                <div class="strat-card-desc">A diversified cross-asset book on ~25 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones across 3/6/12-month horizons, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. Each sleeve is vol-targeted; the blend is positive in every major crisis window and near-zero correlation to the S&P.</div>
+                <div class="strat-card-pills">
+                    <span class="strat-pill">~25-ETF Cross-Asset</span>
+                    <span class="strat-pill">Trend + Yield-Curve Carry</span>
+                    <span class="strat-pill">Backtest Sharpe +0.84</span>
+                    <span class="strat-pill">Corr to S&amp;P +0.08 · Crisis-Positive</span>
+                </div>
+                <div class="strat-active-indicator"></div>
+            </div>
         </div>
 
         <!-- Right: animated demo iframes -->
@@ -1317,6 +1336,7 @@
                     <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
                     <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
                     <iframe id="demo-drl"        src="demos/drl_wave.html"            style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="DRL Wave"></iframe>
+                    <iframe id="demo-carry"      src="demos/carry.html"               style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Trend + Carry Cross-Asset Engine"></iframe>
                 </div>
             </div>
         </div>
@@ -1341,6 +1361,11 @@
                 <span class="manifesto-tag">Hypothesis 3</span>
                 <h4>RL as Risk Budget</h4>
                 <p>A PPO agent is believed to learn a nonlinear risk-scaling policy that surpasses the performance of basic volatility-targeting heuristics. The use of a controlled nine-ETF universe isolates the learning problem and mitigates survivorship bias, making certain that the agent's failures remain interpretable and informative.</p>
+            </div>
+            <div class="manifesto-item">
+                <span class="manifesto-tag">Hypothesis 4</span>
+                <h4>Diversification as the Free Lunch</h4>
+                <p>Single-name statistical edges on the S&amp;P have decayed, but cross-asset time-series momentum and carry remain robust on daily data. Blending two lowly-correlated sleeves (trend + carry) across ~25 ETFs is expected to deliver a credible, crisis-positive risk-adjusted return uncorrelated to equities — the diversification premium, not single-stock alpha, is the durable signal under a daily-bar constraint.</p>
             </div>
         </div>
     </div>
@@ -3262,12 +3287,13 @@ const DEMO_META = {
     tga:        { label: 'MST Network — Topological Graph Arbitrage',    dotColor: '#00d4aa', activeClass: 'active-tga' },
     markowitz:  { label: 'Efficient Frontier — Mean-Variance Optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
     drl:        { label: 'Regime Detection — PPO Volatility Targeting',  dotColor: '#ff9f43', activeClass: 'active-drl' },
+    carry:      { label: 'Cross-Asset Trend + Carry Engine',             dotColor: '#9d7bff', activeClass: 'active-carry' },
 };
 
 function selectOverviewStrat(strat) {
     // Update card active classes
     document.querySelectorAll('.strat-overview-card').forEach(c => {
-        c.classList.remove('active-tga', 'active-markowitz', 'active-drl');
+        c.classList.remove('active-tga', 'active-markowitz', 'active-drl', 'active-carry');
     });
     const card = document.querySelector(`.strat-overview-card[data-strat="${strat}"]`);
     if (card) card.classList.add(DEMO_META[strat].activeClass);
@@ -3283,7 +3309,7 @@ function selectOverviewStrat(strat) {
     }
 
     // Show/hide iframes
-    ['tga','markowitz','drl'].forEach(s => {
+    ['tga','markowitz','drl','carry'].forEach(s => {
         const el = document.getElementById('demo-' + s);
         if (el) el.style.display = s === strat ? 'block' : 'none';
     });
