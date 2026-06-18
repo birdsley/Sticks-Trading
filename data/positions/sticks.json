@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-11",
-  "cash": 19244.698696,
-  "equity_estimate": 11656.738742691894,
-  "last_run_id": "2026-06-17_sticks_live",
+  "as_of": "2026-06-18",
+  "cash": 18254.245824,
+  "equity_estimate": 11429.285847803712,
+  "last_run_id": "2026-06-18_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -40,13 +40,6 @@
       "shares": -17,
       "strategy": "sticks",
       "ticker": "FISV"
-    },
-    {
-      "avg_cost": 161.59681,
-      "entry_date": "2026-06-02",
-      "shares": -6,
-      "strategy": "sticks",
-      "ticker": "MRSH"
     },
     {
       "avg_cost": 140.281739,
