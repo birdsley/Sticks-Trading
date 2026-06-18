@@ -1072,10 +1072,12 @@
         .ostab.active[data-strat="drl"]       { background:#ff9f43; color:#1d1304; border-color:transparent; }
         .ostab.active[data-strat="carry"]     { background:#9d7bff; color:#0f0820; border-color:transparent; }
         .strat-overview-card { display:none; }
-        .strat-overview-card.shown { display:flex; flex-direction:column; min-height:420px; }
-        /* fill the taller single-card view: larger, airier description text */
-        .strat-overview-card.shown .strat-card-desc { flex:1; font-size:16.5px; line-height:2.05; }
-        .strat-overview-card.shown .strat-card-desc { display:flex; align-items:center; }
+        .strat-overview-card.shown { display:flex; flex-direction:column; min-height:372px; }
+        /* single-card view: refined, readable description that fills the card */
+        .strat-overview-card.shown .strat-card-desc {
+            flex:1; display:flex; align-items:center;
+            font-size:15px; line-height:1.85; letter-spacing:0.1px; color:#b8bdc6;
+        }
         .strategy-section-badge { font-weight: 700; letter-spacing: 0.2px; }
         .strat-pill { background: rgba(255,255,255,0.03); border-color: var(--line); border-radius: 8px; }
 
@@ -1986,6 +1988,10 @@ const SP500_TICKERS = ['A','AAPL','ABBV','ABC','ABNB','ABT','ACGL','ACN','ADBE',
 'VICI','VLO','VLTO','VMC','VRSK','VRSN','VRTX','VST','VTR','VTRS','VZ','WAB','WAT','WBA','WBD',
 'WDC','WEC','WELL','WFC','WM','WMB','WMT','WRB','WST','WTW','WY','WYNN','XEL','XOM','XYL','YUM',
 'ZBH','ZBRA','ZTS'];
+
+// Cross-asset ETFs (DRL + Trend+Carry universes) — selectable in the ticker analysis tab
+const ETF_TICKERS = ['SPY','QQQ','IWM','EFA','EEM','EWJ','VGK','TLT','IEF','SHY','TIP','LQD','HYG',
+'GLD','SLV','DBC','USO','DBA','DBB','VNQ','UUP','FXE','FXY','DBMF'];
 
 // ══════════════════════════════════════════════════════════════
 //  TAB ROUTING
@@ -3783,17 +3789,31 @@ function selectHeldTicker(ticker, entryDate) {
     loadIntradayData();
 }
 
-// Build position info bar for any ticker (held or past)
+// Build position info bar for any ticker (held or past) — across all strategies
 function updateTickerPositionBar(ticker) {
     const bar   = document.getElementById('tickerPositionBar');
     const upper = (ticker || '').toUpperCase();
 
-    // Check if currently held by Sticks
-    const held = (state.positions?.sticks?.positions || [])
-        .find(p => (p.ticker || '').toUpperCase() === upper);
+    // Find which strategy holds/traded this ticker. Prefer the strategy selected
+    // in the held-ticker strip, then fall back to any other strategy.
+    const searchOrder = [heldStrategy, ...STRATEGIES.filter(s => s !== heldStrategy)];
+    let strat = null, held = null;
+    for (const s of searchOrder) {
+        const h = (state.positions?.[s]?.positions || [])
+            .find(p => (p.ticker || '').toUpperCase() === upper);
+        if (h) { strat = s; held = h; break; }
+    }
+    if (!strat) {
+        for (const s of searchOrder) {
+            if ((state.orders?.[s] || []).some(o => (o.ticker || '').toUpperCase() === upper)) { strat = s; break; }
+        }
+    }
+    if (!strat) strat = heldStrategy;
+    const stratLabel = LABELS[strat] || strat;
+    const stratColor = COLORS[strat] || '#00d4aa';
 
-    // Find all Sticks orders for this ticker, sorted chronologically
-    const orders = (state.orders?.sticks || [])
+    // All orders for this ticker from the resolved strategy, chronological
+    const orders = (state.orders?.[strat] || [])
         .filter(o => (o.ticker || '').toUpperCase() === upper)
         .sort((a, b) => a.decision_ts_utc.localeCompare(b.decision_ts_utc));
 
@@ -3816,7 +3836,7 @@ function updateTickerPositionBar(ticker) {
             ? Math.round((new Date() - new Date(held.entry_date)) / 86400000)
             : '?';
         bar.innerHTML = `
-            <span class="pos-info-badge held">Sticks TGA</span>
+            <span class="pos-info-badge held" style="background:${stratColor}22;color:${stratColor};">${stratLabel}</span>
             <span class="pos-info-badge ${sideClass}">${side}</span>
             <span class="pos-info-sep">·</span>
             <span>Entered <strong style="color:#e0e0e0;">${held.entry_date || '—'}</strong></span>
@@ -3846,7 +3866,7 @@ function updateTickerPositionBar(ticker) {
         const pnl    = isLong ? (exitP - entryP) * qty : (entryP - exitP) * qty;
         const pnlColor = pnl >= 0 ? '#00d4aa' : '#ff4757';
         bar.innerHTML = `
-            <span class="pos-info-badge closed">Sticks TGA — Closed</span>
+            <span class="pos-info-badge closed">${stratLabel} — Closed</span>
             <span class="pos-info-badge ${sideClass}">${side}</span>
             <span class="pos-info-sep">·</span>
             <span>Entered <strong style="color:#e0e0e0;">${entryDate}</strong>
@@ -3885,7 +3905,7 @@ function initTickerTab() {
     input.addEventListener('input', function() {
         const q = this.value.toUpperCase().trim();
         if (!q) { dropdown.classList.remove('active'); return; }
-        const matches = SP500_TICKERS.filter(t => t.startsWith(q)).slice(0, 60);
+        const matches = SP500_TICKERS.concat(ETF_TICKERS).filter(t => t.startsWith(q)).slice(0, 60);
         if (!matches.length) {
             dropdown.innerHTML = `<div class="autocomplete-no-results">No match for "${q}"</div>`;
         } else {
