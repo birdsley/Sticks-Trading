@@ -14,6 +14,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html, body { max-width: 100%; overflow-x: hidden; }   /* never let the page render wider than the screen (mobile zoom fix) */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: #0a0a0a;
@@ -77,7 +78,7 @@
 
         /* ── Strategy Filter Pills ── */
         .strategy-filter {
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
             background-color: #1a1a1a; border: 1px solid #2a2a2a;
             padding: 12px 16px; border-radius: 8px; margin-bottom: 30px;
         }
@@ -594,7 +595,7 @@
         }
         .manifesto-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, minmax(0, 1fr));   /* 4 hypotheses in one row — no orphan */
             gap: 24px;
         }
         .manifesto-item { padding-top: 16px; border-top: 1px solid #1f1f1f; }
@@ -668,8 +669,21 @@
             .overview-hero        { padding: 28px 24px; }
         }
         @media (max-width: 768px) {
+            body { padding: 12px; }
             .manifesto-grid { grid-template-columns: 1fr; }
             .overview-hero h2 { font-size: 24px; }
+            /* stack/condense header + filters so nothing overflows the screen */
+            .header { flex-wrap: wrap; gap: 12px; margin-bottom: 18px; padding-bottom: 14px; }
+            .main-tabs { flex-wrap: wrap; }
+            .strategy-filter { padding: 10px 12px; margin-bottom: 18px; }
+            .filter-right { margin-left: 0; width: 100%; }
+            .metric-value { font-size: 22px; }
+            .comparison-stats { grid-template-columns: 1fr 1fr; }
+            .macro-kpi-grid { grid-template-columns: 1fr 1fr; }
+            /* keep wide tables/charts inside their cards (scroll instead of pushing the page wide) */
+            .chart-container, .allocation-container, .diagnostic-card,
+            .history-table-wrap, .positions-table-wrap { overflow-x: auto; }
+            table { min-width: 0; }
         }
 
         /* ── Macro Tab ── */
@@ -1053,12 +1067,15 @@
                  color:#9aa0aa; font-weight:600; font-size:13px; cursor:pointer; transition:all .18s ease; }
         .ostab:hover { color:#fff; border-color:#3a3f49; }
         .ostab.active[data-strat="tga"]       { background:#00d4aa; color:#04121d; border-color:transparent; }
+        .ostab.active[data-strat="sticks"]    { background:#00d4aa; color:#04121d; border-color:transparent; }
         .ostab.active[data-strat="markowitz"] { background:#00a8ff; color:#04121d; border-color:transparent; }
         .ostab.active[data-strat="drl"]       { background:#ff9f43; color:#1d1304; border-color:transparent; }
         .ostab.active[data-strat="carry"]     { background:#9d7bff; color:#0f0820; border-color:transparent; }
         .strat-overview-card { display:none; }
         .strat-overview-card.shown { display:flex; flex-direction:column; min-height:420px; }
-        .strat-overview-card.shown .strat-card-desc { flex:1; }   /* fill to match the demo height */
+        /* fill the taller single-card view: larger, airier description text */
+        .strat-overview-card.shown .strat-card-desc { flex:1; font-size:16.5px; line-height:2.05; }
+        .strat-overview-card.shown .strat-card-desc { display:flex; align-items:center; }
         .strategy-section-badge { font-weight: 700; letter-spacing: 0.2px; }
         .strat-pill { background: rgba(255,255,255,0.03); border-color: var(--line); border-radius: 8px; }
 
@@ -1713,9 +1730,15 @@
 <!-- ══════════════════════════════════════════════ TICKER TAB ══ -->
 <div id="ticker-tab" class="tab-content">
 
-    <!-- Held-ticker quick-select (Sticks TGA current positions) -->
+    <!-- Held-ticker quick-select — pick a strategy, then click a ticker -->
     <div id="heldTickerStrip" style="display:none; margin-bottom:18px;">
-        <div class="held-strip-label">Currently Held — Sticks TGA &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
+        <div class="held-strat-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+            <button class="ostab active" data-strat="sticks"    onclick="selectHeldStrategy('sticks')">Sticks TGA</button>
+            <button class="ostab"        data-strat="markowitz" onclick="selectHeldStrategy('markowitz')">Markowitz</button>
+            <button class="ostab"        data-strat="drl"       onclick="selectHeldStrategy('drl')">DRL Vol</button>
+            <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry</button>
+        </div>
+        <div class="held-strip-label">Currently Held — <span id="heldStripStratName">Sticks TGA</span> &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
         <div class="held-strip" id="heldTickerPills"></div>
     </div>
 
@@ -1770,8 +1793,8 @@
             <div id="intradayChart" style="height:500px;"></div>
         </div>
 
-        <!-- 3 sub-charts -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px;">
+        <!-- 3 sub-charts (auto-fit so they never overflow / off-screen) -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;margin-top:20px;">
             <div class="chart-container">
                 <div class="chart-header">
                     <div class="chart-title">Rolling Volatility</div>
@@ -3694,16 +3717,33 @@ async function loadIntradayData() {
 }
 
 // ── Held-ticker strip ────────────────────────────────────────────
+let heldStrategy = 'sticks';   // which strategy's holdings the ticker tab shows
+
+function selectHeldStrategy(s) {
+    heldStrategy = s;
+    document.querySelectorAll('#heldTickerStrip .ostab')
+            .forEach(t => t.classList.toggle('active', t.dataset.strat === s));
+    renderHeldTickers();
+}
+
 function renderHeldTickers() {
     const strip   = document.getElementById('heldTickerStrip');
     const pillBox = document.getElementById('heldTickerPills');
     const countEl = document.getElementById('heldStripCount');
-    const pos     = state.positions?.sticks?.positions || [];
+    const nameEl  = document.getElementById('heldStripStratName');
+    const pos     = state.positions?.[heldStrategy]?.positions || [];
 
-    if (!pos.length) { strip.style.display = 'none'; return; }
-
+    // Always show the strip (with the strategy selector) on the ticker tab.
     strip.style.display = 'block';
+    if (nameEl) nameEl.textContent = LABELS[heldStrategy] || heldStrategy;
+    document.querySelectorAll('#heldTickerStrip .ostab')
+            .forEach(t => t.classList.toggle('active', t.dataset.strat === heldStrategy));
     countEl.textContent = `(${pos.length})`;
+
+    if (!pos.length) {
+        pillBox.innerHTML = `<div style="color:#505050;font-size:13px;padding:8px 0;">No current positions for ${LABELS[heldStrategy] || heldStrategy}.</div>`;
+        return;
+    }
 
     // Sort: oldest entry first, then alpha
     const sorted = [...pos].sort((a, b) => {
