@@ -94,6 +94,7 @@
         .pill-btn[data-strategy="sticks"].active  { background-color: #00d4aa; }
         .pill-btn[data-strategy="markowitz"].active { background-color: #00a8ff; }
         .pill-btn[data-strategy="drl"].active     { background-color: #ff9f43; }
+        .pill-btn[data-strategy="carry"].active   { background-color: #9d7bff; }
         .filter-right { margin-left: auto; font-size: 12px; color: #606060; }
 
         /* ── Metrics Grid ── */
@@ -152,6 +153,7 @@
         .alloc-bar-segment.sticks    { background-color: #00d4aa; }
         .alloc-bar-segment.markowitz { background-color: #00a8ff; }
         .alloc-bar-segment.drl       { background-color: #ff9f43; }
+        .alloc-bar-segment.carry     { background-color: #9d7bff; }
         .strategy-row {
             display: flex; align-items: center; justify-content: space-between;
             padding: 10px 0; border-bottom: 1px solid #1f1f1f;
@@ -162,6 +164,7 @@
         .strategy-dot.sticks    { background-color: #00d4aa; }
         .strategy-dot.markowitz { background-color: #00a8ff; }
         .strategy-dot.drl       { background-color: #ff9f43; }
+        .strategy-dot.carry     { background-color: #9d7bff; }
         .strategy-name  { font-size: 14px; font-weight: 500; color: #e0e0e0; }
         .strategy-sub   { font-size: 11px; color: #606060; }
         .strategy-equity{ font-size: 16px; font-weight: 600; color: #ffffff; }
@@ -956,6 +959,7 @@
         .pill-btn[data-strategy="sticks"].active  { background: linear-gradient(180deg,#00e6b8,#00c29a); box-shadow:0 3px 12px rgba(0,212,170,0.4); }
         .pill-btn[data-strategy="markowitz"].active { background: linear-gradient(180deg,#33b8ff,#0090e6); color:#04121d; box-shadow:0 3px 12px rgba(0,168,255,0.4); }
         .pill-btn[data-strategy="drl"].active     { background: linear-gradient(180deg,#ffb05f,#f08d2a); color:#1d1304; box-shadow:0 3px 12px rgba(255,159,67,0.4); }
+        .pill-btn[data-strategy="carry"].active   { background: linear-gradient(180deg,#b49bff,#8a63f0); color:#0f0820; box-shadow:0 3px 12px rgba(123,92,255,0.4); }
 
         /* ── Analytics / ticker small cards ── */
         .analytics-card, .ticker-metric-card { border-radius: 11px; }
@@ -972,11 +976,13 @@
         .alloc-bar-segment.sticks    { background: linear-gradient(90deg,#00d4aa,#00e6b8); }
         .alloc-bar-segment.markowitz { background: linear-gradient(90deg,#00a8ff,#33b8ff); }
         .alloc-bar-segment.drl       { background: linear-gradient(90deg,#ff9f43,#ffb567); }
+        .alloc-bar-segment.carry     { background: linear-gradient(90deg,#7b5cff,#9d7bff); }
         .total-equity-value { font-size: 28px; letter-spacing: -0.5px; text-shadow: 0 0 24px rgba(0,212,170,0.28); }
         .strategy-dot { box-shadow: 0 0 8px currentColor; }
         .strategy-dot.sticks    { color: var(--teal); }
         .strategy-dot.markowitz { color: var(--blue); }
         .strategy-dot.drl       { color: var(--orange); }
+        .strategy-dot.carry     { color: #9d7bff; }
 
         /* ── Tables ── */
         .history-table th, .release-table th { color: var(--txt-faint); font-weight: 700; }
@@ -1390,7 +1396,7 @@
         <div class="overview-stat-item">
             <div class="overview-stat-label">Paper Trading</div>
             <div class="overview-stat-value" id="overviewDaysLive">— days live</div>
-            <div class="overview-stat-sub">$10,000 per strategy · $30k total</div>
+            <div class="overview-stat-sub">$10,000 per strategy · $40k total</div>
         </div>
         <div class="overview-stat-item">
             <div class="overview-stat-label">Total Portfolio</div>
@@ -1411,6 +1417,7 @@
         <button class="pill-btn"        data-strategy="sticks"    onclick="setStrategy(event,'sticks')">Sticks TGA</button>
         <button class="pill-btn"        data-strategy="markowitz" onclick="setStrategy(event,'markowitz')">Markowitz</button>
         <button class="pill-btn"        data-strategy="drl"       onclick="setStrategy(event,'drl')">DRL Vol</button>
+        <button class="pill-btn"        data-strategy="carry"     onclick="setStrategy(event,'carry')">Trend + Carry</button>
         <div class="filter-right">
             Run status: <span id="runStatus" style="color:#00d4aa;">—</span>
             &nbsp;|&nbsp; Last run: <span id="lastRunDate">—</span>
@@ -1649,6 +1656,12 @@
                 <span style="font-size:13px;color:#606060;">Deep RL volatility targeting — 9 ETF universe</span>
             </div>
             <div class="analytics-cards" id="drlAnalyticsCards"></div>
+
+            <div class="strategy-section-header" id="carrySection">
+                <span class="strategy-section-badge carry">Trend + Carry</span>
+                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry — ~25 ETF universe (live since 2026-06-02)</span>
+            </div>
+            <div class="analytics-cards" id="carryAnalyticsCards"></div>
         </div>
 
         <!-- Correlation + Compare charts -->
@@ -1878,16 +1891,16 @@
 // ══════════════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════════════
-const STRATEGIES = ['sticks','markowitz','drl'];
-const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', drl:'DRL Vol' };
-const COLORS     = { sticks:'#00d4aa', markowitz:'#00a8ff', drl:'#ff9f43', spy:'#606060' };
+const STRATEGIES = ['sticks','markowitz','drl','carry'];
+const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', drl:'DRL Vol', carry:'Trend + Carry' };
+const COLORS     = { sticks:'#00d4aa', markowitz:'#00a8ff', drl:'#ff9f43', carry:'#9d7bff', spy:'#606060' };
 const START_EQUITY = 10000; // per strategy
 
 let currentStrategy = 'all';
 let state = {
-    equity:    { sticks:[], markowitz:[], drl:[] },   // [{date,equity}]
-    positions: { sticks:null, markowitz:null, drl:null }, // positions.json per strategy
-    orders:    { sticks:[], markowitz:[], drl:[] },   // orders.jsonl per strategy
+    equity:    { sticks:[], markowitz:[], drl:[], carry:[] },   // [{date,equity}]
+    positions: { sticks:null, markowitz:null, drl:null, carry:null }, // positions.json per strategy
+    orders:    { sticks:[], markowitz:[], drl:[], carry:[] },   // orders.jsonl per strategy
     spy: [],                                           // [{date,price}]
     snapshot: null,                                    // equity_snapshot.json
     runSummary: null,                                  // run_summary.json
@@ -1980,29 +1993,33 @@ async function loadAll() {
     try {
         setStatus('pending', 'Loading…');
 
-        const [eSticks, eMarkowitz, eDrl, snap, summary,
-               posSticks, posMarkowitz, posDrl,
-               ordSticks, ordMarkowitz, ordDrl] = await Promise.all([
+        const [eSticks, eMarkowitz, eDrl, eCarry, snap, summary,
+               posSticks, posMarkowitz, posDrl, posCarry,
+               ordSticks, ordMarkowitz, ordDrl, ordCarry] = await Promise.all([
             fetchCSV('data/equity/sticks.csv').catch(() => []),
             fetchCSV('data/equity/markowitz.csv').catch(() => []),
             fetchCSV('data/equity/drl.csv').catch(() => []),
+            fetchCSV('data/equity/carry.csv').catch(() => []),
             fetchJSON('data/daily/equity_snapshot.json').catch(() => null),
             fetchJSON('data/daily/run_summary.json').catch(() => null),
             fetchJSON('data/positions/sticks.json').catch(() => null),
             fetchJSON('data/positions/markowitz.json').catch(() => null),
             fetchJSON('data/positions/drl.json').catch(() => null),
+            fetchJSON('data/positions/carry.json').catch(() => null),
             fetchJSONL('data/orders/sticks.jsonl').catch(() => []),
             fetchJSONL('data/orders/markowitz.jsonl').catch(() => []),
             fetchJSONL('data/orders/drl.jsonl').catch(() => []),
+            fetchJSONL('data/orders/carry.jsonl').catch(() => []),
         ]);
 
         state.equity.sticks    = filterTradingDays(eSticks);
         state.equity.markowitz = filterTradingDays(eMarkowitz);
         state.equity.drl       = filterTradingDays(eDrl);
+        state.equity.carry     = filterTradingDays(eCarry);
         state.snapshot         = snap;
         state.runSummary       = summary;
-        state.positions        = { sticks: posSticks, markowitz: posMarkowitz, drl: posDrl };
-        state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, drl: ordDrl };
+        state.positions        = { sticks: posSticks, markowitz: posMarkowitz, drl: posDrl, carry: posCarry };
+        state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, drl: ordDrl, carry: ordCarry };
 
         // Load 30-day run history
         state.history = await loadRunHistory();
@@ -2026,11 +2043,7 @@ async function loadAll() {
 
 function refreshOverviewStats() {
     // Days live = max equity rows across strategies
-    const maxRows = Math.max(
-        state.equity.sticks.length,
-        state.equity.markowitz.length,
-        state.equity.drl.length
-    );
+    const maxRows = Math.max(0, ...STRATEGIES.map(s => state.equity[s].length));
     const daysEl = document.getElementById('overviewDaysLive');
     if (daysEl) daysEl.textContent = maxRows > 0 ? maxRows + ' days live' : '— days live';
 
@@ -2046,7 +2059,7 @@ function refreshOverviewStats() {
         }
     });
     const total = Object.values(equities).reduce((a,b) => a+b, 0);
-    const startTotal = START_EQUITY * 3;
+    const startTotal = START_EQUITY * STRATEGIES.length;
     const totalRet = (total - startTotal) / startTotal * 100;
     const teEl = document.getElementById('overviewTotalEquity');
     const trEl = document.getElementById('overviewTotalReturn');
@@ -2193,15 +2206,21 @@ function computeSpyMetrics(spy, startDate, endDate) {
 }
 
 function combinedEquity(strats) {
-    // Merge daily equity rows across multiple strategies → summed daily portfolio
+    // Merge daily equity rows across multiple strategies → summed daily portfolio.
+    // Strategies start on different dates (carry began 2026-06-02, after the others),
+    // so we FORWARD-FILL each strategy: before its first row it sits at its starting
+    // value, and gaps carry the last known value. This avoids a phantom step in the
+    // combined "All" curve when a later-funded strategy appears.
     const dates = new Set();
     strats.forEach(s => s.forEach(r => dates.add(r.date)));
     const sorted = Array.from(dates).sort();
-    const maps = strats.map(s => Object.fromEntries(s.map(r => [r.date, r.equity])));
-    return sorted.map(date => ({
-        date,
-        equity: maps.reduce((sum, m) => sum + (m[date] || 0), 0)
-    })).filter(r => r.equity > 0);
+    const maps  = strats.map(s => Object.fromEntries(s.map(r => [r.date, r.equity])));
+    const lasts = strats.map(s => (s.length ? s[0].equity : 0));   // pre-inception = first value
+    return sorted.map(date => {
+        let sum = 0;
+        maps.forEach((m, i) => { if (m[date] !== undefined) lasts[i] = m[date]; sum += lasts[i]; });
+        return { date, equity: sum };
+    }).filter(r => r.equity > 0);
 }
 
 function getActiveRows() {
@@ -2227,7 +2246,7 @@ function colorClass(n) { return n >= 0 ? 'positive' : 'negative'; }
 function refreshPerformanceTab() {
     const rows    = getActiveRows();
     const isAll   = currentStrategy === 'all';
-    const startCap= isAll ? START_EQUITY * 3 : START_EQUITY;
+    const startCap= isAll ? START_EQUITY * STRATEGIES.length : START_EQUITY;
 
     const m = computeMetrics(rows, startCap);
 
@@ -3092,7 +3111,7 @@ function renderStrategyCards(s) {
 }
 
 // Track which strategies have their positions expanded
-const positionsExpanded = { sticks: false, markowitz: false, drl: false };
+const positionsExpanded = { sticks: false, markowitz: false, drl: false, carry: false };
 
 function renderPositionsTable(container, s, sorted, expanded, cash, asOf) {
     const LIMIT   = 8;
