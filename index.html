@@ -1047,6 +1047,18 @@
         .strat-overview-card.active-markowitz { box-shadow: -3px 0 0 var(--blue), var(--shadow-md); }
         .strat-overview-card.active-drl       { box-shadow: -3px 0 0 var(--orange), var(--shadow-md); }
         .strat-overview-card.active-carry     { box-shadow: -3px 0 0 #9d7bff, var(--shadow-md); }
+        /* Overview strategy tabs — show one explanation at a time (demo stays on the right) */
+        .overview-strat-tabs { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+        .ostab { padding:7px 15px; border-radius:18px; border:1px solid var(--line); background:rgba(0,0,0,0.25);
+                 color:#9aa0aa; font-weight:600; font-size:13px; cursor:pointer; transition:all .18s ease; }
+        .ostab:hover { color:#fff; border-color:#3a3f49; }
+        .ostab.active[data-strat="tga"]       { background:#00d4aa; color:#04121d; border-color:transparent; }
+        .ostab.active[data-strat="markowitz"] { background:#00a8ff; color:#04121d; border-color:transparent; }
+        .ostab.active[data-strat="drl"]       { background:#ff9f43; color:#1d1304; border-color:transparent; }
+        .ostab.active[data-strat="carry"]     { background:#9d7bff; color:#0f0820; border-color:transparent; }
+        .strat-overview-card { display:none; }
+        .strat-overview-card.shown { display:flex; flex-direction:column; min-height:420px; }
+        .strat-overview-card.shown .strat-card-desc { flex:1; }   /* fill to match the demo height */
         .strategy-section-badge { font-weight: 700; letter-spacing: 0.2px; }
         .strat-pill { background: rgba(255,255,255,0.03); border-color: var(--line); border-radius: 8px; }
 
@@ -1270,7 +1282,14 @@
         <div>
             <div class="overview-section-label">Four Strategies</div>
 
-            <div class="strat-overview-card active-tga" data-strat="tga" onclick="selectOverviewStrat('tga')">
+            <div class="overview-strat-tabs">
+                <button class="ostab active" data-strat="tga"       onclick="selectOverviewStrat('tga')">Sticks TGA</button>
+                <button class="ostab"        data-strat="markowitz" onclick="selectOverviewStrat('markowitz')">Markowitz</button>
+                <button class="ostab"        data-strat="drl"       onclick="selectOverviewStrat('drl')">DRL Vol</button>
+                <button class="ostab"        data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button>
+            </div>
+
+            <div class="strat-overview-card active-tga shown" data-strat="tga" onclick="selectOverviewStrat('tga')">
                 <div class="strat-card-header">
                     <span class="strategy-section-badge sticks">Sticks TGA</span>
                     <span class="strat-card-freq">Daily &nbsp;·&nbsp; Mean Reversion</span>
@@ -1481,9 +1500,10 @@
             <div class="total-equity-label">TOTAL EQUITY</div>
             <div class="total-equity-value" id="totalEquityValue">—</div>
             <div class="alloc-bar-track" id="allocBar">
-                <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:33.3%"></div>
-                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:33.3%"></div>
-                <div class="alloc-bar-segment drl"       id="barDrl"       style="width:33.3%"></div>
+                <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:25%"></div>
+                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:25%"></div>
+                <div class="alloc-bar-segment drl"       id="barDrl"       style="width:25%"></div>
+                <div class="alloc-bar-segment carry"     id="barCarry"     style="width:25%"></div>
             </div>
             <div id="strategyRows"></div>
             <div class="run-status-row" id="runStatusRow">
@@ -2455,8 +2475,9 @@ function updateAllocationPanel() {
 
     // Update allocation bars
     STRATEGIES.forEach(s => {
-        const pct = total > 0 ? equities[s] / total * 100 : 33.3;
-        document.getElementById('bar' + s.charAt(0).toUpperCase() + s.slice(1)).style.width = pct + '%';
+        const pct = total > 0 ? equities[s] / total * 100 : 100 / STRATEGIES.length;
+        const barEl = document.getElementById('bar' + s.charAt(0).toUpperCase() + s.slice(1));
+        if (barEl) barEl.style.width = pct + '%';   // null-guard: don't let a missing bar break the panel
     });
 
     // Render strategy rows
@@ -3316,6 +3337,11 @@ function selectOverviewStrat(strat) {
     });
     const card = document.querySelector(`.strat-overview-card[data-strat="${strat}"]`);
     if (card) card.classList.add(DEMO_META[strat].activeClass);
+
+    // Tabbed view: show only the selected strategy's card, sync tab highlight
+    document.querySelectorAll('.strat-overview-card').forEach(c => c.classList.remove('shown'));
+    if (card) card.classList.add('shown');
+    document.querySelectorAll('.ostab').forEach(t => t.classList.toggle('active', t.dataset.strat === strat));
 
     // Update header label + dot
     const meta = DEMO_META[strat];
