@@ -1311,9 +1311,9 @@
 
             <div class="overview-strat-tabs">
                 <button class="ostab active" data-strat="tga"       onclick="selectOverviewStrat('tga')">Sticks TGA</button>
-                <button class="ostab"        data-strat="markowitz" onclick="selectOverviewStrat('markowitz')">Markowitz</button>
-                <button class="ostab"        data-strat="drl"       onclick="selectOverviewStrat('drl')">DRL Vol</button>
                 <button class="ostab"        data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button>
+                <button class="ostab"        data-strat="drl"       onclick="selectOverviewStrat('drl')">DRL Vol</button>
+                <button class="ostab"        data-strat="markowitz" onclick="selectOverviewStrat('markowitz')">Markowitz</button>
             </div>
 
             <div class="strat-overview-card active-tga shown" data-strat="tga" onclick="selectOverviewStrat('tga')">
@@ -1327,6 +1327,21 @@
                     <span class="strat-pill">MST Heat Diffusion</span>
                     <span class="strat-pill">MOO T+1 Fills · 7 bps</span>
                     <span class="strat-pill">Backtest Sharpe +0.602</span>
+                </div>
+                <div class="strat-active-indicator"></div>
+            </div>
+
+            <div class="strat-overview-card" data-strat="carry" onclick="selectOverviewStrat('carry')">
+                <div class="strat-card-header">
+                    <span class="strategy-section-badge carry">Trend + Carry</span>
+                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Live since 2026-06-02</span></span>
+                </div>
+                <div class="strat-card-desc">A diversified cross-asset book on ~25 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones across 3/6/12-month horizons, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. Each sleeve is vol-targeted; the blend is positive in every major crisis window and near-zero correlation to the S&P.</div>
+                <div class="strat-card-pills">
+                    <span class="strat-pill">~25-ETF Cross-Asset</span>
+                    <span class="strat-pill">Trend + Yield-Curve Carry</span>
+                    <span class="strat-pill">Validated Sharpe +1.03</span>
+                    <span class="strat-pill">Corr to S&amp;P −0.04 · Crisis-Positive</span>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1357,21 +1372,6 @@
                     <span class="strat-pill">PPO · Walk-Forward</span>
                     <span class="strat-pill">Backtest Sharpe 0.730</span>
                     <span class="strat-pill">Regime Adaptive</span>
-                </div>
-                <div class="strat-active-indicator"></div>
-            </div>
-
-            <div class="strat-overview-card" data-strat="carry" onclick="selectOverviewStrat('carry')">
-                <div class="strat-card-header">
-                    <span class="strategy-section-badge carry">Trend + Carry</span>
-                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Backtest — paper trade pending</span></span>
-                </div>
-                <div class="strat-card-desc">A diversified cross-asset book on ~25 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones across 3/6/12-month horizons, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. Each sleeve is vol-targeted; the blend is positive in every major crisis window and near-zero correlation to the S&P.</div>
-                <div class="strat-card-pills">
-                    <span class="strat-pill">~25-ETF Cross-Asset</span>
-                    <span class="strat-pill">Trend + Yield-Curve Carry</span>
-                    <span class="strat-pill">Backtest Sharpe +0.84</span>
-                    <span class="strat-pill">Corr to S&amp;P +0.08 · Crisis-Positive</span>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1461,9 +1461,9 @@
         <span class="filter-label">View:</span>
         <button class="pill-btn active" data-strategy="all"       onclick="setStrategy(event,'all')">All Strategies</button>
         <button class="pill-btn"        data-strategy="sticks"    onclick="setStrategy(event,'sticks')">Sticks TGA</button>
-        <button class="pill-btn"        data-strategy="markowitz" onclick="setStrategy(event,'markowitz')">Markowitz</button>
-        <button class="pill-btn"        data-strategy="drl"       onclick="setStrategy(event,'drl')">DRL Vol</button>
         <button class="pill-btn"        data-strategy="carry"     onclick="setStrategy(event,'carry')">Trend + Carry</button>
+        <button class="pill-btn"        data-strategy="drl"       onclick="setStrategy(event,'drl')">DRL Vol</button>
+        <button class="pill-btn"        data-strategy="markowitz" onclick="setStrategy(event,'markowitz')">Markowitz</button>
         <div class="filter-right">
             Run status: <span id="runStatus" style="color:#00d4aa;">—</span>
             &nbsp;|&nbsp; Last run: <span id="lastRunDate">—</span>
@@ -1528,9 +1528,9 @@
             <div class="total-equity-value" id="totalEquityValue">—</div>
             <div class="alloc-bar-track" id="allocBar">
                 <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:25%"></div>
-                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:25%"></div>
-                <div class="alloc-bar-segment drl"       id="barDrl"       style="width:25%"></div>
                 <div class="alloc-bar-segment carry"     id="barCarry"     style="width:25%"></div>
+                <div class="alloc-bar-segment drl"       id="barDrl"       style="width:25%"></div>
+                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:25%"></div>
             </div>
             <div id="strategyRows"></div>
             <div class="run-status-row" id="runStatusRow">
@@ -1692,11 +1692,11 @@
             </div>
             <div class="analytics-cards" id="sticksAnalyticsCards"></div>
 
-            <div class="strategy-section-header" id="markowitzSection">
-                <span class="strategy-section-badge markowitz">Markowitz</span>
-                <span style="font-size:13px;color:#606060;">Mean-variance optimization — Monday rebalance</span>
+            <div class="strategy-section-header" id="carrySection">
+                <span class="strategy-section-badge carry">Trend + Carry</span>
+                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry — ~25 ETF universe (live since 2026-06-02)</span>
             </div>
-            <div class="analytics-cards" id="markowitzAnalyticsCards"></div>
+            <div class="analytics-cards" id="carryAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="drlSection">
                 <span class="strategy-section-badge drl">DRL Vol</span>
@@ -1704,11 +1704,11 @@
             </div>
             <div class="analytics-cards" id="drlAnalyticsCards"></div>
 
-            <div class="strategy-section-header" id="carrySection">
-                <span class="strategy-section-badge carry">Trend + Carry</span>
-                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry — ~25 ETF universe (live since 2026-06-02)</span>
+            <div class="strategy-section-header" id="markowitzSection">
+                <span class="strategy-section-badge markowitz">Markowitz</span>
+                <span style="font-size:13px;color:#606060;">Mean-variance optimization — Monday rebalance</span>
             </div>
-            <div class="analytics-cards" id="carryAnalyticsCards"></div>
+            <div class="analytics-cards" id="markowitzAnalyticsCards"></div>
         </div>
 
         <!-- Correlation + Compare charts -->
@@ -1744,9 +1744,9 @@
     <div id="heldTickerStrip" style="display:none; margin-bottom:18px;">
         <div class="held-strat-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
             <button class="ostab active" data-strat="sticks"    onclick="selectHeldStrategy('sticks')">Sticks TGA</button>
-            <button class="ostab"        data-strat="markowitz" onclick="selectHeldStrategy('markowitz')">Markowitz</button>
-            <button class="ostab"        data-strat="drl"       onclick="selectHeldStrategy('drl')">DRL Vol</button>
             <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry</button>
+            <button class="ostab"        data-strat="drl"       onclick="selectHeldStrategy('drl')">DRL Vol</button>
+            <button class="ostab"        data-strat="markowitz" onclick="selectHeldStrategy('markowitz')">Markowitz</button>
         </div>
         <div class="held-strip-label">Currently Held — <span id="heldStripStratName">Sticks TGA</span> &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
         <div class="held-strip" id="heldTickerPills"></div>
@@ -1776,14 +1776,8 @@
         </div>
     </div>
 
-    <!-- Date-range selector (minute data; longer ranges need more pipeline history) -->
-    <div class="range-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
-        <button class="ostab active" data-range="1d" onclick="setTickerRange('1d')">1D</button>
-        <button class="ostab"        data-range="5d" onclick="setTickerRange('5d')">5D</button>
-        <button class="ostab"        data-range="1m" onclick="setTickerRange('1m')">1M</button>
-        <button class="ostab"        data-range="6m" onclick="setTickerRange('6m')">6M</button>
-        <button class="ostab"        data-range="1y" onclick="setTickerRange('1y')">1Y</button>
-    </div>
+    <!-- Date-range selector — adapts to available pipeline history (built by renderRangeTabs) -->
+    <div class="range-tabs" id="rangeTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div>
 
     <!-- Position info bar: entry/sold info for selected ticker -->
     <div id="tickerPositionBar" style="display:none;" class="pos-info-bar"></div>
@@ -1953,7 +1947,7 @@
 // ══════════════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════════════
-const STRATEGIES = ['sticks','markowitz','drl','carry'];
+const STRATEGIES = ['sticks','carry','drl','markowitz'];
 const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', drl:'DRL Vol', carry:'Trend + Carry' };
 const COLORS     = { sticks:'#00d4aa', markowitz:'#00a8ff', drl:'#ff9f43', carry:'#9d7bff', spy:'#606060' };
 const START_EQUITY = 10000; // per strategy
@@ -3456,10 +3450,40 @@ async function findMostRecentMinuteData(ticker) {
     return null;
 }
 
-// ── Date-range selector (minute data) ────────────────────────────
+// ── Date-range selector (minute data; adapts to available pipeline history) ──
 let tickerRange = '1d';
-const RANGE_DAYS  = { '1d':1, '5d':5, '1m':21, '6m':126, '1y':252 };
-const RANGE_LABEL = { '1d':'1 Day', '5d':'5 Days', '1m':'1 Month', '6m':'6 Months', '1y':'1 Year' };
+const MINUTE_INCEPTION = '2026-05-26';   // first day the minute pipeline ran
+// key → [label, trading days needed]. 'max' loads all available days.
+const RANGE_SPEC = [
+    ['1d',  '1D',  1],
+    ['5d',  '5D',  5],
+    ['10d', '10D', 10],
+    ['1m',  '1M',  21],
+    ['1y',  '1Y',  252],
+];
+const RANGE_DAYS  = { '1d':1, '5d':5, '10d':10, '1m':21, '1y':252, 'max':100000 };
+const RANGE_LABEL = { '1d':'1 Day', '5d':'5 Days', '10d':'10 Days', '1m':'1 Month', '1y':'1 Year', 'max':'Max' };
+
+function businessDaysSince(startStr) {
+    let d = new Date(startStr + 'T00:00:00');
+    const today = new Date(); let n = 0;
+    while (d <= today) { const dow = d.getDay(); if (dow !== 0 && dow !== 6) n++; d.setDate(d.getDate() + 1); }
+    return n;
+}
+
+// Show 1D + 5D always; reveal 10D / 1M / 1Y as history accrues; Max is always last.
+function renderRangeTabs() {
+    const box = document.getElementById('rangeTabs');
+    if (!box) return;
+    const avail = businessDaysSince(MINUTE_INCEPTION);
+    const keys = RANGE_SPEC.filter(([k, , need]) => k === '1d' || k === '5d' || need <= avail).map(s => s[0]);
+    keys.push('max');
+    if (!keys.includes(tickerRange)) tickerRange = '1d';
+    box.innerHTML = keys.map(k => {
+        const label = RANGE_SPEC.find(s => s[0] === k)?.[1] || 'Max';
+        return `<button class="ostab ${k === tickerRange ? 'active' : ''}" data-range="${k}" onclick="setTickerRange('${k}')">${label}</button>`;
+    }).join('');
+}
 
 function setTickerRange(r) {
     tickerRange = r;
@@ -3515,7 +3539,12 @@ async function loadIntradayData() {
         const need   = RANGE_DAYS[tickerRange];
         const anchor = (await findMostRecentMinuteData(ticker)) || requestedDate;
         const res    = await loadMultiDayMinute(ticker, anchor, need);
-        if (res.loadedDays < Math.max(2, Math.ceil(need * 0.5))) {
+        // 'max' renders whatever exists; fixed ranges require ~half the requested days,
+        // else this ticker hasn't accrued enough history → show the message.
+        const enoughData = tickerRange === 'max'
+            ? res.loadedDays >= 1
+            : res.loadedDays >= Math.max(2, Math.ceil(need * 0.5));
+        if (!enoughData) {
             document.getElementById('intradayLoading').style.display = 'none';
             const noData = document.getElementById('noIntradayData');
             noData.style.display = 'block';
@@ -3962,8 +3991,9 @@ function initTickerTab() {
     if (input._init) return;
     input._init = true;
 
-    // Populate the held-ticker strip whenever the tab opens
+    // Populate the held-ticker strip + adaptive date-range tabs whenever the tab opens
     renderHeldTickers();
+    renderRangeTabs();
 
     // Default to most recent non-weekend day
     const today = new Date();
