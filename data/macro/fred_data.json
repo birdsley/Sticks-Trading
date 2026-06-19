@@ -1,15 +1,11 @@
 {
-  "as_of": "2026-06-18",
+  "as_of": "2026-06-19",
   "T10Y3M": {
     "value": 0.63,
     "obs_date": "2026-06-18",
-    "release_date": "2026-06-18",
-    "spy_reaction": 0.78,
+    "release_date": "2026-06-19",
+    "spy_reaction": null,
     "series": [
-      {
-        "date": "2024-06-18",
-        "value": -1.28
-      },
       {
         "date": "2024-06-20",
         "value": -1.25
@@ -2011,8 +2007,8 @@
   "CPIAUCSL": {
     "value": 333.979,
     "obs_date": "2026-05-01",
-    "release_date": "2026-06-18",
-    "spy_reaction": 0.78,
+    "release_date": "2026-06-19",
+    "spy_reaction": null,
     "series": [
       {
         "date": "2024-06-01",
@@ -2113,8 +2109,8 @@
   "GDPC1": {
     "value": 24152.656,
     "obs_date": "2026-01-01",
-    "release_date": "2026-06-18",
-    "spy_reaction": 0.78,
+    "release_date": "2026-06-19",
+    "spy_reaction": null,
     "series": [
       {
         "date": "2024-04-01",
@@ -2155,8 +2151,8 @@
   "PAYEMS": {
     "value": 159001.0,
     "obs_date": "2026-05-01",
-    "release_date": "2026-06-18",
-    "spy_reaction": 0.78,
+    "release_date": "2026-06-19",
+    "spy_reaction": null,
     "series": [
       {
         "date": "2024-06-01",
@@ -2261,13 +2257,9 @@
   "DFF": {
     "value": 3.63,
     "obs_date": "2026-06-17",
-    "release_date": "2026-06-18",
-    "spy_reaction": 0.78,
+    "release_date": "2026-06-19",
+    "spy_reaction": null,
     "series": [
-      {
-        "date": "2024-06-18",
-        "value": 5.33
-      },
       {
         "date": "2024-06-19",
         "value": 5.33
@@ -5189,8 +5181,8 @@
   "UNRATE": {
     "value": 4.3,
     "obs_date": "2026-05-01",
-    "release_date": "2026-06-18",
-    "spy_reaction": 0.78,
+    "release_date": "2026-06-19",
+    "spy_reaction": null,
     "series": [
       {
         "date": "2024-06-01",
@@ -5290,13 +5282,9 @@
   "BAMLH0A0HYM2": {
     "value": 2.63,
     "obs_date": "2026-06-17",
-    "release_date": "2026-06-18",
-    "spy_reaction": 0.78,
+    "release_date": "2026-06-19",
+    "spy_reaction": null,
     "series": [
-      {
-        "date": "2024-06-18",
-        "value": 3.24
-      },
       {
         "date": "2024-06-19",
         "value": 3.24
