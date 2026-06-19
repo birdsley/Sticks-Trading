@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Trend + Carry — Cross-Asset Decision Manifold</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body { background:#04070d; overflow:hidden; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+  canvas { display:block; }
+  #regime { position:absolute; top:12px; left:14px; font-size:12px; font-weight:700; letter-spacing:0.4px; color:#9fb0c2; pointer-events:none; }
+  #formula { position:absolute; top:12px; right:14px; font-family:'SF Mono','JetBrains Mono',monospace; font-size:10.5px; color:#46506b; text-align:right; line-height:1.7; pointer-events:none; }
+  #formula b { color:#7f8db0; }
+  #hud { position:absolute; bottom:12px; left:14px; font-size:11px; line-height:1.65; pointer-events:none; color:#5a6472; }
+  #hud b { color:#cdd5e0; }
+  .leg { display:flex; align-items:center; gap:7px; margin-top:3px; }
+  .dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="regime">—</div>
+<div id="formula">
+  signal = sign(r<sub>3m</sub>)+sign(r<sub>6m</sub>)+sign(r<sub>12m</sub>)<br>
+  weight = <b>σ<sub>target</sub> / σ<sub>asset</sub></b> · |signal| &nbsp;(risk parity)<br>
+  carry tilt: duration ∝ (10y − 3m) slope
+</div>
+<div id="hud">
+  <div><b>Cross-asset trend + carry</b> — 24 ETFs, multi-horizon TSMOM + carry, risk-parity blended</div>
+  <div class="leg"><div class="dot" style="background:#00e3a4;"></div>LONG — positive trend &nbsp;·&nbsp; size ∝ inverse volatility</div>
+  <div class="leg"><div class="dot" style="background:#ff5470;"></div>SHORT — negative trend</div>
+  <div class="leg"><div class="dot" style="background:#9d7bff;"></div>risk-parity flow → book &nbsp;·&nbsp; <span id="net">net —</span></div>
+</div>
+<script>
+"use strict";
+/* Cross-asset trend + carry decision manifold — pure-canvas 3D projection (no deps).
+   X = trend signal (−1 short ◄ | decision plane x=0 | ► long +1)
+   Y = carry / yield      Z = volatility (sphere size ∝ σ_target/σ → inverse vol)
+   Signals drift across regimes → assets cross x=0 and flip long/short; risk-parity
+   weighted beams aggregate into the central BOOK core. */
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let W, H, DPR = Math.min(2, window.devicePixelRatio||1);
+function resize(){ W=innerWidth; H=innerHeight; cv.width=W*DPR; cv.height=H*DPR; cv.style.width=W+'px'; cv.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
+resize(); addEventListener('resize', resize);
+
+// ── Real ETF universe (annualized vol + carry/yield proxy) ──────────────
+const UNIV = [
+  {t:'SPY',cls:0,vol:0.15,carry:0.016},{t:'QQQ',cls:0,vol:0.21,carry:0.007},
+  {t:'IWM',cls:0,vol:0.23,carry:0.012},{t:'EFA',cls:0,vol:0.16,carry:0.029},
+  {t:'EEM',cls:0,vol:0.20,carry:0.024},{t:'EWJ',cls:0,vol:0.15,carry:0.020},
+  {t:'VGK',cls:0,vol:0.17,carry:0.031},
+  {t:'TLT',cls:1,vol:0.14,carry:0.046},{t:'IEF',cls:1,vol:0.07,carry:0.039},
+  {t:'SHY',cls:1,vol:0.02,carry:0.045},{t:'TIP',cls:1,vol:0.06,carry:0.031},
+  {t:'LQD',cls:2,vol:0.08,carry:0.052},{t:'HYG',cls:2,vol:0.09,carry:0.073},
+  {t:'GLD',cls:3,vol:0.15,carry:0.000},{t:'SLV',cls:3,vol:0.28,carry:-0.010},
+  {t:'DBC',cls:3,vol:0.16,carry:-0.018},{t:'USO',cls:3,vol:0.35,carry:-0.045},
+  {t:'DBA',cls:3,vol:0.15,carry:-0.012},{t:'DBB',cls:3,vol:0.20,carry:-0.008},
+  {t:'VNQ',cls:4,vol:0.20,carry:0.038},
+  {t:'UUP',cls:5,vol:0.07,carry:0.040},{t:'FXE',cls:5,vol:0.07,carry:-0.008},
+  {t:'FXY',cls:5,vol:0.09,carry:-0.020},
+];
+UNIV.forEach((a,i)=>{ a.ph=i*0.9; a.fr=0.9+(i%5)*0.18; a.sig=0; a.w=0; });
+const VOL_TARGET = 0.15;
+const wx = s => s*13;                       // momentum → x  (±13)
+const wy = c => (c/0.073)*8 - 1;            // carry    → y
+const wz = v => (v/0.35)*20 - 10;           // vol      → z
+
+// ── Camera / projection ─────────────────────────────────────────────────
+let yaw=0.6, pitch=-0.42, t=0;
+const CAM=42;
+function proj(x,y,z){
+  const cy=Math.cos(yaw), sy=Math.sin(yaw);
+  let X=x*cy - z*sy, Z=x*sy + z*cy, Y=y;
+  const cp=Math.cos(pitch), sp=Math.sin(pitch);
+  let Y2=Y*cp - Z*sp, Z2=Y*sp + Z*cp;
+  const focal=Math.min(W,H)*0.95;
+  const s=focal/(CAM+Z2+34);
+  return { x:W/2 + X*s, y:H/2 - Y2*s, s, depth:Z2 };
+}
+
+// ── Regimes ──────────────────────────────────────────────────────────────
+const REGIMES=[
+  {name:'TRENDING — broad risk-on, curve steep', dur:430, eq:+0.6, du:+0.2, slope:+1},
+  {name:'DEFENSIVE — bonds + gold lead',          dur:360, eq:-0.2, du:+0.7, slope:+0.2},
+  {name:'CRISIS — equities short, carry cushions', dur:340, eq:-1.0, du:+0.9, slope:-0.6},
+  {name:'RECOVERY — trend re-engages long',        dur:400, eq:+0.7, du:+0.1, slope:+0.7},
+];
+let reg=0, regT=0, slope=1, flash=0;
+
+function drawGrid(){
+  ctx.lineWidth=1;
+  const g=14, step=4, yF=-9;
+  for(let i=-g;i<=g;i+=step){
+    let p1=proj(i,yF,-g), p2=proj(i,yF,g);
+    ctx.strokeStyle='rgba(22,48,74,'+(0.5)+')'; ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y); ctx.stroke();
+    let p3=proj(-g,yF,i), p4=proj(g,yF,i);
+    ctx.beginPath(); ctx.moveTo(p3.x,p3.y); ctx.lineTo(p4.x,p4.y); ctx.stroke();
+  }
+}
+function drawDecisionPlane(){
+  const c=[proj(0,-9,-12),proj(0,11,-12),proj(0,11,12),proj(0,-9,12)];
+  ctx.beginPath(); ctx.moveTo(c[0].x,c[0].y); for(let i=1;i<4;i++)ctx.lineTo(c[i].x,c[i].y); ctx.closePath();
+  ctx.fillStyle='rgba(157,123,255,0.06)'; ctx.fill();
+  ctx.strokeStyle='rgba(157,123,255,0.22)'; ctx.lineWidth=1; ctx.stroke();
+}
+function axisLabel(txt,x,y,z,color){
+  const p=proj(x,y,z);
+  ctx.font='600 12px -apple-system, sans-serif'; ctx.fillStyle=color; ctx.textAlign='center';
+  ctx.fillText(txt,p.x,p.y);
+}
+
+function step(){
+  t++; regT++;
+  const Rg=REGIMES[reg];
+  if(regT>Rg.dur){ regT=0; reg=(reg+1)%REGIMES.length; flash=1; }
+  slope += (Rg.slope - slope)*0.01;
+
+  // signals + risk-parity weights
+  let totW=0, net=0, gross=0;
+  UNIV.forEach(a=>{
+    let s=Math.sin(t*0.006*a.fr + a.ph);
+    if(a.cls===0) s+=Rg.eq*0.7;
+    if(a.cls===1||a.cls===2) s+=Rg.du*0.5;
+    if(a.t==='GLD') s+=(Rg.eq<0?0.7:0.1);
+    if((a.t==='TLT'||a.t==='IEF'||a.t==='TIP') && slope<0) s*=0.35;
+    a.sig=Math.max(-1,Math.min(1,s));
+    a.w=Math.abs(a.sig)*(VOL_TARGET/a.vol);
+    totW+=a.w;
+  });
+  UNIV.forEach(a=>{ a.w/=totW; net+=a.w*Math.sign(a.sig); gross+=a.w; });
+
+  // ── render ──
+  ctx.clearRect(0,0,W,H);
+  yaw+=0.0016;
+  drawGrid();
+  drawDecisionPlane();
+  axisLabel('◄ SHORT', -14,-9.5,0,'#ff5470');
+  axisLabel('LONG ►',  14,-9.5,0,'#00e3a4');
+  axisLabel('CARRY ▲', -14, 10, 0,'#6b7790');
+
+  const core=proj(0,1.5,0);
+
+  // beams (drawn first, behind spheres)
+  UNIV.forEach(a=>{
+    const p=proj(wx(a.sig),wy(a.carry),wz(a.vol));
+    const col=a.sig>=0?'0,227,164':'255,84,112';
+    ctx.strokeStyle=`rgba(${col},${0.05+a.w*4.5})`;
+    ctx.lineWidth=0.4+a.w*9;
+    ctx.beginPath(); ctx.moveTo(core.x,core.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+  });
+
+  // depth-sorted nodes (far first)
+  const items=UNIV.map(a=>{ const p=proj(wx(a.sig),wy(a.carry),wz(a.vol)); return {a,p}; })
+                  .sort((u,v)=>v.p.depth - u.p.depth);
+  items.forEach(({a,p})=>{
+    const col=a.sig>=0?[0,227,164]:[255,84,112];
+    const r=Math.max(2.5,(2.2+a.w*230)*(p.s/14));
+    // glow
+    const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*2.6);
+    g.addColorStop(0,`rgba(${col[0]},${col[1]},${col[2]},${0.30+Math.abs(a.sig)*0.25})`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,r*2.6,0,7); ctx.fill();
+    // body
+    const b=ctx.createRadialGradient(p.x-r*0.3,p.y-r*0.3,r*0.1,p.x,p.y,r);
+    b.addColorStop(0,`rgb(${Math.min(255,col[0]+70)},${Math.min(255,col[1]+70)},${Math.min(255,col[2]+70)})`);
+    b.addColorStop(1,`rgb(${col[0]},${col[1]},${col[2]})`);
+    ctx.fillStyle=b; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,7); ctx.fill();
+    // label
+    ctx.font=`600 ${Math.max(8,Math.min(13,r*0.9))}px -apple-system, sans-serif`;
+    ctx.fillStyle='rgba(220,228,238,0.78)'; ctx.textAlign='center';
+    ctx.fillText(a.t, p.x, p.y - r - 3);
+  });
+
+  // book core
+  const cr=10+Math.abs(net)*16+flash*10+Math.sin(t*0.05)*1.5;
+  const cg=ctx.createRadialGradient(core.x,core.y,0,core.x,core.y,cr*2.4);
+  cg.addColorStop(0,'rgba(232,237,244,0.9)'); cg.addColorStop(0.45,'rgba(157,123,255,0.5)'); cg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(core.x,core.y,cr*2.4,0,7); ctx.fill();
+  ctx.fillStyle='#e8edf4'; ctx.beginPath(); ctx.arc(core.x,core.y,cr,0,7); ctx.fill();
+  ctx.fillStyle='#0a0f1c'; ctx.font='700 11px -apple-system, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('BOOK',core.x,core.y); ctx.textBaseline='alphabetic';
+  flash*=0.94;
+
+  document.getElementById('regime').textContent=Rg.name;
+  document.getElementById('net').textContent=`net ${(net>=0?'+':'')}${(net*100).toFixed(0)}% · gross ${(gross*100).toFixed(0)}%`;
+  requestAnimationFrame(step);
+}
+step();
+</script>
+</body>
+</html>
