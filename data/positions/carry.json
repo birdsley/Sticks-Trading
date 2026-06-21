@@ -1,7 +1,7 @@
 {
   "as_of": "2026-06-21",
-  "cash": -6809.417237,
-  "equity_estimate": 9942.99262,
+  "cash": -6809.998372,
+  "equity_estimate": 9942.511487,
   "last_run_id": "2026-06-21_carry_catchup",
   "open_orders": [],
   "pending_orders": [],
@@ -30,7 +30,7 @@
     {
       "avg_cost": 70.790001,
       "entry_date": "2026-06-21",
-      "shares": 3,
+      "shares": 4,
       "strategy": "carry",
       "ticker": "EEM"
     },
@@ -58,7 +58,7 @@
     {
       "avg_cost": 56.849998,
       "entry_date": "2026-06-21",
-      "shares": -19,
+      "shares": -21,
       "strategy": "carry",
       "ticker": "FXY"
     },
@@ -79,7 +79,7 @@
     {
       "avg_cost": 94.360001,
       "entry_date": "2026-06-21",
-      "shares": 3,
+      "shares": 2,
       "strategy": "carry",
       "ticker": "IEF"
     },
@@ -93,7 +93,7 @@
     {
       "avg_cost": 109.07,
       "entry_date": "2026-06-21",
-      "shares": 17,
+      "shares": 18,
       "strategy": "carry",
       "ticker": "LQD"
     },
@@ -149,7 +149,7 @@
     {
       "avg_cost": 28.299999,
       "entry_date": "2026-06-21",
-      "shares": 48,
+      "shares": 49,
       "strategy": "carry",
       "ticker": "UUP"
     },
