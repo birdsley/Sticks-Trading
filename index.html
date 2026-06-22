@@ -2043,10 +2043,14 @@ function setStrategy(e, name) {
 //  DATA LOADING
 // ══════════════════════════════════════════════════════════════
 
-// Strip leading rows where equity == startEquity (flat pre-trading days)
+// Strip leading flat pre-trading days (equity == startEquity), but KEEP the last
+// flat day as the $10,000 inception anchor so the curve starts at its true first
+// day at 10,000 (otherwise a book like carry, whose first real row is exactly
+// $10,000 on its inception date, loses that anchor and appears to start a day late).
 function filterTradingDays(rows, startEquity = START_EQUITY) {
     const first = rows.findIndex(r => r.equity != null && r.equity !== startEquity);
-    return first < 0 ? [] : rows.slice(first);
+    if (first < 0) return rows.length ? [rows[rows.length - 1]] : [];  // all flat → keep last
+    return rows.slice(Math.max(0, first - 1));                          // keep the $10k anchor day
 }
 
 async function loadAll() {
@@ -2392,40 +2396,33 @@ function updateEquityChart() {
     const isAll = currentStrategy === 'all';
 
     const datasets = [];
-    const labels   = [];
 
-    if (isAll) {
-        STRATEGIES.forEach(s => {
-            const rows = state.equity[s];
-            if (!rows.length) return;
-            rows.forEach(r => labels.push(r.date));
-            datasets.push({
-                label: LABELS[s],
-                data:  rows.map(r => ((r.equity - START_EQUITY) / START_EQUITY * 100)),
-                xLabels: rows.map(r => r.date),
-                borderColor: COLORS[s],
-                backgroundColor: 'transparent',
-                borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.3, fill: false
-            });
-        });
-    } else {
-        const rows = state.equity[currentStrategy] || [];
-        rows.forEach(r => labels.push(r.date));
+    // Build a UNIFIED, sorted date axis across every plotted strategy, then map each
+    // series to it BY DATE (null where a strategy has no row that day). Without this,
+    // Chart.js plots each data array positionally against one shared label set, so a
+    // book that starts later / is shorter (e.g. carry from 2026-06-02) gets shifted —
+    // wrong start day and wrong end day. Date-keying fixes both.
+    const stratList = isAll ? STRATEGIES : [currentStrategy];
+    const dateSet = new Set();
+    stratList.forEach(s => (state.equity[s] || []).forEach(r => dateSet.add(r.date)));
+    const allDates = [...dateSet].sort();
+
+    stratList.forEach(s => {
+        const rows = state.equity[s] || [];
+        if (!rows.length) return;
+        const m = Object.fromEntries(rows.map(r => [r.date, (r.equity - START_EQUITY) / START_EQUITY * 100]));
         datasets.push({
-            label: LABELS[currentStrategy],
-            data:  rows.map(r => ((r.equity - START_EQUITY) / START_EQUITY * 100)),
-            xLabels: rows.map(r => r.date),
-            borderColor: COLORS[currentStrategy],
+            label: LABELS[s],
+            data:  allDates.map(d => (d in m ? m[d] : null)),
+            borderColor: COLORS[s],
             backgroundColor: 'transparent',
-            borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.3, fill: false
+            borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.3, fill: false, spanGaps: true
         });
-    }
+    });
 
-    // SPY line — aligned to each strategy's date range
-    const allDates = [...new Set(labels)].sort();
+    // SPY line — same date axis
     const spyMap   = Object.fromEntries(state.spy.map(d => [d.date, d.price]));
     const spyInRange = allDates.map(d => spyMap[d]).filter(Boolean);
-
     if (spyInRange.length > 1 && allDates.length > 1) {
         const spyBase = spyInRange[0];
         datasets.push({
@@ -2434,11 +2431,10 @@ function updateEquityChart() {
                 const p = spyMap[d];
                 return p != null ? (p - spyBase) / spyBase * 100 : null;
             }),
-            xLabels: allDates,
             borderColor: COLORS.spy,
             borderDash: [4, 3],
             backgroundColor: 'transparent',
-            borderWidth: 1.5, pointRadius: 0, tension: 0.3, fill: false
+            borderWidth: 1.5, pointRadius: 0, tension: 0.3, fill: false, spanGaps: true
         });
     }
 
@@ -2453,8 +2449,8 @@ function updateEquityChart() {
 
     if (charts.equity) charts.equity.destroy();
 
-    // Use the first strategy's dates as chart labels
-    const chartLabels = datasets[0]?.xLabels || allDates;
+    // Unified date axis (all series are aligned to it by date)
+    const chartLabels = allDates;
 
     charts.equity = new Chart(ctx, {
         type: 'line',
