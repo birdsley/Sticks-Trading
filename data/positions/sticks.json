@@ -1,59 +1,45 @@
 {
-  "as_of": "2026-06-22",
-  "cash": 18254.245824,
-  "equity_estimate": 11081.825863978029,
-  "last_run_id": "2026-06-22_sticks_live",
+  "as_of": "2026-06-23",
+  "cash": 3083.229794,
+  "equity_estimate": 3773.1798367246092,
+  "last_run_id": "2026-06-23_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 465.783708,
-      "entry_date": "2026-06-02",
-      "shares": -4,
-      "strategy": "sticks",
-      "ticker": "DELL"
-    },
-    {
-      "avg_cost": 1048.950279,
-      "entry_date": "2026-06-02",
-      "shares": -2,
-      "strategy": "sticks",
-      "ticker": "MU"
-    },
-    {
-      "avg_cost": 129.809064,
-      "entry_date": "2026-06-02",
-      "shares": -7,
-      "strategy": "sticks",
-      "ticker": "NOW"
-    },
-    {
-      "avg_cost": 48.665911,
-      "entry_date": "2026-06-02",
-      "shares": -42,
-      "strategy": "sticks",
-      "ticker": "SMCI"
-    },
-    {
-      "avg_cost": 57.9594,
-      "entry_date": "2026-06-02",
-      "shares": -17,
-      "strategy": "sticks",
-      "ticker": "FISV"
-    },
-    {
-      "avg_cost": 140.281739,
-      "entry_date": "2026-06-02",
-      "shares": -7,
-      "strategy": "sticks",
-      "ticker": "CDW"
-    },
     {
       "avg_cost": 499.0841,
       "entry_date": "2026-06-11",
       "shares": 1,
       "strategy": "sticks",
       "ticker": "WDC"
+    },
+    {
+      "avg_cost": 49.784825,
+      "entry_date": "2026-06-23",
+      "shares": 44,
+      "strategy": "sticks",
+      "ticker": "FOXA"
+    },
+    {
+      "avg_cost": 45.541855,
+      "entry_date": "2026-06-23",
+      "shares": 48,
+      "strategy": "sticks",
+      "ticker": "FOX"
+    },
+    {
+      "avg_cost": 1054.411419,
+      "entry_date": "2026-06-23",
+      "shares": -2,
+      "strategy": "sticks",
+      "ticker": "GEV"
+    },
+    {
+      "avg_cost": 58.9587,
+      "entry_date": "2026-06-23",
+      "shares": -36,
+      "strategy": "sticks",
+      "ticker": "MRNA"
     }
   ]
 }

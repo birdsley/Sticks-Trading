@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-16",
-  "cash": 2343.196761,
-  "equity_estimate": 9801.701788770995,
-  "last_run_id": "2026-06-22_markowitz_live",
+  "as_of": "2026-06-23",
+  "cash": 1569.785726,
+  "equity_estimate": 9773.185668398071,
+  "last_run_id": "2026-06-23_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -224,9 +224,9 @@
       "ticker": "MGM"
     },
     {
-      "avg_cost": 49.890901,
+      "avg_cost": 52.5053,
       "entry_date": "2026-06-09",
-      "shares": 5,
+      "shares": 7,
       "strategy": "markowitz",
       "ticker": "MRNA"
     },
@@ -327,6 +327,20 @@
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "RF"
+    },
+    {
+      "avg_cost": 65.470801,
+      "entry_date": "2026-06-23",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "FCX"
+    },
+    {
+      "avg_cost": 262.193417,
+      "entry_date": "2026-06-23",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "INTU"
     }
   ]
 }
