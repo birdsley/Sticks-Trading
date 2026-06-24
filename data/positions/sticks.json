@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-23",
-  "cash": 3083.229794,
-  "equity_estimate": 3773.1798367246092,
-  "last_run_id": "2026-06-23_sticks_live",
+  "as_of": "2026-06-24",
+  "cash": 4896.942967,
+  "equity_estimate": 3733.102879109375,
+  "last_run_id": "2026-06-24_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -14,20 +14,6 @@
       "ticker": "WDC"
     },
     {
-      "avg_cost": 49.784825,
-      "entry_date": "2026-06-23",
-      "shares": 44,
-      "strategy": "sticks",
-      "ticker": "FOXA"
-    },
-    {
-      "avg_cost": 45.541855,
-      "entry_date": "2026-06-23",
-      "shares": 48,
-      "strategy": "sticks",
-      "ticker": "FOX"
-    },
-    {
       "avg_cost": 1054.411419,
       "entry_date": "2026-06-23",
       "shares": -2,
@@ -35,11 +21,18 @@
       "ticker": "GEV"
     },
     {
-      "avg_cost": 58.9587,
-      "entry_date": "2026-06-23",
-      "shares": -36,
+      "avg_cost": 41.0287,
+      "entry_date": "2026-06-24",
+      "shares": 27,
       "strategy": "sticks",
-      "ticker": "MRNA"
+      "ticker": "CTSH"
+    },
+    {
+      "avg_cost": 33.296676,
+      "entry_date": "2026-06-24",
+      "shares": -25,
+      "strategy": "sticks",
+      "ticker": "SMCI"
     }
   ]
 }
