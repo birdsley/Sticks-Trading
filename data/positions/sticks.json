@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-24",
-  "cash": 4896.942967,
-  "equity_estimate": 3733.102879109375,
-  "last_run_id": "2026-06-24_sticks_live",
+  "as_of": "2026-06-25",
+  "cash": 438.983804,
+  "equity_estimate": 3738.053857100586,
+  "last_run_id": "2026-06-25_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -12,13 +12,6 @@
       "shares": 1,
       "strategy": "sticks",
       "ticker": "WDC"
-    },
-    {
-      "avg_cost": 1054.411419,
-      "entry_date": "2026-06-23",
-      "shares": -2,
-      "strategy": "sticks",
-      "ticker": "GEV"
     },
     {
       "avg_cost": 41.0287,
@@ -33,6 +26,27 @@
       "shares": -25,
       "strategy": "sticks",
       "ticker": "SMCI"
+    },
+    {
+      "avg_cost": 128.439851,
+      "entry_date": "2026-06-25",
+      "shares": 2,
+      "strategy": "sticks",
+      "ticker": "ACN"
+    },
+    {
+      "avg_cost": 218.397018,
+      "entry_date": "2026-06-25",
+      "shares": -1,
+      "strategy": "sticks",
+      "ticker": "GLW"
+    },
+    {
+      "avg_cost": 2239.871745,
+      "entry_date": "2026-06-25",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "SNDK"
     }
   ]
 }
