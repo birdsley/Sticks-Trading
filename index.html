@@ -1290,6 +1290,7 @@
     <div class="main-tab"        onclick="switchMainTab(event,'performance')">Performance &amp; Analytics</div>
     <div class="main-tab"        onclick="switchMainTab(event,'ticker')">Ticker Analysis</div>
     <div class="main-tab"        onclick="switchMainTab(event,'macro')">Macro</div>
+    <div class="main-tab"        onclick="switchMainTab(event,'marketstructure')">Market Structure</div>
 </div>
 
 <!-- ══════════════════════════════════════════════ OVERVIEW TAB ══ -->
@@ -1735,6 +1736,33 @@
         </div>
     </div><!-- /analyticsInPerf -->
 
+    <!-- Fama-French factor attribution (per-strategy drilldown; flagship only for now) -->
+    <div id="ffSection" class="chart-container" style="display:none;margin-top:20px;">
+        <div class="chart-header">
+            <div>
+                <div class="chart-title">Factor Attribution — Fama-French <span id="ffScopePill"></span></div>
+                <div class="chart-subtitle">
+                    Each book's returns regressed on equity factors (MKT / SMB / HML / MOM) to separate genuine
+                    <b>alpha</b> from disguised <b>beta</b>. A real diversifier shows market β ≈ 0 and low R²;
+                    SPY lands at β ≈ 1 / R² ≈ 1 as a sanity check.
+                </div>
+            </div>
+        </div>
+        <div id="ffNote" class="ind-foot" style="margin-bottom:14px;"></div>
+        <div id="ffCards" class="ff-grid"></div>
+        <div id="ffFoot" class="ind-foot" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- Placeholder shown on strategy drilldowns without factor attribution yet -->
+    <div id="ffPlaceholder" class="chart-container" style="display:none;margin-top:20px;">
+        <div class="chart-header">
+            <div>
+                <div class="chart-title">Factor Attribution — Fama-French</div>
+                <div class="chart-subtitle" id="ffPlaceholderText"></div>
+            </div>
+        </div>
+    </div>
+
 </div><!-- /performance-tab -->
 
 <!-- ══════════════════════════════════════════════ TICKER TAB ══ -->
@@ -1927,6 +1955,24 @@
                 </div>
             </div>
 
+            <!-- FOMC hawk–dove NLP panel -->
+            <div class="chart-container" id="fomcPanel">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">FOMC Policy Tone — Hawk / Dove Score <span id="fomcTone"></span></div>
+                        <div class="chart-subtitle">
+                            NLP read of each FOMC statement: a transparent finance lexicon scores the wording
+                            <b>net = (hawk − dove) / (hawk + dove)</b> ∈ [−1, +1]. Red bars = hawkish (tightening tone),
+                            teal = dovish (easing tone); grey line = SPY at each meeting. Statements are leak-free
+                            alternative text, and tone tends to lead policy.
+                        </div>
+                    </div>
+                </div>
+                <div class="macro-kpi-grid" id="fomcKpis" style="margin-bottom:14px;"></div>
+                <canvas id="fomcChart" height="150"></canvas>
+                <div id="fomcFoot" style="font-size:11px;color:#606060;margin-top:8px;"></div>
+            </div>
+
             <!-- Data releases table -->
             <div class="chart-container">
                 <div class="chart-header">
@@ -1941,6 +1987,81 @@
         </div><!-- /macro-main -->
     </div><!-- /macro-layout -->
 </div><!-- /macro-tab -->
+
+
+<!-- ══════════════════════════════════════════ MARKET STRUCTURE TAB ══ -->
+<div id="marketstructure-tab" class="tab-content">
+
+    <div class="overview-hero" style="margin-bottom:20px;">
+        <div class="overview-badge">Systemic Risk &amp; Positioning</div>
+        <h2>Market Structure</h2>
+        <p>Two market-wide regime gauges that frame the environment our cross-asset book trades into.
+        <b>Random Matrix Theory</b> measures how concentrated the S&amp;P is into a single common factor —
+        when it spikes, diversification breaks down exactly when you need it. <b>CFTC Commitment of Traders</b>
+        shows how crowded large speculators are across equities, gold, rates and the dollar — positioning
+        extremes that often precede reversals.</p>
+    </div>
+
+    <!-- RMT systemic-correlation monitor -->
+    <div class="chart-container" id="rmtPanel">
+        <div class="chart-header">
+            <div>
+                <div class="chart-title">Systemic Correlation — Random Matrix Theory <span id="rmtRegimePill"></span></div>
+                <div class="chart-subtitle">
+                    Eigenspectrum of the S&amp;P correlation matrix vs the Marchenko–Pastur noise band (q = N/T).
+                    Eigenvalues past λ+ are real factors; the largest (λ_max) is the “market mode”. A high
+                    <b>market-mode share</b> + collapsing factor count ⇒ everything moving as one (diversification breakdown).
+                </div>
+            </div>
+        </div>
+        <div class="macro-kpi-grid" id="rmtKpis" style="margin-bottom:16px;"></div>
+        <div class="macro-charts-2col">
+            <div>
+                <div class="chart-title" style="font-size:13px;margin-bottom:6px;">Eigenvalue spectrum vs Marchenko–Pastur</div>
+                <canvas id="rmtSpecChart" height="200"></canvas>
+                <div class="ind-foot" id="rmtSpecFoot"></div>
+            </div>
+            <div>
+                <div class="chart-title" style="font-size:13px;margin-bottom:6px;">Rolling market-mode share &amp; factor count</div>
+                <canvas id="rmtRollChart" height="200"></canvas>
+                <div class="ind-foot">Teal = λ_max share (correlation concentration). Orange = # significant factors. Share spikes + factor count collapsing ⇒ diversification breakdown.</div>
+            </div>
+        </div>
+        <div class="ind-foot" id="rmtFoot" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- COT positioning -->
+    <div class="chart-container" id="cotPanel" style="margin-top:20px;">
+        <div class="chart-header">
+            <div>
+                <div class="chart-title">Institutional Positioning — CFTC Commitment of Traders</div>
+                <div class="chart-subtitle">
+                    Large-speculator (“non-commercial”) net positioning as a 3-yr percentile <b>COT Index</b> (0 = max-bearish,
+                    100 = max-bullish extreme), with an unsupervised <b>Isolation Forest</b> flag for structurally stretched weeks.
+                    A risk-on/off positioning gauge across the asset classes our book trades.
+                </div>
+            </div>
+        </div>
+        <div class="macro-charts-2col" style="align-items:start;">
+            <div>
+                <div class="chart-title" style="font-size:13px;margin-bottom:10px;">COT Index — 3-yr positioning percentile</div>
+                <div id="cotGauges"></div>
+            </div>
+            <div>
+                <div class="chart-title" style="font-size:13px;margin-bottom:10px;">Net positioning + anomaly flags</div>
+                <div id="cotBtns" style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;"></div>
+                <canvas id="cotChart" height="200"></canvas>
+                <div class="ind-foot">◆ orange marker = Isolation Forest flagged a structurally stretched week.</div>
+            </div>
+        </div>
+        <div class="ind-foot" id="cotFoot" style="margin-top:10px;"></div>
+    </div>
+
+    <div id="msEmpty" class="macro-empty" style="display:none;padding:40px;">
+        Indicator data will appear here once <code style="color:#00d4aa;font-size:11px;">data/indicators/</code>
+        is populated by the weekly workflow.
+    </div>
+</div><!-- /marketstructure-tab -->
 
 
 <script>
@@ -2013,9 +2134,10 @@ function switchMainTab(e, name) {
     e.target.classList.add('active');
     document.getElementById(name + '-tab').classList.add('active');
     if (name === 'overview')     { /* data already loaded; canvas init on first visit */ initOverviewCanvas(); }
-    if (name === 'performance')  renderAnalyticsTab();
+    if (name === 'performance')  { renderAnalyticsTab(); renderFactorPanel(currentStrategy); }
     if (name === 'ticker')       initTickerTab();
-    if (name === 'macro')        loadMacroTab();
+    if (name === 'macro')        { loadMacroTab(); loadFomcPanel(); }
+    if (name === 'marketstructure') loadMarketStructureTab();
     // Stop overview animation when leaving the tab
     if (name !== 'overview' && overviewAnimId) {
         cancelAnimationFrame(overviewAnimId);
@@ -2037,6 +2159,7 @@ function setStrategy(e, name) {
     e.target.classList.add('active');
     currentStrategy = name;
     refreshPerformanceTab();
+    renderFactorPanel(name);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -4324,6 +4447,21 @@ function renderMacroKPIs(fred, mkt) {
         });
     }
 
+    // Consumer Sentiment (U. Michigan) vs its 12-mo trend + stagflation lean
+    const cs = fred?.consumer_sentiment;
+    if (cs && cs.value !== null && cs.value !== undefined) {
+        const st = cs.stagflation_flag ? 'red' : cs.below_trend ? 'yellow' : 'green';
+        const lbl = cs.stagflation_flag ? 'Stagflation watch'
+                  : cs.below_trend ? 'Below trend' : 'Above trend';
+        indicators.push({
+            label: 'Consumer Sentiment',
+            value: Number(cs.value).toFixed(1),
+            change: cs.ma12 != null ? '12-mo MA ' + Number(cs.ma12).toFixed(1) : '',
+            changeClass: 'neutral',
+            status: st, statusLabel: lbl,
+        });
+    }
+
     document.getElementById('macroKpiGrid').innerHTML = indicators.map(ind => `
         <div class="indicator-card ${ind.status}">
             <div class="indicator-label">${ind.label}</div>
@@ -4639,6 +4777,253 @@ window.addEventListener('DOMContentLoaded', () => {
         hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
         hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
     });
+})();
+</script>
+
+<!-- ══════════════════════════════════════════ INDICATOR PANELS ══ -->
+<style>
+    .ind-foot { font-size:11px; color:#606060; line-height:1.5; }
+    .ind-kpi { background:#15171c; border:1px solid #1f232b; border-radius:8px; padding:12px 14px; }
+    .ind-kpi .label { font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:#7a808a; margin-bottom:6px; }
+    .ind-kpi .val { font-size:22px; font-weight:600; font-variant-numeric:tabular-nums; }
+    .ind-kpi .note { font-size:10.5px; color:#707680; margin-top:3px; }
+    .ind-pill { display:inline-block; font-size:10px; padding:2px 8px; border-radius:10px; border:1px solid #2a2f38; vertical-align:middle; }
+    .ind-pill.teal { color:#00d4aa; border-color:rgba(0,212,170,.4); }
+    .ind-pill.red  { color:#ff4757; border-color:rgba(255,71,87,.4); }
+    .ind-pill.blue { color:#00a8ff; border-color:rgba(0,168,255,.4); }
+    .ind-pill.orange { color:#ff9f43; border-color:rgba(255,159,67,.4); }
+    .cot-gauge { display:grid; grid-template-columns:1.4fr 2fr auto; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #181b21; }
+    .cot-track { position:relative; height:8px; background:#1b1e24; border-radius:5px; }
+    .cot-mid { position:absolute; left:50%; top:-3px; bottom:-3px; width:1px; background:#3a3f48; }
+    .cot-fill { position:absolute; left:0; top:0; height:100%; border-radius:5px; }
+    .cot-btn { cursor:pointer; border:1px solid #2a2f38; background:#15171c; color:#7a808a; padding:4px 9px; border-radius:6px; font-size:11px; }
+    .cot-btn.active { color:#00d4aa; border-color:rgba(0,212,170,.5); }
+    .ff-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    @media (max-width:760px){ .ff-grid{ grid-template-columns:1fr; } }
+    .ff-card { background:#15171c; border:1px solid #1f232b; border-radius:10px; padding:14px 16px; }
+    .ff-card h4 { margin:0 0 10px; font-size:13px; font-weight:600; }
+</style>
+<script>
+// ── Dashboard indicator panels: RMT + COT (Market Structure), FOMC (Macro), Fama-French (Performance)
+(function(){
+    const PAL = { teal:'#00d4aa', blue:'#00a8ff', orange:'#ff9f43', red:'#ff4757', purple:'#9d7bff',
+                  dim:'#606060', grid:'#1b1e24', faint:'#3a3f48' };
+    const indCharts = {};
+    const cache = {};
+    let cotActive = 0;
+
+    function destroy(id){ if(indCharts[id]){ indCharts[id].destroy(); delete indCharts[id]; } }
+    async function getJSON(name){
+        if (cache[name] !== undefined) return cache[name];
+        try { const r = await fetch('data/indicators/'+name+'.json'); cache[name] = r.ok ? await r.json() : null; }
+        catch(e){ cache[name] = null; }
+        return cache[name];
+    }
+    const fmt = n => (n>=0?'+':'') + Math.round(n).toLocaleString();
+    const kpi = (label,val,note,cls) =>
+        `<div class="ind-kpi"><div class="label">${label}</div>`+
+        `<div class="val" style="color:${cls||'#e8eaed'}">${val}</div>`+
+        `<div class="note">${note||''}</div></div>`;
+
+    // ───────────────────────────────── Market Structure tab
+    window.loadMarketStructureTab = async function(){
+        const [rmt, cot] = await Promise.all([getJSON('rmt'), getJSON('cot')]);
+        const empty = document.getElementById('msEmpty');
+        document.getElementById('rmtPanel').style.display = rmt ? '' : 'none';
+        document.getElementById('cotPanel').style.display = cot ? '' : 'none';
+        if (empty) empty.style.display = (rmt||cot) ? 'none' : '';
+        if (rmt) renderRMT(rmt);
+        if (cot) renderCOT(cot);
+    };
+
+    function renderRMT(d){
+        const s = d.snapshot;
+        const rankTxt = d.market_mode_pctrank!=null ? `${d.market_mode_pctrank.toFixed(0)}th pct vs 2015→` : '';
+        const concentrated = s.market_mode_share >= 35;
+        const pill = document.getElementById('rmtRegimePill');
+        pill.className = 'ind-pill ' + (concentrated?'red':'teal');
+        pill.textContent = concentrated ? 'concentrated' : 'diversified';
+        document.getElementById('rmtKpis').innerHTML =
+            kpi('Market-mode share λ_max/Σλ', s.market_mode_share.toFixed(1)+'%', rankTxt, concentrated?PAL.red:PAL.teal) +
+            kpi('λ_max (market mode)', s.lambda_max.toFixed(1), 'noise edge λ+ = '+s.lambda_plus.toFixed(2)) +
+            kpi('Significant factors', s.n_signal_eigs, 'eigenvalues &gt; λ+ (rest is noise)') +
+            kpi('Variance in structure', s.var_in_structure.toFixed(0)+'%', `N=${s.N} · T=${s.T}d · q=${s.q}`);
+        document.getElementById('rmtSpecFoot').innerHTML =
+            `Bars = empirical eigenvalue density. Line = MP noise prediction. Bars past λ+=${s.lambda_plus.toFixed(2)} are real structure; λ_max=${s.lambda_max.toFixed(0)} sits far to the right.`;
+        document.getElementById('rmtFoot').innerHTML =
+            `Significant λ: ${s.signal_eigs.join(', ')} … · ${d.window_days}-day window · snapshot ${s.asof}. ${d.method}`;
+
+        destroy('rmtSpec');
+        indCharts.rmtSpec = new Chart(document.getElementById('rmtSpecChart'), {
+            data:{ labels:s.hist.x, datasets:[
+                {type:'bar', label:'Empirical density', data:s.hist.y, backgroundColor:'rgba(0,168,255,.45)', borderWidth:0, barPercentage:1, categoryPercentage:1},
+                {type:'line', label:'Marchenko–Pastur (noise)', data:s.mp.x.map((x,i)=>({x:x,y:s.mp.y[i]})), parsing:false, borderColor:PAL.orange, borderWidth:2, pointRadius:0, tension:.1}
+            ]},
+            options:{ plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:9},color:'#9aa0aa'}}},
+                scales:{ x:{type:'linear',title:{display:true,text:'eigenvalue λ',font:{size:9},color:'#7a808a'},grid:{display:false},ticks:{font:{size:9},color:'#7a808a'}},
+                         y:{grid:{color:PAL.grid},ticks:{font:{size:9},color:'#7a808a'},title:{display:true,text:'density',font:{size:9},color:'#7a808a'}}}}
+        });
+        destroy('rmtRoll');
+        const R = d.rolling;
+        indCharts.rmtRoll = new Chart(document.getElementById('rmtRollChart'), {
+            data:{ labels:R.map(p=>p.d), datasets:[
+                {type:'line', label:'λ_max share (%)', data:R.map(p=>p.share), yAxisID:'y', borderColor:PAL.teal, borderWidth:1.5, pointRadius:0, tension:.2, fill:true, backgroundColor:'rgba(0,212,170,.07)'},
+                {type:'line', label:'# significant factors', data:R.map(p=>p.nsig), yAxisID:'y2', borderColor:PAL.orange, borderWidth:1.3, pointRadius:0, tension:.2}
+            ]},
+            options:{ plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:9},color:'#9aa0aa'}}},
+                scales:{ x:{ticks:{maxTicksLimit:7,font:{size:9},color:'#7a808a'},grid:{display:false}},
+                         y:{position:'left',grid:{color:PAL.grid},ticks:{font:{size:9},color:'#7a808a'}},
+                         y2:{position:'right',grid:{display:false},ticks:{font:{size:9},color:'#7a808a'}}}}
+        });
+    }
+
+    function renderCOT(d){
+        const C = d.contracts;
+        const gaugeHost = document.getElementById('cotGauges');
+        gaugeHost.innerHTML = C.map(c=>{
+            const idx=c.cot_index, col = idx>=60?PAL.teal: idx<=40?PAL.red: PAL.dim;
+            const pc = {'stretched long':'teal','stretched short':'red','leaning long':'teal','leaning short':'orange','neutral':'blue'}[c.signal]||'blue';
+            const flag = c.anom_now ? ' <span class="ind-pill orange">⚠ stretched</span>' : '';
+            return `<div class="cot-gauge">
+                <div><div style="font-weight:600;font-size:12px">${c.label}</div>
+                     <div class="ind-foot">${c.group} · net ${fmt(c.net)}</div></div>
+                <div class="cot-track"><div class="cot-mid"></div><div class="cot-fill" style="width:${idx.toFixed(0)}%;background:${col}"></div></div>
+                <div style="text-align:right;min-width:78px"><span style="font-size:16px;font-variant-numeric:tabular-nums;color:${col}">${idx.toFixed(0)}</span>
+                     <div><span class="ind-pill ${pc}">${c.signal}</span>${flag}</div></div>
+            </div>`;
+        }).join('');
+
+        const btnHost = document.getElementById('cotBtns');
+        btnHost.innerHTML = '';
+        cotActive = Math.min(cotActive, C.length-1);
+        C.forEach((c,i)=>{
+            const b=document.createElement('button');
+            b.className='cot-btn'+(i===cotActive?' active':'');
+            b.textContent=c.label;
+            b.onclick=()=>{ cotActive=i; [...btnHost.children].forEach(x=>x.classList.remove('active')); b.classList.add('active'); drawCot(C); };
+            btnHost.appendChild(b);
+        });
+        document.getElementById('cotFoot').innerHTML =
+            `${d.method} Source: ${d.source} · lookback ${d.lookback_weeks} weeks${d.missing&&d.missing.length?' · missing: '+d.missing.join(', '):''}.`;
+        drawCot(C);
+    }
+    function drawCot(C){
+        const c = C[cotActive], s = c.series;
+        destroy('cot');
+        indCharts.cot = new Chart(document.getElementById('cotChart'), {
+            type:'line',
+            data:{ labels:s.map(p=>p.d), datasets:[
+                {label:'Net non-commercial', data:s.map(p=>p.net), borderColor:PAL.blue, borderWidth:1.5, pointRadius:0, tension:.15, fill:true, backgroundColor:'rgba(0,168,255,.08)'},
+                {label:'Stretched (IsoForest)', data:s.map(p=>p.a?p.net:null), borderColor:'transparent', backgroundColor:PAL.orange, pointRadius:4, pointHoverRadius:6, showLine:false}
+            ]},
+            options:{ plugins:{legend:{display:false},tooltip:{callbacks:{title:t=>t[0].label}}},
+                scales:{ x:{ticks:{maxTicksLimit:7,font:{size:9},color:'#7a808a'},grid:{display:false}},
+                         y:{grid:{color:PAL.grid},ticks:{font:{size:9},color:'#7a808a',callback:v=>(v/1000).toFixed(0)+'k'}}}}
+        });
+    }
+
+    // ───────────────────────────────── FOMC panel (Macro tab)
+    window.loadFomcPanel = async function(){
+        const d = await getJSON('fomc');
+        const panel = document.getElementById('fomcPanel');
+        if (!d){ if(panel) panel.style.display='none'; return; }
+        panel.style.display='';
+        const L = d.latest;
+        const tone = L.net>0.15?'red': L.net<-0.15?'teal':'blue';
+        const toneTxt = L.net>0.15?'Hawkish': L.net<-0.15?'Dovish':'Balanced';
+        const tp = document.getElementById('fomcTone');
+        tp.className='ind-pill '+tone; tp.textContent=toneTxt;
+        document.getElementById('fomcKpis').innerHTML =
+            kpi('Latest statement ('+L.date+')', (L.net>=0?'+':'')+L.net.toFixed(2), toneTxt+' · '+L.action, tone==='red'?PAL.red:tone==='teal'?PAL.teal:'#e8eaed') +
+            kpi('Hawk / Dove term hits', L.hawk+' / '+L.dove, 'latest statement') +
+            kpi('Meetings scored', d.n, 'real FOMC statements');
+        document.getElementById('fomcFoot').innerHTML =
+            `${d.method} Source: ${d.source}`;
+        const S = d.series;
+        destroy('fomc');
+        indCharts.fomc = new Chart(document.getElementById('fomcChart'), {
+            data:{ labels:S.map(r=>r.date), datasets:[
+                {type:'bar', label:'Hawk–dove net', yAxisID:'y', data:S.map(r=>r.net),
+                 backgroundColor:S.map(r=>r.net>0?'rgba(255,71,87,.7)':'rgba(0,212,170,.7)'), borderWidth:0},
+                {type:'line', label:'SPY', yAxisID:'y2', data:S.map(r=>r.spy), borderColor:'#8b919c', borderWidth:1.3, pointRadius:2, tension:.1, spanGaps:true}
+            ]},
+            options:{ plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:9},color:'#9aa0aa'}}},
+                scales:{ x:{ticks:{font:{size:9},maxTicksLimit:8,color:'#7a808a'},grid:{display:false}},
+                         y:{position:'left',min:-1,max:1,grid:{color:PAL.grid},ticks:{font:{size:9},color:'#7a808a'},title:{display:true,text:'hawk(+) / dove(−)',font:{size:9},color:'#7a808a'}},
+                         y2:{position:'right',grid:{display:false},ticks:{font:{size:9},color:'#7a808a'},title:{display:true,text:'SPY',font:{size:9},color:'#7a808a'}}}}
+        });
+    };
+
+    // ───────────────────────────────── Fama-French (Performance drilldown)
+    window.renderFactorPanel = async function(strategy){
+        const section = document.getElementById('ffSection');
+        const placeholder = document.getElementById('ffPlaceholder');
+        if (!section) return;
+        // Flagship only for now: factor attribution lives on the Trend+Carry drilldown.
+        if (strategy !== 'carry'){
+            section.style.display='none';
+            if (strategy && strategy !== 'all'){
+                placeholder.style.display='';
+                document.getElementById('ffPlaceholderText').textContent =
+                    'Factor attribution needs a multi-year return series. It is shown on the Trend + Carry book for now; '+
+                    'the other strategies gain it once their backtest curves are added.';
+            } else {
+                placeholder.style.display='none';
+            }
+            return;
+        }
+        placeholder.style.display='none';
+        const d = await getJSON('famafrench');
+        if (!d){ section.style.display='none'; return; }
+        section.style.display='';
+        const sp = document.getElementById('ffScopePill');
+        sp.className='ind-pill blue'; sp.textContent='flagship';
+        document.getElementById('ffNote').textContent = d.note || '';
+        document.getElementById('ffFoot').innerHTML = `Window ${d.window} (${d.freq}). ${d.method}`;
+
+        const host = document.getElementById('ffCards');
+        host.innerHTML = d.books.map(b=>{
+            const sig = Math.abs(b.alpha_t)>=1.96 ? '✓ sig' : 'ns';
+            const aCol = b.alpha_ann_pct>0?PAL.teal:PAL.red;
+            const bars = d.factors.map(f=>{
+                const v=b.betas[f].beta, w=Math.min(Math.abs(v)/1.2,1)*50;
+                const col = v>=0?PAL.teal:PAL.red, side = v>=0?'left:50%':`right:50%`;
+                return `<div style="display:grid;grid-template-columns:42px 1fr 86px;align-items:center;gap:8px;padding:3px 0">
+                    <span class="ind-foot" style="font-variant-numeric:tabular-nums">${f}</span>
+                    <div style="position:relative;height:7px;background:#1b1e24;border-radius:4px">
+                        <div style="position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:${PAL.faint}"></div>
+                        <div style="position:absolute;${side};width:${w.toFixed(0)}%;height:100%;background:${col};border-radius:4px"></div></div>
+                    <span style="font-size:11px;text-align:right;font-variant-numeric:tabular-nums">${(v>=0?'+':'')+v.toFixed(2)} <span style="color:#707680">t${(b.betas[f].t>=0?'+':'')+b.betas[f].t.toFixed(1)}</span></span>
+                </div>`;
+            }).join('');
+            return `<div class="ff-card">
+                <h4>${b.label}</h4>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+                    ${kpi('Annual alpha',(b.alpha_ann_pct>=0?'+':'')+b.alpha_ann_pct.toFixed(1)+'%','t='+(b.alpha_t>=0?'+':'')+b.alpha_t.toFixed(2)+' · '+sig,aCol)}
+                    ${kpi('Market β',(b.betas.MKT.beta>=0?'+':'')+b.betas.MKT.beta.toFixed(2),'t='+(b.betas.MKT.t>=0?'+':'')+b.betas.MKT.t.toFixed(1))}
+                    ${kpi('R²',b.r2.toFixed(2),b.n+' obs · explains '+(b.r2*100).toFixed(0)+'%')}
+                </div>
+                <div class="ind-foot" style="text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Factor betas</div>
+                ${bars}
+                <canvas id="ffroll_${b.col}" height="110" style="margin-top:12px"></canvas>
+            </div>`;
+        }).join('');
+
+        d.books.forEach(b=>{
+            if (!b.rolling || !b.rolling.length) return;
+            const id='ffroll_'+b.col; destroy(id);
+            indCharts[id] = new Chart(document.getElementById(id), {
+                data:{ labels:b.rolling.map((_,i)=>i), datasets:[
+                    {type:'line', label:'Rolling α (ann %)', data:b.rolling.map(r=>r.alpha_ann), yAxisID:'y', borderColor:PAL.teal, borderWidth:1.4, pointRadius:0, tension:.2},
+                    {type:'line', label:'Rolling MKT β', data:b.rolling.map(r=>r.mkt_beta), yAxisID:'y2', borderColor:PAL.orange, borderWidth:1.4, pointRadius:0, tension:.2, borderDash:[4,3]}
+                ]},
+                options:{ plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:8},color:'#9aa0aa'}}},
+                    scales:{ x:{display:false},
+                             y:{position:'left',grid:{color:PAL.grid},ticks:{font:{size:8},color:'#7a808a'}},
+                             y2:{position:'right',grid:{display:false},ticks:{font:{size:8},color:'#7a808a'}}}}
+            });
+        });
+    };
 })();
 </script>
 </body>
