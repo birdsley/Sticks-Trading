@@ -2763,9 +2763,25 @@ function updateStrategyHoldingsPanel() {
  * Open (unmatched) orders are ignored — they're shown in the holdings panel.
  */
 function buildClosedTrades(orders) {
+    // Clean the intent log before reconstructing round trips:
+    //  (1) drop future-dated orders — a T+1 order whose trade_date hasn't arrived
+    //      has NOT filled, so it must not appear as a completed exit;
+    //  (2) de-duplicate identical entries (e.g. from a re-run that re-logged the
+    //      same orders) by a content key, so they don't double-count or mis-pair.
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const seen = new Set();
+    const cleaned = [];
+    for (const o of orders) {
+        if (o.trade_date && o.trade_date > todayStr) continue;            // not yet filled
+        const key = [o.ticker, o.side, o.trade_date, o.position_action,
+                     o.intended_price, o.intended_shares].join('|');
+        if (seen.has(key)) continue;                                      // duplicate log entry
+        seen.add(key);
+        cleaned.push(o);
+    }
     // Sort chronologically (decision timestamp is most precise)
-    const sorted = [...orders].sort((a, b) =>
-        a.decision_ts_utc.localeCompare(b.decision_ts_utc)
+    const sorted = cleaned.sort((a, b) =>
+        (a.decision_ts_utc || '').localeCompare(b.decision_ts_utc || '')
     );
 
     // Per-ticker queue of open lots (FIFO)
