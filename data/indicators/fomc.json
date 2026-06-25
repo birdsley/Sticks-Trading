@@ -1,0 +1,121 @@
+{
+  "title": "FOMC Statement Hawk\u2013Dove Score (NLP)",
+  "generated": "2026-06-22 22:45",
+  "n": 6,
+  "asof": "2026-06-17",
+  "method": "Finance hawk/dove lexicon over scraped FOMC statements; net = (hawk\u2212dove)/(hawk+dove) \u2208 [\u22121,+1]. FinBERT is the upgrade path.",
+  "source": "federalreserve.gov FOMC statements (keyless) + local SPY cache.",
+  "latest": {
+    "date": "2026-06-17",
+    "net": 1.0,
+    "action": "hold",
+    "hawk": 6,
+    "dove": 0
+  },
+  "series": [
+    {
+      "date": "2023-12-13",
+      "hawk": 8,
+      "dove": 3,
+      "net": 0.455,
+      "action": "hold",
+      "spy": 456.0498352050781
+    },
+    {
+      "date": "2024-09-18",
+      "hawk": 2,
+      "dove": 9,
+      "net": -0.636,
+      "action": "cut",
+      "spy": 549.8299560546875
+    },
+    {
+      "date": "2024-12-18",
+      "hawk": 2,
+      "dove": 7,
+      "net": -0.556,
+      "action": "cut",
+      "spy": 575.9583740234375
+    },
+    {
+      "date": "2025-03-19",
+      "hawk": 2,
+      "dove": 3,
+      "net": -0.2,
+      "action": "hold",
+      "spy": 559.0206909179688
+    },
+    {
+      "date": "2025-05-07",
+      "hawk": 3,
+      "dove": 2,
+      "net": 0.2,
+      "action": "hold",
+      "spy": 554.7901611328125
+    },
+    {
+      "date": "2026-06-17",
+      "hawk": 6,
+      "dove": 0,
+      "net": 1.0,
+      "action": "hold",
+      "spy": 753.1799926757812
+    }
+  ],
+  "lexicon": {
+    "hawk": [
+      "remains elevated",
+      "somewhat elevated",
+      "elevated",
+      "tighten",
+      "tightening",
+      "additional policy firming",
+      "firming",
+      "cumulative tightening",
+      "highly attentive to inflation",
+      "raise the target",
+      "increase the target",
+      "restrictive",
+      "persistent",
+      "sticky",
+      "overheat",
+      "vigilant",
+      "upside",
+      "supply shock",
+      "price increases",
+      "deliver price stability",
+      "higher inflation",
+      "higher for longer"
+    ],
+    "dove": [
+      "lower the target",
+      "lowered",
+      "reduce the target",
+      "rate cut",
+      "ease ",
+      "eased",
+      "easing",
+      "accommodat",
+      "further progress",
+      "made progress",
+      "progress toward",
+      "greater confidence",
+      "moving sustainably",
+      "roughly in balance",
+      "balance of risks",
+      "generally eased",
+      "slow the pace",
+      "soften",
+      "softening",
+      "slowing",
+      "slowed",
+      "weaken",
+      "moderat",
+      "cooling",
+      "downside",
+      "patient",
+      "recession"
+    ]
+  },
+  "source_sig": "2026-06-17"
+}

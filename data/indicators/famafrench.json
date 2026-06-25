@@ -1,0 +1,1194 @@
+{
+  "title": "Fama\u2013French Factor Attribution \u2014 alpha vs. hidden beta",
+  "generated": "2026-06-22 02:25",
+  "window": "2024-07-03 \u2192 2026-06-18",
+  "freq": "weekly",
+  "factors": [
+    "MKT",
+    "SMB",
+    "HML",
+    "MOM"
+  ],
+  "method": "OLS of weekly book returns on tradeable ETF-proxy factors (MKT=VTI, SMB=IJR\u2212IVV, HML=IVE\u2212IVW, MOM=MTUM\u2212VTI). Production mode uses canonical Ken French daily factors.",
+  "books": [
+    {
+      "col": "Blend",
+      "label": "Trend + Carry (flagship)",
+      "n": 104,
+      "alpha_weekly": 0.0008980264478811717,
+      "alpha_ann_pct": 4.67,
+      "alpha_t": 1.52,
+      "r2": 0.32,
+      "betas": {
+        "MKT": {
+          "beta": 0.237,
+          "t": 5.23
+        },
+        "SMB": {
+          "beta": -0.046,
+          "t": -1.01
+        },
+        "HML": {
+          "beta": 0.14,
+          "t": 2.7
+        },
+        "MOM": {
+          "beta": 0.094,
+          "t": 1.97
+        }
+      },
+      "rolling": [
+        {
+          "i": 51,
+          "alpha_ann": 5.58,
+          "mkt_beta": 0.218
+        },
+        {
+          "i": 52,
+          "alpha_ann": 4.5,
+          "mkt_beta": 0.236
+        },
+        {
+          "i": 53,
+          "alpha_ann": 4.04,
+          "mkt_beta": 0.234
+        },
+        {
+          "i": 54,
+          "alpha_ann": 4.05,
+          "mkt_beta": 0.235
+        },
+        {
+          "i": 55,
+          "alpha_ann": 5.96,
+          "mkt_beta": 0.211
+        },
+        {
+          "i": 56,
+          "alpha_ann": 4.86,
+          "mkt_beta": 0.205
+        },
+        {
+          "i": 57,
+          "alpha_ann": 6.51,
+          "mkt_beta": 0.179
+        },
+        {
+          "i": 58,
+          "alpha_ann": 6.28,
+          "mkt_beta": 0.156
+        },
+        {
+          "i": 59,
+          "alpha_ann": 5.39,
+          "mkt_beta": 0.145
+        },
+        {
+          "i": 60,
+          "alpha_ann": 6.38,
+          "mkt_beta": 0.142
+        },
+        {
+          "i": 61,
+          "alpha_ann": 6.65,
+          "mkt_beta": 0.142
+        },
+        {
+          "i": 62,
+          "alpha_ann": 6.4,
+          "mkt_beta": 0.121
+        },
+        {
+          "i": 63,
+          "alpha_ann": 6.82,
+          "mkt_beta": 0.126
+        },
+        {
+          "i": 64,
+          "alpha_ann": 6.27,
+          "mkt_beta": 0.121
+        },
+        {
+          "i": 65,
+          "alpha_ann": 7.14,
+          "mkt_beta": 0.129
+        },
+        {
+          "i": 66,
+          "alpha_ann": 8.45,
+          "mkt_beta": 0.149
+        },
+        {
+          "i": 67,
+          "alpha_ann": 8.14,
+          "mkt_beta": 0.146
+        },
+        {
+          "i": 68,
+          "alpha_ann": 9.29,
+          "mkt_beta": 0.153
+        },
+        {
+          "i": 69,
+          "alpha_ann": 8.38,
+          "mkt_beta": 0.16
+        },
+        {
+          "i": 70,
+          "alpha_ann": 10.21,
+          "mkt_beta": 0.153
+        },
+        {
+          "i": 71,
+          "alpha_ann": 10.64,
+          "mkt_beta": 0.163
+        },
+        {
+          "i": 72,
+          "alpha_ann": 9.77,
+          "mkt_beta": 0.178
+        },
+        {
+          "i": 73,
+          "alpha_ann": 10.86,
+          "mkt_beta": 0.177
+        },
+        {
+          "i": 74,
+          "alpha_ann": 9.51,
+          "mkt_beta": 0.189
+        },
+        {
+          "i": 75,
+          "alpha_ann": 7.77,
+          "mkt_beta": 0.214
+        },
+        {
+          "i": 76,
+          "alpha_ann": 8.89,
+          "mkt_beta": 0.184
+        },
+        {
+          "i": 77,
+          "alpha_ann": 9.05,
+          "mkt_beta": 0.191
+        },
+        {
+          "i": 78,
+          "alpha_ann": 9.08,
+          "mkt_beta": 0.189
+        },
+        {
+          "i": 79,
+          "alpha_ann": 9.64,
+          "mkt_beta": 0.188
+        },
+        {
+          "i": 80,
+          "alpha_ann": 9.9,
+          "mkt_beta": 0.189
+        },
+        {
+          "i": 81,
+          "alpha_ann": 9.34,
+          "mkt_beta": 0.202
+        },
+        {
+          "i": 82,
+          "alpha_ann": 10.23,
+          "mkt_beta": 0.217
+        },
+        {
+          "i": 83,
+          "alpha_ann": 8.67,
+          "mkt_beta": 0.194
+        },
+        {
+          "i": 84,
+          "alpha_ann": 9.85,
+          "mkt_beta": 0.203
+        },
+        {
+          "i": 85,
+          "alpha_ann": 9.58,
+          "mkt_beta": 0.201
+        },
+        {
+          "i": 86,
+          "alpha_ann": 8.92,
+          "mkt_beta": 0.206
+        },
+        {
+          "i": 87,
+          "alpha_ann": 8.54,
+          "mkt_beta": 0.21
+        },
+        {
+          "i": 88,
+          "alpha_ann": 7.63,
+          "mkt_beta": 0.233
+        },
+        {
+          "i": 89,
+          "alpha_ann": 6.9,
+          "mkt_beta": 0.249
+        },
+        {
+          "i": 90,
+          "alpha_ann": 6.58,
+          "mkt_beta": 0.264
+        },
+        {
+          "i": 91,
+          "alpha_ann": 6.14,
+          "mkt_beta": 0.265
+        },
+        {
+          "i": 92,
+          "alpha_ann": 6.29,
+          "mkt_beta": 0.253
+        },
+        {
+          "i": 93,
+          "alpha_ann": 5.37,
+          "mkt_beta": 0.269
+        },
+        {
+          "i": 94,
+          "alpha_ann": 5.71,
+          "mkt_beta": 0.276
+        },
+        {
+          "i": 95,
+          "alpha_ann": 5.0,
+          "mkt_beta": 0.254
+        },
+        {
+          "i": 96,
+          "alpha_ann": 5.58,
+          "mkt_beta": 0.246
+        },
+        {
+          "i": 97,
+          "alpha_ann": 6.03,
+          "mkt_beta": 0.275
+        },
+        {
+          "i": 98,
+          "alpha_ann": 5.29,
+          "mkt_beta": 0.274
+        },
+        {
+          "i": 99,
+          "alpha_ann": 4.49,
+          "mkt_beta": 0.274
+        },
+        {
+          "i": 100,
+          "alpha_ann": 3.68,
+          "mkt_beta": 0.266
+        },
+        {
+          "i": 101,
+          "alpha_ann": 3.96,
+          "mkt_beta": 0.273
+        },
+        {
+          "i": 102,
+          "alpha_ann": 3.31,
+          "mkt_beta": 0.277
+        },
+        {
+          "i": 103,
+          "alpha_ann": 2.93,
+          "mkt_beta": 0.28
+        }
+      ]
+    },
+    {
+      "col": "Carry",
+      "label": "Carry / Defensive sleeve",
+      "n": 104,
+      "alpha_weekly": 0.001328512095388794,
+      "alpha_ann_pct": 6.91,
+      "alpha_t": 2.1,
+      "r2": 0.229,
+      "betas": {
+        "MKT": {
+          "beta": 0.177,
+          "t": 3.66
+        },
+        "SMB": {
+          "beta": -0.003,
+          "t": -0.06
+        },
+        "HML": {
+          "beta": 0.151,
+          "t": 2.71
+        },
+        "MOM": {
+          "beta": 0.092,
+          "t": 1.81
+        }
+      },
+      "rolling": [
+        {
+          "i": 51,
+          "alpha_ann": 10.92,
+          "mkt_beta": 0.201
+        },
+        {
+          "i": 52,
+          "alpha_ann": 10.02,
+          "mkt_beta": 0.21
+        },
+        {
+          "i": 53,
+          "alpha_ann": 9.32,
+          "mkt_beta": 0.206
+        },
+        {
+          "i": 54,
+          "alpha_ann": 8.18,
+          "mkt_beta": 0.204
+        },
+        {
+          "i": 55,
+          "alpha_ann": 9.32,
+          "mkt_beta": 0.19
+        },
+        {
+          "i": 56,
+          "alpha_ann": 8.24,
+          "mkt_beta": 0.183
+        },
+        {
+          "i": 57,
+          "alpha_ann": 8.84,
+          "mkt_beta": 0.167
+        },
+        {
+          "i": 58,
+          "alpha_ann": 8.42,
+          "mkt_beta": 0.145
+        },
+        {
+          "i": 59,
+          "alpha_ann": 7.52,
+          "mkt_beta": 0.135
+        },
+        {
+          "i": 60,
+          "alpha_ann": 8.65,
+          "mkt_beta": 0.131
+        },
+        {
+          "i": 61,
+          "alpha_ann": 8.89,
+          "mkt_beta": 0.131
+        },
+        {
+          "i": 62,
+          "alpha_ann": 8.59,
+          "mkt_beta": 0.11
+        },
+        {
+          "i": 63,
+          "alpha_ann": 8.94,
+          "mkt_beta": 0.112
+        },
+        {
+          "i": 64,
+          "alpha_ann": 8.19,
+          "mkt_beta": 0.106
+        },
+        {
+          "i": 65,
+          "alpha_ann": 9.04,
+          "mkt_beta": 0.113
+        },
+        {
+          "i": 66,
+          "alpha_ann": 9.98,
+          "mkt_beta": 0.128
+        },
+        {
+          "i": 67,
+          "alpha_ann": 10.46,
+          "mkt_beta": 0.112
+        },
+        {
+          "i": 68,
+          "alpha_ann": 11.67,
+          "mkt_beta": 0.12
+        },
+        {
+          "i": 69,
+          "alpha_ann": 10.64,
+          "mkt_beta": 0.122
+        },
+        {
+          "i": 70,
+          "alpha_ann": 12.72,
+          "mkt_beta": 0.113
+        },
+        {
+          "i": 71,
+          "alpha_ann": 13.02,
+          "mkt_beta": 0.12
+        },
+        {
+          "i": 72,
+          "alpha_ann": 12.65,
+          "mkt_beta": 0.127
+        },
+        {
+          "i": 73,
+          "alpha_ann": 13.67,
+          "mkt_beta": 0.127
+        },
+        {
+          "i": 74,
+          "alpha_ann": 12.0,
+          "mkt_beta": 0.14
+        },
+        {
+          "i": 75,
+          "alpha_ann": 9.82,
+          "mkt_beta": 0.168
+        },
+        {
+          "i": 76,
+          "alpha_ann": 11.22,
+          "mkt_beta": 0.132
+        },
+        {
+          "i": 77,
+          "alpha_ann": 11.19,
+          "mkt_beta": 0.131
+        },
+        {
+          "i": 78,
+          "alpha_ann": 11.4,
+          "mkt_beta": 0.125
+        },
+        {
+          "i": 79,
+          "alpha_ann": 11.43,
+          "mkt_beta": 0.126
+        },
+        {
+          "i": 80,
+          "alpha_ann": 11.07,
+          "mkt_beta": 0.125
+        },
+        {
+          "i": 81,
+          "alpha_ann": 10.03,
+          "mkt_beta": 0.141
+        },
+        {
+          "i": 82,
+          "alpha_ann": 10.51,
+          "mkt_beta": 0.149
+        },
+        {
+          "i": 83,
+          "alpha_ann": 8.74,
+          "mkt_beta": 0.137
+        },
+        {
+          "i": 84,
+          "alpha_ann": 10.17,
+          "mkt_beta": 0.149
+        },
+        {
+          "i": 85,
+          "alpha_ann": 10.13,
+          "mkt_beta": 0.142
+        },
+        {
+          "i": 86,
+          "alpha_ann": 8.78,
+          "mkt_beta": 0.15
+        },
+        {
+          "i": 87,
+          "alpha_ann": 8.64,
+          "mkt_beta": 0.152
+        },
+        {
+          "i": 88,
+          "alpha_ann": 8.02,
+          "mkt_beta": 0.165
+        },
+        {
+          "i": 89,
+          "alpha_ann": 7.1,
+          "mkt_beta": 0.178
+        },
+        {
+          "i": 90,
+          "alpha_ann": 6.71,
+          "mkt_beta": 0.192
+        },
+        {
+          "i": 91,
+          "alpha_ann": 5.95,
+          "mkt_beta": 0.195
+        },
+        {
+          "i": 92,
+          "alpha_ann": 6.37,
+          "mkt_beta": 0.18
+        },
+        {
+          "i": 93,
+          "alpha_ann": 5.94,
+          "mkt_beta": 0.189
+        },
+        {
+          "i": 94,
+          "alpha_ann": 6.09,
+          "mkt_beta": 0.195
+        },
+        {
+          "i": 95,
+          "alpha_ann": 4.67,
+          "mkt_beta": 0.15
+        },
+        {
+          "i": 96,
+          "alpha_ann": 5.25,
+          "mkt_beta": 0.147
+        },
+        {
+          "i": 97,
+          "alpha_ann": 5.26,
+          "mkt_beta": 0.164
+        },
+        {
+          "i": 98,
+          "alpha_ann": 4.48,
+          "mkt_beta": 0.163
+        },
+        {
+          "i": 99,
+          "alpha_ann": 3.99,
+          "mkt_beta": 0.166
+        },
+        {
+          "i": 100,
+          "alpha_ann": 3.01,
+          "mkt_beta": 0.156
+        },
+        {
+          "i": 101,
+          "alpha_ann": 3.34,
+          "mkt_beta": 0.161
+        },
+        {
+          "i": 102,
+          "alpha_ann": 2.83,
+          "mkt_beta": 0.167
+        },
+        {
+          "i": 103,
+          "alpha_ann": 2.23,
+          "mkt_beta": 0.165
+        }
+      ]
+    },
+    {
+      "col": "Trend",
+      "label": "Trend (TSMOM) sleeve",
+      "n": 104,
+      "alpha_weekly": 0.00015080576567339562,
+      "alpha_ann_pct": 0.78,
+      "alpha_t": 0.23,
+      "r2": 0.422,
+      "betas": {
+        "MKT": {
+          "beta": 0.307,
+          "t": 6.06
+        },
+        "SMB": {
+          "beta": -0.021,
+          "t": -0.42
+        },
+        "HML": {
+          "beta": 0.081,
+          "t": 1.39
+        },
+        "MOM": {
+          "beta": 0.063,
+          "t": 1.18
+        }
+      },
+      "rolling": [
+        {
+          "i": 51,
+          "alpha_ann": -5.14,
+          "mkt_beta": 0.23
+        },
+        {
+          "i": 52,
+          "alpha_ann": -5.96,
+          "mkt_beta": 0.254
+        },
+        {
+          "i": 53,
+          "alpha_ann": -6.26,
+          "mkt_beta": 0.251
+        },
+        {
+          "i": 54,
+          "alpha_ann": -6.18,
+          "mkt_beta": 0.251
+        },
+        {
+          "i": 55,
+          "alpha_ann": -3.09,
+          "mkt_beta": 0.241
+        },
+        {
+          "i": 56,
+          "alpha_ann": -5.06,
+          "mkt_beta": 0.234
+        },
+        {
+          "i": 57,
+          "alpha_ann": -1.72,
+          "mkt_beta": 0.193
+        },
+        {
+          "i": 58,
+          "alpha_ann": -0.87,
+          "mkt_beta": 0.159
+        },
+        {
+          "i": 59,
+          "alpha_ann": -1.89,
+          "mkt_beta": 0.143
+        },
+        {
+          "i": 60,
+          "alpha_ann": -1.28,
+          "mkt_beta": 0.142
+        },
+        {
+          "i": 61,
+          "alpha_ann": -0.61,
+          "mkt_beta": 0.145
+        },
+        {
+          "i": 62,
+          "alpha_ann": -0.48,
+          "mkt_beta": 0.123
+        },
+        {
+          "i": 63,
+          "alpha_ann": 0.45,
+          "mkt_beta": 0.133
+        },
+        {
+          "i": 64,
+          "alpha_ann": 0.4,
+          "mkt_beta": 0.131
+        },
+        {
+          "i": 65,
+          "alpha_ann": 1.41,
+          "mkt_beta": 0.141
+        },
+        {
+          "i": 66,
+          "alpha_ann": 3.0,
+          "mkt_beta": 0.165
+        },
+        {
+          "i": 67,
+          "alpha_ann": 2.81,
+          "mkt_beta": 0.162
+        },
+        {
+          "i": 68,
+          "alpha_ann": 3.68,
+          "mkt_beta": 0.167
+        },
+        {
+          "i": 69,
+          "alpha_ann": 3.2,
+          "mkt_beta": 0.181
+        },
+        {
+          "i": 70,
+          "alpha_ann": 4.83,
+          "mkt_beta": 0.175
+        },
+        {
+          "i": 71,
+          "alpha_ann": 5.71,
+          "mkt_beta": 0.194
+        },
+        {
+          "i": 72,
+          "alpha_ann": 4.16,
+          "mkt_beta": 0.219
+        },
+        {
+          "i": 73,
+          "alpha_ann": 5.59,
+          "mkt_beta": 0.219
+        },
+        {
+          "i": 74,
+          "alpha_ann": 4.8,
+          "mkt_beta": 0.233
+        },
+        {
+          "i": 75,
+          "alpha_ann": 3.38,
+          "mkt_beta": 0.262
+        },
+        {
+          "i": 76,
+          "alpha_ann": 3.3,
+          "mkt_beta": 0.26
+        },
+        {
+          "i": 77,
+          "alpha_ann": 3.65,
+          "mkt_beta": 0.274
+        },
+        {
+          "i": 78,
+          "alpha_ann": 4.14,
+          "mkt_beta": 0.267
+        },
+        {
+          "i": 79,
+          "alpha_ann": 4.87,
+          "mkt_beta": 0.265
+        },
+        {
+          "i": 80,
+          "alpha_ann": 6.02,
+          "mkt_beta": 0.268
+        },
+        {
+          "i": 81,
+          "alpha_ann": 5.97,
+          "mkt_beta": 0.286
+        },
+        {
+          "i": 82,
+          "alpha_ann": 7.66,
+          "mkt_beta": 0.315
+        },
+        {
+          "i": 83,
+          "alpha_ann": 6.91,
+          "mkt_beta": 0.278
+        },
+        {
+          "i": 84,
+          "alpha_ann": 7.69,
+          "mkt_beta": 0.274
+        },
+        {
+          "i": 85,
+          "alpha_ann": 7.16,
+          "mkt_beta": 0.278
+        },
+        {
+          "i": 86,
+          "alpha_ann": 8.65,
+          "mkt_beta": 0.278
+        },
+        {
+          "i": 87,
+          "alpha_ann": 8.19,
+          "mkt_beta": 0.286
+        },
+        {
+          "i": 88,
+          "alpha_ann": 7.23,
+          "mkt_beta": 0.311
+        },
+        {
+          "i": 89,
+          "alpha_ann": 7.25,
+          "mkt_beta": 0.345
+        },
+        {
+          "i": 90,
+          "alpha_ann": 6.58,
+          "mkt_beta": 0.357
+        },
+        {
+          "i": 91,
+          "alpha_ann": 7.48,
+          "mkt_beta": 0.354
+        },
+        {
+          "i": 92,
+          "alpha_ann": 7.27,
+          "mkt_beta": 0.343
+        },
+        {
+          "i": 93,
+          "alpha_ann": 5.34,
+          "mkt_beta": 0.376
+        },
+        {
+          "i": 94,
+          "alpha_ann": 5.87,
+          "mkt_beta": 0.386
+        },
+        {
+          "i": 95,
+          "alpha_ann": 5.87,
+          "mkt_beta": 0.417
+        },
+        {
+          "i": 96,
+          "alpha_ann": 6.22,
+          "mkt_beta": 0.4
+        },
+        {
+          "i": 97,
+          "alpha_ann": 6.84,
+          "mkt_beta": 0.434
+        },
+        {
+          "i": 98,
+          "alpha_ann": 5.31,
+          "mkt_beta": 0.43
+        },
+        {
+          "i": 99,
+          "alpha_ann": 4.97,
+          "mkt_beta": 0.424
+        },
+        {
+          "i": 100,
+          "alpha_ann": 4.7,
+          "mkt_beta": 0.426
+        },
+        {
+          "i": 101,
+          "alpha_ann": 5.51,
+          "mkt_beta": 0.424
+        },
+        {
+          "i": 102,
+          "alpha_ann": 5.06,
+          "mkt_beta": 0.425
+        },
+        {
+          "i": 103,
+          "alpha_ann": 5.22,
+          "mkt_beta": 0.442
+        }
+      ]
+    },
+    {
+      "col": "SPY",
+      "label": "SPY (beta sanity check)",
+      "n": 104,
+      "alpha_weekly": 0.0002306833170729202,
+      "alpha_ann_pct": 1.2,
+      "alpha_t": 0.98,
+      "r2": 0.986,
+      "betas": {
+        "MKT": {
+          "beta": 1.003,
+          "t": 55.6
+        },
+        "SMB": {
+          "beta": -0.096,
+          "t": -5.29
+        },
+        "HML": {
+          "beta": 0.022,
+          "t": 1.06
+        },
+        "MOM": {
+          "beta": 0.009,
+          "t": 0.47
+        }
+      },
+      "rolling": [
+        {
+          "i": 51,
+          "alpha_ann": 0.6,
+          "mkt_beta": 0.99
+        },
+        {
+          "i": 52,
+          "alpha_ann": 0.55,
+          "mkt_beta": 1.0
+        },
+        {
+          "i": 53,
+          "alpha_ann": 0.41,
+          "mkt_beta": 0.999
+        },
+        {
+          "i": 54,
+          "alpha_ann": 0.59,
+          "mkt_beta": 1.0
+        },
+        {
+          "i": 55,
+          "alpha_ann": 0.53,
+          "mkt_beta": 0.999
+        },
+        {
+          "i": 56,
+          "alpha_ann": 0.39,
+          "mkt_beta": 0.999
+        },
+        {
+          "i": 57,
+          "alpha_ann": 0.51,
+          "mkt_beta": 0.997
+        },
+        {
+          "i": 58,
+          "alpha_ann": 0.65,
+          "mkt_beta": 0.998
+        },
+        {
+          "i": 59,
+          "alpha_ann": 0.71,
+          "mkt_beta": 0.999
+        },
+        {
+          "i": 60,
+          "alpha_ann": 0.54,
+          "mkt_beta": 1.0
+        },
+        {
+          "i": 61,
+          "alpha_ann": 0.61,
+          "mkt_beta": 1.001
+        },
+        {
+          "i": 62,
+          "alpha_ann": 0.66,
+          "mkt_beta": 1.002
+        },
+        {
+          "i": 63,
+          "alpha_ann": 0.5,
+          "mkt_beta": 1.002
+        },
+        {
+          "i": 64,
+          "alpha_ann": 0.49,
+          "mkt_beta": 1.001
+        },
+        {
+          "i": 65,
+          "alpha_ann": 0.48,
+          "mkt_beta": 1.004
+        },
+        {
+          "i": 66,
+          "alpha_ann": 0.37,
+          "mkt_beta": 1.002
+        },
+        {
+          "i": 67,
+          "alpha_ann": 0.42,
+          "mkt_beta": 1.003
+        },
+        {
+          "i": 68,
+          "alpha_ann": 0.52,
+          "mkt_beta": 1.004
+        },
+        {
+          "i": 69,
+          "alpha_ann": 0.65,
+          "mkt_beta": 1.001
+        },
+        {
+          "i": 70,
+          "alpha_ann": 0.64,
+          "mkt_beta": 1.001
+        },
+        {
+          "i": 71,
+          "alpha_ann": 0.74,
+          "mkt_beta": 1.003
+        },
+        {
+          "i": 72,
+          "alpha_ann": 0.75,
+          "mkt_beta": 1.004
+        },
+        {
+          "i": 73,
+          "alpha_ann": 0.94,
+          "mkt_beta": 1.005
+        },
+        {
+          "i": 74,
+          "alpha_ann": 1.03,
+          "mkt_beta": 1.004
+        },
+        {
+          "i": 75,
+          "alpha_ann": 1.13,
+          "mkt_beta": 1.003
+        },
+        {
+          "i": 76,
+          "alpha_ann": 1.11,
+          "mkt_beta": 1.002
+        },
+        {
+          "i": 77,
+          "alpha_ann": 1.01,
+          "mkt_beta": 0.997
+        },
+        {
+          "i": 78,
+          "alpha_ann": 0.95,
+          "mkt_beta": 0.998
+        },
+        {
+          "i": 79,
+          "alpha_ann": 0.9,
+          "mkt_beta": 0.998
+        },
+        {
+          "i": 80,
+          "alpha_ann": 1.0,
+          "mkt_beta": 0.999
+        },
+        {
+          "i": 81,
+          "alpha_ann": 1.18,
+          "mkt_beta": 0.997
+        },
+        {
+          "i": 82,
+          "alpha_ann": 1.22,
+          "mkt_beta": 0.998
+        },
+        {
+          "i": 83,
+          "alpha_ann": 1.4,
+          "mkt_beta": 1.001
+        },
+        {
+          "i": 84,
+          "alpha_ann": 1.43,
+          "mkt_beta": 1.0
+        },
+        {
+          "i": 85,
+          "alpha_ann": 1.29,
+          "mkt_beta": 0.999
+        },
+        {
+          "i": 86,
+          "alpha_ann": 1.12,
+          "mkt_beta": 1.0
+        },
+        {
+          "i": 87,
+          "alpha_ann": 1.18,
+          "mkt_beta": 1.001
+        },
+        {
+          "i": 88,
+          "alpha_ann": 1.01,
+          "mkt_beta": 1.006
+        },
+        {
+          "i": 89,
+          "alpha_ann": 1.1,
+          "mkt_beta": 1.005
+        },
+        {
+          "i": 90,
+          "alpha_ann": 1.26,
+          "mkt_beta": 1.006
+        },
+        {
+          "i": 91,
+          "alpha_ann": 1.09,
+          "mkt_beta": 1.007
+        },
+        {
+          "i": 92,
+          "alpha_ann": 0.49,
+          "mkt_beta": 1.032
+        },
+        {
+          "i": 93,
+          "alpha_ann": 1.13,
+          "mkt_beta": 1.022
+        },
+        {
+          "i": 94,
+          "alpha_ann": 1.18,
+          "mkt_beta": 1.023
+        },
+        {
+          "i": 95,
+          "alpha_ann": 1.5,
+          "mkt_beta": 1.03
+        },
+        {
+          "i": 96,
+          "alpha_ann": 1.36,
+          "mkt_beta": 1.025
+        },
+        {
+          "i": 97,
+          "alpha_ann": 1.4,
+          "mkt_beta": 1.026
+        },
+        {
+          "i": 98,
+          "alpha_ann": 1.46,
+          "mkt_beta": 1.026
+        },
+        {
+          "i": 99,
+          "alpha_ann": 1.43,
+          "mkt_beta": 1.026
+        },
+        {
+          "i": 100,
+          "alpha_ann": 1.37,
+          "mkt_beta": 1.027
+        },
+        {
+          "i": 101,
+          "alpha_ann": 1.42,
+          "mkt_beta": 1.026
+        },
+        {
+          "i": 102,
+          "alpha_ann": 2.47,
+          "mkt_beta": 1.031
+        },
+        {
+          "i": 103,
+          "alpha_ann": 1.53,
+          "mkt_beta": 1.041
+        }
+      ]
+    }
+  ],
+  "source_sig": "ff-seed-weekly",
+  "scope": "flagship",
+  "note": "Only the flagship Trend+Carry book is attributed here (sleeves Blend/Trend/Carry + an SPY beta sanity check). Other live strategies gain attribution once their backtest curves are added. This seed uses 2yr weekly ETF-proxy factors; the weekly workflow upgrades it to multi-year daily."
+}
