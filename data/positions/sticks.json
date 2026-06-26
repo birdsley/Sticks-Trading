@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-25",
-  "cash": 438.983804,
-  "equity_estimate": 3738.053857100586,
-  "last_run_id": "2026-06-25_sticks_live",
+  "as_of": "2026-06-26",
+  "cash": 1046.939696,
+  "equity_estimate": 3445.6696898201903,
+  "last_run_id": "2026-06-26_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -14,13 +14,6 @@
       "ticker": "WDC"
     },
     {
-      "avg_cost": 41.0287,
-      "entry_date": "2026-06-24",
-      "shares": 27,
-      "strategy": "sticks",
-      "ticker": "CTSH"
-    },
-    {
       "avg_cost": 33.296676,
       "entry_date": "2026-06-24",
       "shares": -25,
@@ -28,25 +21,25 @@
       "ticker": "SMCI"
     },
     {
-      "avg_cost": 128.439851,
-      "entry_date": "2026-06-25",
-      "shares": 2,
-      "strategy": "sticks",
-      "ticker": "ACN"
-    },
-    {
-      "avg_cost": 218.397018,
-      "entry_date": "2026-06-25",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "GLW"
-    },
-    {
       "avg_cost": 2239.871745,
       "entry_date": "2026-06-25",
       "shares": 1,
       "strategy": "sticks",
       "ticker": "SNDK"
+    },
+    {
+      "avg_cost": 109.116329,
+      "entry_date": "2026-06-26",
+      "shares": 3,
+      "strategy": "sticks",
+      "ticker": "PLTR"
+    },
+    {
+      "avg_cost": 150.365177,
+      "entry_date": "2026-06-26",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "ORCL"
     }
   ]
 }
