@@ -705,9 +705,15 @@
             padding: 16px;
             position: sticky;
             top: 20px;
-            max-height: calc(100vh - 160px);
+            /* Fill the viewport height and stay pinned so the left column never goes blank
+               as you scroll down to the FOMC / releases sections; news scrolls internally. */
+            height: calc(100vh - 120px);
+            max-height: calc(100vh - 120px);
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
+        #macroNewsFeed { flex: 1 1 auto; min-height: 0; }
         .news-pane::-webkit-scrollbar { width: 4px; }
         .news-pane::-webkit-scrollbar-track { background: #0f0f0f; }
         .news-pane::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
@@ -1907,6 +1913,7 @@
             <div class="macro-kpi-grid" id="macroKpiGrid">
                 <!-- filled by JS -->
             </div>
+            <div class="ind-foot" id="macroKpiFoot" style="margin-top:-6px;"></div>
 
             <!-- Yield Spread chart (full-width, equity overlay) -->
             <div class="chart-container">
@@ -2042,8 +2049,8 @@
                 </div>
             </div>
         </div>
-        <div class="macro-charts-2col" style="align-items:start;">
-            <div>
+        <div class="macro-charts-2col" style="align-items:stretch;">
+            <div style="display:flex;flex-direction:column;">
                 <div class="chart-title" style="font-size:13px;margin-bottom:10px;">COT Index — 3-yr positioning percentile</div>
                 <div id="cotGauges"></div>
             </div>
@@ -3851,6 +3858,32 @@ async function loadIntradayData() {
         lastDay = day;
     });
 
+    // ── Buy/Sell trade markers: entries & exits whose trade_date is in the visible window ──
+    const upperTk = (selectedTicker || '').toUpperCase();
+    const tradeOrders = STRATEGIES
+        .flatMap(s => state.orders?.[s] || [])
+        .filter(o => (o.ticker || '').toUpperCase() === upperTk && o.trade_date);
+    const spanFirst = spanDays[0], spanLast = spanDays[spanDays.length - 1];
+    const yHi = Math.max(...H);
+    const tradeShapes = [], tradeMx = [], tradeMy = [], tradeText = [], tradeColors = [], tradeSyms = [];
+    tradeOrders.forEach(o => {
+        const d = String(o.trade_date).slice(0, 10);
+        if (d < spanFirst || d > spanLast) return;
+        // Anchor on the first bar of that day; if the exact day is missing, the first bar on/after it.
+        let x = T.find(t => String(t).slice(0, 10) === d) || T.find(t => String(t).slice(0, 10) >= d);
+        if (!x) return;
+        const isBuy  = (o.side || '').toLowerCase() === 'buy';
+        const isOpen = o.position_action === 'open';
+        const col    = isBuy ? '#00d4aa' : '#ff4757';
+        const px     = o.intended_price ?? o.fill_price ?? null;
+        const label  = (isOpen ? 'ENTER' : 'EXIT') + ' · ' + (isBuy ? 'Buy' : 'Sell');
+        tradeShapes.push({ type: 'line', xref: 'x', yref: 'paper', x0: x, x1: x, y0: 0, y1: 1,
+            line: { color: col, width: 1.4, dash: 'dashdot' } });
+        tradeMx.push(x); tradeMy.push(yHi); tradeColors.push(col);
+        tradeSyms.push(isOpen ? 'triangle-down' : 'x');
+        tradeText.push(`${label} · ${d}${px != null ? ` · $${Number(px).toFixed(2)}` : ''}`);
+    });
+
     // rangebreaks removes overnight gaps (EDT = UTC-4: market 13:30–20:00 UTC)
     const rangeBreaks = [
         { bounds: ['sat', 'mon'] },
@@ -3883,6 +3916,10 @@ async function loadIntradayData() {
         { type:'scatter', mode:'lines', x:smaT, y:lowerY,
           name:'-1σ', line:{color:'#555',width:1,dash:'dot'},
           fill:'tonexty', fillcolor:'rgba(85,85,85,0.08)', showlegend:false },
+        { type:'scatter', mode:'markers', x:tradeMx, y:tradeMy,
+          name:'Trades', showlegend: tradeMx.length > 0,
+          marker:{ symbol:tradeSyms, size:11, color:tradeColors, line:{color:'#0f0f0f',width:1} },
+          text:tradeText, hoverinfo:'text' },
     ], {
         paper_bgcolor: BG, plot_bgcolor: BG,
         font: { color:'#e0e0e0', size:11 },
@@ -3892,7 +3929,7 @@ async function loadIntradayData() {
         showlegend: true,
         legend: { x:0.01, y:0.99, bgcolor:'rgba(15,15,15,0.85)', bordercolor:'#2a2a2a', borderwidth:1 },
         hovermode: 'x unified',
-        shapes: dayShapes,
+        shapes: dayShapes.concat(tradeShapes),
     }, { responsive:true, displayModeBar:true });
 
     // ── Sub-chart 1: Rolling Volatility (15-bar window) ──
@@ -4221,11 +4258,9 @@ async function loadMacroTab() {
         return;
     }
 
-    const allEquity = [
-        ...(state.equity.sticks    || []),
-        ...(state.equity.markowitz || []),
-        ...(state.equity.drl       || []),
-    ];
+    // Single combined portfolio curve (summed daily across strategies, date-aligned).
+    // Concatenating per-strategy arrays produced overlapping points per x — use one clean line.
+    const allEquity = combinedEquity(STRATEGIES.map(s => state.equity[s] || []));
 
     renderMacroNarrative(fredData, mktData);
     renderMacroKPIs(fredData, mktData);
@@ -4453,15 +4488,8 @@ function renderMacroKPIs(fred, mkt) {
         });
     }
 
-    // 10Y Yield
+    // 10Y Yield — shown as a footnote under the grid (reference rate, not a traffic-light KPI)
     const tnx = mkt?.TNX?.value;
-    if (tnx !== null && tnx !== undefined) {
-        indicators.push({
-            label: '10Y Yield', value: tnx.toFixed(2) + '%',
-            change: '', changeClass: 'neutral',
-            status: 'neutral', statusLabel: 'Reference rate',
-        });
-    }
 
     // Consumer Sentiment (U. Michigan) vs its 12-mo trend + stagflation lean
     const cs = fred?.consumer_sentiment;
@@ -4489,6 +4517,13 @@ function renderMacroKPIs(fred, mkt) {
             </div>
         </div>
     `).join('') || '<div class="macro-empty" style="grid-column:1/-1;">No indicator data available.</div>';
+
+    const kpiFoot = document.getElementById('macroKpiFoot');
+    if (kpiFoot) {
+        kpiFoot.innerHTML = (tnx !== null && tnx !== undefined)
+            ? `Reference rate — 10-Year Treasury yield: <strong style="color:#a0a6b0;">${tnx.toFixed(2)}%</strong>.`
+            : '';
+    }
 }
 
 // ── Charts ─────────────────────────────────────────────────────
@@ -4523,7 +4558,7 @@ function renderMacroCharts(fred, mkt, allEquity) {
             const norm    = eqVals.map(v => yMin + (v - eqMin) * scale);
             traces.push({
                 x: eqDates, y: norm, type: 'scatter', mode: 'lines',
-                name: 'Portfolio (scaled)',
+                name: 'Combined portfolio (scaled)',
                 line: { color: '#ff9f43', width: 1.5, dash: 'dot' },
                 yaxis: 'y', opacity: 0.6,
             });
@@ -4808,7 +4843,9 @@ window.addEventListener('DOMContentLoaded', () => {
     .ind-pill.red  { color:#ff4757; border-color:rgba(255,71,87,.4); }
     .ind-pill.blue { color:#00a8ff; border-color:rgba(0,168,255,.4); }
     .ind-pill.orange { color:#ff9f43; border-color:rgba(255,159,67,.4); }
-    .cot-gauge { display:grid; grid-template-columns:1.4fr 2fr auto; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #181b21; }
+    .cot-gauge { display:grid; grid-template-columns:1.5fr 2.6fr 100px; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #181b21; }
+    #cotGauges { display:flex; flex-direction:column; justify-content:space-between; flex:1 1 auto; min-height:0; }
+    #cotGauges .cot-gauge:last-child { border-bottom:none; }
     .cot-track { position:relative; height:8px; background:#1b1e24; border-radius:5px; }
     .cot-mid { position:absolute; left:50%; top:-3px; bottom:-3px; width:1px; background:#3a3f48; }
     .cot-fill { position:absolute; left:0; top:0; height:100%; border-radius:5px; }
