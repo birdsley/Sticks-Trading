@@ -1,45 +1,59 @@
 {
   "as_of": "2026-06-26",
-  "cash": 1046.939696,
-  "equity_estimate": 3445.6696898201903,
+  "cash": 14200.225526,
+  "equity_estimate": 9982.380311,
   "last_run_id": "2026-06-26_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
-      "avg_cost": 499.0841,
+      "avg_cost": 639.47735,
+      "entry_date": "2026-06-10",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "CRWD"
+    },
+    {
+      "avg_cost": 498.118428,
       "entry_date": "2026-06-11",
       "shares": 1,
       "strategy": "sticks",
       "ticker": "WDC"
     },
     {
-      "avg_cost": 33.296676,
+      "avg_cost": 1131.759643,
+      "entry_date": "2026-06-18",
+      "shares": -1,
+      "strategy": "sticks",
+      "ticker": "STX"
+    },
+    {
+      "avg_cost": 1129.249011,
+      "entry_date": "2026-06-22",
+      "shares": -1,
+      "strategy": "sticks",
+      "ticker": "GEV"
+    },
+    {
+      "avg_cost": 1079.244,
+      "entry_date": "2026-06-23",
+      "shares": -1,
+      "strategy": "sticks",
+      "ticker": "MU"
+    },
+    {
+      "avg_cost": 61.127179,
       "entry_date": "2026-06-24",
-      "shares": -25,
+      "shares": -17,
       "strategy": "sticks",
-      "ticker": "SMCI"
+      "ticker": "MRNA"
     },
     {
-      "avg_cost": 2239.871745,
+      "avg_cost": 139.432328,
       "entry_date": "2026-06-25",
-      "shares": 1,
+      "shares": -7,
       "strategy": "sticks",
-      "ticker": "SNDK"
-    },
-    {
-      "avg_cost": 109.116329,
-      "entry_date": "2026-06-26",
-      "shares": 3,
-      "strategy": "sticks",
-      "ticker": "PLTR"
-    },
-    {
-      "avg_cost": 150.365177,
-      "entry_date": "2026-06-26",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "ORCL"
+      "ticker": "DD"
     }
   ]
 }
