@@ -1,154 +1,154 @@
 {
-  "as_of": "2026-06-29",
-  "cash": -8391.73628,
-  "equity_estimate": 9912.973627,
-  "last_run_id": "2026-06-29_carry_catchup",
+  "as_of": "2026-06-30",
+  "cash": -7693.886743,
+  "equity_estimate": 9889.883387,
+  "last_run_id": "2026-06-30_carry_catchup",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
-      "avg_cost": 26.51,
-      "entry_date": "2026-06-29",
+      "avg_cost": 26.67,
+      "entry_date": "2026-06-30",
       "shares": 7,
       "strategy": "carry",
       "ticker": "DBA"
     },
     {
-      "avg_cost": 23.98,
-      "entry_date": "2026-06-29",
-      "shares": 20,
+      "avg_cost": 24.1,
+      "entry_date": "2026-06-30",
+      "shares": 21,
       "strategy": "carry",
       "ticker": "DBB"
     },
     {
-      "avg_cost": 26.559999,
-      "entry_date": "2026-06-29",
+      "avg_cost": 26.66,
+      "entry_date": "2026-06-30",
       "shares": 5,
       "strategy": "carry",
       "ticker": "DBC"
     },
     {
-      "avg_cost": 67.43,
-      "entry_date": "2026-06-29",
+      "avg_cost": 68.410004,
+      "entry_date": "2026-06-30",
       "shares": 3,
       "strategy": "carry",
       "ticker": "EEM"
     },
     {
-      "avg_cost": 103.449997,
-      "entry_date": "2026-06-29",
+      "avg_cost": 103.879997,
+      "entry_date": "2026-06-30",
       "shares": 4,
       "strategy": "carry",
       "ticker": "EFA"
     },
     {
-      "avg_cost": 93.209999,
-      "entry_date": "2026-06-29",
-      "shares": 3,
+      "avg_cost": 93.269997,
+      "entry_date": "2026-06-30",
+      "shares": 4,
       "strategy": "carry",
       "ticker": "EWJ"
     },
     {
-      "avg_cost": 105.449997,
-      "entry_date": "2026-06-29",
+      "avg_cost": 105.440002,
+      "entry_date": "2026-06-30",
       "shares": 3,
       "strategy": "carry",
       "ticker": "FXE"
     },
     {
-      "avg_cost": 56.66,
-      "entry_date": "2026-06-29",
-      "shares": -18,
+      "avg_cost": 56.439999,
+      "entry_date": "2026-06-30",
+      "shares": -19,
       "strategy": "carry",
       "ticker": "FXY"
     },
     {
-      "avg_cost": 368.579987,
-      "entry_date": "2026-06-29",
+      "avg_cost": 368.380005,
+      "entry_date": "2026-06-30",
       "shares": 1,
       "strategy": "carry",
       "ticker": "GLD"
     },
     {
-      "avg_cost": 80.010002,
-      "entry_date": "2026-06-29",
-      "shares": 29,
+      "avg_cost": 79.970001,
+      "entry_date": "2026-06-30",
+      "shares": 28,
       "strategy": "carry",
       "ticker": "HYG"
     },
     {
-      "avg_cost": 95.059998,
-      "entry_date": "2026-06-29",
-      "shares": 7,
+      "avg_cost": 94.57,
+      "entry_date": "2026-06-30",
+      "shares": 6,
       "strategy": "carry",
       "ticker": "IEF"
     },
     {
-      "avg_cost": 298.970001,
-      "entry_date": "2026-06-29",
+      "avg_cost": 300.450012,
+      "entry_date": "2026-06-30",
       "shares": 1,
       "strategy": "carry",
       "ticker": "IWM"
     },
     {
-      "avg_cost": 109.699997,
-      "entry_date": "2026-06-29",
+      "avg_cost": 109.07,
+      "entry_date": "2026-06-30",
       "shares": 19,
       "strategy": "carry",
       "ticker": "LQD"
     },
     {
-      "avg_cost": 82.169998,
-      "entry_date": "2026-06-29",
-      "shares": 62,
+      "avg_cost": 82.110001,
+      "entry_date": "2026-06-30",
+      "shares": 57,
       "strategy": "carry",
       "ticker": "SHY"
     },
     {
-      "avg_cost": 741.0,
-      "entry_date": "2026-06-29",
+      "avg_cost": 746.77002,
+      "entry_date": "2026-06-30",
       "shares": 1,
       "strategy": "carry",
       "ticker": "SPY"
     },
     {
-      "avg_cost": 109.900002,
-      "entry_date": "2026-06-29",
-      "shares": 26,
+      "avg_cost": 109.43,
+      "entry_date": "2026-06-30",
+      "shares": 25,
       "strategy": "carry",
       "ticker": "TIP"
     },
     {
-      "avg_cost": 87.449997,
-      "entry_date": "2026-06-29",
-      "shares": 4,
+      "avg_cost": 86.419998,
+      "entry_date": "2026-06-30",
+      "shares": 3,
       "strategy": "carry",
       "ticker": "TLT"
     },
     {
-      "avg_cost": 107.080002,
-      "entry_date": "2026-06-29",
+      "avg_cost": 106.440002,
+      "entry_date": "2026-06-30",
       "shares": 1,
       "strategy": "carry",
       "ticker": "USO"
     },
     {
-      "avg_cost": 28.370001,
-      "entry_date": "2026-06-29",
-      "shares": 42,
+      "avg_cost": 28.41,
+      "entry_date": "2026-06-30",
+      "shares": 43,
       "strategy": "carry",
       "ticker": "UUP"
     },
     {
-      "avg_cost": 88.07,
-      "entry_date": "2026-06-29",
+      "avg_cost": 88.540001,
+      "entry_date": "2026-06-30",
       "shares": 4,
       "strategy": "carry",
       "ticker": "VGK"
     },
     {
-      "avg_cost": 98.150002,
-      "entry_date": "2026-06-29",
+      "avg_cost": 96.43,
+      "entry_date": "2026-06-30",
       "shares": 9,
       "strategy": "carry",
       "ticker": "VNQ"

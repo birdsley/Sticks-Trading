@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-23",
-  "cash": 1569.785726,
-  "equity_estimate": 10103.495678354431,
-  "last_run_id": "2026-06-29_markowitz_live",
+  "as_of": "2026-06-30",
+  "cash": 2040.003781,
+  "equity_estimate": 10081.35376612268,
+  "last_run_id": "2026-06-30_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -105,13 +105,6 @@
       "ticker": "BKR"
     },
     {
-      "avg_cost": 203.382273,
-      "entry_date": "2026-06-09",
-      "shares": 1,
-      "strategy": "markowitz",
-      "ticker": "CAH"
-    },
-    {
       "avg_cost": 89.462582,
       "entry_date": "2026-06-09",
       "shares": 1,
@@ -128,7 +121,7 @@
     {
       "avg_cost": 47.683357,
       "entry_date": "2026-06-09",
-      "shares": 3,
+      "shares": 2,
       "strategy": "markowitz",
       "ticker": "DD"
     },
@@ -308,9 +301,9 @@
       "ticker": "FE"
     },
     {
-      "avg_cost": 47.0329,
+      "avg_cost": 48.363832,
       "entry_date": "2026-06-16",
-      "shares": 2,
+      "shares": 3,
       "strategy": "markowitz",
       "ticker": "LUV"
     },
@@ -338,9 +331,16 @@
     {
       "avg_cost": 262.193417,
       "entry_date": "2026-06-23",
-      "shares": 2,
+      "shares": 1,
       "strategy": "markowitz",
       "ticker": "INTU"
+    },
+    {
+      "avg_cost": 115.0805,
+      "entry_date": "2026-06-30",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "INCY"
     }
   ]
 }

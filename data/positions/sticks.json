@@ -1,25 +1,11 @@
 {
-  "as_of": "2026-06-26",
-  "cash": 14200.225526,
-  "equity_estimate": 10243.615449095703,
-  "last_run_id": "2026-06-29_sticks_live",
+  "as_of": "2026-06-30",
+  "cash": 11330.049617,
+  "equity_estimate": 10176.249621577637,
+  "last_run_id": "2026-06-30_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 639.47735,
-      "entry_date": "2026-06-10",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "CRWD"
-    },
-    {
-      "avg_cost": 498.118428,
-      "entry_date": "2026-06-11",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "WDC"
-    },
     {
       "avg_cost": 1131.759643,
       "entry_date": "2026-06-18",
@@ -35,25 +21,25 @@
       "ticker": "GEV"
     },
     {
-      "avg_cost": 1079.244,
-      "entry_date": "2026-06-23",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "MU"
-    },
-    {
-      "avg_cost": 61.127179,
-      "entry_date": "2026-06-24",
-      "shares": -17,
-      "strategy": "sticks",
-      "ticker": "MRNA"
-    },
-    {
       "avg_cost": 139.432328,
       "entry_date": "2026-06-25",
       "shares": -7,
       "strategy": "sticks",
       "ticker": "DD"
+    },
+    {
+      "avg_cost": 231.511951,
+      "entry_date": "2026-06-30",
+      "shares": 4,
+      "strategy": "sticks",
+      "ticker": "HON"
+    },
+    {
+      "avg_cost": 88.832136,
+      "entry_date": "2026-06-30",
+      "shares": 11,
+      "strategy": "sticks",
+      "ticker": "ON"
     }
   ]
 }
