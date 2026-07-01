@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-30",
-  "cash": 11330.049617,
-  "equity_estimate": 10176.249621577637,
-  "last_run_id": "2026-06-30_sticks_live",
+  "as_of": "2026-07-01",
+  "cash": 12389.221551,
+  "equity_estimate": 10289.821473180176,
+  "last_run_id": "2026-07-01_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -14,13 +14,6 @@
       "ticker": "STX"
     },
     {
-      "avg_cost": 1129.249011,
-      "entry_date": "2026-06-22",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "GEV"
-    },
-    {
       "avg_cost": 139.432328,
       "entry_date": "2026-06-25",
       "shares": -7,
@@ -28,18 +21,25 @@
       "ticker": "DD"
     },
     {
-      "avg_cost": 231.511951,
-      "entry_date": "2026-06-30",
-      "shares": 4,
-      "strategy": "sticks",
-      "ticker": "HON"
-    },
-    {
       "avg_cost": 88.832136,
       "entry_date": "2026-06-30",
       "shares": 11,
       "strategy": "sticks",
       "ticker": "ON"
+    },
+    {
+      "avg_cost": 580.253511,
+      "entry_date": "2026-07-01",
+      "shares": -1,
+      "strategy": "sticks",
+      "ticker": "AXON"
+    },
+    {
+      "avg_cost": 239.33235,
+      "entry_date": "2026-07-01",
+      "shares": -3,
+      "strategy": "sticks",
+      "ticker": "GLW"
     }
   ]
 }
