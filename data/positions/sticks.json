@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-01",
-  "cash": 12389.221551,
-  "equity_estimate": 10289.821473180176,
-  "last_run_id": "2026-07-01_sticks_live",
+  "as_of": "2026-07-02",
+  "cash": 11464.28949,
+  "equity_estimate": 10388.829504266967,
+  "last_run_id": "2026-07-02_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -28,18 +28,25 @@
       "ticker": "ON"
     },
     {
-      "avg_cost": 580.253511,
-      "entry_date": "2026-07-01",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "AXON"
-    },
-    {
       "avg_cost": 239.33235,
       "entry_date": "2026-07-01",
       "shares": -3,
       "strategy": "sticks",
       "ticker": "GLW"
+    },
+    {
+      "avg_cost": 350.740302,
+      "entry_date": "2026-07-02",
+      "shares": -2,
+      "strategy": "sticks",
+      "ticker": "PANW"
+    },
+    {
+      "avg_cost": 28.079641,
+      "entry_date": "2026-07-02",
+      "shares": 37,
+      "strategy": "sticks",
+      "ticker": "SMCI"
     }
   ]
 }
