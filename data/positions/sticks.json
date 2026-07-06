@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-02",
-  "cash": 11464.28949,
-  "equity_estimate": 10388.829504266967,
-  "last_run_id": "2026-07-02_sticks_live",
+  "as_of": "2026-07-06",
+  "cash": 10268.613625,
+  "equity_estimate": 10264.563713500977,
+  "last_run_id": "2026-07-06_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -12,13 +12,6 @@
       "shares": -1,
       "strategy": "sticks",
       "ticker": "STX"
-    },
-    {
-      "avg_cost": 139.432328,
-      "entry_date": "2026-06-25",
-      "shares": -7,
-      "strategy": "sticks",
-      "ticker": "DD"
     },
     {
       "avg_cost": 88.832136,
@@ -42,11 +35,18 @@
       "ticker": "PANW"
     },
     {
-      "avg_cost": 28.079641,
-      "entry_date": "2026-07-02",
-      "shares": 37,
+      "avg_cost": 598.08105,
+      "entry_date": "2026-07-06",
+      "shares": -1,
       "strategy": "sticks",
-      "ticker": "SMCI"
+      "ticker": "AXON"
+    },
+    {
+      "avg_cost": 1825.922271,
+      "entry_date": "2026-07-06",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "SNDK"
     }
   ]
 }
