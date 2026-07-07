@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-06-30",
-  "cash": 2040.003781,
-  "equity_estimate": 10135.073814073425,
-  "last_run_id": "2026-07-06_markowitz_live",
+  "as_of": "2026-07-07",
+  "cash": 1591.948365,
+  "equity_estimate": 10119.250356462708,
+  "last_run_id": "2026-07-07_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -224,9 +224,9 @@
       "ticker": "MRNA"
     },
     {
-      "avg_cost": 3.140197,
+      "avg_cost": 3.189971,
       "entry_date": "2026-06-09",
-      "shares": 60,
+      "shares": 92,
       "strategy": "markowitz",
       "ticker": "NG=F"
     },
@@ -341,6 +341,34 @@
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "INCY"
+    },
+    {
+      "avg_cost": 67.257046,
+      "entry_date": "2026-07-07",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "CNC"
+    },
+    {
+      "avg_cost": 44.481116,
+      "entry_date": "2026-07-07",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "CNP"
+    },
+    {
+      "avg_cost": 94.496101,
+      "entry_date": "2026-07-07",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "IBKR"
+    },
+    {
+      "avg_cost": 92.274546,
+      "entry_date": "2026-07-07",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "VTR"
     }
   ]
 }

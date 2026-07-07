@@ -1,18 +1,11 @@
 {
-  "as_of": "2026-07-06",
-  "cash": 10268.613625,
-  "equity_estimate": 10264.563713500977,
-  "last_run_id": "2026-07-06_sticks_live",
+  "as_of": "2026-07-07",
+  "cash": 7064.451997,
+  "equity_estimate": 10132.511941152832,
+  "last_run_id": "2026-07-07_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 1131.759643,
-      "entry_date": "2026-06-18",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "STX"
-    },
     {
       "avg_cost": 88.832136,
       "entry_date": "2026-06-30",
@@ -28,25 +21,25 @@
       "ticker": "GLW"
     },
     {
-      "avg_cost": 350.740302,
-      "entry_date": "2026-07-02",
-      "shares": -2,
+      "avg_cost": 354.192769,
+      "entry_date": "2026-07-07",
+      "shares": 2,
       "strategy": "sticks",
-      "ticker": "PANW"
+      "ticker": "TER"
     },
     {
-      "avg_cost": 598.08105,
-      "entry_date": "2026-07-06",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "AXON"
-    },
-    {
-      "avg_cost": 1825.922271,
-      "entry_date": "2026-07-06",
+      "avg_cost": 923.486015,
+      "entry_date": "2026-07-07",
       "shares": 1,
       "strategy": "sticks",
-      "ticker": "SNDK"
+      "ticker": "MU"
+    },
+    {
+      "avg_cost": 26.598606,
+      "entry_date": "2026-07-07",
+      "shares": 38,
+      "strategy": "sticks",
+      "ticker": "SMCI"
     }
   ]
 }
