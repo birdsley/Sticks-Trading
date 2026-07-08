@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-07",
-  "cash": 7064.451997,
-  "equity_estimate": 10132.511941152832,
-  "last_run_id": "2026-07-07_sticks_live",
+  "as_of": "2026-07-08",
+  "cash": 6278.493047,
+  "equity_estimate": 10318.793072939941,
+  "last_run_id": "2026-07-08_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -21,13 +21,6 @@
       "ticker": "GLW"
     },
     {
-      "avg_cost": 354.192769,
-      "entry_date": "2026-07-07",
-      "shares": 2,
-      "strategy": "sticks",
-      "ticker": "TER"
-    },
-    {
       "avg_cost": 923.486015,
       "entry_date": "2026-07-07",
       "shares": 1,
@@ -35,11 +28,18 @@
       "ticker": "MU"
     },
     {
-      "avg_cost": 26.598606,
-      "entry_date": "2026-07-07",
-      "shares": 38,
+      "avg_cost": 215.951063,
+      "entry_date": "2026-07-08",
+      "shares": 4,
       "strategy": "sticks",
-      "ticker": "SMCI"
+      "ticker": "KLAC"
+    },
+    {
+      "avg_cost": 1592.914309,
+      "entry_date": "2026-07-08",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "SNDK"
     }
   ]
 }
