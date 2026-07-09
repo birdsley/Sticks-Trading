@@ -1,1 +1,181 @@
-
+{
+  "as_of": "2026-07-09",
+  "window": {
+    "start": "2025-10-09",
+    "end": "2026-06-27"
+  },
+  "n_days": 254,
+  "capital_per_mw": 1200000.0,
+  "cost_per_mwh": 5.0,
+  "headline": {
+    "deployed_signal": "signal_p50",
+    "ann_usd_per_mw_yr_gross": 49071.0,
+    "ann_usd_per_mw_yr_net": 34471.0,
+    "sharpe_gross": 8.2,
+    "sharpe_net": 5.76,
+    "max_dd_gross": -10.2,
+    "capture_of_oracle": 0.846
+  },
+  "battery": [
+    {
+      "strategy": "fixed",
+      "ann_usd_per_mw_yr": 16277.0,
+      "capture_of_oracle": 0.281,
+      "sharpe_gross": 3.4,
+      "sharpe_net": 0.35,
+      "max_dd_gross": -3696.4,
+      "hit_rate_gross": 0.74
+    },
+    {
+      "strategy": "signal_p50",
+      "ann_usd_per_mw_yr": 49071.0,
+      "capture_of_oracle": 0.846,
+      "sharpe_gross": 8.2,
+      "sharpe_net": 5.76,
+      "max_dd_gross": -10.2,
+      "hit_rate_gross": 0.992
+    },
+    {
+      "strategy": "signal_p90",
+      "ann_usd_per_mw_yr": 48878.0,
+      "capture_of_oracle": 0.843,
+      "sharpe_gross": 8.27,
+      "sharpe_net": 5.8,
+      "max_dd_gross": -10.7,
+      "hit_rate_gross": 0.992
+    },
+    {
+      "strategy": "oracle",
+      "ann_usd_per_mw_yr": 57995.0,
+      "capture_of_oracle": 1.0,
+      "sharpe_gross": 7.83,
+      "sharpe_net": 5.86,
+      "max_dd_gross": 0.0,
+      "hit_rate_gross": 1.0
+    }
+  ],
+  "forecast_skill": [
+    {
+      "target": "Price ($/MWh)",
+      "grid": "CAISO",
+      "mae": 4.8,
+      "skill": 0.44
+    },
+    {
+      "target": "Price ($/MWh)",
+      "grid": "ERCOT",
+      "mae": 14.7,
+      "skill": 0.41
+    },
+    {
+      "target": "Carbon (gCO2/kWh)",
+      "grid": "CAISO",
+      "mae": 28.9,
+      "skill": 0.24
+    },
+    {
+      "target": "Carbon (gCO2/kWh)",
+      "grid": "ERCOT",
+      "mae": 40.2,
+      "skill": 0.42
+    }
+  ],
+  "dispatch_plan": {
+    "plan_date": "2026-06-27",
+    "charge_hours": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "discharge_hours": [
+      2,
+      4,
+      21,
+      22
+    ],
+    "power_mw": 1.0,
+    "eff": 0.85
+  },
+  "demand_response": [
+    {
+      "strategy": "signal_p50",
+      "avoided_per_mw_year": 53559.0,
+      "capture_of_oracle": 0.868,
+      "precision_spike": 0.667
+    },
+    {
+      "strategy": "signal_p90",
+      "avoided_per_mw_year": 50327.0,
+      "capture_of_oracle": 0.816,
+      "precision_spike": 0.634
+    },
+    {
+      "strategy": "signal_clf",
+      "avoided_per_mw_year": 46469.0,
+      "capture_of_oracle": 0.753,
+      "precision_spike": 0.48
+    },
+    {
+      "strategy": "oracle",
+      "avoided_per_mw_year": 61712.0,
+      "capture_of_oracle": 1.0,
+      "precision_spike": 1.0
+    },
+    {
+      "strategy": "fixed",
+      "avoided_per_mw_year": 9383.0,
+      "capture_of_oracle": 0.152,
+      "precision_spike": 0.049
+    }
+  ],
+  "spike_capture": [
+    {
+      "budget_pct": 2.0,
+      "recall_value": 0.706,
+      "precision_hours": 0.634
+    },
+    {
+      "budget_pct": 5.0,
+      "recall_value": 0.879,
+      "precision_hours": 0.358
+    },
+    {
+      "budget_pct": 10.0,
+      "recall_value": 0.946,
+      "precision_hours": 0.213
+    }
+  ],
+  "carbon": [
+    {
+      "grid": "CISO",
+      "carbon_avoided_pct": 22.2,
+      "energy_saved_usd_per_mwh": 7.4,
+      "co2_avoided_tonnes_per_mw_year": 49.8,
+      "co2_value_usd_yr_at_85": 4231.0
+    },
+    {
+      "grid": "ERCO",
+      "carbon_avoided_pct": 21.6,
+      "energy_saved_usd_per_mwh": 14.4,
+      "co2_avoided_tonnes_per_mw_year": 91.4,
+      "co2_value_usd_yr_at_85": 7769.0
+    }
+  ],
+  "load_shift": [
+    {
+      "grid": "CISO",
+      "usd_per_mwh_saved": 16.52,
+      "ci_lo": 15.66,
+      "ci_hi": 17.43,
+      "capture_fraction": 0.958
+    },
+    {
+      "grid": "ERCO",
+      "usd_per_mwh_saved": 12.27,
+      "ci_lo": 9.58,
+      "ci_hi": 14.59,
+      "capture_fraction": 0.673
+    }
+  ]
+}
