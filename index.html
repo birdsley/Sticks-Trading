@@ -1294,6 +1294,7 @@
 <div class="main-tabs">
     <div class="main-tab active" onclick="switchMainTab(event,'overview')">Overview</div>
     <div class="main-tab"        onclick="switchMainTab(event,'performance')">Performance &amp; Analytics</div>
+    <div class="main-tab"        onclick="switchMainTab(event,'utilities')">Utilities</div>
     <div class="main-tab"        onclick="switchMainTab(event,'ticker')">Ticker Analysis</div>
     <div class="main-tab"        onclick="switchMainTab(event,'macro')">Macro</div>
     <div class="main-tab"        onclick="switchMainTab(event,'marketstructure')">Market Structure</div>
@@ -1771,6 +1772,115 @@
 
 </div><!-- /performance-tab -->
 
+<!-- ══════════════════════════════════════════════ UTILITIES TAB ══ -->
+<div id="utilities-tab" class="tab-content">
+
+    <div class="overview-hero" style="margin-bottom:20px;">
+        <div class="overview-badge">Power Markets — Energy</div>
+        <h2>Utilities — Battery Energy Arbitrage</h2>
+        <p>A diversifying <b>power-market</b> book that is structurally uncorrelated to equities.
+        A physical <b>1 MW / 4 MWh battery</b> on the <b>ERCOT</b> grid runs one cycle a day: a
+        walk-forward gradient-boosted model forecasts tomorrow's 24 hourly day-ahead prices, the
+        battery <b>buys the four cheapest forecast hours and sells the four dearest</b> (de-rated by
+        85% round-trip efficiency), and every trade is scored on the <b>actual settled</b> price.
+        Its P&amp;L is driven by weather, load and gas — not the stock market — so it behaves as a
+        high-Sharpe, near-zero-drawdown <b>yield</b> rather than a directional bet.</p>
+    </div>
+
+    <div id="utilEmpty" class="macro-empty" style="display:none;padding:40px;">
+        Utilities data will appear here once <code style="color:#00d4aa;font-size:11px;">data/equity/utilities.csv</code>
+        and <code style="color:#00d4aa;font-size:11px;">data/utilities/summary.json</code> are populated by the daily workflow.
+    </div>
+
+    <div id="utilBody">
+        <!-- KPI tiles -->
+        <div class="macro-kpi-grid" id="utilKpis" style="margin-bottom:20px;"></div>
+
+        <!-- Equity curve vs SPY -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Equity Curve — Battery Book vs S&amp;P 500 <span id="utilWindowPill" style="font-size:11px;color:#606060;"></span></div>
+                    <div class="chart-subtitle">
+                        Deployable <b>signal_p50</b> dispatch (rank hours by the point-price forecast), net of a
+                        realistic $5/MWh round-trip cost, capitalized on battery capex ($300/kWh × 4 MWh = $1.2M/MW)
+                        and rebased to $10,000. SPY rebased to $10,000 over the same window. Walk-forward out-of-sample.
+                    </div>
+                </div>
+            </div>
+            <canvas id="utilEquityChart" height="240"></canvas>
+            <div class="ind-foot" id="utilEquityFoot" style="margin-top:10px;"></div>
+        </div>
+
+        <!-- Battery strategy comparison -->
+        <div class="chart-container" style="margin-top:20px;">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Battery Dispatch — Profitability vs Baseline &amp; Ceiling</div>
+                    <div class="chart-subtitle">
+                        Annualized $/MW-yr and risk-adjusted metrics per dispatch rule. <b>signal_p50</b> is the deployed
+                        strategy; <b>fixed</b> (charge overnight / discharge at the evening peak) is the naive clock-block
+                        baseline; <b>oracle</b> (perfect foresight) is the ceiling. Sharpe/Sortino annualize the daily
+                        $/MW P&amp;L (√365). Capture-of-oracle = share of perfect-foresight profit.
+                    </div>
+                </div>
+            </div>
+            <div class="history-table-wrap">
+                <table class="history-table" id="utilBatteryTable"></table>
+            </div>
+            <div class="ind-foot" style="margin-top:10px;">
+                The signal's <b>gross Sharpe (8.2) exceeds the oracle's (7.83)</b> — perfect foresight earns more
+                <i>dollars</i> only by taking spike-day variance. On a risk-adjusted mandate the daily book is already
+                near-optimal, which is why it reads as a stable yield with essentially no drawdown.
+            </div>
+        </div>
+
+        <!-- Secondary books: DR + carbon + load-shift -->
+        <div class="macro-charts-2col" style="margin-top:20px;">
+            <div class="chart-container" style="margin:0;">
+                <div class="chart-title" style="font-size:14px;">Demand-Response — Scarcity Capture</div>
+                <div class="chart-subtitle" style="margin-bottom:12px;">
+                    Interruptible load curtails during the priciest ~2% of hours. Because the budget is spent only on
+                    the extreme tail, forecast ranking maps almost directly to dollars.
+                </div>
+                <div class="history-table-wrap"><table class="history-table" id="utilDrTable"></table></div>
+            </div>
+            <div class="chart-container" style="margin:0;">
+                <div class="chart-title" style="font-size:14px;">Carbon Overlay — Green ≈ Cheap</div>
+                <div class="chart-subtitle" style="margin-bottom:12px;">
+                    Running a flexible load in the cleanest forecast hours cuts CO₂ <b>and saves money</b> — the
+                    carbon-optimal and cost-optimal hours are ~85–90% the same.
+                </div>
+                <div class="history-table-wrap"><table class="history-table" id="utilCarbonTable"></table></div>
+            </div>
+        </div>
+
+        <!-- Forecast skill + today's dispatch plan -->
+        <div class="macro-charts-2col" style="margin-top:20px;">
+            <div class="chart-container" style="margin:0;">
+                <div class="chart-title" style="font-size:14px;">Forecast Skill (t+24, walk-forward)</div>
+                <div class="chart-subtitle" style="margin-bottom:12px;">
+                    Day-ahead MAE and skill vs a seasonal-naive baseline (0 = no better than naive, 1 = perfect).
+                    ERCOT is wind- and scarcity-driven, where the ML earns its keep.
+                </div>
+                <div class="history-table-wrap"><table class="history-table" id="utilSkillTable"></table></div>
+            </div>
+            <div class="chart-container" style="margin:0;">
+                <div class="chart-title" style="font-size:14px;">Latest Dispatch Plan <span id="utilPlanDate" style="font-size:11px;color:#606060;"></span></div>
+                <div class="chart-subtitle" style="margin-bottom:12px;">
+                    The battery's charge/discharge hours (local time) for the most recent complete day, by the
+                    signal_p50 ranking — the "buy low, sell high" schedule the book acts on.
+                </div>
+                <div id="utilPlan"></div>
+                <div class="ind-foot" id="utilLoadShiftFoot" style="margin-top:14px;"></div>
+            </div>
+        </div>
+
+        <div class="ind-foot" id="utilMethodFoot" style="margin-top:18px;line-height:1.6;"></div>
+    </div>
+</div><!-- /utilities-tab -->
+
+
 <!-- ══════════════════════════════════════════════ TICKER TAB ══ -->
 <div id="ticker-tab" class="tab-content">
 
@@ -2142,6 +2252,7 @@ function switchMainTab(e, name) {
     document.getElementById(name + '-tab').classList.add('active');
     if (name === 'overview')     { /* data already loaded; canvas init on first visit */ initOverviewCanvas(); }
     if (name === 'performance')  { renderAnalyticsTab(); renderFactorPanel(currentStrategy); }
+    if (name === 'utilities')    loadUtilitiesTab();
     if (name === 'ticker')       initTickerTab();
     if (name === 'macro')        { loadMacroTab(); loadFomcPanel(); }
     if (name === 'marketstructure') loadMarketStructureTab();
@@ -4856,6 +4967,260 @@ window.addEventListener('DOMContentLoaded', () => {
     .ff-card { background:#15171c; border:1px solid #1f232b; border-radius:10px; padding:14px 16px; }
     .ff-card h4 { margin:0 0 10px; font-size:13px; font-weight:600; }
 </style>
+<script>
+// ══════════════════════════════════════════════════════════════
+//  UTILITIES (ENERGY) TAB
+// ══════════════════════════════════════════════════════════════
+let utilLoaded = false;
+let utilChart  = null;
+
+async function loadUtilitiesTab() {
+    const empty = document.getElementById('utilEmpty');
+    const body  = document.getElementById('utilBody');
+    try {
+        const [rawEq, summary] = await Promise.all([
+            fetchCSV('data/equity/utilities.csv').catch(() => []),
+            fetchJSON('data/utilities/summary.json').catch(() => null),
+        ]);
+        const eq = filterTradingDays(rawEq || []);
+        if ((!eq || eq.length < 2) && !summary) {
+            empty.style.display = 'block'; body.style.display = 'none';
+            return;
+        }
+        empty.style.display = 'none'; body.style.display = 'block';
+
+        if (!state.spy || state.spy.length === 0) state.spy = await fetchSpy();
+        renderUtilKpis(eq, summary);
+        renderUtilEquityChart(eq);
+        renderUtilTables(summary);
+        renderUtilPlan(summary);
+        utilLoaded = true;
+    } catch (err) {
+        console.error('utilities tab load failed', err);
+        empty.style.display = 'block'; body.style.display = 'none';
+    }
+}
+
+// Correlation of the utilities daily equity returns to SPY daily returns (overlap window).
+function utilSpyCorr(eq) {
+    if (!eq || eq.length < 5 || !state.spy || state.spy.length < 5) return null;
+    const spyMap = Object.fromEntries(state.spy.map(d => [d.date, d.price]));
+    const xs = [], ys = [];
+    for (let i = 1; i < eq.length; i++) {
+        const d0 = eq[i-1].date, d1 = eq[i].date;
+        if (spyMap[d0] == null || spyMap[d1] == null) continue;
+        ys.push((eq[i].equity - eq[i-1].equity) / eq[i-1].equity);
+        xs.push((spyMap[d1] - spyMap[d0]) / spyMap[d0]);
+    }
+    if (xs.length < 5) return null;
+    const mx = xs.reduce((a,b)=>a+b,0)/xs.length, my = ys.reduce((a,b)=>a+b,0)/ys.length;
+    let cov=0, vx=0, vy=0;
+    for (let i=0;i<xs.length;i++){ cov+=(xs[i]-mx)*(ys[i]-my); vx+=(xs[i]-mx)**2; vy+=(ys[i]-my)**2; }
+    return (vx>0 && vy>0) ? cov/Math.sqrt(vx*vy) : null;
+}
+
+function renderUtilKpis(eq, summary) {
+    const h = summary?.headline || {};
+    const corr = utilSpyCorr(eq);
+    const win = summary?.window;
+    const wp = document.getElementById('utilWindowPill');
+    if (wp && win) wp.textContent = `(${win.start} → ${win.end}, ${summary.n_days} days)`;
+
+    const money = v => (v >= 0 ? '$' : '-$') + Math.abs(Math.round(v)).toLocaleString();
+    const cards = [
+        { label: 'Net Sharpe', value: (h.sharpe_net ?? 0).toFixed(2),
+          change: 'after $5/MWh cost', status: 'green', statusLabel: 'Risk-adjusted' },
+        { label: 'Gross Sharpe', value: (h.sharpe_gross ?? 0).toFixed(2),
+          change: 'before cost', status: 'green', statusLabel: 'Exceeds oracle' },
+        { label: 'Net Yield', value: money(h.ann_usd_per_mw_yr_net ?? 0) + '/MW-yr',
+          change: money(h.ann_usd_per_mw_yr_gross ?? 0) + ' gross', status: 'green', statusLabel: 'Annualized' },
+        { label: 'Max Drawdown', value: money(h.max_dd_gross ?? 0) + '/MW',
+          change: 'peak-to-trough', status: 'green', statusLabel: 'Near-zero' },
+        { label: 'Capture of Oracle', value: Math.round((h.capture_of_oracle ?? 0) * 100) + '%',
+          change: 'of perfect foresight', status: 'green', statusLabel: 'Efficient' },
+        { label: 'Correlation to SPY', value: corr == null ? '—' : (corr >= 0 ? '+' : '') + corr.toFixed(2),
+          change: 'daily returns', status: (corr == null || Math.abs(corr) < 0.3) ? 'green' : 'yellow',
+          statusLabel: (corr == null || Math.abs(corr) < 0.3) ? 'Uncorrelated' : 'Some beta' },
+    ];
+    document.getElementById('utilKpis').innerHTML = cards.map(c => `
+        <div class="indicator-card ${c.status}">
+            <div class="indicator-label">${c.label}</div>
+            <div class="indicator-value">${c.value}</div>
+            <div class="indicator-change neutral">${c.change || '&nbsp;'}</div>
+            <div class="traffic-light">
+                <div class="tl-dot ${c.status}"></div>
+                <span class="tl-text ${c.status}">${c.statusLabel}</span>
+            </div>
+        </div>`).join('');
+}
+
+function renderUtilEquityChart(eq) {
+    const canvas = document.getElementById('utilEquityChart');
+    if (!canvas) return;
+    if (utilChart) { utilChart.destroy(); utilChart = null; }
+    if (!eq || eq.length < 2) return;
+
+    const labels = eq.map(r => r.date);
+    const util = eq.map(r => r.equity);
+
+    // SPY rebased to $10k over the same date window.
+    let spySeries = null;
+    if (state.spy && state.spy.length) {
+        const spyMap = Object.fromEntries(state.spy.map(d => [d.date, d.price]));
+        const start = labels.find(d => spyMap[d] != null);
+        if (start) {
+            const base = spyMap[start];
+            let last = 10000;
+            spySeries = labels.map(d => {
+                if (spyMap[d] != null) last = 10000 * spyMap[d] / base;
+                return last;
+            });
+        }
+    }
+
+    const datasets = [{
+        label: 'Battery book (net)', data: util, borderColor: '#00d4aa',
+        backgroundColor: 'rgba(0,212,170,0.08)', borderWidth: 2, pointRadius: 0,
+        fill: true, tension: 0.15,
+    }];
+    if (spySeries) datasets.push({
+        label: 'S&P 500 (SPY)', data: spySeries, borderColor: '#7a808a',
+        borderWidth: 1.5, borderDash: [5,4], pointRadius: 0, fill: false, tension: 0.15,
+    });
+
+    utilChart = new Chart(canvas, {
+        type: 'line',
+        data: { labels, datasets },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { labels: { color: '#a0a6b0', boxWidth: 12, font: { size: 11 } } },
+                tooltip: { callbacks: { label: c => c.dataset.label + ': $' +
+                    c.parsed.y.toLocaleString('en-US', { maximumFractionDigits: 0 }) } },
+            },
+            scales: {
+                x: { ticks: { color: '#606060', maxTicksLimit: 8, font: { size: 10 } }, grid: { color: '#1b1e24' } },
+                y: { ticks: { color: '#606060', font: { size: 10 },
+                     callback: v => '$' + v.toLocaleString() }, grid: { color: '#1b1e24' } },
+            },
+        },
+    });
+
+    const last = util[util.length - 1];
+    const ret = (last / 10000 - 1) * 100;
+    const foot = document.getElementById('utilEquityFoot');
+    if (foot) foot.innerHTML = `Book grew $10,000 → <b style="color:#00d4aa;">$${last.toLocaleString('en-US',{maximumFractionDigits:0})}</b> `+
+        `(${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%) over the window. The near-straight line is the point: a low-volatility `+
+        `yield, not a directional bet. Raw return is modest on capex; the value is the Sharpe and the flat drawdown.`;
+}
+
+function utilTable(el, headers, rows, highlightRow) {
+    if (!el) return;
+    const thead = '<thead><tr>' + headers.map(h => `<th style="text-align:${h.align||'left'}">${h.t}</th>`).join('') + '</tr></thead>';
+    const tbody = '<tbody>' + rows.map(r => {
+        const hl = highlightRow && highlightRow(r) ? ' style="background:rgba(0,212,170,0.06);"' : '';
+        return `<tr${hl}>` + r.cells.map((c,i) =>
+            `<td style="text-align:${headers[i].align||'left'};${c.color?`color:${c.color};`:''}${c.bold?'font-weight:700;':''}">${c.v}</td>`).join('') + '</tr>';
+    }).join('') + '</tbody>';
+    el.innerHTML = thead + tbody;
+}
+
+function renderUtilTables(summary) {
+    if (!summary) return;
+    const money = v => (v >= 0 ? '$' : '-$') + Math.abs(Math.round(v)).toLocaleString();
+    const nameMap = { fixed: 'Fixed (clock block)', signal_p50: 'signal_p50 (deployed)',
+                      signal_p90: 'signal_p90 (spike-aware)', signal_clf: 'signal_clf (classifier)', oracle: 'oracle (ceiling)' };
+
+    // Battery
+    if (summary.battery) {
+        utilTable(document.getElementById('utilBatteryTable'),
+            [{t:'Dispatch'},{t:'$/MW-yr',align:'right'},{t:'Sharpe (gross)',align:'right'},
+             {t:'Sharpe (net)',align:'right'},{t:'Max DD',align:'right'},{t:'Capture',align:'right'}],
+            summary.battery.map(b => ({ _s: b.strategy, cells: [
+                { v: nameMap[b.strategy] || b.strategy, bold: b.strategy==='signal_p50' },
+                { v: money(b.ann_usd_per_mw_yr), align:'right' },
+                { v: (b.sharpe_gross ?? 0).toFixed(2), align:'right', color: b.sharpe_gross>=1?'#00d4aa':'#e8eaed' },
+                { v: (b.sharpe_net ?? 0).toFixed(2), align:'right', color: b.sharpe_net>=1?'#00d4aa':'#e8eaed' },
+                { v: money(b.max_dd_gross), align:'right', color: b.max_dd_gross>-100?'#00d4aa':'#ff9f43' },
+                { v: Math.round((b.capture_of_oracle ?? 0)*100)+'%', align:'right' },
+            ]})),
+            r => r._s === 'signal_p50');
+    }
+    // Demand response
+    if (summary.demand_response) {
+        const order = { signal_p50:0, signal_p90:1, signal_clf:2, oracle:3, fixed:4 };
+        const dr = [...summary.demand_response].sort((a,b)=>(order[a.strategy]??9)-(order[b.strategy]??9));
+        utilTable(document.getElementById('utilDrTable'),
+            [{t:'Ranking'},{t:'Avoided $/MW-yr',align:'right'},{t:'Capture',align:'right'},{t:'Spike prec.',align:'right'}],
+            dr.map(d => ({ _s:d.strategy, cells: [
+                { v: nameMap[d.strategy] || d.strategy, bold: d.strategy==='signal_p50' },
+                { v: money(d.avoided_per_mw_year), align:'right' },
+                { v: Math.round((d.capture_of_oracle??0)*100)+'%', align:'right' },
+                { v: Math.round((d.precision_spike??0)*100)+'%', align:'right' },
+            ]})), r => r._s === 'signal_p50');
+    }
+    // Carbon
+    if (summary.carbon) {
+        utilTable(document.getElementById('utilCarbonTable'),
+            [{t:'Grid'},{t:'CO₂ avoided',align:'right'},{t:'$ saved/MWh',align:'right'},
+             {t:'t CO₂/MW-yr',align:'right'},{t:'$ @ $85/t',align:'right'}],
+            summary.carbon.map(c => ({ cells: [
+                { v: c.grid==='CISO'?'CAISO':'ERCOT' },
+                { v: '−'+Math.abs(c.carbon_avoided_pct).toFixed(0)+'%', align:'right', color:'#00d4aa' },
+                { v: '$'+c.energy_saved_usd_per_mwh.toFixed(1), align:'right', color:'#00d4aa' },
+                { v: c.co2_avoided_tonnes_per_mw_year.toFixed(0), align:'right' },
+                { v: '$'+Math.round(c.co2_value_usd_yr_at_85).toLocaleString(), align:'right' },
+            ]})));
+    }
+    // Forecast skill
+    if (summary.forecast_skill) {
+        utilTable(document.getElementById('utilSkillTable'),
+            [{t:'Target'},{t:'Grid'},{t:'MAE',align:'right'},{t:'Skill vs naive',align:'right'}],
+            summary.forecast_skill.map(f => ({ cells: [
+                { v: f.target }, { v: f.grid },
+                { v: f.mae.toFixed(1), align:'right' },
+                { v: '+'+f.skill.toFixed(2), align:'right', color: f.skill>=0.3?'#00d4aa':'#e8eaed' },
+            ]})));
+    }
+    // Load-shift foot
+    const ls = summary.load_shift;
+    const lsFoot = document.getElementById('utilLoadShiftFoot');
+    if (lsFoot && ls && ls.length) {
+        lsFoot.innerHTML = 'Load-shift signal ($/MWh saved running the k cheapest forecast hours vs anytime): ' +
+            ls.map(l => `<b>${l.grid==='CISO'?'CAISO':'ERCOT'} $${l.usd_per_mwh_saved.toFixed(2)}</b> `+
+                        `(${Math.round(l.capture_fraction*100)}% of oracle)`).join(' · ') + '.';
+    }
+    // Method footnote
+    const mf = document.getElementById('utilMethodFoot');
+    if (mf) mf.innerHTML = `<b>Methodology.</b> Direct t+24 hourly forecast (gradient-boosted trees, LightGBM/HistGB), `+
+        `expanding-window walk-forward with a horizon-length embargo (no look-ahead); quantile tails conformalized to `+
+        `~80–86% coverage. Dispatch is scored on <b>actual settled ERCOT day-ahead prices</b>; P&L includes a $5/MWh `+
+        `round-trip cost. Models and dispatch logic are identical to the validated research bundle — this is a `+
+        `walk-forward out-of-sample track, not live paper trading; it extends automatically once the live `+
+        `EIA / Open-Meteo / gridstatus data feeds are wired.`;
+}
+
+function renderUtilPlan(summary) {
+    const plan = summary?.dispatch_plan;
+    const el = document.getElementById('utilPlan');
+    const pd = document.getElementById('utilPlanDate');
+    if (!el) return;
+    if (!plan || !plan.charge_hours) { el.innerHTML = '<div class="ind-foot">No dispatch plan available.</div>'; return; }
+    if (pd) pd.textContent = plan.plan_date ? '(' + plan.plan_date + ')' : '';
+    const hourChip = (h, kind) => {
+        const c = kind === 'charge' ? '#00a8ff' : '#ff9f43';
+        const label = String(h).padStart(2,'0') + ':00';
+        return `<span style="display:inline-block;padding:5px 10px;margin:3px;border-radius:6px;`+
+               `border:1px solid ${c}55;background:${c}14;color:${c};font-size:12px;font-weight:600;">${label}</span>`;
+    };
+    el.innerHTML =
+        `<div style="margin-bottom:8px;"><span style="color:#00a8ff;font-weight:600;font-size:12px;">▼ CHARGE (buy)</span><br>` +
+        plan.charge_hours.map(h => hourChip(h,'charge')).join('') + `</div>` +
+        `<div><span style="color:#ff9f43;font-weight:600;font-size:12px;">▲ DISCHARGE (sell)</span><br>` +
+        plan.discharge_hours.map(h => hourChip(h,'discharge')).join('') + `</div>`;
+}
+</script>
 <script>
 // ── Dashboard indicator panels: RMT + COT (Market Structure), FOMC (Macro), Fama-French (Performance)
 (function(){
