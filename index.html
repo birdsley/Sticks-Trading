@@ -5444,5 +5444,446 @@ function renderUtilPlan(summary) {
     };
 })();
 </script>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     ║  TERMINAL REDESIGN · v2                                                ║
+     ║  Institutional quant-research terminal skin. Loaded LAST so it is the  ║
+     ║  authoritative layer over all preceding styles. Class names, markup,   ║
+     ║  charts, and application logic are untouched — this is pure styling.   ║
+     ║  Language: editorial serif headers · razor mono data · deep tinted     ║
+     ║  charcoal · architectural borders · zero-round density.                ║
+     ════════════════════════════════════════════════════════════════════════ -->
+<style id="terminal-redesign-v2">
+
+  /* ── 1. DESIGN TOKENS ─────────────────────────────────────────────────────
+     Re-point the existing variable system. Every rule in the base + enhancement
+     layers that reads var(--…) is re-skinned instantly from here. */
+  :root {
+      /* Canvas — warm-cool deep charcoal, not flat slate */
+      --bg:        #0b0d12;
+      --bg-2:      #090b0f;
+      --surface:   #101319;   /* panels — flat (both surface vars near-equal → no visible gradient) */
+      --surface-2: #101319;
+      --surface-hi:#141821;   /* raised sub-blocks (tags, inputs) */
+
+      /* Architectural lines */
+      --line:      #23272f;
+      --line-soft: #191c22;
+      --line-hard: #2c313a;
+
+      /* Text hierarchy */
+      --txt:       #e9e6df;   /* high-contrast warm off-white for data */
+      --txt-dim:   #9aa0aa;   /* body / secondary */
+      --txt-faint: #626873;   /* labels, captions */
+
+      /* Accent — electric terminal amber is the chrome/navigation signal.
+         P&L semantics (teal = positive, red = negative) are preserved below. */
+      --amber:     #ffb020;
+      --amber-dim: #b9821f;
+      --amber-soft:rgba(255,176,32,0.12);
+
+      /* Data-encoding palette — strategy identities, kept but slightly cooled */
+      --teal:   #23c7a6;  --teal-soft:  rgba(35,199,166,0.12);
+      --blue:   #3aa0e6;  --blue-soft:  rgba(58,160,230,0.12);
+      --orange: #e8963a;  --orange-soft:rgba(232,150,58,0.12);
+      --red:    #e8556b;  --red-soft:   rgba(232,85,107,0.12);
+
+      /* Typography — editorial serif for titles, razor mono for data */
+      --font-ui:    "Söhne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+      --font-mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+      /* Flatten depth — terminals are matte, not glassy */
+      --shadow-sm: none;
+      --shadow-md: none;
+      --shadow-lg: none;
+  }
+
+  /* ── 2. CANVAS ────────────────────────────────────────────────────────────
+     Kill the radial-glow grid + drifting aurora. Matte, dense, engineered. */
+  body {
+      font-family: var(--font-ui);
+      background-color: var(--bg) !important;
+      background-image: none !important;
+      color: var(--txt-dim);
+      letter-spacing: 0;
+      padding: 20px 24px 56px;
+      -webkit-font-smoothing: antialiased;
+  }
+  body::before { display: none !important; }               /* aurora off */
+  @media (max-width: 768px) { body { padding: 14px 12px 36px; } }
+
+  /* Numbers, tags, params — always razor mono, tabular */
+  .metric-value, .analytics-card-value, .ticker-metric-value,
+  .comparison-stat-value, .indicator-value, .total-equity-value,
+  .strategy-equity, .stat-row-value, .overview-stat-value,
+  .strategy-return, .indicator-change, .history-table td, .release-table td,
+  .ind-kpi .val, .strat-card-freq, .ticker-count {
+      font-family: var(--font-mono) !important;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+      text-shadow: none !important;
+  }
+
+  /* Editorial serif for every title / display header */
+  .logo-text h1, .overview-hero h2, .manifesto-title, .chart-title,
+  .manifesto-subtitle {
+      font-family: var(--font-serif);
+  }
+
+  /* ── 3. HEADER — structural bar, not a floating glass pill ────────────────*/
+  .header {
+      background: transparent !important;
+      border: none !important;
+      border-bottom: 1px solid var(--line-hard) !important;
+      border-radius: 0 !important;
+      padding: 4px 2px 16px !important;
+      margin-bottom: 20px !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: none !important;
+  }
+  .logo-icon {
+      background: var(--surface-hi) !important;
+      border: 1px solid var(--amber) !important;
+      border-radius: 2px !important;
+      width: 34px !important; height: 34px !important;
+      box-shadow: none !important;
+      animation: none !important;
+  }
+  .logo-icon svg { fill: var(--amber); }
+  .logo-text h1 {
+      font-size: 22px !important; font-weight: 600 !important;
+      letter-spacing: -0.2px !important;
+      color: var(--txt) !important;
+      -webkit-text-fill-color: var(--txt) !important;
+      background: none !important;
+  }
+  .logo-text p {
+      font-family: var(--font-mono);
+      font-size: 10.5px !important; letter-spacing: 0.6px !important;
+      text-transform: uppercase; color: var(--txt-faint) !important;
+  }
+  .status {
+      background: transparent !important;
+      border: 1px solid var(--line) !important;
+      border-radius: 0 !important;
+      font-family: var(--font-mono); font-size: 11px !important;
+      text-transform: uppercase; letter-spacing: 0.4px;
+      padding: 6px 11px !important;
+  }
+  .status-dot, .status-dot.error, .status-dot.pending { box-shadow: none !important; }
+  .refresh-btn {
+      background: var(--surface-hi) !important;
+      border: 1px solid var(--line-hard) !important;
+      border-radius: 0 !important;
+      font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.5px; box-shadow: none !important;
+      transform: none !important;
+  }
+  .refresh-btn:hover {
+      background: #1a1f28 !important;
+      border-color: var(--amber) !important; color: var(--amber) !important;
+      transform: none !important; box-shadow: none !important;
+  }
+
+  /* ── 4. TAB INDEX — classic terminal top-bar, thin accent rail ────────────*/
+  .main-tabs {
+      display: flex !important;
+      gap: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      border-bottom: 1px solid var(--line-hard) !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin-bottom: 24px !important;
+      backdrop-filter: none !important;
+      box-shadow: none !important;
+      flex-wrap: wrap;
+  }
+  .main-tab {
+      font-family: var(--font-mono) !important;
+      font-size: 11.5px !important; font-weight: 500 !important;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--txt-faint) !important;
+      padding: 12px 18px !important;
+      border-radius: 0 !important;
+      border-bottom: 2px solid transparent !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      animation: none !important;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .main-tab:hover {
+      color: var(--txt) !important;
+      background: rgba(255,255,255,0.02) !important;
+  }
+  .main-tab.active {
+      color: var(--amber) !important;
+      background: transparent !important;
+      border-bottom: 2px solid var(--amber) !important;
+      box-shadow: none !important;
+      animation: none !important;
+  }
+
+  /* ── 5. PANELS / CARDS — matte, sharp, engineered top-rule ────────────────*/
+  .metric-card, .chart-container, .allocation-container, .diagnostic-card,
+  .benchmark-comparison, .history-container, .analytics-card, .mini-chart-container,
+  .ticker-controls, .ticker-metric-card, .indicator-card, .news-pane,
+  .overview-stats-bar, .overview-manifesto, .overview-canvas-wrapper,
+  .ind-kpi, .ff-card, .strat-overview-card, .narrative-card, .strategy-filter {
+      background: var(--surface) !important;
+      border: 1px solid var(--line) !important;
+      border-radius: 0 !important;
+      /* subtle inner top border → tangible, machined feel */
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.035) !important;
+      transition: border-color 0.15s ease !important;
+      transform: none !important;
+  }
+  /* Kill lift/glow hover on every panel — replace with a crisp border shift */
+  .metric-card:hover, .chart-container:hover, .allocation-container:hover,
+  .diagnostic-card:hover, .benchmark-comparison:hover, .history-container:hover,
+  .analytics-card:hover, .mini-chart-container:hover, .ticker-metric-card:hover,
+  .indicator-card:hover, .strat-overview-card:hover {
+      transform: none !important;
+      border-color: var(--line-hard) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.035) !important;
+  }
+
+  /* Tighten padding for information density */
+  .metric-card, .chart-container, .allocation-container, .diagnostic-card,
+  .benchmark-comparison, .history-container, .mini-chart-container,
+  .ticker-controls, .news-pane { padding: 16px 18px !important; }
+  .analytics-card, .ticker-metric-card, .indicator-card { padding: 13px 14px !important; }
+
+  /* Metric cards: thin amber top-rule instead of shimmering gradient rail */
+  .metric-card { position: relative; overflow: hidden; }
+  .metric-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px !important;
+      background: var(--amber) !important;
+      background-size: auto !important;
+      opacity: 0.9;
+      animation: none !important;
+  }
+  .metric-card::after { display: none !important; }        /* radial glow off */
+  .metric-value {
+      font-size: 27px !important; font-weight: 600 !important;
+      letter-spacing: -0.5px !important; color: var(--txt) !important;
+      text-shadow: none !important;
+  }
+  .metric-value.positive { color: var(--teal) !important; text-shadow: none !important; }
+  .metric-value.negative { color: var(--red)  !important; text-shadow: none !important; }
+
+  /* Labels → mono terminal captions */
+  .metric-label, .analytics-card-label, .ticker-metric-label, .control-label,
+  .indicator-label, .comparison-stat-label, .metric-subtitle,
+  .overview-stat-label, .news-pane-title, .overview-section-label,
+  .history-table th, .release-table th, .ind-kpi .label, .held-strip-label {
+      font-family: var(--font-mono) !important;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      color: var(--txt-faint) !important; font-weight: 500 !important;
+  }
+  .chart-title { font-size: 16px !important; letter-spacing: -0.2px; color: var(--txt) !important; }
+
+  /* ── 6. TERMINAL TAGS / BADGES — square, mono, parameter-like ─────────────*/
+  .strat-pill, .status-badge, .strategy-section-badge, .overview-badge,
+  .ind-pill, .pos-info-badge, .strat-card-freq {
+      font-family: var(--font-mono) !important;
+      border-radius: 0 !important;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      font-weight: 500 !important;
+  }
+  .strat-pill {
+      background: var(--surface-hi) !important;
+      border: 1px solid var(--line-hard) !important;
+      color: var(--txt-dim) !important;
+      font-size: 10px !important; padding: 3px 8px !important;
+  }
+  .overview-badge {
+      background: var(--amber-soft) !important;
+      border: 1px solid var(--amber) !important;
+      color: var(--amber) !important;
+      border-radius: 0 !important;
+      box-shadow: none !important; backdrop-filter: none !important;
+      font-size: 10px !important; letter-spacing: 1.4px !important;
+  }
+  .status-badge { box-shadow: none !important; border: 1px solid currentColor !important; font-size: 10px !important; }
+  .strategy-section-badge {
+      background: transparent !important;
+      border: 1px solid currentColor !important;
+      padding: 3px 10px !important; font-size: 11px !important;
+  }
+  .ind-pill { border-radius: 0 !important; }
+
+  /* ── 7. FILTER PILLS — flat square switches ───────────────────────────────*/
+  .pill-btn, .ostab, .cot-btn, .inner-tab, .show-more-btn {
+      font-family: var(--font-mono) !important;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-radius: 0 !important;
+  }
+  .strategy-filter { border-radius: 0 !important; padding: 10px 14px !important; }
+  .filter-label { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.6px; font-size: 11px; }
+  .pill-btn {
+      background: transparent !important;
+      border: 1px solid var(--line-hard) !important;
+      color: var(--txt-faint) !important;
+      font-size: 11px !important; padding: 5px 12px !important;
+      box-shadow: none !important;
+  }
+  .pill-btn:hover { color: var(--txt) !important; border-color: var(--amber-dim) !important; background: transparent !important; }
+  .pill-btn.active { color: #0b0d12 !important; box-shadow: none !important; }
+  .pill-btn[data-strategy="all"].active     { background: var(--txt) !important; border-color: var(--txt) !important; }
+  .pill-btn[data-strategy="sticks"].active  { background: var(--teal) !important;   border-color: var(--teal) !important; }
+  .pill-btn[data-strategy="markowitz"].active{ background: var(--blue) !important;   border-color: var(--blue) !important; }
+  .pill-btn[data-strategy="drl"].active     { background: var(--orange) !important; border-color: var(--orange) !important; }
+  .pill-btn[data-strategy="carry"].active   { background: #9d7bff !important;        border-color: #9d7bff !important; }
+
+  /* Inner + overview sub-tabs → text index with amber underline */
+  .ostab, .cot-btn {
+      background: transparent !important;
+      border: 1px solid var(--line-hard) !important;
+      color: var(--txt-faint) !important; font-size: 11px !important;
+  }
+  .ostab:hover { color: var(--txt) !important; border-color: var(--amber-dim) !important; }
+  .ostab.active[data-strat],
+  .range-tabs .ostab.active,
+  .cot-btn.active {
+      background: var(--amber-soft) !important;
+      border-color: var(--amber) !important;
+      color: var(--amber) !important;
+  }
+  .inner-tabs { border-bottom: 1px solid var(--line-hard) !important; }
+  .inner-tab { color: var(--txt-faint) !important; font-size: 11px !important; border-bottom: 2px solid transparent !important; }
+  .inner-tab.active { color: var(--amber) !important; border-bottom-color: var(--amber) !important; }
+  .show-more-btn {
+      background: var(--surface-hi) !important; border: 1px solid var(--line-hard) !important;
+      color: var(--txt-dim) !important; font-size: 11px !important;
+  }
+  .show-more-btn:hover { background: #1a1f28 !important; color: var(--amber) !important; }
+
+  /* ── 8. TABLES — dense terminal grid ──────────────────────────────────────*/
+  .history-table th, .release-table th {
+      border-bottom: 1px solid var(--line-hard) !important;
+      font-size: 10px !important; padding: 8px !important;
+  }
+  .history-table td, .release-table td { border-bottom-color: var(--line-soft) !important; }
+  .history-table tbody tr:hover { background: var(--amber-soft) !important; }
+
+  /* ── 9. INPUTS ────────────────────────────────────────────────────────────*/
+  .control-input, .control-select, .autocomplete-input {
+      background: var(--bg-2) !important;
+      border: 1px solid var(--line-hard) !important;
+      border-radius: 0 !important;
+      font-family: var(--font-mono) !important; font-size: 13px !important;
+  }
+  .control-input:focus, .control-select:focus, .autocomplete-input:focus {
+      border-color: var(--amber) !important; box-shadow: 0 0 0 1px var(--amber-soft) !important;
+  }
+  .autocomplete-dropdown { border-radius: 0 !important; border-color: var(--line-hard) !important; }
+  .autocomplete-item.highlighted { background: var(--amber) !important; color: #0b0d12 !important; }
+  .analyze-btn {
+      background: var(--amber) !important;
+      color: #0b0d12 !important;
+      border-radius: 0 !important;
+      font-family: var(--font-mono) !important; text-transform: uppercase;
+      letter-spacing: 0.6px; font-size: 12px !important; font-weight: 600 !important;
+      box-shadow: none !important; transform: none !important;
+  }
+  .analyze-btn:hover { background: #ffc04d !important; transform: none !important; box-shadow: none !important; }
+  .held-pill { border-radius: 0 !important; }
+  .pos-info-bar { border-radius: 0 !important; }
+
+  /* ── 10. ALLOCATION / SIGNAL BARS — squared meters ────────────────────────*/
+  .alloc-bar-track, .signal-bar, .cot-track { border-radius: 0 !important; box-shadow: inset 0 1px 2px rgba(0,0,0,0.6) !important; }
+  .alloc-bar-segment, .signal-bar-fill, .cot-fill { border-radius: 0 !important; }
+  .total-equity-value { color: var(--teal) !important; text-shadow: none !important; font-size: 26px !important; }
+  .strategy-dot { box-shadow: none !important; border-radius: 0 !important; }
+  .donut-legend-color, .legend-color { border-radius: 0 !important; }
+
+  /* ── 11. OVERVIEW HERO — editorial masthead, not a glow box ────────────────*/
+  .overview-hero {
+      background: var(--surface) !important;
+      border: 1px solid var(--line) !important;
+      border-left: 2px solid var(--amber) !important;
+      border-radius: 0 !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.035) !important;
+      padding: 32px 36px !important;
+  }
+  .overview-hero::before, .overview-hero::after { display: none !important; }
+  .overview-hero h2 {
+      font-size: 34px !important; font-weight: 600 !important; letter-spacing: -0.5px !important;
+      color: var(--txt) !important; -webkit-text-fill-color: var(--txt) !important;
+      background: none !important;
+  }
+  .overview-hero p { color: var(--txt-dim) !important; font-size: 14.5px !important; }
+
+  /* ── 12. RESEARCH LEDGER (the "What We're Testing" grid) ───────────────────
+     Convert feature-card grid → columned ledger with thin vertical rules. */
+  .overview-manifesto { padding: 28px 32px !important; }
+  .manifesto-title { font-size: 22px !important; font-weight: 600 !important; color: var(--txt) !important; }
+  .manifesto-subtitle { color: var(--txt-dim) !important; font-style: italic; }
+  .manifesto-grid { gap: 0 !important; }
+  .manifesto-item {
+      border-top: none !important;
+      border-left: 1px solid var(--line-hard) !important;
+      padding: 4px 22px 4px 20px !important;
+  }
+  .manifesto-item:first-child { border-left: none !important; padding-left: 0 !important; }
+  .manifesto-tag {
+      font-family: var(--font-mono) !important;
+      color: var(--amber) !important;
+      font-size: 10px !important; letter-spacing: 1.2px;
+  }
+  .manifesto-item h4 { font-size: 13.5px !important; color: var(--txt) !important; }
+  .manifesto-item p  { color: var(--txt-faint) !important; }
+  @media (max-width: 1200px) {
+      .manifesto-item { border-left: none !important; border-top: 1px solid var(--line-hard) !important; padding: 16px 0 0 !important; }
+      .manifesto-item:first-child { border-top: none !important; }
+  }
+
+  /* Strategy overview cards → matte ledger entries with amber active spine */
+  .strat-overview-card:hover { transform: none !important; }
+  .strat-overview-card.active-tga,
+  .strat-overview-card.active-markowitz,
+  .strat-overview-card.active-drl,
+  .strat-overview-card.active-carry {
+      box-shadow: inset 2px 0 0 var(--amber), inset 0 1px 0 rgba(255,255,255,0.035) !important;
+  }
+  .strat-card-desc, .strat-overview-card.shown .strat-card-desc { color: var(--txt-dim) !important; }
+
+  /* Canvas / stats-bar / narrative squared + amber accent */
+  .overview-canvas-header { background: var(--bg-2) !important; border-bottom: 1px solid var(--line) !important; }
+  .canvas-label-text { font-family: var(--font-mono) !important; }
+  .narrative-card { border-left: 2px solid var(--amber) !important; }
+  .narrative-label { font-family: var(--font-mono) !important; color: var(--amber) !important; }
+  .overview-stat-value { color: var(--txt) !important; }
+
+  /* ── 13. MACRO TAB ────────────────────────────────────────────────────────*/
+  .news-pane { border-radius: 0 !important; }
+  .news-source { color: var(--amber) !important; }
+  .indicator-card { border-radius: 0 !important; }
+  .indicator-card::before { border-radius: 0 !important; }
+  .indicator-card.green::before  { background: var(--teal) !important; }
+  .indicator-card.yellow::before { background: var(--orange) !important; }
+  .indicator-card.red::before    { background: var(--red) !important; }
+  .tl-dot { box-shadow: none !important; border-radius: 0 !important; }
+  .ind-kpi, .ff-card { border-radius: 0 !important; }
+
+  /* ── 14. SECTION DIVIDERS ─────────────────────────────────────────────────*/
+  .section-divider span { font-family: var(--font-mono) !important; color: var(--txt-faint) !important; }
+  .section-divider::before, .section-divider::after { background: var(--line-hard) !important; }
+
+  /* ── 15. MOTION DISCIPLINE — terminals are still ──────────────────────────*/
+  .tab-content.active { animation: none !important; }
+  .tab-content.active .metric-card, .tab-content.active .analytics-card,
+  .tab-content.active .ticker-metric-card, .tab-content.active .indicator-card { animation: none !important; }
+  ::selection { background: var(--amber-soft); color: var(--txt); }
+
+  /* ── 16. FOCUS ────────────────────────────────────────────────────────────*/
+  button:focus-visible, .main-tab:focus-visible, .pill-btn:focus-visible,
+  .ostab:focus-visible { outline: 2px solid var(--amber) !important; outline-offset: 1px; }
+
+</style>
 </body>
 </html>
