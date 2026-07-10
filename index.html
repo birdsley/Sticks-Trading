@@ -1808,7 +1808,7 @@
                     </div>
                 </div>
             </div>
-            <canvas id="utilEquityChart" height="240"></canvas>
+            <div class="chart-wrapper" style="height:360px;"><canvas id="utilEquityChart"></canvas></div>
             <div class="ind-foot" id="utilEquityFoot" style="margin-top:10px;"></div>
         </div>
 
@@ -5883,6 +5883,42 @@ function renderUtilPlan(summary) {
   /* ── 16. FOCUS ────────────────────────────────────────────────────────────*/
   button:focus-visible, .main-tab:focus-visible, .pill-btn:focus-visible,
   .ostab:focus-visible { outline: 2px solid var(--amber) !important; outline-offset: 1px; }
+
+  /* ── 17. MACRO HEADLINES PANE — clear the last teal remnants ──────────────*/
+  .news-pane-title {
+      border-bottom: 1px solid var(--line-hard) !important;
+      color: var(--txt-faint) !important;
+  }
+  .news-pane-title svg { fill: var(--amber) !important; }   /* was hard-coded teal */
+  .news-item { border-bottom: 1px solid var(--line-soft) !important; }
+  .news-headline { color: var(--txt-dim) !important; }
+  .news-source { color: var(--amber) !important; font-weight: 500 !important; }
+  .news-pane::-webkit-scrollbar-thumb { background: var(--line-hard) !important; border-radius: 0 !important; }
+
+  /* ── 18. UTILITIES EQUITY CHART — bound the canvas ───────────────────────
+     The book is a near-flat, low-vol yield vs SPY, so a linear axis in a fixed
+     viewport reads correctly; the prior runaway height (unbounded canvas) is
+     what made it look like a giant spike. */
+  #utilEquityChart { max-height: 360px !important; }
+
+  /* ── 19. MOBILE — macro tab must stack (base 2-col rule overrode the old
+     media query by source order; this block loads last and wins) ───────────*/
+  @media (max-width: 900px) {
+      .macro-layout {
+          display: block !important;
+          grid-template-columns: 1fr !important;
+      }
+      .macro-main { display: flex !important; flex-direction: column; gap: 16px; margin-top: 16px; min-width: 0; }
+      .news-pane {
+          position: static !important;
+          height: auto !important;
+          max-height: 340px !important;
+          overflow-y: auto !important;
+          width: 100% !important;
+      }
+      .macro-charts-2col { grid-template-columns: 1fr !important; }
+      .macro-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
 
 </style>
 </body>
