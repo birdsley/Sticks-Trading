@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-10",
-  "cash": 4200.339863,
-  "equity_estimate": 10428.84988039502,
-  "last_run_id": "2026-07-10_sticks_live",
+  "as_of": "2026-07-13",
+  "cash": 3648.288719,
+  "equity_estimate": 9984.428718389649,
+  "last_run_id": "2026-07-13_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -54,6 +54,13 @@
       "shares": 9,
       "strategy": "sticks",
       "ticker": "INTC"
+    },
+    {
+      "avg_cost": 552.051144,
+      "entry_date": "2026-07-13",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "WDC"
     }
   ]
 }
