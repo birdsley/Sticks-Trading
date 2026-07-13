@@ -1,23 +1,11 @@
 {
-  "as_of": "2026-07-10",
+  "as_of": "2026-07-13",
   "T10Y3M": {
-    "value": 0.71,
-    "obs_date": "2026-07-10",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "value": 0.73,
+    "obs_date": "2026-07-13",
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
-      {
-        "date": "2024-07-10",
-        "value": -1.18
-      },
-      {
-        "date": "2024-07-11",
-        "value": -1.24
-      },
-      {
-        "date": "2024-07-12",
-        "value": -1.25
-      },
       {
         "date": "2024-07-15",
         "value": -1.2
@@ -2005,14 +1993,18 @@
       {
         "date": "2026-07-10",
         "value": 0.71
+      },
+      {
+        "date": "2026-07-13",
+        "value": 0.73
       }
     ]
   },
   "CPIAUCSL": {
     "value": 333.979,
     "obs_date": "2026-05-01",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
       {
         "date": "2024-07-01",
@@ -2109,8 +2101,8 @@
   "GDPC1": {
     "value": 24180.419,
     "obs_date": "2026-01-01",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
       {
         "date": "2024-07-01",
@@ -2147,8 +2139,8 @@
   "PAYEMS": {
     "value": 158984.0,
     "obs_date": "2026-06-01",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
       {
         "date": "2024-07-01",
@@ -2252,22 +2244,10 @@
   },
   "DFF": {
     "value": 3.62,
-    "obs_date": "2026-07-09",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "obs_date": "2026-07-10",
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
-      {
-        "date": "2024-07-10",
-        "value": 5.33
-      },
-      {
-        "date": "2024-07-11",
-        "value": 5.33
-      },
-      {
-        "date": "2024-07-12",
-        "value": 5.33
-      },
       {
         "date": "2024-07-13",
         "value": 5.33
@@ -5175,14 +5155,18 @@
       {
         "date": "2026-07-09",
         "value": 3.62
+      },
+      {
+        "date": "2026-07-10",
+        "value": 3.62
       }
     ]
   },
   "UNRATE": {
     "value": 4.2,
     "obs_date": "2026-06-01",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
       {
         "date": "2024-07-01",
@@ -5280,23 +5264,11 @@
     "prior_val": 4.3
   },
   "BAMLH0A0HYM2": {
-    "value": 2.7,
-    "obs_date": "2026-07-09",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "value": 2.69,
+    "obs_date": "2026-07-10",
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
-      {
-        "date": "2024-07-10",
-        "value": 3.17
-      },
-      {
-        "date": "2024-07-11",
-        "value": 3.18
-      },
-      {
-        "date": "2024-07-12",
-        "value": 3.19
-      },
       {
         "date": "2024-07-15",
         "value": 3.13
@@ -7384,14 +7356,18 @@
       {
         "date": "2026-07-09",
         "value": 2.7
+      },
+      {
+        "date": "2026-07-10",
+        "value": 2.69
       }
     ]
   },
   "UMCSENT": {
     "value": 44.8,
     "obs_date": "2026-05-01",
-    "release_date": "2026-07-10",
-    "spy_reaction": 0.43,
+    "release_date": "2026-07-13",
+    "spy_reaction": -0.77,
     "series": [
       {
         "date": "2024-07-01",
