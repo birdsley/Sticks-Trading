@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-13",
-  "cash": 3648.288719,
-  "equity_estimate": 9984.428718389649,
-  "last_run_id": "2026-07-13_sticks_live",
+  "as_of": "2026-07-14",
+  "cash": 4684.468207,
+  "equity_estimate": 10276.2781969292,
+  "last_run_id": "2026-07-14_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -42,25 +42,18 @@
       "ticker": "SNDK"
     },
     {
-      "avg_cost": 233.433293,
-      "entry_date": "2026-07-10",
-      "shares": 4,
-      "strategy": "sticks",
-      "ticker": "GNRC"
-    },
-    {
-      "avg_cost": 109.651699,
-      "entry_date": "2026-07-10",
-      "shares": 9,
-      "strategy": "sticks",
-      "ticker": "INTC"
-    },
-    {
       "avg_cost": 552.051144,
       "entry_date": "2026-07-13",
       "shares": 1,
       "strategy": "sticks",
       "ticker": "WDC"
+    },
+    {
+      "avg_cost": 433.80345,
+      "entry_date": "2026-07-14",
+      "shares": 2,
+      "strategy": "sticks",
+      "ticker": "APP"
     }
   ]
 }
