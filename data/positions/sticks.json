@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-14",
-  "cash": 4684.468207,
-  "equity_estimate": 10276.2781969292,
-  "last_run_id": "2026-07-14_sticks_live",
+  "as_of": "2026-07-15",
+  "cash": 5196.609457,
+  "equity_estimate": 10024.299528105956,
+  "last_run_id": "2026-07-15_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -54,6 +54,13 @@
       "shares": 2,
       "strategy": "sticks",
       "ticker": "APP"
+    },
+    {
+      "avg_cost": 51.214125,
+      "entry_date": "2026-07-15",
+      "shares": -10,
+      "strategy": "sticks",
+      "ticker": "FISV"
     }
   ]
 }
