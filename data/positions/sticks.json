@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-15",
-  "cash": 5196.609457,
-  "equity_estimate": 10024.299528105956,
-  "last_run_id": "2026-07-15_sticks_live",
+  "as_of": "2026-07-16",
+  "cash": 7226.85227,
+  "equity_estimate": 9696.782270305175,
+  "last_run_id": "2026-07-16_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -21,13 +21,6 @@
       "ticker": "GLW"
     },
     {
-      "avg_cost": 923.486015,
-      "entry_date": "2026-07-07",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "MU"
-    },
-    {
       "avg_cost": 215.951063,
       "entry_date": "2026-07-08",
       "shares": 4,
@@ -42,13 +35,6 @@
       "ticker": "SNDK"
     },
     {
-      "avg_cost": 552.051144,
-      "entry_date": "2026-07-13",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "WDC"
-    },
-    {
       "avg_cost": 433.80345,
       "entry_date": "2026-07-14",
       "shares": 2,
@@ -61,6 +47,13 @@
       "shares": -10,
       "strategy": "sticks",
       "ticker": "FISV"
+    },
+    {
+      "avg_cost": 678.134958,
+      "entry_date": "2026-07-16",
+      "shares": -1,
+      "strategy": "sticks",
+      "ticker": "META"
     }
   ]
 }
