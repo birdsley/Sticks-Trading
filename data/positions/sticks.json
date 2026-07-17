@@ -1,18 +1,11 @@
 {
-  "as_of": "2026-07-16",
-  "cash": 7226.85227,
-  "equity_estimate": 9696.782270305175,
-  "last_run_id": "2026-07-16_sticks_live",
+  "as_of": "2026-07-17",
+  "cash": 7178.169163,
+  "equity_estimate": 9650.149166356932,
+  "last_run_id": "2026-07-17_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 88.832136,
-      "entry_date": "2026-06-30",
-      "shares": 11,
-      "strategy": "sticks",
-      "ticker": "ON"
-    },
     {
       "avg_cost": 239.33235,
       "entry_date": "2026-07-01",
@@ -28,13 +21,6 @@
       "ticker": "KLAC"
     },
     {
-      "avg_cost": 1592.914309,
-      "entry_date": "2026-07-08",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "SNDK"
-    },
-    {
       "avg_cost": 433.80345,
       "entry_date": "2026-07-14",
       "shares": 2,
@@ -42,18 +28,25 @@
       "ticker": "APP"
     },
     {
-      "avg_cost": 51.214125,
-      "entry_date": "2026-07-15",
-      "shares": -10,
-      "strategy": "sticks",
-      "ticker": "FISV"
-    },
-    {
       "avg_cost": 678.134958,
       "entry_date": "2026-07-16",
       "shares": -1,
       "strategy": "sticks",
       "ticker": "META"
+    },
+    {
+      "avg_cost": 450.495119,
+      "entry_date": "2026-07-17",
+      "shares": 2,
+      "strategy": "sticks",
+      "ticker": "WDC"
+    },
+    {
+      "avg_cost": 61.673142,
+      "entry_date": "2026-07-17",
+      "shares": 15,
+      "strategy": "sticks",
+      "ticker": "MRNA"
     }
   ]
 }
