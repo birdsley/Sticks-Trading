@@ -1,32 +1,11 @@
 {
-  "as_of": "2026-07-17",
-  "cash": 7178.169163,
-  "equity_estimate": 9650.149166356932,
-  "last_run_id": "2026-07-17_sticks_live",
+  "as_of": "2026-07-20",
+  "cash": 6181.692727,
+  "equity_estimate": 9645.982754618408,
+  "last_run_id": "2026-07-20_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 239.33235,
-      "entry_date": "2026-07-01",
-      "shares": -3,
-      "strategy": "sticks",
-      "ticker": "GLW"
-    },
-    {
-      "avg_cost": 215.951063,
-      "entry_date": "2026-07-08",
-      "shares": 4,
-      "strategy": "sticks",
-      "ticker": "KLAC"
-    },
-    {
-      "avg_cost": 433.80345,
-      "entry_date": "2026-07-14",
-      "shares": 2,
-      "strategy": "sticks",
-      "ticker": "APP"
-    },
     {
       "avg_cost": 678.134958,
       "entry_date": "2026-07-16",
@@ -47,6 +26,20 @@
       "shares": 15,
       "strategy": "sticks",
       "ticker": "MRNA"
+    },
+    {
+      "avg_cost": 210.217056,
+      "entry_date": "2026-07-20",
+      "shares": 4,
+      "strategy": "sticks",
+      "ticker": "IBM"
+    },
+    {
+      "avg_cost": 1409.766175,
+      "entry_date": "2026-07-20",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "SNDK"
     }
   ]
 }
