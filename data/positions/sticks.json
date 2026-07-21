@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-20",
-  "cash": 6181.692727,
-  "equity_estimate": 9645.982754618408,
-  "last_run_id": "2026-07-20_sticks_live",
+  "as_of": "2026-07-21",
+  "cash": 8550.533639,
+  "equity_estimate": 9874.103688285888,
+  "last_run_id": "2026-07-21_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -21,13 +21,6 @@
       "ticker": "WDC"
     },
     {
-      "avg_cost": 61.673142,
-      "entry_date": "2026-07-17",
-      "shares": 15,
-      "strategy": "sticks",
-      "ticker": "MRNA"
-    },
-    {
       "avg_cost": 210.217056,
       "entry_date": "2026-07-20",
       "shares": 4,
@@ -35,11 +28,18 @@
       "ticker": "IBM"
     },
     {
-      "avg_cost": 1409.766175,
-      "entry_date": "2026-07-20",
-      "shares": 1,
+      "avg_cost": 56.000773,
+      "entry_date": "2026-07-21",
+      "shares": -16,
       "strategy": "sticks",
-      "ticker": "SNDK"
+      "ticker": "PYPL"
+    },
+    {
+      "avg_cost": 61.893293,
+      "entry_date": "2026-07-21",
+      "shares": 15,
+      "strategy": "sticks",
+      "ticker": "PNR"
     }
   ]
 }

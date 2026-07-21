@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-14",
-  "cash": 1538.847947,
-  "equity_estimate": 9947.893980859253,
-  "last_run_id": "2026-07-20_markowitz_live",
+  "as_of": "2026-07-21",
+  "cash": 1626.573722,
+  "equity_estimate": 10063.643708343385,
+  "last_run_id": "2026-07-21_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -37,7 +37,7 @@
     {
       "avg_cost": 14.700283,
       "entry_date": "2026-06-02",
-      "shares": 16,
+      "shares": 8,
       "strategy": "markowitz",
       "ticker": "AES"
     },
@@ -140,18 +140,11 @@
       "ticker": "DVN"
     },
     {
-      "avg_cost": 71.349913,
+      "avg_cost": 74.336999,
       "entry_date": "2026-06-09",
-      "shares": 1,
+      "shares": 2,
       "strategy": "markowitz",
       "ticker": "EIX"
-    },
-    {
-      "avg_cost": 223.896623,
-      "entry_date": "2026-06-09",
-      "shares": 1,
-      "strategy": "markowitz",
-      "ticker": "ERIE"
     },
     {
       "avg_cost": 15.115573,
@@ -226,7 +219,7 @@
     {
       "avg_cost": 3.189971,
       "entry_date": "2026-06-09",
-      "shares": 92,
+      "shares": 45,
       "strategy": "markowitz",
       "ticker": "NG=F"
     },
@@ -259,16 +252,16 @@
       "ticker": "SMCI"
     },
     {
-      "avg_cost": 16.14129,
+      "avg_cost": 16.330311,
       "entry_date": "2026-06-09",
-      "shares": 21,
+      "shares": 27,
       "strategy": "markowitz",
       "ticker": "VTRS"
     },
     {
       "avg_cost": 26.488528,
       "entry_date": "2026-06-09",
-      "shares": 20,
+      "shares": 16,
       "strategy": "markowitz",
       "ticker": "WBD"
     },
@@ -343,9 +336,9 @@
       "ticker": "INCY"
     },
     {
-      "avg_cost": 67.257046,
+      "avg_cost": 66.376429,
       "entry_date": "2026-07-07",
-      "shares": 1,
+      "shares": 2,
       "strategy": "markowitz",
       "ticker": "CNC"
     },
@@ -376,6 +369,20 @@
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "CSCO"
+    },
+    {
+      "avg_cost": 84.679237,
+      "entry_date": "2026-07-21",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "BBY"
+    },
+    {
+      "avg_cost": 161.102698,
+      "entry_date": "2026-07-21",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "VST"
     }
   ]
 }
