@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-21",
-  "cash": 8550.533639,
-  "equity_estimate": 9874.103688285888,
-  "last_run_id": "2026-07-21_sticks_live",
+  "as_of": "2026-07-22",
+  "cash": 11311.899313,
+  "equity_estimate": 9880.459344890869,
+  "last_run_id": "2026-07-22_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -35,11 +35,18 @@
       "ticker": "PYPL"
     },
     {
-      "avg_cost": 61.893293,
-      "entry_date": "2026-07-21",
-      "shares": 15,
+      "avg_cost": 100.379682,
+      "entry_date": "2026-07-22",
+      "shares": -9,
       "strategy": "sticks",
-      "ticker": "PNR"
+      "ticker": "ABT"
+    },
+    {
+      "avg_cost": 62.356322,
+      "entry_date": "2026-07-22",
+      "shares": -15,
+      "strategy": "sticks",
+      "ticker": "SWKS"
     }
   ]
 }
