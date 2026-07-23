@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-22",
-  "cash": 11311.899313,
-  "equity_estimate": 9880.459344890869,
-  "last_run_id": "2026-07-22_sticks_live",
+  "as_of": "2026-07-23",
+  "cash": 10205.910529,
+  "equity_estimate": 9876.39055143042,
+  "last_run_id": "2026-07-23_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -21,13 +21,6 @@
       "ticker": "WDC"
     },
     {
-      "avg_cost": 210.217056,
-      "entry_date": "2026-07-20",
-      "shares": 4,
-      "strategy": "sticks",
-      "ticker": "IBM"
-    },
-    {
       "avg_cost": 56.000773,
       "entry_date": "2026-07-21",
       "shares": -16,
@@ -35,18 +28,18 @@
       "ticker": "PYPL"
     },
     {
-      "avg_cost": 100.379682,
-      "entry_date": "2026-07-22",
-      "shares": -9,
+      "avg_cost": 57.179997,
+      "entry_date": "2026-07-23",
+      "shares": 17,
       "strategy": "sticks",
-      "ticker": "ABT"
+      "ticker": "MRNA"
     },
     {
-      "avg_cost": 62.356322,
-      "entry_date": "2026-07-22",
-      "shares": -15,
+      "avg_cost": 904.3665,
+      "entry_date": "2026-07-23",
+      "shares": -1,
       "strategy": "sticks",
-      "ticker": "SWKS"
+      "ticker": "STX"
     }
   ]
 }
