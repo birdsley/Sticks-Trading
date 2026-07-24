@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-23",
-  "cash": 10205.910529,
-  "equity_estimate": 9876.39055143042,
-  "last_run_id": "2026-07-23_sticks_live",
+  "as_of": "2026-07-24",
+  "cash": 12204.413864,
+  "equity_estimate": 9896.373788697876,
+  "last_run_id": "2026-07-24_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -28,18 +28,18 @@
       "ticker": "PYPL"
     },
     {
-      "avg_cost": 57.179997,
-      "entry_date": "2026-07-23",
-      "shares": 17,
+      "avg_cost": 30.558594,
+      "entry_date": "2026-07-24",
+      "shares": -31,
       "strategy": "sticks",
-      "ticker": "MRNA"
+      "ticker": "SMCI"
     },
     {
-      "avg_cost": 904.3665,
-      "entry_date": "2026-07-23",
+      "avg_cost": 958.358708,
+      "entry_date": "2026-07-24",
       "shares": -1,
       "strategy": "sticks",
-      "ticker": "STX"
+      "ticker": "MU"
     }
   ]
 }
