@@ -1,7 +1,7 @@
 {
   "title": "CFTC Commitment of Traders \u2014 Institutional Positioning",
-  "generated": "2026-07-18 13:28",
-  "source_sig": "2026-07-14",
+  "generated": "2026-07-25 13:47",
+  "source_sig": "2026-07-21",
   "lookback_weeks": 156,
   "method": "COT Index = 156-wk percentile of net non-commercial position; Isolation Forest flags structurally stretched weeks.",
   "source": "CFTC Legacy Futures-Only report (Socrata, keyless)",
@@ -12,15 +12,15 @@
       "label": "E-mini S&P 500",
       "group": "Equity",
       "bull": "specs long = risk-on",
-      "latest_date": "2026-07-14",
-      "net": -38938,
-      "cot_index": 56.9,
-      "zscore": 0.95,
-      "signal": "neutral",
-      "net_change_1w": 3953,
+      "latest_date": "2026-07-21",
+      "net": -16784,
+      "cot_index": 63.1,
+      "zscore": 1.17,
+      "signal": "leaning long",
+      "net_change_1w": 22154,
       "anom_now": false,
       "n_anom": 18,
-      "weeks": 215,
+      "weeks": 216,
       "series": [
         {
           "d": "2022-06-07",
@@ -1311,6 +1311,12 @@
           "net": -38938,
           "idx": 56.9,
           "a": false
+        },
+        {
+          "d": "2026-07-21",
+          "net": -16784,
+          "idx": 63.1,
+          "a": false
         }
       ]
     },
@@ -1320,15 +1326,15 @@
       "label": "Gold",
       "group": "Metals",
       "bull": "specs long = risk-off / debasement",
-      "latest_date": "2026-07-14",
-      "net": 186682,
-      "cot_index": 47.2,
-      "zscore": -0.03,
+      "latest_date": "2026-07-21",
+      "net": 183910,
+      "cot_index": 46.1,
+      "zscore": -0.08,
       "signal": "neutral",
-      "net_change_1w": -7564,
+      "net_change_1w": -2772,
       "anom_now": false,
       "n_anom": 18,
-      "weeks": 215,
+      "weeks": 216,
       "series": [
         {
           "d": "2022-06-07",
@@ -1754,7 +1760,7 @@
           "d": "2023-10-10",
           "net": 71433,
           "idx": 13.5,
-          "a": true
+          "a": false
         },
         {
           "d": "2023-10-17",
@@ -1778,7 +1784,7 @@
           "d": "2023-11-07",
           "net": 166216,
           "idx": 79.4,
-          "a": false
+          "a": true
         },
         {
           "d": "2023-11-14",
@@ -2619,6 +2625,12 @@
           "net": 186682,
           "idx": 47.2,
           "a": false
+        },
+        {
+          "d": "2026-07-21",
+          "net": 183910,
+          "idx": 46.1,
+          "a": false
         }
       ]
     },
@@ -2628,15 +2640,15 @@
       "label": "10-Year T-Note",
       "group": "Rates",
       "bull": "specs long = duration bid / easing bets",
-      "latest_date": "2026-07-14",
-      "net": -831675,
-      "cot_index": 37.3,
-      "zscore": -0.75,
+      "latest_date": "2026-07-21",
+      "net": -879706,
+      "cot_index": 31.6,
+      "zscore": -0.97,
       "signal": "leaning short",
-      "net_change_1w": -17413,
+      "net_change_1w": -48031,
       "anom_now": false,
       "n_anom": 18,
-      "weeks": 215,
+      "weeks": 216,
       "series": [
         {
           "d": "2022-06-07",
@@ -3927,6 +3939,12 @@
           "net": -831675,
           "idx": 37.3,
           "a": false
+        },
+        {
+          "d": "2026-07-21",
+          "net": -879706,
+          "idx": 31.6,
+          "a": false
         }
       ]
     },
@@ -3936,15 +3954,15 @@
       "label": "US Dollar Index",
       "group": "FX",
       "bull": "specs long = USD strength",
-      "latest_date": "2026-07-14",
-      "net": 13173,
-      "cot_index": 79.7,
-      "zscore": 0.32,
-      "signal": "leaning long",
-      "net_change_1w": -96,
-      "anom_now": false,
+      "latest_date": "2026-07-21",
+      "net": 15614,
+      "cot_index": 86.3,
+      "zscore": 0.5,
+      "signal": "stretched long",
+      "net_change_1w": 2441,
+      "anom_now": true,
       "n_anom": 18,
-      "weeks": 215,
+      "weeks": 216,
       "series": [
         {
           "d": "2022-06-07",
@@ -5228,13 +5246,19 @@
           "d": "2026-07-07",
           "net": 13269,
           "idx": 79.9,
-          "a": true
+          "a": false
         },
         {
           "d": "2026-07-14",
           "net": 13173,
           "idx": 79.7,
           "a": false
+        },
+        {
+          "d": "2026-07-21",
+          "net": 15614,
+          "idx": 86.3,
+          "a": true
         }
       ]
     }
