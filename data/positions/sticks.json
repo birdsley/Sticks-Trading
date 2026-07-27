@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-24",
-  "cash": 12204.413864,
-  "equity_estimate": 9896.373788697876,
-  "last_run_id": "2026-07-24_sticks_live",
+  "as_of": "2026-07-27",
+  "cash": 11268.798427,
+  "equity_estimate": 9871.418485059692,
+  "last_run_id": "2026-07-27_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -21,13 +21,6 @@
       "ticker": "WDC"
     },
     {
-      "avg_cost": 56.000773,
-      "entry_date": "2026-07-21",
-      "shares": -16,
-      "strategy": "sticks",
-      "ticker": "PYPL"
-    },
-    {
       "avg_cost": 30.558594,
       "entry_date": "2026-07-24",
       "shares": -31,
@@ -40,6 +33,20 @@
       "shares": -1,
       "strategy": "sticks",
       "ticker": "MU"
+    },
+    {
+      "avg_cost": 313.449272,
+      "entry_date": "2026-07-27",
+      "shares": 3,
+      "strategy": "sticks",
+      "ticker": "TSLA"
+    },
+    {
+      "avg_cost": 302.588028,
+      "entry_date": "2026-07-27",
+      "shares": -3,
+      "strategy": "sticks",
+      "ticker": "WAB"
     }
   ]
 }
