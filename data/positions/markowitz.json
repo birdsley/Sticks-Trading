@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-21",
-  "cash": 1626.573722,
-  "equity_estimate": 10024.93377673137,
-  "last_run_id": "2026-07-27_markowitz_live",
+  "as_of": "2026-07-28",
+  "cash": 1154.342568,
+  "equity_estimate": 10025.712624152344,
+  "last_run_id": "2026-07-28_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -163,7 +163,7 @@
     {
       "avg_cost": 40.52835,
       "entry_date": "2026-06-09",
-      "shares": 7,
+      "shares": 4,
       "strategy": "markowitz",
       "ticker": "HAL"
     },
@@ -191,7 +191,7 @@
     {
       "avg_cost": 27.909522,
       "entry_date": "2026-06-09",
-      "shares": 10,
+      "shares": 7,
       "strategy": "markowitz",
       "ticker": "IVZ"
     },
@@ -212,14 +212,14 @@
     {
       "avg_cost": 52.5053,
       "entry_date": "2026-06-09",
-      "shares": 6,
+      "shares": 4,
       "strategy": "markowitz",
       "ticker": "MRNA"
     },
     {
-      "avg_cost": 3.189971,
+      "avg_cost": 2.961612,
       "entry_date": "2026-06-09",
-      "shares": 45,
+      "shares": 82,
       "strategy": "markowitz",
       "ticker": "NG=F"
     },
@@ -383,6 +383,34 @@
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "VST"
+    },
+    {
+      "avg_cost": 232.252459,
+      "entry_date": "2026-07-28",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "CAH"
+    },
+    {
+      "avg_cost": 233.983681,
+      "entry_date": "2026-07-28",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "ERIE"
+    },
+    {
+      "avg_cost": 26.628628,
+      "entry_date": "2026-07-28",
+      "shares": 4,
+      "strategy": "markowitz",
+      "ticker": "KIM"
+    },
+    {
+      "avg_cost": 47.883493,
+      "entry_date": "2026-07-28",
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "VZ"
     }
   ]
 }
