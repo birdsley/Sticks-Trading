@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-29",
-  "cash": 9238.216803,
-  "equity_estimate": 9951.836847708251,
-  "last_run_id": "2026-07-29_sticks_live",
+  "as_of": "2026-07-30",
+  "cash": 13197.219675,
+  "equity_estimate": 10071.2096309021,
+  "last_run_id": "2026-07-30_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -35,18 +35,18 @@
       "ticker": "MU"
     },
     {
-      "avg_cost": 1120.111533,
-      "entry_date": "2026-07-29",
-      "shares": 1,
+      "avg_cost": 53.814305,
+      "entry_date": "2026-07-30",
+      "shares": -18,
       "strategy": "sticks",
-      "ticker": "SNDK"
+      "ticker": "CTSH"
     },
     {
-      "avg_cost": 307.535131,
-      "entry_date": "2026-07-29",
-      "shares": 3,
+      "avg_cost": 157.90939,
+      "entry_date": "2026-07-30",
+      "shares": -6,
       "strategy": "sticks",
-      "ticker": "TSLA"
+      "ticker": "WDAY"
     }
   ]
 }
