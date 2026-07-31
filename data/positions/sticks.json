@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-30",
-  "cash": 13197.219675,
-  "equity_estimate": 10071.2096309021,
-  "last_run_id": "2026-07-30_sticks_live",
+  "as_of": "2026-07-31",
+  "cash": 11252.7536,
+  "equity_estimate": 10115.05365455017,
+  "last_run_id": "2026-07-31_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -35,18 +35,18 @@
       "ticker": "MU"
     },
     {
-      "avg_cost": 53.814305,
-      "entry_date": "2026-07-30",
-      "shares": -18,
+      "avg_cost": 295.453042,
+      "entry_date": "2026-07-31",
+      "shares": -3,
       "strategy": "sticks",
-      "ticker": "CTSH"
+      "ticker": "GRMN"
     },
     {
-      "avg_cost": 157.90939,
-      "entry_date": "2026-07-30",
-      "shares": -6,
+      "avg_cost": 188.476843,
+      "entry_date": "2026-07-31",
+      "shares": 5,
       "strategy": "sticks",
-      "ticker": "WDAY"
+      "ticker": "KLAC"
     }
   ]
 }
