@@ -1,16 +1,17 @@
 {
   "title": "FOMC Statement Hawk\u2013Dove Score (NLP)",
-  "generated": "2026-06-22 22:45",
-  "n": 6,
-  "asof": "2026-06-17",
+  "generated": "2026-08-01 13:42",
+  "source_sig": "2026-07-29",
+  "n": 7,
+  "asof": "2026-07-29",
   "method": "Finance hawk/dove lexicon over scraped FOMC statements; net = (hawk\u2212dove)/(hawk+dove) \u2208 [\u22121,+1]. FinBERT is the upgrade path.",
-  "source": "federalreserve.gov FOMC statements (keyless) + local SPY cache.",
+  "source": "federalreserve.gov FOMC statements (keyless) + SPY (yfinance).",
   "latest": {
-    "date": "2026-06-17",
-    "net": 1.0,
+    "date": "2026-07-29",
+    "net": 0.556,
     "action": "hold",
-    "hawk": 6,
-    "dove": 0
+    "hawk": 7,
+    "dove": 2
   },
   "series": [
     {
@@ -19,7 +20,7 @@
       "dove": 3,
       "net": 0.455,
       "action": "hold",
-      "spy": 456.0498352050781
+      "spy": 454.8779602050781
     },
     {
       "date": "2024-09-18",
@@ -27,7 +28,7 @@
       "dove": 9,
       "net": -0.636,
       "action": "cut",
-      "spy": 549.8299560546875
+      "spy": 548.4171752929688
     },
     {
       "date": "2024-12-18",
@@ -35,7 +36,7 @@
       "dove": 7,
       "net": -0.556,
       "action": "cut",
-      "spy": 575.9583740234375
+      "spy": 574.4784545898438
     },
     {
       "date": "2025-03-19",
@@ -43,7 +44,7 @@
       "dove": 3,
       "net": -0.2,
       "action": "hold",
-      "spy": 559.0206909179688
+      "spy": 557.5842895507812
     },
     {
       "date": "2025-05-07",
@@ -51,7 +52,7 @@
       "dove": 2,
       "net": 0.2,
       "action": "hold",
-      "spy": 554.7901611328125
+      "spy": 553.3645629882812
     },
     {
       "date": "2026-06-17",
@@ -59,7 +60,15 @@
       "dove": 0,
       "net": 1.0,
       "action": "hold",
-      "spy": 753.1799926757812
+      "spy": 739.0560302734375
+    },
+    {
+      "date": "2026-07-29",
+      "hawk": 7,
+      "dove": 2,
+      "net": 0.556,
+      "action": "hold",
+      "spy": 729.4600219726562
     }
   ],
   "lexicon": {
@@ -116,6 +125,5 @@
       "patient",
       "recession"
     ]
-  },
-  "source_sig": "2026-06-17"
+  }
 }

@@ -1,7 +1,7 @@
 {
   "title": "Random Matrix Theory \u2014 Systemic Correlation Monitor",
-  "generated": "2026-07-25 13:49",
-  "source_sig": "2026-07-24",
+  "generated": "2026-08-01 13:41",
+  "source_sig": "2026-07-31",
   "method": "Eigenspectrum of the S&P cross-sectional correlation matrix vs the Marchenko\u2013Pastur noise band (q=N/T). \u03bb_max/\u03a3\u03bb = 'market mode' share; eigenvalues above \u03bb+ are genuine factors.",
   "source": "Deployment EOD history (on-disk snapshots / yfinance) \u2014 rolling history seeded, extended incrementally.",
   "window_days": 504,
@@ -11,10 +11,10 @@
     "q": 0.94,
     "lambda_minus": 0.001,
     "lambda_plus": 3.88,
-    "lambda_max": 116.25,
-    "market_mode_share": 24.5,
+    "lambda_max": 115.07,
+    "market_mode_share": 24.3,
     "n_signal_eigs": 13,
-    "var_in_structure": 51.5,
+    "var_in_structure": 51.7,
     "hist": {
       "x": [
         0.078,
@@ -59,31 +59,31 @@
         6.13
       ],
       "y": [
-        2.787,
-        0.8554,
+        2.7732,
+        0.883,
         0.5657,
-        0.4139,
+        0.4001,
         0.3173,
-        0.2759,
-        0.1932,
+        0.2621,
+        0.207,
+        0.1656,
         0.1518,
-        0.1794,
+        0.1104,
         0.0966,
-        0.0828,
-        0.0966,
-        0.0414,
+        0.069,
+        0.0552,
         0.0552,
         0.0414,
-        0.0414,
-        0.0276,
-        0.0276,
-        0.0276,
-        0.0138,
+        0.0552,
         0.0138,
         0.0276,
-        0.0138,
+        0.0276,
+        0.0276,
+        0.0,
+        0.0276,
         0.0138,
         0.0,
+        0.0138,
         0.0276,
         0.0,
         0.0,
@@ -95,8 +95,8 @@
         0.0,
         0.0138,
         0.0,
-        0.0,
         0.0138,
+        0.0,
         0.0,
         0.0
       ]
@@ -508,20 +508,20 @@
       ]
     },
     "signal_eigs": [
-      116.25,
-      36.35,
-      19.72,
-      14.68,
-      12.15,
-      10.04,
-      6.48,
-      5.83,
-      5.36,
-      5.11,
-      4.36,
-      4.01
+      115.07,
+      38.08,
+      19.77,
+      15.02,
+      12.17,
+      10.01,
+      6.46,
+      5.69,
+      5.39,
+      4.98,
+      4.42,
+      3.99
     ],
-    "asof": "2026-07-24"
+    "asof": "2026-07-31"
   },
   "rolling": [
     {
@@ -2890,10 +2890,10 @@
       "nsig": 10
     },
     {
-      "d": "2026-07-24",
-      "share": 24.5,
+      "d": "2026-07-31",
+      "share": 24.3,
       "nsig": 13
     }
   ],
-  "market_mode_pctrank": 7.0
+  "market_mode_pctrank": 6.0
 }
