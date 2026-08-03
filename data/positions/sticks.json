@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-31",
-  "cash": 11252.7536,
-  "equity_estimate": 10115.05365455017,
-  "last_run_id": "2026-07-31_sticks_live",
+  "as_of": "2026-08-03",
+  "cash": 11992.800833,
+  "equity_estimate": 10120.350836051757,
+  "last_run_id": "2026-08-03_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -42,11 +42,18 @@
       "ticker": "GRMN"
     },
     {
-      "avg_cost": 188.476843,
-      "entry_date": "2026-07-31",
-      "shares": 5,
+      "avg_cost": 56.212623,
+      "entry_date": "2026-08-03",
+      "shares": -18,
       "strategy": "sticks",
-      "ticker": "KLAC"
+      "ticker": "CTSH"
+    },
+    {
+      "avg_cost": 1161.007083,
+      "entry_date": "2026-08-03",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "SNDK"
     }
   ]
 }
