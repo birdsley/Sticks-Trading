@@ -1,25 +1,11 @@
 {
-  "as_of": "2026-08-03",
-  "cash": 11992.800833,
-  "equity_estimate": 10120.350836051757,
-  "last_run_id": "2026-08-03_sticks_live",
+  "as_of": "2026-08-04",
+  "cash": 11691.954004,
+  "equity_estimate": 10142.033965776733,
+  "last_run_id": "2026-08-04_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 678.134958,
-      "entry_date": "2026-07-16",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "META"
-    },
-    {
-      "avg_cost": 450.495119,
-      "entry_date": "2026-07-17",
-      "shares": 2,
-      "strategy": "sticks",
-      "ticker": "WDC"
-    },
     {
       "avg_cost": 30.558594,
       "entry_date": "2026-07-24",
@@ -35,13 +21,6 @@
       "ticker": "MU"
     },
     {
-      "avg_cost": 295.453042,
-      "entry_date": "2026-07-31",
-      "shares": -3,
-      "strategy": "sticks",
-      "ticker": "GRMN"
-    },
-    {
       "avg_cost": 56.212623,
       "entry_date": "2026-08-03",
       "shares": -18,
@@ -54,6 +33,20 @@
       "shares": 1,
       "strategy": "sticks",
       "ticker": "SNDK"
+    },
+    {
+      "avg_cost": 440.948463,
+      "entry_date": "2026-08-04",
+      "shares": 2,
+      "strategy": "sticks",
+      "ticker": "LII"
+    },
+    {
+      "avg_cost": 480.418476,
+      "entry_date": "2026-08-04",
+      "shares": -2,
+      "strategy": "sticks",
+      "ticker": "MSFT"
     }
   ]
 }
