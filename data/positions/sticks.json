@@ -1,18 +1,11 @@
 {
-  "as_of": "2026-08-04",
-  "cash": 11691.954004,
-  "equity_estimate": 10142.033965776733,
-  "last_run_id": "2026-08-04_sticks_live",
+  "as_of": "2026-08-05",
+  "cash": 9736.484922,
+  "equity_estimate": 10075.184964724609,
+  "last_run_id": "2026-08-05_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 30.558594,
-      "entry_date": "2026-07-24",
-      "shares": -31,
-      "strategy": "sticks",
-      "ticker": "SMCI"
-    },
     {
       "avg_cost": 958.358708,
       "entry_date": "2026-07-24",
@@ -42,11 +35,18 @@
       "ticker": "LII"
     },
     {
-      "avg_cost": 480.418476,
-      "entry_date": "2026-08-04",
-      "shares": -2,
+      "avg_cost": 308.623808,
+      "entry_date": "2026-08-05",
+      "shares": -3,
       "strategy": "sticks",
-      "ticker": "MSFT"
+      "ticker": "GRMN"
+    },
+    {
+      "avg_cost": 150.835507,
+      "entry_date": "2026-08-05",
+      "shares": 6,
+      "strategy": "sticks",
+      "ticker": "COIN"
     }
   ]
 }
