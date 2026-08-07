@@ -19,15 +19,15 @@
     "carry": 0
   },
   "equity": {
-    "sticks": 9927.88497693164,
-    "markowitz": 10001.177001880615,
-    "drl": 9924.62825643274,
-    "carry": 9896.91
+    "sticks": 9901.53487927539,
+    "markowitz": 10073.231015132873,
+    "drl": 9970.698166482178,
+    "carry": 9939.18
   },
-  "total_equity": 39750.6,
+  "total_equity": 39884.64,
   "total_orders": 5,
   "total_fills": 0,
-  "elapsed_s": 176.0,
+  "elapsed_s": 335.9,
   "errors": [],
   "status": "ok"
 }
