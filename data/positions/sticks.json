@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-05",
-  "cash": 9736.484922,
-  "equity_estimate": 9901.53487927539,
-  "last_run_id": "2026-08-07_sticks_live",
+  "as_of": "2026-08-10",
+  "cash": 7527.114099,
+  "equity_estimate": 9780.374154541993,
+  "last_run_id": "2026-08-10_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -14,13 +14,6 @@
       "ticker": "MU"
     },
     {
-      "avg_cost": 56.212623,
-      "entry_date": "2026-08-03",
-      "shares": -18,
-      "strategy": "sticks",
-      "ticker": "CTSH"
-    },
-    {
       "avg_cost": 1161.007083,
       "entry_date": "2026-08-03",
       "shares": 1,
@@ -28,25 +21,32 @@
       "ticker": "SNDK"
     },
     {
-      "avg_cost": 440.948463,
-      "entry_date": "2026-08-04",
+      "avg_cost": 182.457633,
+      "entry_date": "2026-08-10",
+      "shares": 5,
+      "strategy": "sticks",
+      "ticker": "DVA"
+    },
+    {
+      "avg_cost": 81.717166,
+      "entry_date": "2026-08-10",
+      "shares": 12,
+      "strategy": "sticks",
+      "ticker": "ON"
+    },
+    {
+      "avg_cost": 434.929237,
+      "entry_date": "2026-08-10",
       "shares": 2,
       "strategy": "sticks",
-      "ticker": "LII"
+      "ticker": "WDC"
     },
     {
-      "avg_cost": 308.623808,
-      "entry_date": "2026-08-05",
-      "shares": -3,
+      "avg_cost": 170.960246,
+      "entry_date": "2026-08-10",
+      "shares": -5,
       "strategy": "sticks",
-      "ticker": "GRMN"
-    },
-    {
-      "avg_cost": 150.835507,
-      "entry_date": "2026-08-05",
-      "shares": 6,
-      "strategy": "sticks",
-      "ticker": "COIN"
+      "ticker": "PLTR"
     }
   ]
 }
