@@ -1,18 +1,11 @@
 {
-  "as_of": "2026-08-10",
-  "cash": 7527.114099,
-  "equity_estimate": 9780.374154541993,
-  "last_run_id": "2026-08-10_sticks_live",
+  "as_of": "2026-08-11",
+  "cash": 8468.700567,
+  "equity_estimate": 9804.840566389648,
+  "last_run_id": "2026-08-11_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 958.358708,
-      "entry_date": "2026-07-24",
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "MU"
-    },
     {
       "avg_cost": 1161.007083,
       "entry_date": "2026-08-03",
@@ -28,13 +21,6 @@
       "ticker": "DVA"
     },
     {
-      "avg_cost": 81.717166,
-      "entry_date": "2026-08-10",
-      "shares": 12,
-      "strategy": "sticks",
-      "ticker": "ON"
-    },
-    {
       "avg_cost": 434.929237,
       "entry_date": "2026-08-10",
       "shares": 2,
@@ -42,11 +28,18 @@
       "ticker": "WDC"
     },
     {
-      "avg_cost": 170.960246,
-      "entry_date": "2026-08-10",
+      "avg_cost": 190.876288,
+      "entry_date": "2026-08-11",
       "shares": -5,
       "strategy": "sticks",
-      "ticker": "PLTR"
+      "ticker": "IT"
+    },
+    {
+      "avg_cost": 377.815331,
+      "entry_date": "2026-08-11",
+      "shares": -2,
+      "strategy": "sticks",
+      "ticker": "ZBRA"
     }
   ]
 }
