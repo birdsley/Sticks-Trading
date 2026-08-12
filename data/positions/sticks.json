@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-11",
-  "cash": 8468.700567,
-  "equity_estimate": 9804.840566389648,
-  "last_run_id": "2026-08-11_sticks_live",
+  "as_of": "2026-08-12",
+  "cash": 7630.659198,
+  "equity_estimate": 9897.129244997072,
+  "last_run_id": "2026-08-12_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -12,13 +12,6 @@
       "shares": 1,
       "strategy": "sticks",
       "ticker": "SNDK"
-    },
-    {
-      "avg_cost": 182.457633,
-      "entry_date": "2026-08-10",
-      "shares": 5,
-      "strategy": "sticks",
-      "ticker": "DVA"
     },
     {
       "avg_cost": 434.929237,
@@ -35,11 +28,11 @@
       "ticker": "IT"
     },
     {
-      "avg_cost": 377.815331,
-      "entry_date": "2026-08-11",
-      "shares": -2,
+      "avg_cost": 319.473475,
+      "entry_date": "2026-08-12",
+      "shares": 3,
       "strategy": "sticks",
-      "ticker": "ZBRA"
+      "ticker": "APP"
     }
   ]
 }
