@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-12",
-  "cash": 7630.659198,
-  "equity_estimate": 9897.129244997072,
-  "last_run_id": "2026-08-12_sticks_live",
+  "as_of": "2026-08-13",
+  "cash": 5758.290384,
+  "equity_estimate": 10278.560414021667,
+  "last_run_id": "2026-08-13_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -28,11 +28,25 @@
       "ticker": "IT"
     },
     {
-      "avg_cost": 319.473475,
-      "entry_date": "2026-08-12",
-      "shares": 3,
+      "avg_cost": 13.734608,
+      "entry_date": "2026-08-13",
+      "shares": 73,
       "strategy": "sticks",
-      "ticker": "APP"
+      "ticker": "TTD"
+    },
+    {
+      "avg_cost": 872.920615,
+      "entry_date": "2026-08-13",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "STX"
+    },
+    {
+      "avg_cost": 913.534046,
+      "entry_date": "2026-08-13",
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "MU"
     }
   ]
 }
