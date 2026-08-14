@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-13",
-  "cash": 5758.290384,
-  "equity_estimate": 10278.560414021667,
-  "last_run_id": "2026-08-13_sticks_live",
+  "as_of": "2026-08-14",
+  "cash": 7278.075803,
+  "equity_estimate": 10527.095770079162,
+  "last_run_id": "2026-08-14_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -47,6 +47,20 @@
       "shares": 1,
       "strategy": "sticks",
       "ticker": "MU"
+    },
+    {
+      "avg_cost": 55.511114,
+      "entry_date": "2026-08-14",
+      "shares": -14,
+      "strategy": "sticks",
+      "ticker": "FISV"
+    },
+    {
+      "avg_cost": 148.525964,
+      "entry_date": "2026-08-14",
+      "shares": -5,
+      "strategy": "sticks",
+      "ticker": "ARES"
     }
   ]
 }
