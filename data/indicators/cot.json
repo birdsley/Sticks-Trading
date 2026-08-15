@@ -1,7 +1,7 @@
 {
   "title": "CFTC Commitment of Traders \u2014 Institutional Positioning",
-  "generated": "2026-08-08 12:59",
-  "source_sig": "2026-08-04",
+  "generated": "2026-08-15 12:48",
+  "source_sig": "2026-08-11",
   "lookback_weeks": 156,
   "method": "COT Index = 156-wk percentile of net non-commercial position; Isolation Forest flags structurally stretched weeks.",
   "source": "CFTC Legacy Futures-Only report (Socrata, keyless)",
@@ -12,15 +12,15 @@
       "label": "E-mini S&P 500",
       "group": "Equity",
       "bull": "specs long = risk-on",
-      "latest_date": "2026-08-04",
-      "net": -27258,
-      "cot_index": 60.2,
-      "zscore": 1.05,
+      "latest_date": "2026-08-11",
+      "net": 11280,
+      "cot_index": 71.1,
+      "zscore": 1.43,
       "signal": "leaning long",
-      "net_change_1w": -10062,
+      "net_change_1w": 38538,
       "anom_now": false,
       "n_anom": 18,
-      "weeks": 218,
+      "weeks": 219,
       "series": [
         {
           "d": "2022-06-07",
@@ -1329,6 +1329,12 @@
           "net": -27258,
           "idx": 60.2,
           "a": false
+        },
+        {
+          "d": "2026-08-11",
+          "net": 11280,
+          "idx": 71.1,
+          "a": false
         }
       ]
     },
@@ -1338,15 +1344,15 @@
       "label": "Gold",
       "group": "Metals",
       "bull": "specs long = risk-off / debasement",
-      "latest_date": "2026-08-04",
-      "net": 197634,
-      "cot_index": 51.7,
-      "zscore": 0.16,
-      "signal": "neutral",
-      "net_change_1w": 15564,
+      "latest_date": "2026-08-11",
+      "net": 217940,
+      "cot_index": 60.1,
+      "zscore": 0.52,
+      "signal": "leaning long",
+      "net_change_1w": 20306,
       "anom_now": false,
       "n_anom": 18,
-      "weeks": 218,
+      "weeks": 219,
       "series": [
         {
           "d": "2022-06-07",
@@ -2655,6 +2661,12 @@
           "net": 197634,
           "idx": 51.7,
           "a": false
+        },
+        {
+          "d": "2026-08-11",
+          "net": 217940,
+          "idx": 60.1,
+          "a": false
         }
       ]
     },
@@ -2664,15 +2676,15 @@
       "label": "10-Year T-Note",
       "group": "Rates",
       "bull": "specs long = duration bid / easing bets",
-      "latest_date": "2026-08-04",
-      "net": -979243,
-      "cot_index": 19.7,
-      "zscore": -1.42,
-      "signal": "stretched short",
-      "net_change_1w": -103124,
+      "latest_date": "2026-08-11",
+      "net": -915053,
+      "cot_index": 27.4,
+      "zscore": -1.12,
+      "signal": "leaning short",
+      "net_change_1w": 64190,
       "anom_now": false,
       "n_anom": 18,
-      "weeks": 218,
+      "weeks": 219,
       "series": [
         {
           "d": "2022-06-07",
@@ -3981,6 +3993,12 @@
           "net": -979243,
           "idx": 19.7,
           "a": false
+        },
+        {
+          "d": "2026-08-11",
+          "net": -915053,
+          "idx": 27.4,
+          "a": false
         }
       ]
     },
@@ -3990,15 +4008,15 @@
       "label": "US Dollar Index",
       "group": "FX",
       "bull": "specs long = USD strength",
-      "latest_date": "2026-08-04",
-      "net": 22499,
-      "cot_index": 100.0,
-      "zscore": 1.01,
+      "latest_date": "2026-08-11",
+      "net": 21409,
+      "cot_index": 97.2,
+      "zscore": 0.92,
       "signal": "stretched long",
-      "net_change_1w": 5302,
+      "net_change_1w": -1090,
       "anom_now": true,
       "n_anom": 18,
-      "weeks": 218,
+      "weeks": 219,
       "series": [
         {
           "d": "2022-06-07",
@@ -5300,12 +5318,18 @@
           "d": "2026-07-28",
           "net": 17197,
           "idx": 90.6,
-          "a": true
+          "a": false
         },
         {
           "d": "2026-08-04",
           "net": 22499,
           "idx": 100.0,
+          "a": true
+        },
+        {
+          "d": "2026-08-11",
+          "net": 21409,
+          "idx": 97.2,
           "a": true
         }
       ]
