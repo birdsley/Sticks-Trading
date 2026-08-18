@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-11",
-  "cash": 408.688675,
-  "equity_estimate": 10297.456707073974,
-  "last_run_id": "2026-08-17_markowitz_live",
+  "as_of": "2026-08-18",
+  "cash": 105.570681,
+  "equity_estimate": 10282.446697139983,
+  "last_run_id": "2026-08-18_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -84,18 +84,11 @@
       "ticker": "ARE"
     },
     {
-      "avg_cost": 31.772225,
+      "avg_cost": 32.750051,
       "entry_date": "2026-06-09",
-      "shares": 4,
+      "shares": 7,
       "strategy": "markowitz",
       "ticker": "BEN"
-    },
-    {
-      "avg_cost": 125.61787,
-      "entry_date": "2026-06-09",
-      "shares": 1,
-      "strategy": "markowitz",
-      "ticker": "BG"
     },
     {
       "avg_cost": 65.245637,
@@ -105,9 +98,9 @@
       "ticker": "BKR"
     },
     {
-      "avg_cost": 86.505511,
+      "avg_cost": 86.016837,
       "entry_date": "2026-06-09",
-      "shares": 2,
+      "shares": 3,
       "strategy": "markowitz",
       "ticker": "CL=F"
     },
@@ -133,9 +126,9 @@
       "ticker": "DOW"
     },
     {
-      "avg_cost": 44.801339,
+      "avg_cost": 46.41747,
       "entry_date": "2026-06-09",
-      "shares": 3,
+      "shares": 6,
       "strategy": "markowitz",
       "ticker": "DVN"
     },
@@ -149,7 +142,7 @@
     {
       "avg_cost": 15.115573,
       "entry_date": "2026-06-09",
-      "shares": 15,
+      "shares": 7,
       "strategy": "markowitz",
       "ticker": "F"
     },
@@ -168,9 +161,9 @@
       "ticker": "HAL"
     },
     {
-      "avg_cost": 49.869884,
+      "avg_cost": 50.874754,
       "entry_date": "2026-06-09",
-      "shares": 10,
+      "shares": 12,
       "strategy": "markowitz",
       "ticker": "HPE"
     },
@@ -196,9 +189,9 @@
       "ticker": "IVZ"
     },
     {
-      "avg_cost": 21.965366,
+      "avg_cost": 22.459044,
       "entry_date": "2026-06-09",
-      "shares": 5,
+      "shares": 9,
       "strategy": "markowitz",
       "ticker": "KEY"
     },
@@ -210,9 +203,9 @@
       "ticker": "MGM"
     },
     {
-      "avg_cost": 55.090918,
+      "avg_cost": 57.089971,
       "entry_date": "2026-06-09",
-      "shares": 6,
+      "shares": 8,
       "strategy": "markowitz",
       "ticker": "MRNA"
     },
@@ -224,16 +217,16 @@
       "ticker": "NG=F"
     },
     {
-      "avg_cost": 56.959842,
+      "avg_cost": 57.977221,
       "entry_date": "2026-06-09",
-      "shares": 2,
+      "shares": 3,
       "strategy": "markowitz",
       "ticker": "OXY"
     },
     {
-      "avg_cost": 146.787677,
+      "avg_cost": 144.527765,
       "entry_date": "2026-06-09",
-      "shares": 2,
+      "shares": 3,
       "strategy": "markowitz",
       "ticker": "PODD"
     },
@@ -261,7 +254,7 @@
     {
       "avg_cost": 26.578591,
       "entry_date": "2026-06-09",
-      "shares": 20,
+      "shares": 8,
       "strategy": "markowitz",
       "ticker": "WBD"
     },
@@ -371,20 +364,6 @@
       "ticker": "BBY"
     },
     {
-      "avg_cost": 161.102698,
-      "entry_date": "2026-07-21",
-      "shares": 1,
-      "strategy": "markowitz",
-      "ticker": "VST"
-    },
-    {
-      "avg_cost": 233.983681,
-      "entry_date": "2026-07-28",
-      "shares": 1,
-      "strategy": "markowitz",
-      "ticker": "ERIE"
-    },
-    {
       "avg_cost": 26.628628,
       "entry_date": "2026-07-28",
       "shares": 4,
@@ -427,11 +406,32 @@
       "ticker": "HPQ"
     },
     {
-      "avg_cost": 176.953783,
-      "entry_date": "2026-08-11",
+      "avg_cost": 120.494291,
+      "entry_date": "2026-08-18",
       "shares": 1,
       "strategy": "markowitz",
-      "ticker": "TMUS"
+      "ticker": "CF"
+    },
+    {
+      "avg_cost": 18.022607,
+      "entry_date": "2026-08-18",
+      "shares": 5,
+      "strategy": "markowitz",
+      "ticker": "HBAN"
+    },
+    {
+      "avg_cost": 32.772925,
+      "entry_date": "2026-08-18",
+      "shares": 5,
+      "strategy": "markowitz",
+      "ticker": "KMI"
+    },
+    {
+      "avg_cost": 19.0133,
+      "entry_date": "2026-08-18",
+      "shares": 11,
+      "strategy": "markowitz",
+      "ticker": "KVUE"
     }
   ]
 }

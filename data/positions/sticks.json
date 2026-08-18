@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-14",
-  "cash": 7278.075803,
-  "equity_estimate": 10788.09576721814,
-  "last_run_id": "2026-08-17_sticks_live",
+  "as_of": "2026-08-18",
+  "cash": 8259.238494,
+  "equity_estimate": 10385.798491558593,
+  "last_run_id": "2026-08-18_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -26,13 +26,6 @@
       "shares": -5,
       "strategy": "sticks",
       "ticker": "IT"
-    },
-    {
-      "avg_cost": 13.734608,
-      "entry_date": "2026-08-13",
-      "shares": 73,
-      "strategy": "sticks",
-      "ticker": "TTD"
     },
     {
       "avg_cost": 872.920615,
