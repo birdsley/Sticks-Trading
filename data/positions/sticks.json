@@ -1,38 +1,17 @@
 {
-  "as_of": "2026-08-18",
-  "cash": 8259.238494,
-  "equity_estimate": 10113.233367046874,
-  "last_run_id": "2026-08-19_sticks_live",
+  "as_of": "2026-08-20",
+  "cash": 9755.969418,
+  "equity_estimate": 10161.099415253419,
+  "last_run_id": "2026-08-20_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 1161.007083,
-      "entry_date": "2026-08-03",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "SNDK"
-    },
     {
       "avg_cost": 434.929237,
       "entry_date": "2026-08-10",
       "shares": 2,
       "strategy": "sticks",
       "ticker": "WDC"
-    },
-    {
-      "avg_cost": 190.876288,
-      "entry_date": "2026-08-11",
-      "shares": -5,
-      "strategy": "sticks",
-      "ticker": "IT"
-    },
-    {
-      "avg_cost": 872.920615,
-      "entry_date": "2026-08-13",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "STX"
     },
     {
       "avg_cost": 913.534046,
@@ -54,6 +33,20 @@
       "shares": -5,
       "strategy": "sticks",
       "ticker": "ARES"
+    },
+    {
+      "avg_cost": 33.546501,
+      "entry_date": "2026-08-20",
+      "shares": -29,
+      "strategy": "sticks",
+      "ticker": "CPRT"
+    },
+    {
+      "avg_cost": 130.471271,
+      "entry_date": "2026-08-20",
+      "shares": 7,
+      "strategy": "sticks",
+      "ticker": "TPR"
     }
   ]
 }
