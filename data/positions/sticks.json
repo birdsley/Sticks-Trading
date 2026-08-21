@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-20",
-  "cash": 9755.969418,
-  "equity_estimate": 10161.099415253419,
-  "last_run_id": "2026-08-20_sticks_live",
+  "as_of": "2026-08-21",
+  "cash": 9822.23777,
+  "equity_estimate": 10127.60773459961,
+  "last_run_id": "2026-08-21_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -35,18 +35,18 @@
       "ticker": "ARES"
     },
     {
-      "avg_cost": 33.546501,
-      "entry_date": "2026-08-20",
-      "shares": -29,
+      "avg_cost": 131.028211,
+      "entry_date": "2026-08-21",
+      "shares": -8,
       "strategy": "sticks",
-      "ticker": "CPRT"
+      "ticker": "NEM"
     },
     {
-      "avg_cost": 130.471271,
-      "entry_date": "2026-08-20",
-      "shares": 7,
+      "avg_cost": 223.986683,
+      "entry_date": "2026-08-21",
+      "shares": 4,
       "strategy": "sticks",
-      "ticker": "TPR"
+      "ticker": "STLD"
     }
   ]
 }
