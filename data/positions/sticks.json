@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-21",
-  "cash": 9822.23777,
-  "equity_estimate": 10127.60773459961,
-  "last_run_id": "2026-08-21_sticks_live",
+  "as_of": "2026-08-24",
+  "cash": 10718.494888,
+  "equity_estimate": 10018.55493133496,
+  "last_run_id": "2026-08-24_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -35,18 +35,25 @@
       "ticker": "ARES"
     },
     {
-      "avg_cost": 131.028211,
-      "entry_date": "2026-08-21",
-      "shares": -8,
-      "strategy": "sticks",
-      "ticker": "NEM"
-    },
-    {
       "avg_cost": 223.986683,
       "entry_date": "2026-08-21",
       "shares": 4,
       "strategy": "sticks",
       "ticker": "STLD"
+    },
+    {
+      "avg_cost": 24.602767,
+      "entry_date": "2026-08-24",
+      "shares": -41,
+      "strategy": "sticks",
+      "ticker": "MOS"
+    },
+    {
+      "avg_cost": 53.082815,
+      "entry_date": "2026-08-24",
+      "shares": -18,
+      "strategy": "sticks",
+      "ticker": "ARE"
     }
   ]
 }
