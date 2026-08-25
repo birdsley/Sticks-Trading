@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-24",
-  "cash": 10718.494888,
-  "equity_estimate": 10018.55493133496,
-  "last_run_id": "2026-08-24_sticks_live",
+  "as_of": "2026-08-25",
+  "cash": 12603.499805,
+  "equity_estimate": 9930.82984116333,
+  "last_run_id": "2026-08-25_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -12,13 +12,6 @@
       "shares": 2,
       "strategy": "sticks",
       "ticker": "WDC"
-    },
-    {
-      "avg_cost": 913.534046,
-      "entry_date": "2026-08-13",
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "MU"
     },
     {
       "avg_cost": 55.511114,
@@ -49,11 +42,18 @@
       "ticker": "MOS"
     },
     {
-      "avg_cost": 53.082815,
-      "entry_date": "2026-08-24",
-      "shares": -18,
+      "avg_cost": 143.314603,
+      "entry_date": "2026-08-25",
+      "shares": -7,
       "strategy": "sticks",
-      "ticker": "ARE"
+      "ticker": "MRNA"
+    },
+    {
+      "avg_cost": 103.9272,
+      "entry_date": "2026-08-25",
+      "shares": -9,
+      "strategy": "sticks",
+      "ticker": "EL"
     }
   ]
 }

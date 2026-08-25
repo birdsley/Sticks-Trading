@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-18",
-  "cash": 105.570681,
-  "equity_estimate": 10873.954749965911,
-  "last_run_id": "2026-08-24_markowitz_live",
+  "as_of": "2026-08-25",
+  "cash": -308.366783,
+  "equity_estimate": 10983.473177575104,
+  "last_run_id": "2026-08-25_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -26,13 +26,6 @@
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "ADM"
-    },
-    {
-      "avg_cost": 124.296946,
-      "entry_date": "2026-06-02",
-      "shares": 1,
-      "strategy": "markowitz",
-      "ticker": "AEP"
     },
     {
       "avg_cost": 14.700283,
@@ -168,9 +161,9 @@
       "ticker": "HPE"
     },
     {
-      "avg_cost": 24.467116,
+      "avg_cost": 24.109943,
       "entry_date": "2026-06-09",
-      "shares": 9,
+      "shares": 13,
       "strategy": "markowitz",
       "ticker": "HST"
     },
@@ -205,7 +198,7 @@
     {
       "avg_cost": 57.089971,
       "entry_date": "2026-06-09",
-      "shares": 8,
+      "shares": 7,
       "strategy": "markowitz",
       "ticker": "MRNA"
     },
@@ -315,13 +308,6 @@
       "ticker": "FCX"
     },
     {
-      "avg_cost": 262.193417,
-      "entry_date": "2026-06-23",
-      "shares": 1,
-      "strategy": "markowitz",
-      "ticker": "INTU"
-    },
-    {
       "avg_cost": 66.840088,
       "entry_date": "2026-07-07",
       "shares": 3,
@@ -392,9 +378,9 @@
       "ticker": "BMY"
     },
     {
-      "avg_cost": 60.667438,
+      "avg_cost": 61.739855,
       "entry_date": "2026-08-04",
-      "shares": 2,
+      "shares": 3,
       "strategy": "markowitz",
       "ticker": "LYB"
     },
@@ -432,6 +418,34 @@
       "shares": 11,
       "strategy": "markowitz",
       "ticker": "KVUE"
+    },
+    {
+      "avg_cost": 148.734046,
+      "entry_date": "2026-08-25",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "CHTR"
+    },
+    {
+      "avg_cost": 48.854174,
+      "entry_date": "2026-08-25",
+      "shares": 10,
+      "strategy": "markowitz",
+      "ticker": "MNST"
+    },
+    {
+      "avg_cost": 27.934541,
+      "entry_date": "2026-08-25",
+      "shares": 4,
+      "strategy": "markowitz",
+      "ticker": "PFE"
+    },
+    {
+      "avg_cost": 138.466854,
+      "entry_date": "2026-08-25",
+      "shares": 1,
+      "strategy": "markowitz",
+      "ticker": "VST"
     }
   ]
 }
