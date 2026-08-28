@@ -1,8 +1,8 @@
 {
   "as_of": "2026-06-02",
   "cash": 919.418141,
-  "equity_estimate": 10080.118200890747,
-  "last_run_id": "2026-08-27_drl_live",
+  "equity_estimate": 9999.999994000002,
+  "last_run_id": "2026-08-28_drl_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
