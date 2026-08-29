@@ -1,7 +1,7 @@
 {
   "title": "Random Matrix Theory \u2014 Systemic Correlation Monitor",
-  "generated": "2026-08-22 12:51",
-  "source_sig": "2026-08-21",
+  "generated": "2026-08-29 16:34",
+  "source_sig": "2026-08-28",
   "method": "Eigenspectrum of the S&P cross-sectional correlation matrix vs the Marchenko\u2013Pastur noise band (q=N/T). \u03bb_max/\u03a3\u03bb = 'market mode' share; eigenvalues above \u03bb+ are genuine factors.",
   "source": "Deployment EOD history (on-disk snapshots / yfinance) \u2014 rolling history seeded, extended incrementally.",
   "window_days": 504,
@@ -11,10 +11,10 @@
     "q": 0.94,
     "lambda_minus": 0.001,
     "lambda_plus": 3.88,
-    "lambda_max": 111.59,
-    "market_mode_share": 23.5,
+    "lambda_max": 110.79,
+    "market_mode_share": 23.4,
     "n_signal_eigs": 13,
-    "var_in_structure": 51.2,
+    "var_in_structure": 51.1,
     "hist": {
       "x": [
         0.078,
@@ -59,26 +59,26 @@
         6.13
       ],
       "y": [
-        2.7594,
-        0.8968,
-        0.5657,
+        2.7732,
+        0.883,
+        0.5519,
         0.4001,
-        0.3173,
+        0.3311,
         0.2621,
         0.207,
         0.1518,
-        0.138,
-        0.1242,
-        0.0828,
+        0.1518,
+        0.1104,
         0.0828,
         0.069,
+        0.0828,
         0.0414,
         0.0414,
         0.0414,
         0.0552,
         0.0138,
-        0.0414,
-        0.0,
+        0.0276,
+        0.0138,
         0.0138,
         0.0276,
         0.0138,
@@ -87,8 +87,8 @@
         0.0,
         0.0276,
         0.0,
-        0.0138,
         0.0,
+        0.0138,
         0.0,
         0.0,
         0.0138,
@@ -508,20 +508,20 @@
       ]
     },
     "signal_eigs": [
-      111.59,
-      37.81,
-      19.96,
-      15.63,
-      12.34,
-      10.12,
+      110.79,
+      38.06,
+      19.99,
+      15.62,
+      12.41,
+      10.11,
       6.53,
-      5.65,
-      5.47,
+      5.66,
+      5.45,
       5.06,
-      4.44,
-      4.1
+      4.55,
+      4.08
     ],
-    "asof": "2026-08-21"
+    "asof": "2026-08-28"
   },
   "rolling": [
     {
@@ -2890,8 +2890,8 @@
       "nsig": 10
     },
     {
-      "d": "2026-08-21",
-      "share": 23.5,
+      "d": "2026-08-28",
+      "share": 23.4,
       "nsig": 13
     }
   ],
