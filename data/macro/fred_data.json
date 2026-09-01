@@ -1,10 +1,10 @@
 {
   "as_of": "2026-09-01",
   "T10Y3M": {
-    "value": 0.84,
-    "obs_date": "2026-08-31",
+    "value": 0.87,
+    "obs_date": "2026-09-01",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-09-03",
@@ -1997,6 +1997,10 @@
       {
         "date": "2026-08-31",
         "value": 0.84
+      },
+      {
+        "date": "2026-09-01",
+        "value": 0.87
       }
     ]
   },
@@ -2004,7 +2008,7 @@
     "value": 332.813,
     "obs_date": "2026-07-01",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-09-01",
@@ -2102,7 +2106,7 @@
     "value": 24269.613,
     "obs_date": "2026-04-01",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-07-01",
@@ -2144,7 +2148,7 @@
     "value": 158858.0,
     "obs_date": "2026-07-01",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-09-01",
@@ -2244,9 +2248,9 @@
   },
   "DFF": {
     "value": 3.63,
-    "obs_date": "2026-08-28",
+    "obs_date": "2026-08-31",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-09-01",
@@ -5155,6 +5159,18 @@
       {
         "date": "2026-08-28",
         "value": 3.63
+      },
+      {
+        "date": "2026-08-29",
+        "value": 3.63
+      },
+      {
+        "date": "2026-08-30",
+        "value": 3.63
+      },
+      {
+        "date": "2026-08-31",
+        "value": 3.63
       }
     ]
   },
@@ -5162,7 +5178,7 @@
     "value": 4.1,
     "obs_date": "2026-07-01",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-09-01",
@@ -5256,10 +5272,10 @@
     "prior_val": 4.2
   },
   "BAMLH0A0HYM2": {
-    "value": 2.6,
-    "obs_date": "2026-08-28",
+    "value": 2.63,
+    "obs_date": "2026-08-31",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-09-02",
@@ -7348,6 +7364,10 @@
       {
         "date": "2026-08-28",
         "value": 2.6
+      },
+      {
+        "date": "2026-08-31",
+        "value": 2.63
       }
     ]
   },
@@ -7355,7 +7375,7 @@
     "value": 55.2,
     "obs_date": "2026-07-01",
     "release_date": "2026-09-01",
-    "spy_reaction": null,
+    "spy_reaction": -0.69,
     "series": [
       {
         "date": "2024-09-01",
