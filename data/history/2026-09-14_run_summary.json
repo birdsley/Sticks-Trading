@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-14",
+  "strategies_run": [
+    "sticks",
+    "markowitz"
+  ],
+  "order_counts": {
+    "sticks": 5,
+    "markowitz": 4
+  },
+  "fill_counts": {
+    "sticks": 2,
+    "markowitz": 0
+  },
+  "equity": {
+    "sticks": 9797.709617650878,
+    "markowitz": 10505.783137106384
+  },
+  "total_equity": 20303.49,
+  "total_orders": 9,
+  "total_fills": 2,
+  "elapsed_s": 5.0,
+  "errors": [],
+  "status": "ok"
+}

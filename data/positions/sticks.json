@@ -1,59 +1,66 @@
 {
-  "as_of": "2026-08-28",
-  "cash": 12603.499805,
-  "equity_estimate": 10026.039781119995,
-  "last_run_id": "2026-09-01_sticks_live",
+  "as_of": "2026-10-06",
+  "cash": 12718.419635,
+  "equity_estimate": 9884.729678334961,
+  "last_run_id": "2026-10-06_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
-      "avg_cost": 434.929237,
-      "entry_date": "2026-08-10",
-      "shares": 2,
-      "strategy": "sticks",
-      "ticker": "WDC"
-    },
-    {
-      "avg_cost": 55.511114,
-      "entry_date": "2026-08-14",
-      "shares": -14,
-      "strategy": "sticks",
-      "ticker": "FISV"
-    },
-    {
-      "avg_cost": 148.525964,
-      "entry_date": "2026-08-14",
+      "avg_cost": 205.046369,
+      "entry_date": "2026-09-21",
+      "last_price": 185.740005,
       "shares": -5,
       "strategy": "sticks",
-      "ticker": "ARES"
+      "ticker": "COIN"
     },
     {
-      "avg_cost": 223.986683,
-      "entry_date": "2026-08-21",
-      "shares": 4,
+      "avg_cost": 1894.083247,
+      "entry_date": "2026-09-23",
+      "last_price": 1660.459961,
+      "shares": -1,
       "strategy": "sticks",
-      "ticker": "STLD"
+      "ticker": "SNDK"
     },
     {
-      "avg_cost": 24.602767,
-      "entry_date": "2026-08-24",
-      "shares": -41,
+      "avg_cost": 1050.484825,
+      "entry_date": "2026-09-24",
+      "last_price": 1045.560059,
+      "shares": 1,
       "strategy": "sticks",
-      "ticker": "MOS"
+      "ticker": "MU"
     },
     {
-      "avg_cost": 143.314603,
-      "entry_date": "2026-08-25",
+      "avg_cost": 126.741221,
+      "entry_date": "2026-09-25",
+      "last_price": 112.5,
       "shares": -7,
       "strategy": "sticks",
-      "ticker": "MRNA"
+      "ticker": "INTC"
     },
     {
-      "avg_cost": 103.9272,
-      "entry_date": "2026-08-25",
-      "shares": -9,
+      "avg_cost": 542.829775,
+      "entry_date": "2026-10-02",
+      "last_price": 530.27002,
+      "shares": -1,
       "strategy": "sticks",
-      "ticker": "EL"
+      "ticker": "AMAT"
+    },
+    {
+      "avg_cost": 349.755,
+      "entry_date": "2026-10-02",
+      "last_price": 333.890015,
+      "shares": -2,
+      "strategy": "sticks",
+      "ticker": "LRCX"
+    },
+    {
+      "avg_cost": 695.276331,
+      "entry_date": "2026-10-06",
+      "last_price": 695.460022,
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "FICO"
     }
   ]
 }

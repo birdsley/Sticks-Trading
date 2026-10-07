@@ -1,33 +1,29 @@
 {
   "date": "2026-08-27",
   "strategies_run": [
+    "carry",
     "sticks",
-    "markowitz",
-    "drl",
-    "carry"
+    "markowitz"
   ],
   "order_counts": {
-    "sticks": 5,
+    "sticks": 3,
     "markowitz": 0,
-    "drl": 0,
     "carry": 0
   },
   "fill_counts": {
-    "sticks": 0,
+    "sticks": 4,
     "markowitz": 0,
-    "drl": 0,
     "carry": 0
   },
   "equity": {
-    "sticks": 10056.939803626708,
-    "markowitz": 10950.181202553742,
-    "drl": 10080.118200890747,
+    "sticks": 9794.408777774413,
+    "markowitz": 10528.251217466857,
     "carry": 9950.78
   },
-  "total_equity": 41038.02,
-  "total_orders": 5,
-  "total_fills": 0,
-  "elapsed_s": 222.4,
+  "total_equity": 30273.44,
+  "total_orders": 3,
+  "total_fills": 4,
+  "elapsed_s": 0.7,
   "errors": [],
   "status": "ok"
 }
