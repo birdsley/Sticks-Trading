@@ -94,7 +94,6 @@
         .pill-btn[data-strategy="all"].active     { background-color: #e0e0e0; }
         .pill-btn[data-strategy="sticks"].active  { background-color: #00d4aa; }
         .pill-btn[data-strategy="markowitz"].active { background-color: #00a8ff; }
-        .pill-btn[data-strategy="drl"].active     { background-color: #ff9f43; }
         .pill-btn[data-strategy="carry"].active   { background-color: #9d7bff; }
         .filter-right { margin-left: auto; font-size: 12px; color: #606060; }
 
@@ -153,7 +152,6 @@
         .alloc-bar-segment { height: 100%; transition: width 0.5s ease; }
         .alloc-bar-segment.sticks    { background-color: #00d4aa; }
         .alloc-bar-segment.markowitz { background-color: #00a8ff; }
-        .alloc-bar-segment.drl       { background-color: #ff9f43; }
         .alloc-bar-segment.carry     { background-color: #9d7bff; }
         .strategy-row {
             display: flex; align-items: center; justify-content: space-between;
@@ -164,7 +162,6 @@
         .strategy-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
         .strategy-dot.sticks    { background-color: #00d4aa; }
         .strategy-dot.markowitz { background-color: #00a8ff; }
-        .strategy-dot.drl       { background-color: #ff9f43; }
         .strategy-dot.carry     { background-color: #9d7bff; }
         .strategy-name  { font-size: 14px; font-weight: 500; color: #e0e0e0; }
         .strategy-sub   { font-size: 11px; color: #606060; }
@@ -221,7 +218,6 @@
         }
         .signal-bar-fill.sticks    { background: #00d4aa; }
         .signal-bar-fill.markowitz { background: #00a8ff; }
-        .signal-bar-fill.drl       { background: #ff9f43; }
 
         /* ── Benchmark Comparison ── */
         .benchmark-comparison {
@@ -309,7 +305,6 @@
         }
         .strategy-section-badge.sticks    { background: rgba(0,212,170,0.2); color: #00d4aa; }
         .strategy-section-badge.markowitz { background: rgba(0,168,255,0.2); color: #00a8ff; }
-        .strategy-section-badge.drl       { background: rgba(255,159,67,0.2); color: #ff9f43; }
         .strategy-section-badge.carry     { background: rgba(123,92,255,0.2); color: #9d7bff; }
 
         /* ── Ticker Tab ── */
@@ -501,7 +496,6 @@
         .strat-overview-card:hover { border-color: #353535; background-color: #171717; }
         .strat-overview-card.active-tga  { background:#121b18; border-color:rgba(0,212,170,0.3); }
         .strat-overview-card.active-markowitz { background:#12161f; border-color:rgba(0,168,255,0.3); }
-        .strat-overview-card.active-drl  { background:#1b1610; border-color:rgba(255,159,67,0.3); }
         .strat-overview-card.active-carry { background:#15121f; border-color:rgba(123,92,255,0.3); }
         .strat-card-header {
             display: flex;
@@ -538,7 +532,6 @@
         }
         .strat-overview-card.active-tga .strat-active-indicator { background:#00d4aa; box-shadow:0 0 8px #00d4aa88; }
         .strat-overview-card.active-markowitz .strat-active-indicator { background:#00a8ff; box-shadow:0 0 8px #00a8ff88; }
-        .strat-overview-card.active-drl .strat-active-indicator { background:#ff9f43; box-shadow:0 0 8px #ff9f4388; }
         .strat-overview-card.active-carry .strat-active-indicator { background:#9d7bff; box-shadow:0 0 8px #9d7bff88; }
 
         .overview-canvas-wrapper {
@@ -983,7 +976,6 @@
         .pill-btn[data-strategy="all"].active     { background: linear-gradient(180deg,#f0f2f5,#d6d9de); box-shadow:0 3px 10px rgba(255,255,255,0.12); }
         .pill-btn[data-strategy="sticks"].active  { background: linear-gradient(180deg,#00e6b8,#00c29a); box-shadow:0 3px 12px rgba(0,212,170,0.4); }
         .pill-btn[data-strategy="markowitz"].active { background: linear-gradient(180deg,#33b8ff,#0090e6); color:#04121d; box-shadow:0 3px 12px rgba(0,168,255,0.4); }
-        .pill-btn[data-strategy="drl"].active     { background: linear-gradient(180deg,#ffb05f,#f08d2a); color:#1d1304; box-shadow:0 3px 12px rgba(255,159,67,0.4); }
         .pill-btn[data-strategy="carry"].active   { background: linear-gradient(180deg,#b49bff,#8a63f0); color:#0f0820; box-shadow:0 3px 12px rgba(123,92,255,0.4); }
 
         /* ── Analytics / ticker small cards ── */
@@ -1000,13 +992,11 @@
         }
         .alloc-bar-segment.sticks    { background: linear-gradient(90deg,#00d4aa,#00e6b8); }
         .alloc-bar-segment.markowitz { background: linear-gradient(90deg,#00a8ff,#33b8ff); }
-        .alloc-bar-segment.drl       { background: linear-gradient(90deg,#ff9f43,#ffb567); }
         .alloc-bar-segment.carry     { background: linear-gradient(90deg,#7b5cff,#9d7bff); }
         .total-equity-value { font-size: 28px; letter-spacing: -0.5px; text-shadow: 0 0 24px rgba(0,212,170,0.28); }
         .strategy-dot { box-shadow: 0 0 8px currentColor; }
         .strategy-dot.sticks    { color: var(--teal); }
         .strategy-dot.markowitz { color: var(--blue); }
-        .strategy-dot.drl       { color: var(--orange); }
         .strategy-dot.carry     { color: #9d7bff; }
 
         /* ── Tables ── */
@@ -1070,7 +1060,6 @@
         .strat-overview-card:hover { transform: translateX(3px); border-color: #34394300; box-shadow: var(--shadow-md); }
         .strat-overview-card.active-tga       { box-shadow: -3px 0 0 var(--teal), var(--shadow-md); }
         .strat-overview-card.active-markowitz { box-shadow: -3px 0 0 var(--blue), var(--shadow-md); }
-        .strat-overview-card.active-drl       { box-shadow: -3px 0 0 var(--orange), var(--shadow-md); }
         .strat-overview-card.active-carry     { box-shadow: -3px 0 0 #9d7bff, var(--shadow-md); }
         /* Overview strategy tabs — show one explanation at a time (demo stays on the right) */
         .overview-strat-tabs { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
@@ -1081,7 +1070,6 @@
         .ostab.active[data-strat="sticks"]    { background:#00d4aa; color:#04121d; border-color:transparent; }
         .range-tabs .ostab.active             { background:#e0e0e0; color:#0a0a0a; border-color:transparent; }
         .ostab.active[data-strat="markowitz"] { background:#00a8ff; color:#04121d; border-color:transparent; }
-        .ostab.active[data-strat="drl"]       { background:#ff9f43; color:#1d1304; border-color:transparent; }
         .ostab.active[data-strat="carry"]     { background:#9d7bff; color:#0f0820; border-color:transparent; }
         .strat-overview-card { display:none; }
         .strat-overview-card.shown { display:flex; flex-direction:column; min-height:372px; }
@@ -1315,12 +1303,11 @@
 
         <!-- Left: strategy cards -->
         <div>
-            <div class="overview-section-label">Four Strategies</div>
+            <div class="overview-section-label">Three Strategies</div>
 
             <div class="overview-strat-tabs">
                 <button class="ostab active" data-strat="tga"       onclick="selectOverviewStrat('tga')">Sticks TGA</button>
                 <button class="ostab"        data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button>
-                <button class="ostab"        data-strat="drl"       onclick="selectOverviewStrat('drl')">DRL Vol</button>
                 <button class="ostab"        data-strat="markowitz" onclick="selectOverviewStrat('markowitz')">Markowitz</button>
             </div>
 
@@ -1368,21 +1355,6 @@
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
-
-            <div class="strat-overview-card" data-strat="drl" onclick="selectOverviewStrat('drl')">
-                <div class="strat-card-header">
-                    <span class="strategy-section-badge drl">DRL Vol</span>
-                    <span class="strat-card-freq">Daily &nbsp;·&nbsp; Reinforcement Learning</span>
-                </div>
-                <div class="strat-card-desc">A Proximal Policy Optimization (PPO) agent is trained to achieve consistent risk-adjusted returns across nine diversifying ETFs. The agent develops a nonlinear policy for risk scaling, reducing exposure during periods of high volatility and increasing it in stable market conditions. This process is subject to per-asset turnover constraints and incorporates a quadratic turnover penalty to restrain excessive trading activity.</div>
-                <div class="strat-card-pills">
-                    <span class="strat-pill">9-ETF Fixed Universe</span>
-                    <span class="strat-pill">PPO · Walk-Forward</span>
-                    <span class="strat-pill">Backtest Sharpe 0.730</span>
-                    <span class="strat-pill">Regime Adaptive</span>
-                </div>
-                <div class="strat-active-indicator"></div>
-            </div>
         </div>
 
         <!-- Right: animated demo iframes -->
@@ -1395,7 +1367,6 @@
                 <div style="position:relative; height:420px;">
                     <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
                     <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
-                    <iframe id="demo-drl"        src="demos/drl_wave.html"            style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="DRL Wave"></iframe>
                     <iframe id="demo-carry"      src="demos/carry.html"               style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Trend + Carry Cross-Asset Engine"></iframe>
                 </div>
             </div>
@@ -1418,9 +1389,9 @@
                 <p>Markets transition among structural states, such as bull, bear, crisis, and neutral, which can be identified through cross-sectional correlation and trailing momentum. Allocating assets based on regime identification, rather than relying on simple extrapolation, is expected to generate diversification alpha beyond that of a naïve buy-and-hold strategy.</p>
             </div>
             <div class="manifesto-item">
-                <span class="manifesto-tag">Hypothesis 3</span>
+                <span class="manifesto-tag">Hypothesis 3 · Retired</span>
                 <h4>RL as Risk Budget</h4>
-                <p>A PPO agent is believed to learn a nonlinear risk-scaling policy that surpasses the performance of basic volatility-targeting heuristics. The use of a controlled nine-ETF universe isolates the learning problem and mitigates survivorship bias, making certain that the agent's failures remain interpretable and informative.</p>
+                <p>A PPO agent was expected to learn a nonlinear risk-scaling policy that beats basic volatility-targeting heuristics on a controlled nine-ETF universe. It did not: fed correctly, its live weights stayed within 2% of equal-weight. The strategy was retired in October 2026 and its defensive role passed to Trend + Carry. Deep RL may return with a richer state space and a broader universe.</p>
             </div>
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 4</span>
@@ -1470,7 +1441,6 @@
         <button class="pill-btn active" data-strategy="all"       onclick="setStrategy(event,'all')">All Strategies</button>
         <button class="pill-btn"        data-strategy="sticks"    onclick="setStrategy(event,'sticks')">Sticks TGA</button>
         <button class="pill-btn"        data-strategy="carry"     onclick="setStrategy(event,'carry')">Trend + Carry</button>
-        <button class="pill-btn"        data-strategy="drl"       onclick="setStrategy(event,'drl')">DRL Vol</button>
         <button class="pill-btn"        data-strategy="markowitz" onclick="setStrategy(event,'markowitz')">Markowitz</button>
         <div class="filter-right">
             Run status: <span id="runStatus" style="color:#00d4aa;">—</span>
@@ -1535,10 +1505,9 @@
             <div class="total-equity-label">TOTAL EQUITY</div>
             <div class="total-equity-value" id="totalEquityValue">—</div>
             <div class="alloc-bar-track" id="allocBar">
-                <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:25%"></div>
-                <div class="alloc-bar-segment carry"     id="barCarry"     style="width:25%"></div>
-                <div class="alloc-bar-segment drl"       id="barDrl"       style="width:25%"></div>
-                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:25%"></div>
+                <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:33.34%"></div>
+                <div class="alloc-bar-segment carry"     id="barCarry"     style="width:33.33%"></div>
+                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:33.33%"></div>
             </div>
             <div id="strategyRows"></div>
             <div class="run-status-row" id="runStatusRow">
@@ -1656,7 +1625,7 @@
                         <th>Status</th>
                         <th>Sticks Equity</th>
                         <th>Markowitz Equity</th>
-                        <th>DRL Equity</th>
+                        <th>Trend + Carry Equity</th>
                         <th>Total Equity</th>
                         <th>Orders</th>
                         <th>Fills</th>
@@ -1705,12 +1674,6 @@
                 <span style="font-size:13px;color:#606060;">Cross-asset trend + carry — ~25 ETF universe (live since 2026-06-02)</span>
             </div>
             <div class="analytics-cards" id="carryAnalyticsCards"></div>
-
-            <div class="strategy-section-header" id="drlSection">
-                <span class="strategy-section-badge drl">DRL Vol</span>
-                <span style="font-size:13px;color:#606060;">Deep RL volatility targeting — 9 ETF universe</span>
-            </div>
-            <div class="analytics-cards" id="drlAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="markowitzSection">
                 <span class="strategy-section-badge markowitz">Markowitz</span>
@@ -1889,7 +1852,6 @@
         <div class="held-strat-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
             <button class="ostab active" data-strat="sticks"    onclick="selectHeldStrategy('sticks')">Sticks TGA</button>
             <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry</button>
-            <button class="ostab"        data-strat="drl"       onclick="selectHeldStrategy('drl')">DRL Vol</button>
             <button class="ostab"        data-strat="markowitz" onclick="selectHeldStrategy('markowitz')">Markowitz</button>
         </div>
         <div class="held-strip-label">Currently Held — <span id="heldStripStratName">Sticks TGA</span> &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
@@ -2185,16 +2147,16 @@
 // ══════════════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════════════
-const STRATEGIES = ['sticks','carry','drl','markowitz'];
-const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', drl:'DRL Vol', carry:'Trend + Carry' };
-const COLORS     = { sticks:'#00d4aa', markowitz:'#00a8ff', drl:'#ff9f43', carry:'#9d7bff', spy:'#606060' };
+const STRATEGIES = ['sticks','carry','markowitz'];   // DRL Vol retired 2026-10-06
+const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', carry:'Trend + Carry' };
+const COLORS     = { sticks:'#00d4aa', markowitz:'#00a8ff', carry:'#9d7bff', spy:'#606060' };
 const START_EQUITY = 10000; // per strategy
 
 let currentStrategy = 'all';
 let state = {
-    equity:    { sticks:[], markowitz:[], drl:[], carry:[] },   // [{date,equity}]
-    positions: { sticks:null, markowitz:null, drl:null, carry:null }, // positions.json per strategy
-    orders:    { sticks:[], markowitz:[], drl:[], carry:[] },   // orders.jsonl per strategy
+    equity:    { sticks:[], markowitz:[], carry:[] },   // [{date,equity}]
+    positions: { sticks:null, markowitz:null, carry:null }, // positions.json per strategy
+    orders:    { sticks:[], markowitz:[], carry:[] },   // orders.jsonl per strategy
     spy: [],                                           // [{date,price}]
     snapshot: null,                                    // equity_snapshot.json
     runSummary: null,                                  // run_summary.json
@@ -2238,9 +2200,9 @@ const SP500_TICKERS = ['A','AAPL','ABBV','ABC','ABNB','ABT','ACGL','ACN','ADBE',
 'WDC','WEC','WELL','WFC','WM','WMB','WMT','WRB','WST','WTW','WY','WYNN','XEL','XOM','XYL','YUM',
 'ZBH','ZBRA','ZTS'];
 
-// Cross-asset ETFs (DRL + Trend+Carry universes) — selectable in the ticker analysis tab
+// Cross-asset ETFs (Trend+Carry universe) — selectable in the ticker analysis tab
 const ETF_TICKERS = ['SPY','QQQ','IWM','EFA','EEM','EWJ','VGK','TLT','IEF','SHY','TIP','LQD','HYG',
-'GLD','SLV','DBC','USO','DBA','DBB','VNQ','UUP','FXE','FXY','DBMF'];
+'GLD','SLV','DBC','USO','DBA','DBB','VNQ','UUP','FXE','FXY'];
 
 // ══════════════════════════════════════════════════════════════
 //  TAB ROUTING
@@ -2298,33 +2260,29 @@ async function loadAll() {
     try {
         setStatus('pending', 'Loading…');
 
-        const [eSticks, eMarkowitz, eDrl, eCarry, snap, summary,
-               posSticks, posMarkowitz, posDrl, posCarry,
-               ordSticks, ordMarkowitz, ordDrl, ordCarry] = await Promise.all([
+        const [eSticks, eMarkowitz, eCarry, snap, summary,
+               posSticks, posMarkowitz, posCarry,
+               ordSticks, ordMarkowitz, ordCarry] = await Promise.all([
             fetchCSV('data/equity/sticks.csv').catch(() => []),
             fetchCSV('data/equity/markowitz.csv').catch(() => []),
-            fetchCSV('data/equity/drl.csv').catch(() => []),
             fetchCSV('data/equity/carry.csv').catch(() => []),
             fetchJSON('data/daily/equity_snapshot.json').catch(() => null),
             fetchJSON('data/daily/run_summary.json').catch(() => null),
             fetchJSON('data/positions/sticks.json').catch(() => null),
             fetchJSON('data/positions/markowitz.json').catch(() => null),
-            fetchJSON('data/positions/drl.json').catch(() => null),
             fetchJSON('data/positions/carry.json').catch(() => null),
             fetchJSONL('data/orders/sticks.jsonl').catch(() => []),
             fetchJSONL('data/orders/markowitz.jsonl').catch(() => []),
-            fetchJSONL('data/orders/drl.jsonl').catch(() => []),
             fetchJSONL('data/orders/carry.jsonl').catch(() => []),
         ]);
 
         state.equity.sticks    = filterTradingDays(eSticks);
         state.equity.markowitz = filterTradingDays(eMarkowitz);
-        state.equity.drl       = filterTradingDays(eDrl);
         state.equity.carry     = filterTradingDays(eCarry);
         state.snapshot         = snap;
         state.runSummary       = summary;
-        state.positions        = { sticks: posSticks, markowitz: posMarkowitz, drl: posDrl, carry: posCarry };
-        state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, drl: ordDrl, carry: ordCarry };
+        state.positions        = { sticks: posSticks, markowitz: posMarkowitz, carry: posCarry };
+        state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, carry: ordCarry };
 
         // Load 30-day run history
         state.history = await loadRunHistory();
@@ -3212,7 +3170,7 @@ function updateRunHistoryTable() {
             <td>${badge}</td>
             <td>${fmtEq(eq.sticks)}</td>
             <td>${fmtEq(eq.markowitz)}</td>
-            <td>${fmtEq(eq.drl)}</td>
+            <td>${fmtEq(eq.carry)}</td>
             <td style="color:#00d4aa;font-weight:600;">${total ? fmtDollars(total) : '—'}</td>
             <td>${r.total_orders ?? '—'}</td>
             <td>${r.total_fills  ?? '—'}</td>
@@ -3425,7 +3383,7 @@ function renderStrategyCards(s) {
 }
 
 // Track which strategies have their positions expanded
-const positionsExpanded = { sticks: false, markowitz: false, drl: false, carry: false };
+const positionsExpanded = { sticks: false, markowitz: false, carry: false };
 
 function renderPositionsTable(container, s, sorted, expanded, cash, asOf) {
     const LIMIT   = 8;
@@ -3560,7 +3518,7 @@ function renderCorrelationChart() {
     });
 
     const allDates = Object.keys(retMaps.sticks)
-        .filter(d => retMaps.markowitz[d] != null && retMaps.drl[d] != null)
+        .filter(d => retMaps.markowitz[d] != null && retMaps.carry[d] != null)
         .sort();
 
     if (allDates.length < 10) return;
@@ -3580,12 +3538,12 @@ function renderCorrelationChart() {
         return dx*dy > 0 ? num/(dx*dy) : 0;
     }
 
-    const corrSM = [], corrSD = [], corrMD = [];
+    const corrSM = [], corrSC = [], corrMC = [];
     for (let i = 0; i < allDates.length - window + 1; i++) {
         const slice = allDates.slice(i, i+window);
         corrSM.push(rollingCorr(slice, 'sticks', 'markowitz'));
-        corrSD.push(rollingCorr(slice, 'sticks', 'drl'));
-        corrMD.push(rollingCorr(slice, 'markowitz', 'drl'));
+        corrSC.push(rollingCorr(slice, 'sticks', 'carry'));
+        corrMC.push(rollingCorr(slice, 'markowitz', 'carry'));
     }
 
     const ctx = document.getElementById('correlationChart').getContext('2d');
@@ -3596,8 +3554,8 @@ function renderCorrelationChart() {
             labels: dates,
             datasets: [
                 { label:'TGA↔Markowitz', data: corrSM, borderColor:'#a78bfa', borderWidth:1.5, pointRadius:0, tension:0.3, fill:false },
-                { label:'TGA↔DRL',       data: corrSD, borderColor:'#fb923c', borderWidth:1.5, pointRadius:0, tension:0.3, fill:false },
-                { label:'Markowitz↔DRL', data: corrMD, borderColor:'#38bdf8', borderWidth:1.5, pointRadius:0, tension:0.3, fill:false }
+                { label:'TGA↔Carry',       data: corrSC, borderColor:'#fb923c', borderWidth:1.5, pointRadius:0, tension:0.3, fill:false },
+                { label:'Markowitz↔Carry', data: corrMC, borderColor:'#38bdf8', borderWidth:1.5, pointRadius:0, tension:0.3, fill:false }
             ]
         },
         options: {
@@ -3619,14 +3577,13 @@ let _overviewCanvasReady = false;
 const DEMO_META = {
     tga:        { label: 'MST Network — Topological Graph Arbitrage',    dotColor: '#00d4aa', activeClass: 'active-tga' },
     markowitz:  { label: 'Efficient Frontier — Mean-Variance Optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
-    drl:        { label: 'Regime Detection — PPO Volatility Targeting',  dotColor: '#ff9f43', activeClass: 'active-drl' },
     carry:      { label: 'Cross-Asset Trend + Carry Engine',             dotColor: '#9d7bff', activeClass: 'active-carry' },
 };
 
 function selectOverviewStrat(strat) {
     // Update card active classes
     document.querySelectorAll('.strat-overview-card').forEach(c => {
-        c.classList.remove('active-tga', 'active-markowitz', 'active-drl', 'active-carry');
+        c.classList.remove('active-tga', 'active-markowitz', 'active-carry');
     });
     const card = document.querySelector(`.strat-overview-card[data-strat="${strat}"]`);
     if (card) card.classList.add(DEMO_META[strat].activeClass);
@@ -3647,7 +3604,7 @@ function selectOverviewStrat(strat) {
     }
 
     // Show/hide iframes
-    ['tga','markowitz','drl','carry'].forEach(s => {
+    ['tga','markowitz','carry'].forEach(s => {
         const el = document.getElementById('demo-' + s);
         if (el) el.style.display = s === strat ? 'block' : 'none';
     });
@@ -4476,7 +4433,7 @@ function renderMacroNarrative(fred, mkt) {
         if (vix > 28)
             parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> indicates a <strong>crisis-level fear regime</strong> — expect wide bid/ask spreads, momentum overrides, and elevated false-signal rates for residual mean reversion.`);
         else if (vix > 18)
-            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> flags <strong>elevated uncertainty</strong>. The DRL risk budget likely scaled down gross exposure; monitor fill quality closely.`);
+            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> flags <strong>elevated uncertainty</strong>. Risk-off overlays may trim gross exposure; monitor fill quality closely.`);
         else
             parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> reflects <strong>calm conditions</strong> — low implied vol typically widens the opportunity set for statistical arbitrage.`);
     }
@@ -5736,7 +5693,6 @@ function renderUtilPlan(summary) {
   .pill-btn[data-strategy="all"].active     { background: var(--txt) !important; border-color: var(--txt) !important; }
   .pill-btn[data-strategy="sticks"].active  { background: var(--teal) !important;   border-color: var(--teal) !important; }
   .pill-btn[data-strategy="markowitz"].active{ background: var(--blue) !important;   border-color: var(--blue) !important; }
-  .pill-btn[data-strategy="drl"].active     { background: var(--orange) !important; border-color: var(--orange) !important; }
   .pill-btn[data-strategy="carry"].active   { background: #9d7bff !important;        border-color: #9d7bff !important; }
 
   /* Inner + overview sub-tabs → text index with amber underline */
@@ -5846,7 +5802,6 @@ function renderUtilPlan(summary) {
   .strat-overview-card:hover { transform: none !important; }
   .strat-overview-card.active-tga,
   .strat-overview-card.active-markowitz,
-  .strat-overview-card.active-drl,
   .strat-overview-card.active-carry {
       box-shadow: inset 2px 0 0 var(--amber), inset 0 1px 0 rgba(255,255,255,0.035) !important;
   }
