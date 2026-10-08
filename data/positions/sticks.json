@@ -1,7 +1,7 @@
 {
   "as_of": "2026-10-06",
   "cash": 12718.419635,
-  "equity_estimate": 9884.729678334961,
+  "equity_estimate": 9932.00956267334,
   "last_run_id": "2026-10-08_sticks_live",
   "open_orders": [],
   "pending_orders": [],
@@ -9,7 +9,7 @@
     {
       "avg_cost": 205.046369,
       "entry_date": "2026-09-21",
-      "last_price": 185.740005,
+      "last_price": 178.449997,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "COIN"
@@ -17,7 +17,7 @@
     {
       "avg_cost": 1894.083247,
       "entry_date": "2026-09-23",
-      "last_price": 1660.459961,
+      "last_price": 1692.420044,
       "shares": -1,
       "strategy": "sticks",
       "ticker": "SNDK"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 1050.484825,
       "entry_date": "2026-09-24",
-      "last_price": 1045.560059,
+      "last_price": 1088.0,
       "shares": 1,
       "strategy": "sticks",
       "ticker": "MU"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 126.741221,
       "entry_date": "2026-09-25",
-      "last_price": 112.5,
+      "last_price": 113.120003,
       "shares": -7,
       "strategy": "sticks",
       "ticker": "INTC"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 542.829775,
       "entry_date": "2026-10-02",
-      "last_price": 530.27002,
+      "last_price": 520.650024,
       "shares": -1,
       "strategy": "sticks",
       "ticker": "AMAT"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 349.755,
       "entry_date": "2026-10-02",
-      "last_price": 333.890015,
+      "last_price": 329.51001,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "LRCX"
@@ -57,7 +57,7 @@
     {
       "avg_cost": 695.276331,
       "entry_date": "2026-10-06",
-      "last_price": 695.460022,
+      "last_price": 681.77002,
       "shares": 1,
       "strategy": "sticks",
       "ticker": "FICO"

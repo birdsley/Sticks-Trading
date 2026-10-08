@@ -6,7 +6,7 @@
     "carry"
   ],
   "order_counts": {
-    "sticks": 0,
+    "sticks": 4,
     "markowitz": 0,
     "carry": 0
   },
@@ -16,14 +16,14 @@
     "carry": 0
   },
   "equity": {
-    "sticks": 9884.729678334961,
-    "markowitz": 10569.99330240097,
-    "carry": 9824.62
+    "sticks": 9932.00956267334,
+    "markowitz": 10563.575282629394,
+    "carry": 9812.42
   },
-  "total_equity": 30279.34,
-  "total_orders": 0,
+  "total_equity": 30308.0,
+  "total_orders": 4,
   "total_fills": 0,
-  "elapsed_s": 221.0,
+  "elapsed_s": 187.6,
   "errors": [],
   "status": "ok"
 }
