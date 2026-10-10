@@ -1,16 +1,16 @@
 {
   "title": "FOMC Statement Hawk\u2013Dove Score (NLP)",
-  "generated": "2026-08-01 13:42",
-  "source_sig": "2026-07-29",
-  "n": 7,
-  "asof": "2026-07-29",
+  "generated": "2026-10-10 17:12",
+  "source_sig": "2026-09-16",
+  "n": 8,
+  "asof": "2026-09-16",
   "method": "Finance hawk/dove lexicon over scraped FOMC statements; net = (hawk\u2212dove)/(hawk+dove) \u2208 [\u22121,+1]. FinBERT is the upgrade path.",
   "source": "federalreserve.gov FOMC statements (keyless) + SPY (yfinance).",
   "latest": {
-    "date": "2026-07-29",
-    "net": 0.556,
+    "date": "2026-09-16",
+    "net": 0.5,
     "action": "hold",
-    "hawk": 7,
+    "hawk": 6,
     "dove": 2
   },
   "series": [
@@ -20,7 +20,7 @@
       "dove": 3,
       "net": 0.455,
       "action": "hold",
-      "spy": 454.8779602050781
+      "spy": 453.75115966796875
     },
     {
       "date": "2024-09-18",
@@ -28,7 +28,7 @@
       "dove": 9,
       "net": -0.636,
       "action": "cut",
-      "spy": 548.4171752929688
+      "spy": 547.0587158203125
     },
     {
       "date": "2024-12-18",
@@ -36,7 +36,7 @@
       "dove": 7,
       "net": -0.556,
       "action": "cut",
-      "spy": 574.4784545898438
+      "spy": 573.0554809570312
     },
     {
       "date": "2025-03-19",
@@ -44,7 +44,7 @@
       "dove": 3,
       "net": -0.2,
       "action": "hold",
-      "spy": 557.5842895507812
+      "spy": 556.2030029296875
     },
     {
       "date": "2025-05-07",
@@ -52,7 +52,7 @@
       "dove": 2,
       "net": 0.2,
       "action": "hold",
-      "spy": 553.3645629882812
+      "spy": 551.9938354492188
     },
     {
       "date": "2026-06-17",
@@ -60,7 +60,7 @@
       "dove": 0,
       "net": 1.0,
       "action": "hold",
-      "spy": 739.0560302734375
+      "spy": 737.225341796875
     },
     {
       "date": "2026-07-29",
@@ -68,7 +68,15 @@
       "dove": 2,
       "net": 0.556,
       "action": "hold",
-      "spy": 729.4600219726562
+      "spy": 727.6531372070312
+    },
+    {
+      "date": "2026-09-16",
+      "hawk": 6,
+      "dove": 2,
+      "net": 0.5,
+      "action": "hold",
+      "spy": 752.1821899414062
     }
   ],
   "lexicon": {
