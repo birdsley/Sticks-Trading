@@ -1958,7 +1958,7 @@
     <!-- Loading -->
     <div id="intradayLoading" style="display:none;" class="chart-container">
         <div class="no-data-message" style="padding:40px 20px;">
-            <div style="color:#00d4aa;margin-bottom:12px;">Loading minute data…</div>
+            <div id="intradayLoadingText" style="color:var(--teal);margin-bottom:12px;">Loading minute data…</div>
         </div>
     </div>
 
@@ -1984,7 +1984,7 @@
             <div class="chart-container">
                 <div class="chart-header">
                     <div class="chart-title">Rolling volatility</div>
-                    <div class="chart-subtitle">15-minute realized vol</div>
+                    <div class="chart-subtitle" id="intradayVolSub">Realized vol over the last 15 bars</div>
                 </div>
                 <div id="intradayVolatilityChart" style="height:280px;"></div>
             </div>
@@ -3723,19 +3723,57 @@ async function fetchGzCSV(url) {
     });
 }
 
-// Scan backward up to 45 calendar days to find the most recent day with minute data
+// ── Minute-file loading: one cached request per ticker-day, fetched in parallel ──
+// Dates are stepped in UTC on plain YYYY-MM-DD strings (local-midnight Date objects picked the
+// wrong day for viewers east of UTC), and "today" is New York's date.
+const MINUTE_CACHE = new Map();          // "ticker/YYYY-MM-DD" → Promise<rows | null>
+const MINUTE_CACHE_MAX = 600;
+const isoUTC = ms => new Date(ms).toISOString().slice(0, 10);
+const todayNY = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date());
+
+function weekdaysBetween(fromIso, toIso) {            // inclusive, oldest first
+    const out = [], end = Date.parse(toIso + 'T00:00:00Z');
+    for (let t = Date.parse(fromIso + 'T00:00:00Z'); t <= end; t += 864e5) {
+        const dow = new Date(t).getUTCDay();
+        if (dow !== 0 && dow !== 6) out.push(isoUTC(t));
+    }
+    return out;
+}
+
+function getMinuteDay(ticker, ds) {
+    const k = ticker + '/' + ds;
+    if (!MINUTE_CACHE.has(k)) {
+        if (MINUTE_CACHE.size >= MINUTE_CACHE_MAX) MINUTE_CACHE.delete(MINUTE_CACHE.keys().next().value);
+        MINUTE_CACHE.set(k, fetchGzCSV(`data/minute/${ticker}/${ds}.csv.gz`)
+            .catch(() => null).then(r => (r && r.length > 1) ? r : null));
+    }
+    return MINUTE_CACHE.get(k);
+}
+
+// Run fn over items with at most `limit` requests in flight; results keep input order.
+async function mapLimit(items, limit, fn, onProgress) {
+    const out = new Array(items.length);
+    let next = 0, done = 0;
+    const worker = async () => {
+        while (next < items.length) {
+            const k = next++;
+            out[k] = await fn(items[k]);
+            done++;
+            if (onProgress) onProgress(done, items.length);
+        }
+    };
+    await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+    return out;
+}
+
+// Most recent day with minute data in the last 45 calendar days (10 days checked at a time).
 async function findMostRecentMinuteData(ticker) {
-    const today = new Date();
-    for (let i = 0; i < 45; i++) {
-        const d = new Date(today);
-        d.setDate(d.getDate() - i);
-        const dow = d.getDay();
-        if (dow === 0 || dow === 6) continue; // skip weekends
-        const dateStr = d.toISOString().split('T')[0];
-        try {
-            const resp = await fetch(`data/minute/${ticker}/${dateStr}.csv.gz`, { method: 'HEAD' });
-            if (resp.ok) return dateStr;
-        } catch(e) {}
+    const days = weekdaysBetween(isoUTC(Date.parse(todayNY() + 'T00:00:00Z') - 45 * 864e5), todayNY()).reverse();
+    for (let i = 0; i < days.length; i += 10) {
+        const batch = days.slice(i, i + 10);
+        const rows = await Promise.all(batch.map(d => getMinuteDay(ticker, d)));
+        const hit = rows.findIndex(r => r);
+        if (hit >= 0) return batch[hit];
     }
     return null;
 }
@@ -3782,30 +3820,59 @@ function setTickerRange(r) {
     if (selectedTicker) loadIntradayData();
 }
 
-// Load up to `needDays` trading days of minute files backward from endDate.
-// Stops early after a run of consecutive misses (we've reached the start of history).
-async function loadMultiDayMinute(ticker, endDate, needDays) {
-    const dayFiles = [];   // newest-first
-    let loadedDays = 0, misses = 0, attempts = 0;
-    let d = endDate ? new Date(endDate + 'T00:00:00') : new Date();
-    while (loadedDays < needDays && attempts < needDays + 15 && misses < 8) {
-        const dow = d.getDay();
-        if (dow !== 0 && dow !== 6) {
-            attempts++;
-            const ds   = d.toISOString().split('T')[0];
-            const rows = await fetchGzCSV(`data/minute/${ticker}/${ds}.csv.gz`).catch(() => null);
-            if (rows && rows.length > 1) { dayFiles.push(rows); loadedDays++; misses = 0; }
-            else misses++;
-        }
-        d.setDate(d.getDate() - 1);
-    }
-    return { rows: dayFiles.reverse().flat(), loadedDays };   // chronological
+// Load the last `needDays` trading days of minute files (all of them for Max), 8 requests at a
+// time. Holidays and missing days simply come back empty.
+async function loadMultiDayMinute(ticker, needDays, onProgress) {
+    let dates = weekdaysBetween(MINUTE_INCEPTION, todayNY());
+    if (needDays < RANGE_DAYS.max) dates = dates.slice(-(Math.ceil(needDays * 1.45) + 6));
+    const res = await mapLimit(dates, 8, d => getMinuteDay(ticker, d), onProgress);
+    let days = dates.map((d, i) => res[i]).filter(Boolean);
+    if (needDays < RANGE_DAYS.max) days = days.slice(-needDays);
+    return { rows: days.flat(), loadedDays: days.length };
 }
+
+// Bar size for a range: the finest of these that keeps the chart under ~2,000 bars, judged on
+// the minute bars actually loaded (390 a session for stocks, ~1,380 for futures). 390 = daily.
+const BAR_STEPS = [1, 5, 15, 30, 60, 390];
+const BAR_LABEL = { 1: '1-minute', 5: '5-minute', 15: '15-minute', 30: '30-minute', 60: '1-hour', 390: 'daily' };
+const pickBarMinutes = nMinuteBars => BAR_STEPS.find(m => nMinuteBars / m <= 2000) || 390;
+
+// Aggregate minute bars into m-minute bars, aligned to each day's first bar (the open).
+function aggregateBars(T, O, H, L, C, V, m) {
+    if (m === 1) return { T, O, H, L, C, V };
+    const out = { T: [], O: [], H: [], L: [], C: [], V: [] };
+    let key = null, curDay = null, dayOpen = 0;
+    for (let i = 0; i < T.length; i++) {
+        const t = String(T[i]), day = t.slice(0, 10);
+        const ms = Date.parse(t.replace(' ', 'T'));
+        if (day !== curDay) { curDay = day; dayOpen = ms; }
+        const k = m >= 390 ? day : day + '|' + Math.floor((ms - dayOpen) / 60000 / m);
+        if (k !== key) {
+            key = k;
+            out.T.push(m >= 390 ? day : T[i]); out.O.push(O[i]); out.H.push(H[i]); out.L.push(L[i]); out.C.push(C[i]); out.V.push(V[i]);
+        } else {
+            const j = out.T.length - 1;
+            if (H[i] > out.H[j]) out.H[j] = H[i];
+            if (L[i] < out.L[j]) out.L[j] = L[i];
+            out.C[j] = C[i]; out.V[j] += V[i];
+        }
+    }
+    return out;
+}
+
+const NY_BAR_FMT = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit',
+                                                     day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+const nyBarLabel = t => NY_BAR_FMT.format(new Date(Date.parse(String(t).replace(' ', 'T')))).replace(', ', ' ');
+
+let intradayRequest = 0;   // a newer load supersedes an older one still in flight
 
 async function loadIntradayData() {
     if (!selectedTicker) return;
     const ticker        = selectedTicker.toLowerCase();
     const requestedDate = document.getElementById('minuteDate').value;
+    const req           = ++intradayRequest;
+    const loadingText   = document.getElementById('intradayLoadingText');
+    if (loadingText) loadingText.textContent = 'Loading minute data…';
 
     document.getElementById('noIntradayData').style.display  = 'none';
     document.getElementById('intradayResults').style.display = 'none';
@@ -3815,20 +3882,19 @@ async function loadIntradayData() {
 
     if (tickerRange === '1d') {
         // Single intraday day: exact requested date, else most recent available
-        if (requestedDate) {
-            rows = await fetchGzCSV(`data/minute/${ticker}/${requestedDate}.csv.gz`).catch(() => null);
-        }
-        if (!rows || rows.length < 2) {
+        if (requestedDate) rows = await getMinuteDay(ticker, requestedDate);
+        if (!rows) {
             usedDate = await findMostRecentMinuteData(ticker);
-            if (usedDate) {
-                rows = await fetchGzCSV(`data/minute/${ticker}/${usedDate}.csv.gz`).catch(() => null);
-            }
+            if (usedDate) rows = await getMinuteDay(ticker, usedDate);
         }
+        if (req !== intradayRequest) return;
     } else {
         // Multi-day: concatenate the last N trading days of minute files
         const need   = RANGE_DAYS[tickerRange];
-        const anchor = (await findMostRecentMinuteData(ticker)) || requestedDate;
-        const res    = await loadMultiDayMinute(ticker, anchor, need);
+        const res    = await loadMultiDayMinute(ticker, need, (done, total) => {
+            if (loadingText && req === intradayRequest) loadingText.textContent = `Loading minute data… ${done} of ${total} days`;
+        });
+        if (req !== intradayRequest) return;
         // 'max' renders whatever exists; fixed ranges require ~half the requested days,
         // else this ticker hasn't accrued enough history → show the message.
         const enoughData = tickerRange === 'max'
@@ -3886,7 +3952,7 @@ async function loadIntradayData() {
     const vCol   = col(['volume']);
 
     // Build clean arrays, skip bars with no close price
-    const T=[], O=[], H=[], L=[], C=[], V=[];
+    let T=[], O=[], H=[], L=[], C=[], V=[];
     rows.forEach(r => {
         const c = parseFloat(r[cCol]);
         if (!c || isNaN(c)) return;
@@ -3921,6 +3987,18 @@ async function loadIntradayData() {
 
     // Session return (first open → last close)
     const sessionRet = (C[C.length-1] - O[0]) / O[0] * 100;
+
+    // The statistics above use every minute bar. The charts below use bars sized to the
+    // range (minute bars for 1D, hourly or coarser for long ranges) so Plotly stays fast;
+    // the volume profile keeps the raw minutes.
+    const rawH = H, rawL = L, rawC = C, rawV = V;
+    const nDays = new Set(T.map(t => String(t).slice(0, 10))).size;
+    const barMin = tickerRange === '1d' ? 1 : pickBarMinutes(T.length);
+    ({ T, O, H, L, C, V } = aggregateBars(T, O, H, L, C, V, barMin));
+    // Bars go on a category axis labelled in New York time ("2026-10-08 09:30", or the day for
+    // daily bars): consecutive bars sit side by side, so nights and weekends vanish without
+    // Plotly's rangebreaks, which made the chart several times slower to draw.
+    T = T.map(t => barMin >= 390 ? t : nyBarLabel(t));
 
     // 20-bar SMA + Bollinger Bands (±1σ)
     const W = 20;
@@ -3988,13 +4066,13 @@ async function loadIntradayData() {
         : (usedDate || spanDays[0] || '');
     document.getElementById('intradayChartTitle').textContent = `${selectedTicker} · ${dateLabel}`;
     document.getElementById('intradayChartSub').textContent   =
-        'Candlesticks with VWAP & Bollinger Bands' +
-        (usedDate && usedDate !== requestedDate ? ` · Fallback to ${usedDate} (no data on ${requestedDate})` : '');
+        `Candlesticks with VWAP & Bollinger Bands · ${BAR_LABEL[barMin]} bars` +
+        (tickerRange === '1d' && usedDate && usedDate !== requestedDate ? ` · Fallback to ${usedDate} (no data on ${requestedDate})` : '');
 
     // Day-boundary vertical markers (dashed lines where date changes)
     const dayShapes = [];
     let lastDay = null;
-    T.forEach(t => {
+    if (barMin < 390 && nDays <= 30) T.forEach(t => {
         const day = String(t).slice(0, 10);
         if (lastDay && day !== lastDay) {
             dayShapes.push({
@@ -4012,7 +4090,7 @@ async function loadIntradayData() {
         .flatMap(s => state.orders?.[s] || [])
         .filter(o => (o.ticker || '').toUpperCase() === upperTk && o.trade_date);
     const spanFirst = spanDays[0], spanLast = spanDays[spanDays.length - 1];
-    const yHi = Math.max(...H);
+    const yHi = H.reduce((a, b) => (b > a ? b : a), -Infinity);
     const tradeShapes = [], tradeMx = [], tradeMy = [], tradeText = [], tradeColors = [], tradeSyms = [];
     tradeOrders.forEach(o => {
         const d = String(o.trade_date).slice(0, 10);
@@ -4032,24 +4110,20 @@ async function loadIntradayData() {
         tradeText.push(`${label} · ${d}${px != null ? ` · $${Number(px).toFixed(2)}` : ''}`);
     });
 
-    // rangebreaks removes overnight gaps (EDT = UTC-4: market 13:30–20:00 UTC)
-    const rangeBreaks = [
-        { bounds: ['sat', 'mon'] },
-        { bounds: [20, 13.5], pattern: 'hour' }
-    ];
+    const timeAxis = { type: 'category', nticks: 8, tickangle: 0, showgrid: false, automargin: true };
 
     const BG = '#0f0f0f', GRID = '#1f1f1f';
     const subLayout = (yTitle) => ({
         paper_bgcolor: BG, plot_bgcolor: BG,
         font: { color: '#e0e0e0', size: 10 },
-        xaxis: { gridcolor: GRID, color: '#808080', type: 'date', rangebreaks: rangeBreaks },
+        xaxis: { gridcolor: GRID, color: '#808080', ...timeAxis },
         yaxis: { gridcolor: GRID, color: '#808080', title: yTitle },
         margin: { l: 55, r: 10, t: 10, b: 35 },
         showlegend: false
     });
 
     // ── Main chart ──
-    Plotly.newPlot('intradayChart', [
+    Plotly.react('intradayChart', [
         {
             type:'candlestick', x:T, open:O, high:H, low:L, close:C, name:selectedTicker,
             increasing:{ line:{color:'#00d4aa',width:1}, fillcolor:'rgba(0,212,170,0.22)' },
@@ -4058,7 +4132,7 @@ async function loadIntradayData() {
         { type:'scatter', mode:'lines', x:T, y:Array(T.length).fill(vwap),
           name:'VWAP', line:{color:'#ff9f43',width:2} },
         { type:'scatter', mode:'lines', x:smaT, y:smaY,
-          name:'20-min SMA', line:{color:'#00a8ff',width:1.5} },
+          name:`20-bar SMA (${BAR_LABEL[barMin]})`, line:{color:'#00a8ff',width:1.5} },
         { type:'scatter', mode:'lines', x:smaT, y:upperY,
           name:'+1σ', line:{color:'#555',width:1,dash:'dot'}, showlegend:false },
         { type:'scatter', mode:'lines', x:smaT, y:lowerY,
@@ -4071,7 +4145,7 @@ async function loadIntradayData() {
     ], {
         paper_bgcolor: BG, plot_bgcolor: BG,
         font: { color:'#e0e0e0', size:11 },
-        xaxis: { gridcolor:GRID, color:'#808080', type:'date', rangebreaks: rangeBreaks },
+        xaxis: { gridcolor:GRID, color:'#808080', ...timeAxis, rangeslider: { visible: false } },
         yaxis: { gridcolor:GRID, color:'#808080', title:'Price ($)' },
         margin: { l:60, r:20, t:20, b:40 },
         showlegend: true,
@@ -4087,20 +4161,24 @@ async function loadIntradayData() {
         for (let j=i-volW+1;j<=i;j++) if(C[j-1]>0) rets.push(Math.log(C[j]/C[j-1]));
         if (rets.length) {
             rvT.push(T[i]);
-            rvY.push(Math.sqrt(rets.reduce((s,r)=>s+r*r,0)/rets.length * 252*390)*100);
+            rvY.push(Math.sqrt(rets.reduce((s,r)=>s+r*r,0)/rets.length * 252*390/barMin)*100);
         }
     }
-    Plotly.newPlot('intradayVolatilityChart', [{
+    const volSub = document.getElementById('intradayVolSub');
+    if (volSub) volSub.textContent = `Realized vol over the last 15 bars (${BAR_LABEL[barMin]}), annualized`;
+    Plotly.react('intradayVolatilityChart', [{
         type:'scatter', mode:'lines', fill:'tozeroy',
         x:rvT, y:rvY, line:{color:'#00d4aa',width:2}, fillcolor:'rgba(0,212,170,0.15)'
     }], subLayout('Volatility (%)'), { responsive:true, displayModeBar:false });
 
     // ── Sub-chart 2: Volume Profile (horizontal bars by price level) ──
-    const pMin=Math.min(...L), pMax=Math.max(...H), nB=30, bSz=(pMax-pMin)/nB||1;
+    let pMin=Infinity, pMax=-Infinity;
+    for (let i=0;i<rawC.length;i++){ if(rawL[i]<pMin) pMin=rawL[i]; if(rawH[i]>pMax) pMax=rawH[i]; }
+    const nB=30, bSz=(pMax-pMin)/nB||1;
     const bkt={};
-    T.forEach((_,i)=>{ const b=Math.floor((C[i]-pMin)/bSz)*bSz+pMin; bkt[b]=(bkt[b]||0)+V[i]; });
+    rawC.forEach((c,i)=>{ const b=Math.floor((c-pMin)/bSz)*bSz+pMin; bkt[b]=(bkt[b]||0)+rawV[i]; });
     const bkts=Object.keys(bkt).map(Number).sort((a,b)=>a-b);
-    Plotly.newPlot('intradayVolumeProfileChart', [{
+    Plotly.react('intradayVolumeProfileChart', [{
         type:'bar', orientation:'h',
         x:bkts.map(b=>bkt[b]), y:bkts,
         marker:{color:'#00d4aa', line:{color:'#00a8ff',width:0.5}}
@@ -4115,7 +4193,7 @@ async function loadIntradayData() {
     const intercept=(sy-slope*sx)/n||0;
     const trendY=zY.map((_,i)=>slope*i+intercept);
 
-    Plotly.newPlot('intradayMeanRevChart', [
+    Plotly.react('intradayMeanRevChart', [
         { type:'bar', x:zT, y:zY, name:'Z-Score',
           marker:{color:zY.map(z=>`rgba(0,168,255,${Math.min(0.9,0.3+Math.abs(z)*0.2)})`)} },
         { type:'scatter', mode:'lines', x:zT, y:trendY,
