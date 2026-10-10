@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Trend + Carry — Cross-Asset Decision Manifold</title>
+<title>Trend + Carry: cross-asset decision manifold</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html,body { height:100%; }
@@ -26,9 +26,9 @@
   carry tilt: duration ∝ (10y − 3m) slope
 </div>
 <div id="hud">
-  <div><b>Cross-asset trend + carry</b> — 24 ETFs, multi-horizon TSMOM + carry, risk-parity blended</div>
-  <div class="leg"><div class="dot" style="background:#00e3a4;"></div>LONG — positive trend &nbsp;·&nbsp; size ∝ inverse volatility</div>
-  <div class="leg"><div class="dot" style="background:#ff5470;"></div>SHORT — negative trend</div>
+  <div><b>Cross-asset trend + carry</b>: 24 ETFs, multi-horizon TSMOM + carry, risk-parity blended</div>
+  <div class="leg"><div class="dot" style="background:#00e3a4;"></div>LONG: positive trend &nbsp;·&nbsp; size ∝ inverse volatility</div>
+  <div class="leg"><div class="dot" style="background:#ff5470;"></div>SHORT: negative trend</div>
   <div class="leg"><div class="dot" style="background:#9d7bff;"></div>risk-parity flow → book &nbsp;·&nbsp; <span id="net">net —</span></div>
 </div>
 <script>
@@ -80,10 +80,10 @@ function proj(x,y,z){
 
 // ── Regimes ──────────────────────────────────────────────────────────────
 const REGIMES=[
-  {name:'TRENDING — broad risk-on, curve steep', dur:430, eq:+0.6, du:+0.2, slope:+1},
-  {name:'DEFENSIVE — bonds + gold lead',          dur:360, eq:-0.2, du:+0.7, slope:+0.2},
-  {name:'CRISIS — equities short, carry cushions', dur:340, eq:-1.0, du:+0.9, slope:-0.6},
-  {name:'RECOVERY — trend re-engages long',        dur:400, eq:+0.7, du:+0.1, slope:+0.7},
+  {name:'TRENDING: broad risk-on, curve steep', dur:430, eq:+0.6, du:+0.2, slope:+1},
+  {name:'DEFENSIVE: bonds + gold lead',          dur:360, eq:-0.2, du:+0.7, slope:+0.2},
+  {name:'CRISIS: equities short, carry cushions', dur:340, eq:-1.0, du:+0.9, slope:-0.6},
+  {name:'RECOVERY: trend re-engages long',        dur:400, eq:+0.7, du:+0.1, slope:+0.7},
 ];
 let reg=0, regT=0, slope=1, flash=0;
 

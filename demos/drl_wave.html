@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DRL Vol — Implied Volatility Surface</title>
+<title>DRL Vol: implied volatility surface</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #07070f; overflow: hidden; font-family: -apple-system,BlinkMacSystemFont,sans-serif; }
@@ -152,9 +152,9 @@ function etfToGrid(k,T) {
 
 // ── Regimes ───────────────────────────────────────────────────
 const REGIMES = [
-  {name:'Bull — Low Vol',          color:'#00d4aa',vScale:0.82,w:[0.30,0.18,0.04,0.07,0.09,0.07,0.04,0.12,0.09]},
-  {name:'Stressed — Elevated Vol', color:'#ff9f43',vScale:1.18,w:[0.14,0.10,0.18,0.14,0.05,0.08,0.13,0.10,0.08]},
-  {name:'Crisis — Capital Pres.',  color:'#ff4757',vScale:1.48,w:[0.04,0.04,0.26,0.16,0.02,0.04,0.16,0.08,0.20]},
+  {name:'Bull: low vol',          color:'#00d4aa',vScale:0.82,w:[0.30,0.18,0.04,0.07,0.09,0.07,0.04,0.12,0.09]},
+  {name:'Stressed: elevated vol', color:'#ff9f43',vScale:1.18,w:[0.14,0.10,0.18,0.14,0.05,0.08,0.13,0.10,0.08]},
+  {name:'Crisis: capital pres.',  color:'#ff4757',vScale:1.48,w:[0.04,0.04,0.26,0.16,0.02,0.04,0.16,0.08,0.20]},
 ];
 let regIdx=0, regTimer=200;
 let curW=[...REGIMES[0].w];

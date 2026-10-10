@@ -1261,7 +1261,7 @@
         </div>
         <div class="logo-text">
             <h1>Sticks Trading</h1>
-            <p>Performance Dashboard — Paper Trading</p>
+            <p>Performance dashboard · paper trading</p>
         </div>
     </div>
     <div class="header-right">
@@ -1282,6 +1282,7 @@
 <div class="main-tabs">
     <div class="main-tab active" onclick="switchMainTab(event,'overview')">Overview</div>
     <div class="main-tab"        onclick="switchMainTab(event,'performance')">Performance &amp; Analytics</div>
+    <div class="main-tab"        onclick="switchMainTab(event,'research')">Research</div>
     <div class="main-tab"        onclick="switchMainTab(event,'utilities')">Utilities</div>
     <div class="main-tab"        onclick="switchMainTab(event,'ticker')">Ticker Analysis</div>
     <div class="main-tab"        onclick="switchMainTab(event,'macro')">Macro</div>
@@ -1291,12 +1292,14 @@
 <!-- ══════════════════════════════════════════════ OVERVIEW TAB ══ -->
 <div id="overview-tab" class="tab-content active">
 
-    <!-- Hero -->
-    <div class="overview-hero">
-        <div class="overview-badge">Alpha Experiment</div>
-        <h2>Trading Research Suite</h2>
-        <p>This quantitative experiment analyzes the limits of informational edge using point-in-time daily S&amp;P 500 OHLCV data. Instead of focusing on execution latency, the research suite evaluates whether structural signals derived from graph topology, portfolio theory, and reinforcement learning retain statistical significance at daily resolution. Additionally, it examines what the failure modes of these signals reveal about contemporary market microstructure.</p>
-    </div>
+    <header class="pg-hero">
+        <div class="pg-tags">
+            <span class="pg-eyebrow-box">ALPHA EXPERIMENT</span>
+            <span class="pg-mono">DAILY BARS · PAPER TRADING SINCE 2026-06-02</span>
+        </div>
+        <h2 class="pg-h1">Trading Research Suite</h2>
+        <p class="pg-lede">This project tests the limits of informational edge in point-in-time daily S&amp;P 500 OHLCV data. It does not compete on execution speed. It asks whether structural signals from graph topology, portfolio theory and reinforcement learning keep their statistical significance at daily resolution, and what the ways they fail say about market microstructure.</p>
+    </header>
 
     <!-- Strategy cards + Canvas -->
     <div class="overview-split">
@@ -1316,7 +1319,7 @@
                     <span class="strategy-section-badge sticks">Sticks TGA</span>
                     <span class="strat-card-freq">Daily &nbsp;·&nbsp; Mean Reversion</span>
                 </div>
-                <div class="strat-card-desc">This strategy constructs a Minimum Spanning Tree (MST) on the correlation-distance matrix of S&amp;P 500 daily returns and quantifies the extent to which each stock's return deviates from its expected MST position. The resulting residual serves as the tradable signal; stocks that differ substantially from the graph tend to mean-revert over a 3 to 7 day horizon. Trade entry is determined by a z-score threshold and XGBoost probability, with position sizing based on ATR-inverse volatility parity.</div>
+                <div class="strat-card-desc">This strategy builds a Minimum Spanning Tree (MST) on the correlation-distance matrix of S&amp;P 500 daily returns and measures how far each stock's return sits from its expected MST position. That residual is the trading signal: stocks that stray far from the graph tend to mean-revert over 3 to 7 days. Trade entry is determined by a z-score threshold and XGBoost probability, with position sizing based on ATR-inverse volatility parity.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">S&amp;P 500 PIT Universe</span>
                     <span class="strat-pill">MST Heat Diffusion</span>
@@ -1331,12 +1334,12 @@
                     <span class="strategy-section-badge carry">Trend + Carry</span>
                     <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Live since 2026-06-02</span></span>
                 </div>
-                <div class="strat-card-desc">A diversified cross-asset book on ~25 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones across 3/6/12-month horizons, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. On top, a gradient-boosted (XGBoost) meta-model sizes or vetoes each trend bet, and a regime overlay trims exposure when markets turn risk-off — which roughly halves drawdowns — with the whole book held to a steady volatility target. The blend stays positive in every major crisis window and keeps near-zero correlation to the S&P.</div>
+                <div class="strat-card-desc">A diversified cross-asset book on ~23 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones, sized by how statistically strong each trend is (the Newey-West t-statistic of returns over 3, 6 and 12 months, capped, following Baltas &amp; Kosowski) rather than by its sign alone, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. On top, a gradient-boosted (XGBoost) meta-model sizes or vetoes each trend bet, and a regime overlay trims exposure when markets turn risk-off, which roughly halves drawdowns. The whole book is held to a steady volatility target. The book loses little in crisis windows (worst −6.4%, the 2020 COVID crash) and keeps a low correlation to the S&P.</div>
                 <div class="strat-card-pills">
-                    <span class="strat-pill">~25-ETF Cross-Asset</span>
+                    <span class="strat-pill">~23-ETF Cross-Asset</span>
                     <span class="strat-pill">Trend + Yield-Curve Carry</span>
-                    <span class="strat-pill">Validated Sharpe +1.03</span>
-                    <span class="strat-pill">Corr to S&amp;P −0.04 · Crisis-Positive</span>
+                    <span class="strat-pill">Backtest Sharpe +1.24 · 2007–2026 · 8% vol</span>
+                    <span class="strat-pill">Corr to S&amp;P +0.17 · MaxDD −12.5%</span>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1346,7 +1349,7 @@
                     <span class="strategy-section-badge markowitz">Markowitz</span>
                     <span class="strat-card-freq">Weekly &nbsp;·&nbsp; Portfolio Optimization</span>
                 </div>
-                <div class="strat-card-desc">This approach applies classical mean-variance optimization to a universe comprising S&amp;P 500 stocks and selected commodity futures (gold, silver, crude oil, natural gas, corn, wheat, and soy). It estimates a Ledoit-Wolf-shrunk covariance matrix over a 252-day rolling window and solves for the maximum Sharpe ratio, subject to long-only, full-investment, and 10% per-position constraints. The portfolio is rebalanced weekly at the market open.</div>
+                <div class="strat-card-desc">Classical mean-variance optimization over S&amp;P 500 stocks and a set of commodity futures (gold, silver, crude oil, natural gas, corn, wheat, and soy). It estimates a Ledoit-Wolf-shrunk covariance matrix over a 252-day rolling window and solves for the maximum Sharpe ratio, subject to long-only, full-investment, and 10% per-position constraints. The portfolio is rebalanced weekly at the market open.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">S&amp;P 500 + Commodities</span>
                     <span class="strat-pill">Ledoit-Wolf Shrinkage</span>
@@ -1362,7 +1365,7 @@
             <div class="overview-canvas-wrapper">
                 <div class="overview-canvas-header">
                     <div class="canvas-dot-ind" id="canvasDot"></div>
-                    <span class="canvas-label-text" id="canvasLabelText">MST Network — Topological Graph Arbitrage</span>
+                    <span class="canvas-label-text" id="canvasLabelText">MST network: topological graph arbitrage</span>
                 </div>
                 <div style="position:relative; height:420px;">
                     <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
@@ -1375,28 +1378,28 @@
 
     <!-- Manifesto -->
     <div class="overview-manifesto">
-        <div class="manifesto-title">What We're Testing</div>
-        <div class="manifesto-subtitle">Institutional trading infrastructure operates at sub-millisecond latency. The use of daily bars is an unwanted yet intentional constraint. The main goal is not to outperform high-frequency trading, but to determine whether structural signals retain statistical significance throughout various macroeconomic regimes and to analyze what their failure modes indicate about market efficiency.</div>
+        <div class="manifesto-title">What we're testing</div>
+        <div class="manifesto-subtitle">Institutional trading systems run at sub-millisecond latency. We use daily bars on purpose, even though they are a handicap. The goal is to find out whether structural signals stay statistically significant across macroeconomic regimes, and what their failures say about market efficiency, rather than to beat high-frequency trading.</div>
         <div class="manifesto-grid">
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 1</span>
-                <h4>Graph Topology as Alpha</h4>
-                <p>Cross-sectional variations from MST-predicted positions are thought to represent temporary mispricing that mean-reverts over a 3 to 7 day horizon. The topological signal is expected to fail gracefully; when ineffective, the residuals disperse randomly rather than reversing, thereby yielding a clear null signal.</p>
+                <h4>Graph topology as alpha</h4>
+                <p>Cross-sectional variations from MST-predicted positions are thought to represent temporary mispricing that mean-reverts over a 3 to 7 day horizon. The topological signal is expected to fail gracefully; when ineffective, the residuals disperse randomly rather than reversing, which gives a clear null signal.</p>
             </div>
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 2</span>
-                <h4>Regime Non-Stationarity</h4>
-                <p>Markets transition among structural states, such as bull, bear, crisis, and neutral, which can be identified through cross-sectional correlation and trailing momentum. Allocating assets based on regime identification, rather than relying on simple extrapolation, is expected to generate diversification alpha beyond that of a naïve buy-and-hold strategy.</p>
+                <h4>Regime non-stationarity</h4>
+                <p>Markets transition among structural states, such as bull, bear, crisis, and neutral, which can be identified through cross-sectional correlation and trailing momentum. Allocating assets based on regime identification, rather than relying on simple extrapolation, is expected to generate diversification alpha beyond that of a plain buy-and-hold strategy.</p>
             </div>
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 3 · Retired</span>
-                <h4>RL as Risk Budget</h4>
+                <h4>RL as a risk budget</h4>
                 <p>A PPO agent was expected to learn a nonlinear risk-scaling policy that beats basic volatility-targeting heuristics on a controlled nine-ETF universe. It did not: fed correctly, its live weights stayed within 2% of equal-weight. The strategy was retired in October 2026 and its defensive role passed to Trend + Carry. Deep RL may return with a richer state space and a broader universe.</p>
             </div>
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 4</span>
-                <h4>Diversification as the Premium</h4>
-                <p>Single-name statistical edges on the S&amp;P have decayed, but cross-asset time-series momentum and carry remain robust on daily data. Blending two lowly-correlated sleeves (trend + carry) across ~25 ETFs is expected to deliver a credible, crisis-positive risk-adjusted return uncorrelated to equities — the diversification premium, not single-stock alpha, is the durable signal under a daily-bar constraint.</p>
+                <h4>Diversification as the premium</h4>
+                <p>Single-name statistical edges on the S&amp;P have decayed, but cross-asset time-series momentum and carry still hold up on daily data. Blending two sleeves with low correlation to each other (trend + carry) across ~25 ETFs is expected to deliver a credible, crisis-positive risk-adjusted return uncorrelated to equities. Under a daily-bar constraint, the lasting signal is the diversification premium rather than single-stock alpha.</p>
             </div>
         </div>
     </div>
@@ -1434,6 +1437,15 @@
 
 <!-- ══════════════════════════════════════════════ PERFORMANCE TAB ══ -->
 <div id="performance-tab" class="tab-content">
+
+    <header class="pg-hero">
+        <div class="pg-tags">
+            <span class="pg-eyebrow-box">PAPER TRADING</span>
+            <span class="pg-mono">$10,000 PER STRATEGY · NEXT-OPEN FILLS · 7 BPS</span>
+        </div>
+        <h2 class="pg-h1">How the live books are doing</h2>
+        <p class="pg-lede">Each strategy started with $10,000 on 2026-06-02 and trades on a simulated broker: orders are decided at the close and filled at the next day’s open with 7 bps of slippage. Trend + Carry’s book changed in v44, so its forward record restarts with the 2026-10-08 session.</p>
+    </header>
 
     <!-- Strategy filter pills -->
     <div class="strategy-filter">
@@ -1487,7 +1499,7 @@
         <div class="chart-container">
             <div class="chart-header">
                 <div>
-                    <div class="chart-title">Equity Curve</div>
+                    <div class="chart-title">Equity curve</div>
                     <div class="chart-subtitle" id="equityChartSubtitle">Cumulative return % vs SPY</div>
                 </div>
             </div>
@@ -1499,7 +1511,7 @@
 
         <div class="allocation-container">
             <div class="alloc-header">
-                <div class="chart-title">Portfolio Allocation</div>
+                <div class="chart-title">Portfolio allocation</div>
                 <div class="chart-subtitle" id="allocDate">—</div>
             </div>
             <div class="total-equity-label">TOTAL EQUITY</div>
@@ -1522,7 +1534,7 @@
         <div class="chart-container">
             <div class="chart-header">
                 <div>
-                    <div class="chart-title" id="holdingsPanelTitle">Open Positions</div>
+                    <div class="chart-title" id="holdingsPanelTitle">Open positions</div>
                     <div class="chart-subtitle" id="holdingsPanelSub">Current holdings for this strategy</div>
                 </div>
                 <a id="holdingsAnalyticsLink" style="font-size:12px;color:#00d4aa;cursor:pointer;text-decoration:none;"
@@ -1537,7 +1549,7 @@
         <div class="chart-container">
             <div class="chart-header">
                 <div>
-                    <div class="chart-title" id="tradeLogTitle">Recent Closed Trades</div>
+                    <div class="chart-title" id="tradeLogTitle">Recent closed trades</div>
                     <div class="chart-subtitle" id="tradeLogSub">Entry &amp; exit prices from orders log · click a ticker to inspect minute data</div>
                 </div>
             </div>
@@ -1555,7 +1567,7 @@
     <div class="diagnostics-container">
         <!-- Strategy return breakdown (donut) -->
         <div class="diagnostic-card">
-            <div class="chart-title" style="margin-bottom:6px;">Strategy Returns</div>
+            <div class="chart-title" style="margin-bottom:6px;">Strategy returns</div>
             <div class="chart-subtitle" style="margin-bottom:14px;">Return distribution across strategies</div>
             <div class="donut-container">
                 <canvas id="strategyDonut"></canvas>
@@ -1565,7 +1577,7 @@
 
         <!-- Daily activity per strategy -->
         <div class="diagnostic-card">
-            <div class="chart-title" style="margin-bottom:6px;">Today's Activity</div>
+            <div class="chart-title" style="margin-bottom:6px;">Today's activity</div>
             <div class="chart-subtitle" style="margin-bottom:14px;">Orders &amp; fills per strategy</div>
             <div class="signal-bars" id="activityBars">
                 <!-- Populated by JS -->
@@ -1589,7 +1601,7 @@
 
     <!-- vs SPY -->
     <div class="benchmark-comparison">
-        <div class="chart-title">vs SPY Benchmark</div>
+        <div class="chart-title">Against the SPY benchmark</div>
         <div class="comparison-stats">
             <div class="comparison-stat">
                 <div class="comparison-stat-label">Return Delta</div>
@@ -1644,7 +1656,7 @@
                     <div class="mini-chart-wrapper"><canvas id="rollingSharpeChart"></canvas></div>
                 </div>
                 <div class="mini-chart-container">
-                    <div class="chart-title">Drawdown Chart</div>
+                    <div class="chart-title">Drawdown</div>
                     <div class="mini-chart-wrapper"><canvas id="drawdownChart"></canvas></div>
                 </div>
             </div>
@@ -1665,19 +1677,19 @@
         <div id="analyticsStrategyContent">
             <div class="strategy-section-header" id="sticksSection">
                 <span class="strategy-section-badge sticks">Sticks TGA</span>
-                <span style="font-size:13px;color:#606060;">Topological Graph Arbitrage — daily mean reversion</span>
+                <span style="font-size:13px;color:#606060;">Topological graph arbitrage, daily mean reversion</span>
             </div>
             <div class="analytics-cards" id="sticksAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="carrySection">
                 <span class="strategy-section-badge carry">Trend + Carry</span>
-                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry — ~25 ETF universe (live since 2026-06-02)</span>
+                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry on a ~25 ETF universe (live since 2026-06-02)</span>
             </div>
             <div class="analytics-cards" id="carryAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="markowitzSection">
                 <span class="strategy-section-badge markowitz">Markowitz</span>
-                <span style="font-size:13px;color:#606060;">Mean-variance optimization — Monday rebalance</span>
+                <span style="font-size:13px;color:#606060;">Mean-variance optimization, rebalanced on Mondays</span>
             </div>
             <div class="analytics-cards" id="markowitzAnalyticsCards"></div>
         </div>
@@ -1685,12 +1697,12 @@
         <!-- Correlation + Compare charts -->
         <div class="chart-row" style="margin-top:24px;">
             <div class="mini-chart-container">
-                <div class="chart-title">Daily Return Correlation</div>
+                <div class="chart-title">Daily return correlation</div>
                 <div class="chart-subtitle" style="margin-bottom:8px;">Between strategies (rolling 63-day)</div>
                 <div class="mini-chart-wrapper"><canvas id="correlationChart"></canvas></div>
             </div>
             <div class="mini-chart-container">
-                <div class="chart-title">Equity Growth by Strategy</div>
+                <div class="chart-title">Equity growth by strategy</div>
                 <div class="chart-subtitle" style="margin-bottom:8px;">Cumulative % return</div>
                 <div class="mini-chart-wrapper"><canvas id="strategyCompareChart"></canvas></div>
             </div>
@@ -1699,7 +1711,7 @@
         <!-- Fill rate -->
         <div class="chart-container" style="margin-top:20px;">
             <div class="chart-header">
-                <div class="chart-title">30-Day Daily Fill Rate</div>
+                <div class="chart-title">30-day fill rate</div>
                 <div class="chart-subtitle">Orders placed vs. fills executed per day (all strategies combined)</div>
             </div>
             <div style="height:260px;"><canvas id="fillRateChart"></canvas></div>
@@ -1710,10 +1722,10 @@
     <div id="ffSection" class="chart-container" style="display:none;margin-top:20px;">
         <div class="chart-header">
             <div>
-                <div class="chart-title">Factor Attribution — Fama-French <span id="ffScopePill"></span></div>
+                <div class="chart-title">Factor attribution: Fama-French <span id="ffScopePill"></span></div>
                 <div class="chart-subtitle">
-                    Each book's returns regressed on equity factors (MKT / SMB / HML / MOM) to separate genuine
-                    <b>alpha</b> from disguised <b>beta</b>. A real diversifier shows market β ≈ 0 and low R²;
+                    Each book's returns regressed on equity factors (MKT / SMB / HML / MOM) to separate alpha
+                    from market beta. A diversifier should show market β ≈ 0 and low R²;
                     SPY lands at β ≈ 1 / R² ≈ 1 as a sanity check.
                 </div>
             </div>
@@ -1727,7 +1739,7 @@
     <div id="ffPlaceholder" class="chart-container" style="display:none;margin-top:20px;">
         <div class="chart-header">
             <div>
-                <div class="chart-title">Factor Attribution — Fama-French</div>
+                <div class="chart-title">Factor attribution: Fama-French</div>
                 <div class="chart-subtitle" id="ffPlaceholderText"></div>
             </div>
         </div>
@@ -1735,117 +1747,172 @@
 
 </div><!-- /performance-tab -->
 
+<!-- RESEARCH-TAB:BEGIN container -->
+<!-- ══════════════════════════════════════════════ RESEARCH TAB ══ -->
+<div id="research-tab" class="tab-content">
+    <div class="rs-wrap" id="rsRoot">
+        <div class="rs-loading" id="rsLoading">Loading the research record…</div>
+    </div>
+</div><!-- /research-tab -->
+<!-- RESEARCH-TAB:END container -->
+
+
+
+
+
+
+
 <!-- ══════════════════════════════════════════════ UTILITIES TAB ══ -->
 <div id="utilities-tab" class="tab-content">
+<div class="ut">
 
-    <div class="overview-hero" style="margin-bottom:20px;">
-        <div class="overview-badge">Power Markets — Energy</div>
-        <h2>Utilities — Battery Energy Arbitrage</h2>
-        <p>A diversifying <b>power-market</b> book that is structurally uncorrelated to equities.
-        A physical <b>1 MW / 4 MWh battery</b> on the <b>ERCOT</b> grid runs one cycle a day. A
-        walk-forward gradient-boosted model forecasts tomorrow's 24 hourly day-ahead prices, the
-        battery <b>buys the four cheapest forecast hours and sells the four dearest</b> (de-rated by
-        85% round-trip efficiency), and every trade is scored on the <b>actual settled</b> price.
-        Its P&amp;L is driven by weather, load and gas so it behaves as a
-        high-Sharpe, near-zero-drawdown <b>yield</b> rather than a directional bet.</p>
-    </div>
+    <header class="ut-hero">
+        <div class="ut-tags">
+            <span class="ut-eyebrow-box">POWER MARKETS · ERCOT</span>
+            <span class="ut-mono-dim">1 MW / 4 MWh · ONE CYCLE / DAY · WALK-FORWARD OOS</span>
+        </div>
+        <h2 class="ut-h1">A forecast that decides when a battery buys and sells power.</h2>
+        <p class="ut-lede">Every evening a gradient-boosted model forecasts tomorrow’s 24 day-ahead prices. The battery charges in the four cheapest forecast hours and discharges in the four most expensive, and each trade is scored against the price that settled. This tab measures how much of the perfect-insight profit the forecast captures, and how much better that is than running the battery on a fixed schedule.</p>
+    </header>
 
     <div id="utilEmpty" class="macro-empty" style="display:none;padding:40px;">
-        Utilities data will appear here once <code style="color:#00d4aa;font-size:11px;">data/equity/utilities.csv</code>
-        and <code style="color:#00d4aa;font-size:11px;">data/utilities/summary.json</code> are populated by the daily workflow.
+        Utilities data will appear here once <code style="color:var(--teal);font-size:11px;">data/utilities/summary.json</code> is published by the daily workflow.
     </div>
 
-    <div id="utilBody">
-        <!-- KPI tiles -->
-        <div class="macro-kpi-grid" id="utilKpis" style="margin-bottom:20px;"></div>
+    <div id="utilBody" class="ut-body">
 
-        <!-- Equity curve vs SPY -->
-        <div class="chart-container">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title">Equity Curve — Battery Book vs S&amp;P 500 <span id="utilWindowPill" style="font-size:11px;color:#606060;"></span></div>
-                    <div class="chart-subtitle">
-                        Deployable <b>signal_p50</b> dispatch (rank hours by the point-price forecast), net of a
-                        realistic $5/MWh round-trip cost, capitalized on battery capex ($300/kWh × 4 MWh = $1.2M/MW)
-                        and rebased to $10,000. SPY rebased to $10,000 over the same window. Walk-forward out-of-sample.
+        <section class="ut-kpis" aria-label="Key results" id="utilKpis"></section>
+
+        <section class="ut-panel">
+            <div class="ut-head">
+                <div class="ut-eyebrow">01 · DOES THE FORECAST ADD VALUE?</div>
+                <h3 class="ut-h2">The dispatch ladder</h3>
+                <p class="ut-p">Cumulative revenue per MW from three ways of running the same battery. The teal band is what the forecast earns over a fixed schedule, and the pale band is what it still leaves on the table.</p>
+            </div>
+            <div class="ut-legend">
+                <span><i class="ut-sw-line ut-dash-cream"></i>Perfect insight</span>
+                <span><i class="ut-sw-line ut-solid-teal"></i>Forecast model (signal_p50)</span>
+                <span><i class="ut-sw-line ut-solid-gray"></i>Fixed schedule: charge 01:00 to 05:00, discharge 17:00 to 21:00</span>
+            </div>
+            <div class="ut-scroll"><svg id="utLadder" class="ut-svg" viewBox="0 0 1000 380" role="img" aria-label="Cumulative gross revenue per MW for perfect insight, the forecast model and the fixed schedule"></svg></div>
+            <div class="ut-foot" id="utLadderFoot"></div>
+        </section>
+
+        <section class="ut-panel">
+            <div class="ut-head">
+                <div class="ut-eyebrow">02 · HOW IT DECIDES</div>
+                <h3 class="ut-h2">Day replay: forecast vs settled price</h3>
+                <p class="ut-p">Pick a day. The dashed line is the model’s forecast and the solid line is what cleared. Shaded columns are the hours the model picked, and the strips underneath line those picks up against perfect insight and the fixed schedule.</p>
+            </div>
+            <div class="ut-picker" role="group" aria-label="Choose a day">
+                <div id="utPresets" class="ut-presets"></div>
+                <label class="ut-date">Or any day <input type="date" id="utDate"></label>
+            </div>
+            <p class="ut-caption" id="utCaption"></p>
+            <div class="ut-legend">
+                <span><i class="ut-sw-line ut-solid-cream"></i>Settled price</span>
+                <span><i class="ut-sw-line ut-dash-teal"></i>Day-ahead forecast</span>
+                <span><i class="ut-sw-box ut-bg-charge"></i>Charge</span>
+                <span><i class="ut-sw-box ut-bg-discharge"></i>Discharge</span>
+            </div>
+            <div class="ut-scroll"><svg id="utReplay" class="ut-svg" viewBox="0 0 1000 320" role="img" aria-label="Hourly forecast and settled prices for the selected day, with the model's charge and discharge hours shaded"></svg></div>
+            <div class="ut-strips" id="utStrips"></div>
+            <div class="ut-daystats" id="utDayStats"></div>
+        </section>
+
+        <section class="ut-panel">
+            <div class="ut-head">
+                <div class="ut-eyebrow">03 · IT ADAPTS</div>
+                <h3 class="ut-h2">Dispatch fingerprint</h3>
+                <p class="ut-p">Each column is a week and each row is an hour of the day. Blue means the model usually charged in that slot and orange means it usually discharged. A fixed schedule would show two flat stripes, while the forecast’s windows shift through the year as solar output and weather change.</p>
+            </div>
+            <div class="ut-scroll"><svg id="utHeat" class="ut-svg" viewBox="0 0 960 384" role="img" aria-label="Heatmap of how often the model charged or discharged in each hour of each week"></svg></div>
+            <div class="ut-heat-foot">
+                <div class="ut-scale">
+                    <span class="ut-c-charge">CHARGE</span>
+                    <span class="ut-steps"><i style="background:var(--ut-c3)"></i><i style="background:var(--ut-c2)"></i><i style="background:var(--ut-c1)"></i><i style="background:var(--ut-n)" class="ut-step-n"></i><i style="background:var(--ut-d1)"></i><i style="background:var(--ut-d2)"></i><i style="background:var(--ut-d3)"></i></span>
+                    <span class="ut-c-discharge">DISCHARGE</span>
+                </div>
+                <div class="ut-notes">
+                    <div><strong>Winter.</strong> Two discharge windows, early morning (05:00 to 07:00) and evening (17:00 to 20:00), with charging moved to midday.</div>
+                    <div><strong>Spring.</strong> Charging sits in the late morning (09:00 to 12:00) and discharge moves later, to 19:00 to 21:00.</div>
+                    <div><strong>June.</strong> Charge 08:00 to 11:00, discharge 19:00 to 21:00 on almost every day. The window ends in June, so this is one month of summer.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ut-panel">
+            <div class="ut-head">
+                <div class="ut-eyebrow">04 · WHERE IT MISSES</div>
+                <h3 class="ut-h2">Daily regret: perfect insight minus model</h3>
+                <p class="ut-p">On most days the model gets close to the best possible result. The misses bunch up on a handful of price-spike days, so that is where a better forecast or a scarcity overlay would pay off.</p>
+            </div>
+            <div class="ut-regret-top">
+                <div id="utRegretLine" class="ut-regret-line"></div>
+                <div class="ut-legend">
+                    <span><i class="ut-sw-box" style="background:var(--ut-muted)"></i>Normal day</span>
+                    <span><i class="ut-sw-box" style="background:var(--orange)"></i>Price-spike day</span>
+                </div>
+            </div>
+            <div class="ut-scroll"><svg id="utRegret" class="ut-svg" viewBox="0 0 1000 230" role="img" aria-label="Daily regret bars, perfect insight minus the model, with price-spike days highlighted"></svg></div>
+            <div class="ut-foot" id="utSpikeRule"></div>
+        </section>
+
+        <section class="ut-panel">
+            <div class="ut-head">
+                <div class="ut-eyebrow">05 · LATEST PLAN</div>
+                <h3 class="ut-h2" id="utPlanTitle">Dispatch plan</h3>
+            </div>
+            <div class="ut-plan" id="utPlan"></div>
+
+            <details class="ut-more">
+                <summary>Other results</summary>
+                <div class="ut-more-body">
+                    <div class="ut-sub">
+                        <h4>Battery dispatch: profitability against the fixed schedule and perfect insight</h4>
+                        <p>Annualised $/MW-yr and risk-adjusted metrics per dispatch rule. <b>signal_p50</b> is the deployed rule; the fixed schedule charges overnight and discharges at the evening peak; perfect insight is the ceiling. Sharpe and Sortino annualise the daily $/MW P&amp;L (√365). Capture is the share of the perfect-insight profit.</p>
+                        <div class="history-table-wrap"><table class="history-table" id="utilBatteryTable"></table></div>
+                        <p class="ut-foot">The signal’s gross Sharpe (8.2) is higher than perfect insight’s (7.83): perfect insight earns more dollars only by taking spike-day variance.</p>
+                    </div>
+                    <div class="ut-sub-grid">
+                        <div class="ut-sub">
+                            <h4>Demand response: scarcity capture</h4>
+                            <p>Interruptible load curtails during the priciest ~2% of hours. Because the budget is spent only on the extreme tail, forecast ranking maps almost directly to dollars.</p>
+                            <div class="history-table-wrap"><table class="history-table" id="utilDrTable"></table></div>
+                        </div>
+                        <div class="ut-sub">
+                            <h4>Carbon overlay: green is cheap</h4>
+                            <p>Running a flexible load in the cleanest forecast hours cuts CO₂ and saves money, because the carbon-optimal and cost-optimal hours are ~85–90% the same.</p>
+                            <div class="history-table-wrap"><table class="history-table" id="utilCarbonTable"></table></div>
+                        </div>
+                        <div class="ut-sub">
+                            <h4>Forecast skill (t+24, walk-forward)</h4>
+                            <p>Day-ahead MAE and skill against a seasonal baseline (0 = no better than the baseline, 1 = perfect).</p>
+                            <div class="history-table-wrap"><table class="history-table" id="utilSkillTable"></table></div>
+                            <p class="ut-foot" id="utilLoadShiftFoot"></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="chart-wrapper" style="height:360px;"><canvas id="utilEquityChart"></canvas></div>
-            <div class="ind-foot" id="utilEquityFoot" style="margin-top:10px;"></div>
-        </div>
+            </details>
+        </section>
 
-        <!-- Battery strategy comparison -->
-        <div class="chart-container" style="margin-top:20px;">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title">Battery Dispatch — Profitability vs Baseline &amp; Ceiling</div>
-                    <div class="chart-subtitle">
-                        Annualized $/MW-yr and risk-adjusted metrics per dispatch rule. <b>signal_p50</b> is the deployed
-                        strategy; <b>fixed</b> (charge overnight / discharge at the evening peak) is the naive clock-block
-                        baseline; <b>oracle</b> (perfect foresight) is the ceiling. Sharpe/Sortino annualize the daily
-                        $/MW P&amp;L (√365). Capture-of-oracle = share of perfect-foresight profit.
-                    </div>
-                </div>
-            </div>
-            <div class="history-table-wrap">
-                <table class="history-table" id="utilBatteryTable"></table>
-            </div>
-            <div class="ind-foot" style="margin-top:10px;">
-                The signal's <b>gross Sharpe (8.2) exceeds the oracle's (7.83)</b> — perfect foresight earns more
-                <i>dollars</i> only by taking spike-day variance. On a risk-adjusted mandate the daily book is already
-                near-optimal, which is why it reads as a stable yield with essentially no drawdown.
-            </div>
-        </div>
-
-        <!-- Secondary books: DR + carbon + load-shift -->
-        <div class="macro-charts-2col" style="margin-top:20px;">
-            <div class="chart-container" style="margin:0;">
-                <div class="chart-title" style="font-size:14px;">Demand-Response — Scarcity Capture</div>
-                <div class="chart-subtitle" style="margin-bottom:12px;">
-                    Interruptible load curtails during the priciest ~2% of hours. Because the budget is spent only on
-                    the extreme tail, forecast ranking maps almost directly to dollars.
-                </div>
-                <div class="history-table-wrap"><table class="history-table" id="utilDrTable"></table></div>
-            </div>
-            <div class="chart-container" style="margin:0;">
-                <div class="chart-title" style="font-size:14px;">Carbon Overlay — Green ≈ Cheap</div>
-                <div class="chart-subtitle" style="margin-bottom:12px;">
-                    Running a flexible load in the cleanest forecast hours cuts CO₂ <b>and saves money</b> — the
-                    carbon-optimal and cost-optimal hours are ~85–90% the same.
-                </div>
-                <div class="history-table-wrap"><table class="history-table" id="utilCarbonTable"></table></div>
-            </div>
-        </div>
-
-        <!-- Forecast skill + today's dispatch plan -->
-        <div class="macro-charts-2col" style="margin-top:20px;">
-            <div class="chart-container" style="margin:0;">
-                <div class="chart-title" style="font-size:14px;">Forecast Skill (t+24, walk-forward)</div>
-                <div class="chart-subtitle" style="margin-bottom:12px;">
-                    Day-ahead MAE and skill vs a seasonal-naive baseline (0 = no better than naive, 1 = perfect).
-                    ERCOT is wind- and scarcity-driven, where the ML earns its keep.
-                </div>
-                <div class="history-table-wrap"><table class="history-table" id="utilSkillTable"></table></div>
-            </div>
-            <div class="chart-container" style="margin:0;">
-                <div class="chart-title" style="font-size:14px;">Latest Dispatch Plan <span id="utilPlanDate" style="font-size:11px;color:#606060;"></span></div>
-                <div class="chart-subtitle" style="margin-bottom:12px;">
-                    The battery's charge/discharge hours (local time) for the most recent complete day, by the
-                    signal_p50 ranking — the "buy low, sell high" schedule the book acts on.
-                </div>
-                <div id="utilPlan"></div>
-                <div class="ind-foot" id="utilLoadShiftFoot" style="margin-top:14px;"></div>
-            </div>
-        </div>
-
-        <div class="ind-foot" id="utilMethodFoot" style="margin-top:18px;line-height:1.6;"></div>
+        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Dispatch is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and a $5/MWh cost. Every number here is walk-forward out of sample. None of it is live paper trading yet.</footer>
     </div>
+</div>
 </div><!-- /utilities-tab -->
 
 
 <!-- ══════════════════════════════════════════════ TICKER TAB ══ -->
 <div id="ticker-tab" class="tab-content">
+
+    <header class="pg-hero">
+        <div class="pg-tags">
+            <span class="pg-eyebrow-box">TICKER ANALYSIS</span>
+            <span class="pg-mono">S&amp;P 500 · MINUTE BARS</span>
+        </div>
+        <h2 class="pg-h1">Look inside any stock the books hold</h2>
+        <p class="pg-lede">Pick a strategy’s current holding or search the S&amp;P 500. The charts show one day of minute bars with VWAP and Bollinger bands, 15-minute realised volatility, volume by price level and a mean-reversion z-score.</p>
+    </header>
 
     <!-- Held-ticker quick-select — pick a strategy, then click a ticker -->
     <div id="heldTickerStrip" style="display:none; margin-bottom:18px;">
@@ -1854,7 +1921,7 @@
             <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry</button>
             <button class="ostab"        data-strat="markowitz" onclick="selectHeldStrategy('markowitz')">Markowitz</button>
         </div>
-        <div class="held-strip-label">Currently Held — <span id="heldStripStratName">Sticks TGA</span> &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
+        <div class="held-strip-label">Currently held: <span id="heldStripStratName">Sticks TGA</span> &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
         <div class="held-strip" id="heldTickerPills"></div>
     </div>
 
@@ -1905,7 +1972,7 @@
         <div class="chart-container">
             <div class="chart-header">
                 <div>
-                    <div class="chart-title" id="intradayChartTitle">Intraday Price</div>
+                    <div class="chart-title" id="intradayChartTitle">Intraday price</div>
                     <div class="chart-subtitle" id="intradayChartSub">Candlesticks with VWAP &amp; Bollinger Bands</div>
                 </div>
             </div>
@@ -1916,21 +1983,21 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;margin-top:20px;">
             <div class="chart-container">
                 <div class="chart-header">
-                    <div class="chart-title">Rolling Volatility</div>
+                    <div class="chart-title">Rolling volatility</div>
                     <div class="chart-subtitle">15-minute realized vol</div>
                 </div>
                 <div id="intradayVolatilityChart" style="height:280px;"></div>
             </div>
             <div class="chart-container">
                 <div class="chart-header">
-                    <div class="chart-title">Volume Profile</div>
+                    <div class="chart-title">Volume profile</div>
                     <div class="chart-subtitle">Liquidity by price level</div>
                 </div>
                 <div id="intradayVolumeProfileChart" style="height:280px;"></div>
             </div>
             <div class="chart-container">
                 <div class="chart-header">
-                    <div class="chart-title">Mean Reversion Behavior</div>
+                    <div class="chart-title">Mean reversion behavior</div>
                     <div class="chart-subtitle">Z-score over time</div>
                 </div>
                 <div id="intradayMeanRevChart" style="height:280px;"></div>
@@ -1942,7 +2009,7 @@
     <div id="noIntradayData" class="chart-container">
         <div class="no-data-message">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-            <h3 style="margin-bottom:10px;">Select a ticker &amp; date</h3>
+            <h3 style="margin-bottom:10px;">Select a ticker and date</h3>
             <p style="font-size:13px;color:#505050;">Minute data is synced daily for all S&amp;P 500 tickers.<br>If no data exists on the chosen date, the most recent available day is shown automatically.</p>
         </div>
     </div>
@@ -1951,6 +2018,15 @@
 
 <!-- ══════════════════════════════════════════════ MACRO TAB ══ -->
 <div id="macro-tab" class="tab-content">
+
+    <header class="pg-hero">
+        <div class="pg-tags">
+            <span class="pg-eyebrow-box">MACRO</span>
+            <span class="pg-mono">FRED · FOMC · ECONOMIC RELEASES</span>
+        </div>
+        <h2 class="pg-h1">The economy the books trade into</h2>
+        <p class="pg-lede">Rates, inflation, credit spreads and volatility from FRED, a hawk-dove score for FOMC statements, and recent economic releases with SPY’s move on the day. Headlines run down the side.</p>
+    </header>
     <div class="macro-layout">
 
         <!-- LEFT: News pane -->
@@ -1976,7 +2052,7 @@
 
             <!-- Narrative story card -->
             <div class="narrative-card">
-                <div class="narrative-label">Macro Context — Today's Story</div>
+                <div class="narrative-label">Macro context: today's story</div>
                 <div class="narrative-text" id="macroNarrativeText">Loading macroeconomic data…</div>
                 <div class="narrative-date" id="macroNarrativeDate"></div>
             </div>
@@ -1991,7 +2067,7 @@
             <div class="chart-container">
                 <div class="chart-header">
                     <div>
-                        <div class="chart-title">Yield Spread (10Y − 3M) &amp; Portfolio Equity</div>
+                        <div class="chart-title">Yield spread (10Y − 3M) and portfolio equity</div>
                         <div class="chart-subtitle">Inversion below zero = historical recession signal. Shaded bands: 18-mo lag to recession.</div>
                     </div>
                 </div>
@@ -2002,14 +2078,14 @@
             <div class="macro-charts-2col">
                 <div class="chart-container">
                     <div class="chart-header">
-                        <div class="chart-title">VIX — Fear Index</div>
+                        <div class="chart-title">VIX, the fear index</div>
                         <div class="chart-subtitle">Below 18 = calm &nbsp;|&nbsp; 18–28 = elevated &nbsp;|&nbsp; &gt;28 = crisis</div>
                     </div>
                     <div id="macroVixChart" style="height:240px;"></div>
                 </div>
                 <div class="chart-container">
                     <div class="chart-header">
-                        <div class="chart-title">CPI Inflation (YoY %)</div>
+                        <div class="chart-title">CPI inflation (YoY %)</div>
                         <div class="chart-subtitle">Fed target 2%. Elevated CPI → hawkish risk → vol headwinds.</div>
                     </div>
                     <div id="macroCpiChart" style="height:240px;"></div>
@@ -2020,14 +2096,14 @@
             <div class="macro-charts-2col">
                 <div class="chart-container">
                     <div class="chart-header">
-                        <div class="chart-title">Fed Funds Rate</div>
+                        <div class="chart-title">Fed funds rate</div>
                         <div class="chart-subtitle">Policy rate trajectory drives risk premium &amp; discount rates.</div>
                     </div>
                     <div id="macroFedChart" style="height:220px;"></div>
                 </div>
                 <div class="chart-container">
                     <div class="chart-header">
-                        <div class="chart-title">HY Credit Spread (OAS, bps)</div>
+                        <div class="chart-title">HY credit spread (OAS, bps)</div>
                         <div class="chart-subtitle">Below 350 = risk-on &nbsp;|&nbsp; 350–500 = stress &nbsp;|&nbsp; &gt;500 = crisis</div>
                     </div>
                     <div id="macroHyChart" style="height:220px;"></div>
@@ -2038,7 +2114,7 @@
             <div class="chart-container" id="fomcPanel">
                 <div class="chart-header">
                     <div>
-                        <div class="chart-title">FOMC Policy Tone — Hawk / Dove Score <span id="fomcTone"></span></div>
+                        <div class="chart-title">FOMC policy tone: hawk-dove score <span id="fomcTone"></span></div>
                         <div class="chart-subtitle">
                             NLP read of each FOMC statement: a transparent finance lexicon scores the wording
                             <b>net = (hawk − dove) / (hawk + dove)</b> ∈ [−1, +1]. Red bars = hawkish (tightening tone),
@@ -2055,7 +2131,7 @@
             <!-- Data releases table -->
             <div class="chart-container">
                 <div class="chart-header">
-                    <div class="chart-title">Recent Economic Releases — Beat / Miss</div>
+                    <div class="chart-title">Recent economic releases: beat or miss</div>
                     <div class="chart-subtitle">Actual vs prior period · SPY % reaction on release day. Surprises drive short-term regime shifts.</div>
                 </div>
                 <div id="macroReleasesTable">
@@ -2071,25 +2147,28 @@
 <!-- ══════════════════════════════════════════ MARKET STRUCTURE TAB ══ -->
 <div id="marketstructure-tab" class="tab-content">
 
-    <div class="overview-hero" style="margin-bottom:20px;">
-        <div class="overview-badge">Systemic Risk &amp; Positioning</div>
-        <h2>Market Structure</h2>
-        <p>Two market-wide regime gauges that frame the environment our cross-asset book trades into.
-        <b>Random Matrix Theory</b> measures how concentrated the S&amp;P is into a single common factor. 
-        When it spikes, diversification breaks down exactly when needed. <b>CFTC Commitment of Traders</b>
+    <header class="pg-hero">
+        <div class="pg-tags">
+            <span class="pg-eyebrow-box">SYSTEMIC RISK &amp; POSITIONING</span>
+            <span class="pg-mono">RANDOM MATRIX THEORY · CFTC COT · WEEKLY</span>
+        </div>
+        <h2 class="pg-h1">Market structure</h2>
+        <p class="pg-lede">Two market-wide regime gauges that frame the environment our cross-asset book trades into.
+        Random Matrix Theory measures how concentrated the S&amp;P is into a single common factor.
+        When it spikes, diversification breaks down just when it is needed most. CFTC Commitment of Traders
         shows how crowded large speculators are across equities, gold, rates and the dollar, positioning
         extremes that often precede reversals.</p>
-    </div>
+    </header>
 
     <!-- RMT systemic-correlation monitor -->
     <div class="chart-container" id="rmtPanel">
         <div class="chart-header">
             <div>
-                <div class="chart-title">Systemic Correlation — Random Matrix Theory <span id="rmtRegimePill"></span></div>
+                <div class="chart-title">Systemic correlation: random matrix theory <span id="rmtRegimePill"></span></div>
                 <div class="chart-subtitle">
                     Eigenspectrum of the S&amp;P correlation matrix vs the Marchenko–Pastur noise band (q = N/T).
                     Eigenvalues past λ+ are real factors; the largest (λ_max) is the “market mode”. A high
-                    <b>market-mode share</b> + collapsing factor count ⇒ everything moving as one (diversification breakdown).
+                    market-mode share + collapsing factor count ⇒ everything moving as one (diversification breakdown).
                 </div>
             </div>
         </div>
@@ -2113,17 +2192,17 @@
     <div class="chart-container" id="cotPanel" style="margin-top:20px;">
         <div class="chart-header">
             <div>
-                <div class="chart-title">Institutional Positioning — CFTC Commitment of Traders</div>
+                <div class="chart-title">Institutional positioning: CFTC Commitment of Traders</div>
                 <div class="chart-subtitle">
-                    Large-speculator (“non-commercial”) net positioning as a 3-yr percentile <b>COT Index</b> (0 = max-bearish,
-                    100 = max-bullish extreme), with an unsupervised <b>Isolation Forest</b> flag for structurally stretched weeks.
+                    Large-speculator (“non-commercial”) net positioning as a 3-yr percentile COT Index (0 = max-bearish,
+                    100 = max-bullish extreme), with an unsupervised Isolation Forest flag for structurally stretched weeks.
                     A risk-on/off positioning gauge across the asset classes our book trades.
                 </div>
             </div>
         </div>
         <div class="macro-charts-2col" style="align-items:stretch;">
             <div style="display:flex;flex-direction:column;">
-                <div class="chart-title" style="font-size:13px;margin-bottom:10px;">COT Index — 3-yr positioning percentile</div>
+                <div class="chart-title" style="font-size:13px;margin-bottom:10px;">COT Index: 3-yr positioning percentile</div>
                 <div id="cotGauges"></div>
             </div>
             <div>
@@ -2214,6 +2293,7 @@ function switchMainTab(e, name) {
     document.getElementById(name + '-tab').classList.add('active');
     if (name === 'overview')     { /* data already loaded; canvas init on first visit */ initOverviewCanvas(); }
     if (name === 'performance')  { renderAnalyticsTab(); renderFactorPanel(currentStrategy); }
+    if (name === 'research')     loadResearchTab();
     if (name === 'utilities')    loadUtilitiesTab();
     if (name === 'ticker')       initTickerTab();
     if (name === 'macro')        { loadMacroTab(); loadFomcPanel(); }
@@ -2744,7 +2824,7 @@ function updateAllocationPanel() {
     dotEl.className = 'run-status-dot ' + (status === 'ok' ? 'ok' : status === 'partial' ? 'pending' : 'error');
     const fills = rs?.total_fills ?? 0, orders = rs?.total_orders ?? 0;
     document.getElementById('runStatusText').textContent =
-        rs ? `Last run ${rs.date} — ${fills} fills, ${orders} orders (${status})` : 'Awaiting first run';
+        rs ? `Last run ${rs.date}: ${fills} fills, ${orders} orders (${status})` : 'Awaiting first run';
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2761,7 +2841,7 @@ function updateStrategyHoldingsPanel() {
         return;
     }
     panel.style.display = 'block';
-    title.textContent = LABELS[currentStrategy] + ' — Open Positions';
+    title.textContent = LABELS[currentStrategy] + ': open positions';
 
     const posData = state.positions?.[currentStrategy];
     const posList = posData?.positions || [];
@@ -2770,7 +2850,7 @@ function updateStrategyHoldingsPanel() {
     sub.textContent = asOf ? 'As of ' + asOf : 'Current holdings';
 
     if (!posData) {
-        content.innerHTML = '<p style="color:#606060;font-size:13px;padding:10px 0;">Positions file not yet available — data syncs after next daily run.</p>';
+        content.innerHTML = '<p style="color:#606060;font-size:13px;padding:10px 0;">Positions file not yet available. Data syncs after the next daily run.</p>';
         return;
     }
     if (posList.length === 0) {
@@ -2953,12 +3033,12 @@ function updateTradeLogPanel() {
 
     const title = document.getElementById('tradeLogTitle');
     const sub   = document.getElementById('tradeLogSub');
-    title.textContent = LABELS[currentStrategy] + ' — Closed Trades';
+    title.textContent = LABELS[currentStrategy] + ': closed trades';
     sub.textContent   = 'Entry & exit prices from orders log · click a ticker to inspect minute data';
 
     if (closed.length === 0) {
         document.getElementById('tradeLogContent').innerHTML =
-            '<p style="color:#606060;font-size:13px;padding:10px 0;">No closed trades yet — positions are still open.</p>';
+            '<p style="color:#606060;font-size:13px;padding:10px 0;">No closed trades yet; positions are still open.</p>';
         document.getElementById('tradeLogExpandBtn').style.display = 'none';
         document.getElementById('tradeLogCount').textContent = '';
         return;
@@ -3102,7 +3182,7 @@ function updateActivitySection() {
     const rs = state.runSummary;
     if (!rs) {
         document.getElementById('activityBars').innerHTML =
-            '<p style="color:#606060;font-size:13px;">No run data yet — awaiting first trading day.</p>';
+            '<p style="color:#606060;font-size:13px;">No run data yet. Waiting for the first trading day.</p>';
         document.getElementById('actTotalOrders').textContent = '—';
         document.getElementById('actTotalFills').textContent  = '—';
         document.getElementById('actElapsed').textContent     = '—';
@@ -3150,7 +3230,7 @@ function updateRunHistoryTable() {
     const show = showAllRuns ? history : history.slice(0, 10);
 
     if (show.length === 0) {
-        body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#606060;padding:30px;">No run history yet — first trading day is Monday.</td></tr>';
+        body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#606060;padding:30px;">No run history yet. The first trading day is Monday.</td></tr>';
         btn.classList.remove('visible');
         return;
     }
@@ -3414,7 +3494,7 @@ function renderPositionsTable(container, s, sorted, expanded, cash, asOf) {
 
     container.innerHTML = `
         <div style="font-size:12px;color:#808080;margin-bottom:6px;">
-            ${LABELS[s]} — Open Positions${asOf ? ' as of ' + asOf : ''}
+            ${LABELS[s]}: open positions${asOf ? ' as of ' + asOf : ''}
             &nbsp;|&nbsp; Cash: $${cash != null ? cash.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—'}
             &nbsp;|&nbsp; ${sorted.length} position${sorted.length !== 1 ? 's' : ''} (showing ${toShow.length})
         </div>
@@ -3575,9 +3655,9 @@ let overviewAnimId = null; // unused for iframe approach; kept for switchMainTab
 let _overviewCanvasReady = false;
 
 const DEMO_META = {
-    tga:        { label: 'MST Network — Topological Graph Arbitrage',    dotColor: '#00d4aa', activeClass: 'active-tga' },
-    markowitz:  { label: 'Efficient Frontier — Mean-Variance Optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
-    carry:      { label: 'Cross-Asset Trend + Carry Engine',             dotColor: '#9d7bff', activeClass: 'active-carry' },
+    tga:        { label: 'MST network: topological graph arbitrage',    dotColor: '#00d4aa', activeClass: 'active-tga' },
+    markowitz:  { label: 'Efficient frontier: mean-variance optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
+    carry:      { label: 'Cross-asset trend + carry engine',             dotColor: '#9d7bff', activeClass: 'active-carry' },
 };
 
 function selectOverviewStrat(strat) {
@@ -3767,7 +3847,7 @@ async function loadIntradayData() {
                     <p style="font-size:13px;max-width:460px;margin:0 auto;line-height:1.6;">
                         The data pipeline has not run long enough to display this range.
                         Only <strong>${res.loadedDays}</strong> day${res.loadedDays === 1 ? '' : 's'} of minute data is available so far for ${selectedTicker}.
-                        Try a shorter range — this will fill in as the pipeline accumulates more days.
+                        Try a shorter range. This view fills in as the pipeline collects more days.
                     </p>
                 </div>`;
             return;
@@ -3906,7 +3986,7 @@ async function loadIntradayData() {
     const dateLabel = spanDays.length > 1
         ? `${spanDays[0]} to ${spanDays[spanDays.length-1]}`
         : (usedDate || spanDays[0] || '');
-    document.getElementById('intradayChartTitle').textContent = `${selectedTicker} — ${dateLabel}`;
+    document.getElementById('intradayChartTitle').textContent = `${selectedTicker} · ${dateLabel}`;
     document.getElementById('intradayChartSub').textContent   =
         'Candlesticks with VWAP & Bollinger Bands' +
         (usedDate && usedDate !== requestedDate ? ` · Fallback to ${usedDate} (no data on ${requestedDate})` : '');
@@ -4209,7 +4289,7 @@ function updateTickerPositionBar(ticker) {
         const pnl    = isLong ? (exitP - entryP) * qty : (entryP - exitP) * qty;
         const pnlColor = pnl >= 0 ? '#00d4aa' : '#ff4757';
         bar.innerHTML = `
-            <span class="pos-info-badge closed">${stratLabel} — Closed</span>
+            <span class="pos-info-badge closed">${stratLabel}: closed</span>
             <span class="pos-info-badge ${sideClass}">${side}</span>
             <span class="pos-info-sep">·</span>
             <span>Entered <strong style="color:#e0e0e0;">${entryDate}</strong>
@@ -4322,7 +4402,7 @@ async function loadMacroTab() {
             'will populate data/macro/ on the next run. Add FRED_KEY to your repository ' +
             'secrets and push to trigger the workflow.';
         document.getElementById('macroKpiGrid').innerHTML =
-            '<div class="macro-empty" style="grid-column:1/-1;">No data — run the daily workflow first.</div>';
+            '<div class="macro-empty" style="grid-column:1/-1;">No data yet. Run the daily workflow first.</div>';
         return;
     }
 
@@ -4421,46 +4501,46 @@ function renderMacroNarrative(fred, mkt) {
     // Yield curve signal
     if (spread !== null) {
         if (spread < -0.5)
-            parts.push(`The yield curve is <strong>inverted by ${Math.abs(spread).toFixed(2)}%</strong> (10Y−3M), a historically reliable recession precursor. Mean-reversion strategies typically face headwinds when credit conditions tighten post-inversion.`);
+            parts.push(`The yield curve is inverted by ${Math.abs(spread).toFixed(2)}% (10Y−3M), which has historically come before recessions. Mean-reversion strategies tend to struggle when credit tightens after an inversion.`);
         else if (spread < 0)
-            parts.push(`The yield curve is <strong>slightly inverted (${spread.toFixed(2)}%)</strong>, signaling mild stress but not yet a clear recession warning.`);
+            parts.push(`The yield curve is slightly inverted (${spread.toFixed(2)}%), signaling mild stress but not yet a clear recession warning.`);
         else
-            parts.push(`The yield curve is <strong>normal (+${spread.toFixed(2)}%)</strong>, consistent with expansionary conditions that historically favor equity mean-reversion strategies.`);
+            parts.push(`The yield curve is normal (+${spread.toFixed(2)}%), consistent with expansionary conditions that historically favor equity mean-reversion strategies.`);
     }
 
     // VIX signal
     if (vix !== null) {
         if (vix > 28)
-            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> indicates a <strong>crisis-level fear regime</strong> — expect wide bid/ask spreads, momentum overrides, and elevated false-signal rates for residual mean reversion.`);
+            parts.push(`VIX at ${vix.toFixed(1)} indicates a crisis-level fear regime. Expect wide bid/ask spreads, momentum overrides and more false signals for residual mean reversion.`);
         else if (vix > 18)
-            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> flags <strong>elevated uncertainty</strong>. Risk-off overlays may trim gross exposure; monitor fill quality closely.`);
+            parts.push(`VIX at ${vix.toFixed(1)} flags elevated uncertainty. Risk-off overlays may trim gross exposure; monitor fill quality closely.`);
         else
-            parts.push(`VIX at <strong>${vix.toFixed(1)}</strong> reflects <strong>calm conditions</strong> — low implied vol typically widens the opportunity set for statistical arbitrage.`);
+            parts.push(`VIX at ${vix.toFixed(1)} reflects calm conditions. Low implied vol usually widens the opportunity set for statistical arbitrage.`);
     }
 
     // Inflation + Fed
     if (cpiYoy !== null && fedFunds !== null) {
         const realRate = (fedFunds - cpiYoy).toFixed(2);
         if (cpiYoy > 4)
-            parts.push(`CPI running at <strong>${cpiYoy.toFixed(1)}% YoY</strong> with fed funds at ${fedFunds.toFixed(2)}% implies a real rate of <strong>${realRate}%</strong>. Elevated inflation sustains hawkish policy risk — a meaningful discount-rate headwind for growth names.`);
+            parts.push(`CPI running at ${cpiYoy.toFixed(1)}% YoY with fed funds at ${fedFunds.toFixed(2)}% implies a real rate of ${realRate}%. Elevated inflation keeps hawkish policy risk alive, which pushes up discount rates and weighs on growth names.`);
         else if (cpiYoy < 2.5)
-            parts.push(`Inflation at <strong>${cpiYoy.toFixed(1)}% YoY</strong> is near or below the Fed's 2% target, leaving room for accommodative pivots that historically support risk assets.`);
+            parts.push(`Inflation at ${cpiYoy.toFixed(1)}% YoY is near or below the Fed's 2% target, which leaves room for the Fed to ease. Easing has historically supported risk assets.`);
         else
-            parts.push(`CPI at <strong>${cpiYoy.toFixed(1)}% YoY</strong> with fed funds at ${fedFunds.toFixed(2)}% keeps real rates at ${realRate}% — a balanced regime with no dominant macro headwind.`);
+            parts.push(`CPI at ${cpiYoy.toFixed(1)}% YoY with fed funds at ${fedFunds.toFixed(2)}% keeps real rates at ${realRate}%: a balanced regime with no dominant macro headwind.`);
     }
 
     // HY Spread
     if (hySpread !== null) {
         if (hySpread > 500)
-            parts.push(`High-yield OAS at <strong>${hySpread} bps</strong> signals <strong>credit market stress</strong> — funding conditions have tightened materially, and correlation among names rises, compressing diversification benefits.`);
+            parts.push(`High-yield OAS at ${hySpread} bps signals credit market stress. Funding conditions have tightened, and correlation among names rises, which shrinks the benefit of diversifying.`);
         else if (hySpread > 350)
-            parts.push(`HY spreads at <strong>${hySpread} bps</strong> reflect <strong>moderate stress</strong> in credit — watch for spread widening coinciding with strategy drawdowns.`);
+            parts.push(`HY spreads at ${hySpread} bps reflect moderate stress in credit. Watch for spreads widening at the same time as strategy drawdowns.`);
         else
-            parts.push(`HY OAS at <strong>${hySpread} bps</strong> reflects <strong>benign credit conditions</strong>, consistent with ample liquidity and low default risk.`);
+            parts.push(`HY OAS at ${hySpread} bps reflects benign credit conditions, consistent with ample liquidity and low default risk.`);
     }
 
     if (parts.length === 0) {
-        document.getElementById('macroNarrativeText').textContent = 'Macro data loaded — insufficient series for narrative generation.';
+        document.getElementById('macroNarrativeText').textContent = 'Macro data loaded, but there are not enough series to write the summary.';
     } else {
         document.getElementById('macroNarrativeText').innerHTML = parts.join(' ');
     }
@@ -4589,7 +4669,7 @@ function renderMacroKPIs(fred, mkt) {
     const kpiFoot = document.getElementById('macroKpiFoot');
     if (kpiFoot) {
         kpiFoot.innerHTML = (tnx !== null && tnx !== undefined)
-            ? `Reference rate — 10-Year Treasury yield: <strong style="color:#a0a6b0;">${tnx.toFixed(2)}%</strong>.`
+            ? `Reference rate (10-year Treasury yield): <strong style="color:#a0a6b0;">${tnx.toFixed(2)}%</strong>.`
             : '';
     }
 }
@@ -4927,30 +5007,43 @@ window.addEventListener('DOMContentLoaded', () => {
 <script>
 // ══════════════════════════════════════════════════════════════
 //  UTILITIES (ENERGY) TAB
+//  Reads data/utilities/summary.json (headline + tables) and data/utilities/dispatch.json
+//  (daily and hourly detail). "oracle" in the data is shown as "perfect insight" and "fixed"
+//  as "fixed schedule".
 // ══════════════════════════════════════════════════════════════
 let utilLoaded = false;
-let utilChart  = null;
+const UT = { summary: null, disp: null, byDay: {}, sel: null };
 
 async function loadUtilitiesTab() {
+    if (utilLoaded) return;
     const empty = document.getElementById('utilEmpty');
     const body  = document.getElementById('utilBody');
     try {
-        const [rawEq, summary] = await Promise.all([
+        const [rawEq, summary, disp] = await Promise.all([
             fetchCSV('data/equity/utilities.csv').catch(() => []),
             fetchJSON('data/utilities/summary.json').catch(() => null),
+            fetchJSON('data/utilities/dispatch.json').catch(() => null),
         ]);
+        if (!summary) { empty.style.display = 'block'; body.style.display = 'none'; return; }
+        empty.style.display = 'none'; body.style.display = '';
+        UT.summary = summary; UT.disp = disp;
         const eq = filterTradingDays(rawEq || []);
-        if ((!eq || eq.length < 2) && !summary) {
-            empty.style.display = 'block'; body.style.display = 'none';
-            return;
-        }
-        empty.style.display = 'none'; body.style.display = 'block';
-
-        if (!state.spy || state.spy.length === 0) state.spy = await fetchSpy();
+        if (!state.spy || state.spy.length === 0) state.spy = await fetchSpy().catch(() => []);
         renderUtilKpis(eq, summary);
-        renderUtilEquityChart(eq);
-        renderUtilTables(summary);
+        if (disp && disp.days && disp.days.length) {
+            disp.days.forEach(d => { UT.byDay[d.day] = d; });
+            renderUtLadder();
+            renderUtReplaySetup();
+            renderUtHeat();
+            renderUtRegret();
+        } else {
+            ['utLadder', 'utReplay', 'utHeat', 'utRegret'].forEach(id => {
+                const p = document.getElementById(id).closest('.ut-panel');
+                p.innerHTML = '<p class="ut-foot">Daily dispatch detail appears here once data/utilities/dispatch.json is published.</p>';
+            });
+        }
         renderUtilPlan(summary);
+        renderUtilTables(summary);
         utilLoaded = true;
     } catch (err) {
         console.error('utilities tab load failed', err);
@@ -4958,224 +5051,337 @@ async function loadUtilitiesTab() {
     }
 }
 
-// Correlation of the utilities daily equity returns to SPY daily returns (overlap window).
+// ── formatting ──
+const utMoney = v => (v < 0 ? '−$' : '$') + Math.abs(Math.round(v)).toLocaleString('en-US');
+const utK = v => (v < 0 ? '−$' : '$') + (Math.abs(v) / 1000).toFixed(1) + 'k';
+const utPct = v => Math.round(v * 100) + '%';
+const utHour = h => String(h).padStart(2, '0') + ':00';
+const UT_MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const utShort = iso => UT_MON[+iso.slice(5, 7) - 1] + ' ' + (+iso.slice(8, 10));
+const utF = v => v.toFixed(1);
+const utLine = pts => pts.length ? 'M' + pts.map(p => utF(p[0]) + ',' + utF(p[1])).join(' L') : '';
+const utBand = (top, bot) => utLine(top) + ' L' + bot.slice().reverse().map(p => utF(p[0]) + ',' + utF(p[1])).join(' L') + ' Z';
+const utNiceStep = raw => { const p = Math.pow(10, Math.floor(Math.log10(raw))); return [1, 2, 2.5, 5, 10].map(m => m * p).find(x => x >= raw); };
+const utDayMs = iso => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10));
+
+// Month-start ticks for a day axis: [{x, label}] given the first/last day and an x() mapper.
+function utMonthTicks(first, last, x) {
+    const out = [], a = new Date(utDayMs(first)), b = utDayMs(last);
+    let y = a.getUTCFullYear(), m = a.getUTCMonth();
+    out.push({ x: x(utDayMs(first)), label: UT_MON[m] });
+    for (;;) {
+        m++; if (m === 12) { m = 0; y++; }
+        const t = Date.UTC(y, m, 1);
+        if (t > b) break;
+        out.push({ x: x(t), label: UT_MON[m] });
+    }
+    return out;
+}
+
+// Correlation of the book's daily equity returns to SPY over the overlapping days.
 function utilSpyCorr(eq) {
     if (!eq || eq.length < 5 || !state.spy || state.spy.length < 5) return null;
     const spyMap = Object.fromEntries(state.spy.map(d => [d.date, d.price]));
     const xs = [], ys = [];
     for (let i = 1; i < eq.length; i++) {
-        const d0 = eq[i-1].date, d1 = eq[i].date;
+        const d0 = eq[i - 1].date, d1 = eq[i].date;
         if (spyMap[d0] == null || spyMap[d1] == null) continue;
-        ys.push((eq[i].equity - eq[i-1].equity) / eq[i-1].equity);
+        ys.push((eq[i].equity - eq[i - 1].equity) / eq[i - 1].equity);
         xs.push((spyMap[d1] - spyMap[d0]) / spyMap[d0]);
     }
     if (xs.length < 5) return null;
-    const mx = xs.reduce((a,b)=>a+b,0)/xs.length, my = ys.reduce((a,b)=>a+b,0)/ys.length;
-    let cov=0, vx=0, vy=0;
-    for (let i=0;i<xs.length;i++){ cov+=(xs[i]-mx)*(ys[i]-my); vx+=(xs[i]-mx)**2; vy+=(ys[i]-my)**2; }
-    return (vx>0 && vy>0) ? cov/Math.sqrt(vx*vy) : null;
+    const mx = xs.reduce((a, b) => a + b, 0) / xs.length, my = ys.reduce((a, b) => a + b, 0) / ys.length;
+    let cov = 0, vx = 0, vy = 0;
+    for (let i = 0; i < xs.length; i++) { cov += (xs[i] - mx) * (ys[i] - my); vx += (xs[i] - mx) ** 2; vy += (ys[i] - my) ** 2; }
+    return (vx > 0 && vy > 0) ? { r: cov / Math.sqrt(vx * vy), n: xs.length } : null;
 }
 
 function renderUtilKpis(eq, summary) {
-    const h = summary?.headline || {};
+    const h = summary.headline || {};
+    const bat = Object.fromEntries((summary.battery || []).map(b => [b.strategy, b]));
+    const fixedCap = bat.fixed ? bat.fixed.capture_of_oracle : null;
     const corr = utilSpyCorr(eq);
-    const win = summary?.window;
-    const wp = document.getElementById('utilWindowPill');
-    if (wp && win) wp.textContent = `(${win.start} → ${win.end}, ${summary.n_days} days)`;
-
-    const money = v => (v >= 0 ? '$' : '-$') + Math.abs(Math.round(v)).toLocaleString();
-    const cards = [
-        { label: 'Net Sharpe', value: (h.sharpe_net ?? 0).toFixed(2),
-          change: 'after $5/MWh cost', status: 'green', statusLabel: 'Risk-adjusted' },
-        { label: 'Gross Sharpe', value: (h.sharpe_gross ?? 0).toFixed(2),
-          change: 'before cost', status: 'green', statusLabel: 'Exceeds oracle' },
-        { label: 'Net Yield', value: money(h.ann_usd_per_mw_yr_net ?? 0) + '/MW-yr',
-          change: money(h.ann_usd_per_mw_yr_gross ?? 0) + ' gross', status: 'green', statusLabel: 'Annualized' },
-        { label: 'Max Drawdown', value: money(h.max_dd_gross ?? 0) + '/MW',
-          change: 'peak-to-trough', status: 'green', statusLabel: 'Near-zero' },
-        { label: 'Capture of Oracle', value: Math.round((h.capture_of_oracle ?? 0) * 100) + '%',
-          change: 'of perfect foresight', status: 'green', statusLabel: 'Efficient' },
-        { label: 'Correlation to SPY', value: corr == null ? '—' : (corr >= 0 ? '+' : '') + corr.toFixed(2),
-          change: 'daily returns', status: (corr == null || Math.abs(corr) < 0.3) ? 'green' : 'yellow',
-          statusLabel: (corr == null || Math.abs(corr) < 0.3) ? 'Uncorrelated' : 'Some beta' },
-    ];
-    document.getElementById('utilKpis').innerHTML = cards.map(c => `
-        <div class="indicator-card ${c.status}">
-            <div class="indicator-label">${c.label}</div>
-            <div class="indicator-value">${c.value}</div>
-            <div class="indicator-change neutral">${c.change || '&nbsp;'}</div>
-            <div class="traffic-light">
-                <div class="tl-dot ${c.status}"></div>
-                <span class="tl-text ${c.status}">${c.statusLabel}</span>
+    const tile = (label, value, sub) => `<div class="ut-tile"><div class="ut-tile-l">${label}</div><div class="ut-tile-v">${value}</div><div class="ut-tile-s">${sub}</div></div>`;
+    const cap = h.capture_of_oracle ?? 0;
+    document.getElementById('utilKpis').innerHTML =
+        `<div class="ut-tile wide">
+            <div class="ut-tile-l">CAPTURE OF PERFECT INSIGHT</div>
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+                <div class="ut-tile-v">${utPct(cap)}</div>
+                ${fixedCap == null ? '' : `<div class="ut-tile-s">vs <b>${utPct(fixedCap)}</b> for a fixed schedule</div>`}
             </div>
-        </div>`).join('');
+            <div class="ut-capbar" role="img" aria-label="Fixed schedule ${utPct(fixedCap || 0)}, forecast model ${utPct(cap)} of the perfect-insight profit">
+                <i style="width:${(cap * 100).toFixed(1)}%;background:var(--teal);"></i>
+                ${fixedCap == null ? '' : `<i style="width:${(fixedCap * 100).toFixed(1)}%;background:var(--ut-gray);border-radius:4px 0 0 4px;"></i>`}
+            </div>
+            <div class="ut-tile-s">Gray is the fixed schedule. Teal is what the forecast adds on top.</div>
+        </div>` +
+        tile('NET YIELD', utMoney(h.ann_usd_per_mw_yr_net ?? 0), `per MW-yr · ${utMoney(h.ann_usd_per_mw_yr_gross ?? 0)} gross`) +
+        tile('NET SHARPE', (h.sharpe_net ?? 0).toFixed(2), `after $${summary.cost_per_mwh ?? 5}/MWh · ${(h.sharpe_gross ?? 0).toFixed(2)} gross`) +
+        tile('MAX DRAWDOWN', utMoney(h.max_dd_gross ?? 0), 'per MW, peak to trough, gross') +
+        tile('CORR. TO SPY', corr == null ? '—' : (corr.r >= 0 ? '+' : '−') + Math.abs(corr.r).toFixed(2),
+             corr == null ? 'daily returns' : `daily returns, ${corr.n} days`);
 }
 
-function renderUtilEquityChart(eq) {
-    const canvas = document.getElementById('utilEquityChart');
-    if (!canvas) return;
-    if (utilChart) { utilChart.destroy(); utilChart = null; }
-    if (!eq || eq.length < 2) return;
-
-    const labels = eq.map(r => r.date);
-    const util = eq.map(r => r.equity);
-
-    // SPY rebased to $10k over the same date window.
-    let spySeries = null;
-    if (state.spy && state.spy.length) {
-        const spyMap = Object.fromEntries(state.spy.map(d => [d.date, d.price]));
-        const start = labels.find(d => spyMap[d] != null);
-        if (start) {
-            const base = spyMap[start];
-            let last = 10000;
-            spySeries = labels.map(d => {
-                if (spyMap[d] != null) last = 10000 * spyMap[d] / base;
-                return last;
-            });
-        }
+// ── 01 · dispatch ladder ──
+function renderUtLadder() {
+    const days = UT.disp.days, N = days.length;
+    const t0 = utDayMs(days[0].day), t1 = utDayMs(days[N - 1].day);
+    const X = t => 60 + (t - t0) / (t1 - t0) * 920;
+    let co = 0, cm = 0, cb = 0;
+    const cum = days.map(d => { co += d.pnl.oracle; cm += d.pnl.signal_p50; cb += d.pnl.fixed; return [co, cm, cb]; });
+    const top = Math.ceil(Math.max(co, cm, cb) / 10000) * 10000;
+    const Y = v => 340 - v / top * 310;
+    const po = [], pm = [], pb = [];
+    days.forEach((d, i) => { const x = X(utDayMs(d.day)); po.push([x, Y(cum[i][0])]); pm.push([x, Y(cum[i][1])]); pb.push([x, Y(cum[i][2])]); });
+    let g = '';
+    for (let k = 0; k <= 5; k++) {
+        const v = top * k / 5, y = Y(v);
+        g += `<line class="grid" x1="60" x2="980" y1="${utF(y)}" y2="${utF(y)}"/><text class="ax" x="52" y="${utF(y + 4)}" text-anchor="end">${v ? '$' + (v / 1000) + 'k' : '$0'}</text>`;
     }
-
-    const datasets = [{
-        label: 'Battery book (net)', data: util, borderColor: '#00d4aa',
-        backgroundColor: 'rgba(0,212,170,0.08)', borderWidth: 2, pointRadius: 0,
-        fill: true, tension: 0.15,
-    }];
-    if (spySeries) datasets.push({
-        label: 'S&P 500 (SPY)', data: spySeries, borderColor: '#7a808a',
-        borderWidth: 1.5, borderDash: [5,4], pointRadius: 0, fill: false, tension: 0.15,
-    });
-
-    utilChart = new Chart(canvas, {
-        type: 'line',
-        data: { labels, datasets },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            plugins: {
-                legend: { labels: { color: '#a0a6b0', boxWidth: 12, font: { size: 11 } } },
-                tooltip: { callbacks: { label: c => c.dataset.label + ': $' +
-                    c.parsed.y.toLocaleString('en-US', { maximumFractionDigits: 0 }) } },
-            },
-            scales: {
-                x: { ticks: { color: '#606060', maxTicksLimit: 8, font: { size: 10 } }, grid: { color: '#1b1e24' } },
-                y: { ticks: { color: '#606060', font: { size: 10 },
-                     callback: v => '$' + v.toLocaleString() }, grid: { color: '#1b1e24' } },
-            },
-        },
-    });
-
-    const last = util[util.length - 1];
-    const ret = (last / 10000 - 1) * 100;
-    const foot = document.getElementById('utilEquityFoot');
-    if (foot) foot.innerHTML = `Book grew $10,000 → <b style="color:#00d4aa;">$${last.toLocaleString('en-US',{maximumFractionDigits:0})}</b> `+
-        `(${ret >= 0 ? '+' : ''}${ret.toFixed(2)}%) over the window. The near-straight line is the point: a low-volatility `+
-        `yield, not a directional bet. Raw return is modest on capex; the value is the Sharpe and the flat drawdown.`;
+    utMonthTicks(days[0].day, days[N - 1].day, X).forEach(t => { g += `<text class="ax" x="${utF(t.x)}" y="364" text-anchor="middle">${t.label}</text>`; });
+    // largest single-day gap between perfect insight and the model
+    let ai = 0;
+    days.forEach((d, i) => { if (d.pnl.oracle - d.pnl.signal_p50 > days[ai].pnl.oracle - days[ai].pnl.signal_p50) ai = i; });
+    // band labels go where each band is widest between 55% and 85% of the window (clear of the end labels)
+    const widest = (a, b) => { let k = Math.round(N * 0.55); for (let i = k; i < Math.round(N * 0.85); i++) if (b[i][1] - a[i][1] > b[k][1] - a[k][1]) k = i; return k; };
+    const bo = widest(po, pm), bv = widest(pm, pb);
+    const ad = days[ai];
+    const ax = pm[ai][0], ay = pm[ai][1];
+    const annRight = ax < 300;
+    const endY = [po[N - 1][1] - 10, pm[N - 1][1] - 10, pb[N - 1][1] + 20];
+    if (endY[1] - endY[0] < 15) endY[0] = endY[1] - 15;
+    g += `<path d="${utBand(po, pm)}" fill="var(--ut-cream)" fill-opacity="0.07"/>
+        <path d="${utBand(pm, pb)}" fill="var(--teal)" fill-opacity="0.16"/>
+        <path d="${utLine(pb)}" fill="none" stroke="var(--ut-gray)" stroke-width="1.8"/>
+        <path d="${utLine(po)}" fill="none" stroke="var(--ut-cream)" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <path d="${utLine(pm)}" fill="none" stroke="var(--teal)" stroke-width="2.8"/>
+        <text class="lbl" x="${utF(po[bo][0])}" y="${utF((po[bo][1] + pm[bo][1]) / 2 + 4)}" fill="var(--ut-cream)" text-anchor="middle" opacity="0.8">left on table</text>
+        <text class="lbl" x="${utF(pm[bv][0])}" y="${utF((pm[bv][1] + pb[bv][1]) / 2 + 4)}" fill="var(--teal)" text-anchor="middle">forecast value</text>
+        <circle cx="${utF(ax)}" cy="${utF(ay)}" r="5" fill="none" stroke="var(--amber)" stroke-width="2"/>
+        <text class="ann" x="${utF(annRight ? ax + 10 : ax - 10)}" y="${utF(Math.max(16, ay - 12))}" text-anchor="${annRight ? 'start' : 'end'}">${utShort(ad.day)}: perfect insight ${utMoney(ad.pnl.oracle)}, model ${utMoney(ad.pnl.signal_p50)}</text>
+        <text class="lbl" x="976" y="${utF(endY[0])}" fill="var(--ut-cream)" text-anchor="end">Perfect insight ${utK(co)}</text>
+        <text class="lbl" x="976" y="${utF(endY[1])}" fill="var(--teal)" text-anchor="end">Model ${utK(cm)}</text>
+        <text class="lbl" x="976" y="${utF(endY[2])}" fill="var(--txt-dim)" text-anchor="end">Fixed schedule ${utK(cb)}</text>`;
+    document.getElementById('utLadder').innerHTML = g;
+    document.getElementById('utLadderFoot').textContent =
+        `Gross of the $5/MWh cost, summed over ${N} full days from ${days[0].day} to ${days[N - 1].day}.`;
 }
 
+// ── 02 · day replay ──
+const UT_PRESET_NAME = { median_capture: 'Median capture', max_perfect: 'Biggest perfect-insight day',
+                         max_regret: 'Big miss', high_capture_other_season: 'High capture' };
+function renderUtReplaySetup() {
+    const presets = UT.disp.presets || [];
+    document.getElementById('utPresets').innerHTML = presets.map((p, i) =>
+        `<button type="button" class="ut-preset" data-day="${p.day}" aria-pressed="false">${UT_PRESET_NAME[p.rule] || 'Day ' + (i + 1)}<small>${p.day}</small></button>`).join('');
+    document.querySelectorAll('#utPresets .ut-preset').forEach(b => b.addEventListener('click', () => renderUtDay(b.dataset.day)));
+    const inp = document.getElementById('utDate');
+    inp.min = UT.disp.window.start; inp.max = UT.disp.window.end;
+    inp.addEventListener('change', () => { if (inp.value) renderUtDay(inp.value); });
+    renderUtDay(presets.length ? presets[0].day : UT.disp.days[0].day);
+}
+
+function renderUtDay(iso) {
+    const d = UT.byDay[iso];
+    const cap = document.getElementById('utCaption');
+    const inp = document.getElementById('utDate');
+    if (!d) {
+        cap.textContent = `No full day of data for ${iso}. Days with fewer than 20 settled hours are left out of the book.`;
+        return;
+    }
+    UT.sel = iso;
+    inp.value = iso;
+    document.querySelectorAll('#utPresets .ut-preset').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.day === iso)));
+    const preset = (UT.disp.presets || []).find(p => p.day === iso);
+    cap.textContent = preset ? preset.caption :
+        `${iso}: the model made ${utMoney(d.pnl.signal_p50)}, perfect insight ${utMoney(d.pnl.oracle)} and the fixed schedule ${utMoney(d.pnl.fixed)}.` +
+        (d.spike ? ' This is one of the window’s price-spike days.' : '');
+
+    const vals = d.price.concat(d.forecast).filter(v => v != null);
+    const step = utNiceStep((Math.max(...vals, 1) - Math.min(0, ...vals)) / 4);
+    const hi = Math.ceil(Math.max(...vals, 1) * 1.05 / step) * step;
+    const lo = Math.floor(Math.min(0, ...vals) / step) * step;
+    const cw = 920 / 24, cx = h => 60 + (h + 0.5) * cw;
+    const yy = p => 280 - (p - lo) / (hi - lo) * 260;
+    const seg = arr => { let s = '', pen = false; arr.forEach((p, h) => { if (p == null) { pen = false; return; } s += (pen ? ' L' : ' M') + utF(cx(h)) + ',' + utF(yy(p)); pen = true; }); return s.trim(); };
+    const band = H => H.map(h => `M${utF(60 + h * cw + 1)},20 h${utF(cw - 2)} v260 h${utF(-(cw - 2))} Z`).join(' ');
+    let g = `<path d="${band(d.picks.signal_p50.charge)}" fill="var(--blue)" fill-opacity="0.16"/>
+             <path d="${band(d.picks.signal_p50.discharge)}" fill="var(--orange)" fill-opacity="0.18"/>`;
+    for (let v = lo; v <= hi + 1e-9; v += step) {
+        const y = yy(v);
+        g += `<line class="grid" x1="60" x2="980" y1="${utF(y)}" y2="${utF(y)}"/><text class="ax" x="52" y="${utF(y + 4)}" text-anchor="end">${utMoney(v)}</text>`;
+    }
+    if (lo < 0) g += `<line x1="60" x2="980" y1="${utF(yy(0))}" y2="${utF(yy(0))}" stroke="var(--line-hard)"/>`;
+    [0, 3, 6, 9, 12, 15, 18, 21].forEach(h => { g += `<text class="ax" x="${utF(cx(h))}" y="302" text-anchor="middle">${String(h).padStart(2, '0')}</text>`; });
+    g += `<path d="${seg(d.forecast)}" fill="none" stroke="var(--teal)" stroke-width="2" stroke-dasharray="6 4"/>
+          <path d="${seg(d.price)}" fill="none" stroke="var(--ut-cream)" stroke-width="2.4"/>`;
+    d.price.forEach((p, h) => { if (p != null) g += `<circle cx="${utF(cx(h))}" cy="${utF(yy(p))}" r="3" fill="var(--ut-cream)"/>`; });
+    document.getElementById('utReplay').innerHTML = g;
+
+    const cells = (p, soft) => `<div class="ut-cells${soft ? ' soft' : ''}">` + Array.from({ length: 24 }, (_, h) =>
+        `<i class="${p.charge.includes(h) ? 'c' : p.discharge.includes(h) ? 'd' : ''}" title="${utHour(h)}"></i>`).join('') + '</div>';
+    document.getElementById('utStrips').innerHTML =
+        `<div class="ut-strip"><span style="color:var(--teal)">MODEL</span>${cells(d.picks.signal_p50)}</div>
+         <div class="ut-strip"><span style="color:var(--ut-cream)">PERFECT</span>${cells(d.picks.oracle)}</div>
+         <div class="ut-strip"><span style="color:var(--txt-dim)">FIXED</span>${cells(d.picks.fixed, true)}</div>`;
+
+    const m = d.picks.signal_p50, o = d.picks.oracle;
+    const hits = m.charge.filter(h => o.charge.includes(h)).length + m.discharge.filter(h => o.discharge.includes(h)).length;
+    const stat = (l, v, c) => `<div><span>${l}</span><b${c ? ` style="color:${c}"` : ''}>${v}</b></div>`;
+    document.getElementById('utDayStats').innerHTML =
+        stat('MODEL P&amp;L', utMoney(d.pnl.signal_p50), 'var(--teal)') +
+        stat('PERFECT INSIGHT', utMoney(d.pnl.oracle), 'var(--ut-cream)') +
+        stat('FIXED SCHEDULE', utMoney(d.pnl.fixed), 'var(--txt-dim)') +
+        stat('CAPTURE', d.pnl.oracle > 0 ? utPct(d.pnl.signal_p50 / d.pnl.oracle) : '—') +
+        stat('HOURS MATCHED', `${hits} / ${m.charge.length + m.discharge.length}`);
+}
+
+// ── 03 · dispatch fingerprint ──
+function renderUtHeat() {
+    const fp = UT.disp.fingerprint, W = fp.weeks.length;
+    const cw = 900 / W, x0 = 56;
+    const step = v => v < -0.6 ? 'c3' : v < -0.3 ? 'c2' : v < -0.12 ? 'c1' : v < 0.12 ? 'n' : v < 0.3 ? 'd1' : v < 0.6 ? 'd2' : 'd3';
+    const paths = { c3: '', c2: '', c1: '', n: '', d1: '', d2: '', d3: '' };
+    fp.matrix.forEach((row, w) => row.forEach((v, h) => {
+        paths[step(v)] += `M${utF(x0 + w * cw)},${16 + h * 14} h${utF(cw - 1)} v13 h${utF(-(cw - 1))} Z `;
+    }));
+    let g = Object.entries(paths).map(([k, d]) => `<path d="${d}" fill="var(--ut-${k})"/>`).join('');
+    [[0, 26, '00h'], [6, 110, '06h'], [12, 194, '12h'], [18, 278, '18h'], [23, 348, '23h']].forEach(([, y, t]) => { g += `<text class="ax" x="48" y="${y}" text-anchor="end">${t}</text>`; });
+    let lastMonth = -1;
+    fp.weeks.forEach((wk, w) => {
+        const d = new Date(utDayMs(wk) + 3 * 864e5), m = d.getUTCMonth();   // label a week by its Thursday's month
+        if (m !== lastMonth) { g += `<text class="ax" x="${utF(x0 + w * cw)}" y="374" text-anchor="start">${UT_MON[m]}</text>`; lastMonth = m; }
+    });
+    document.getElementById('utHeat').innerHTML = g;
+}
+
+// ── 04 · daily regret ──
+function renderUtRegret() {
+    const days = UT.disp.days, N = days.length;
+    const reg = days.map(d => d.pnl.oracle - d.pnl.signal_p50);
+    const rmax = Math.max(...reg);
+    const bw = 920 / N;
+    let pn = '', ps = '', tot = 0, sp = 0, spDays = 0;
+    reg.forEach((v, i) => {
+        const h = v / rmax * 160, x = 60 + i * bw;
+        const s = `M${utF(x)},190 h${utF(bw * 0.72)} v${utF(-h)} h${utF(-bw * 0.72)} Z `;
+        if (days[i].spike) { ps += s; sp += v; spDays++; } else pn += s;
+        tot += v;
+    });
+    const t0 = utDayMs(days[0].day), t1 = utDayMs(days[N - 1].day);
+    const X = t => 60 + (t - t0) / (t1 - t0) * 920;
+    let g = `<line x1="60" x2="980" y1="190" y2="190" stroke="var(--line-hard)"/>
+             <path d="${pn}" fill="var(--ut-muted)"/><path d="${ps}" fill="var(--orange)"/>`;
+    utMonthTicks(days[0].day, days[N - 1].day, X).forEach(t => { g += `<text class="ax" x="${utF(t.x)}" y="212" text-anchor="middle">${t.label}</text>`; });
+    // label the three largest bars: the tallest above its bar, the others beside theirs when they
+    // are close to a label already placed (left first, then right)
+    const placed = [];
+    reg.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]).slice(0, 3).forEach(([v, i]) => {
+        const bx = 60 + i * bw + bw * 0.36, by = 190 - v / rmax * 160;
+        const near = placed.filter(p => Math.abs(p.x - bx) < 110);
+        let x = Math.max(110, Math.min(930, bx)), y = by - 8, anchor = 'middle';
+        if (near.length) {
+            const left = !near.some(p => p.side === 'left');
+            x = left ? bx - 8 : bx + 8; y = by + 4; anchor = left ? 'end' : 'start';
+            placed.push({ x: bx, side: left ? 'left' : 'right' });
+        } else placed.push({ x: bx, side: 'top' });
+        g += `<text class="ann" x="${utF(x)}" y="${utF(y)}" text-anchor="${anchor}">${utShort(days[i].day)}: ${utMoney(v)}</text>`;
+    });
+    document.getElementById('utRegret').innerHTML = g;
+    document.getElementById('utRegretLine').innerHTML =
+        `<b>${utPct(sp / tot)}</b>of all regret came from<em>${spDays}</em>spike days`;
+    document.getElementById('utSpikeRule').textContent = UT.disp.spike_rule +
+        ' Regret is perfect insight’s daily P&L minus the model’s, before costs.';
+}
+
+// ── 05 · latest plan ──
+function renderUtilPlan(summary) {
+    const plan = summary.dispatch_plan;
+    const el = document.getElementById('utPlan');
+    if (!plan || !plan.charge_hours) { el.innerHTML = '<p class="ut-foot">No dispatch plan available.</p>'; return; }
+    document.getElementById('utPlanTitle').textContent = 'Dispatch for ' + plan.plan_date;
+    const ch = plan.charge_hours, di = plan.discharge_hours;
+    el.innerHTML =
+        `<div><div class="ut-cells">` + Array.from({ length: 24 }, (_, h) =>
+            `<i class="${ch.includes(h) ? 'c' : di.includes(h) ? 'd' : ''}" title="${utHour(h)}"></i>`).join('') + `</div>
+         <div class="ut-ticks"><span>00</span><span>06</span><span>12</span><span>18</span></div></div>
+         <div class="ut-plan-line">
+            <span><b style="color:var(--blue)">CHARGE</b>${ch.map(utHour).join(', ')}</span>
+            <span><b style="color:var(--orange)">DISCHARGE</b>${di.map(utHour).join(', ')}</span>
+         </div>`;
+}
+
+// ── Other results (tables) ──
 function utilTable(el, headers, rows, highlightRow) {
     if (!el) return;
-    const thead = '<thead><tr>' + headers.map(h => `<th style="text-align:${h.align||'left'}">${h.t}</th>`).join('') + '</tr></thead>';
+    const thead = '<thead><tr>' + headers.map(h => `<th style="text-align:${h.align || 'left'}">${h.t}</th>`).join('') + '</tr></thead>';
     const tbody = '<tbody>' + rows.map(r => {
-        const hl = highlightRow && highlightRow(r) ? ' style="background:rgba(0,212,170,0.06);"' : '';
-        return `<tr${hl}>` + r.cells.map((c,i) =>
-            `<td style="text-align:${headers[i].align||'left'};${c.color?`color:${c.color};`:''}${c.bold?'font-weight:700;':''}">${c.v}</td>`).join('') + '</tr>';
+        const hl = highlightRow && highlightRow(r) ? ' style="background:rgba(35,199,166,0.06);"' : '';
+        return `<tr${hl}>` + r.cells.map((c, i) =>
+            `<td style="text-align:${headers[i].align || 'left'};${c.color ? `color:${c.color};` : ''}${c.bold ? 'font-weight:700;' : ''}">${c.v}</td>`).join('') + '</tr>';
     }).join('') + '</tbody>';
     el.innerHTML = thead + tbody;
 }
 
 function renderUtilTables(summary) {
-    if (!summary) return;
-    const money = v => (v >= 0 ? '$' : '-$') + Math.abs(Math.round(v)).toLocaleString();
-    const nameMap = { fixed: 'Fixed (clock block)', signal_p50: 'signal_p50 (deployed)',
-                      signal_p90: 'signal_p90 (spike-aware)', signal_clf: 'signal_clf (classifier)', oracle: 'oracle (ceiling)' };
-
-    // Battery
+    const money = utMoney;
+    const nameMap = { fixed: 'Fixed schedule', signal_p50: 'signal_p50 (deployed)',
+                      signal_p90: 'signal_p90 (spike-aware)', signal_clf: 'signal_clf (classifier)', oracle: 'Perfect insight (ceiling)' };
     if (summary.battery) {
         utilTable(document.getElementById('utilBatteryTable'),
-            [{t:'Dispatch'},{t:'$/MW-yr',align:'right'},{t:'Sharpe (gross)',align:'right'},
-             {t:'Sharpe (net)',align:'right'},{t:'Max DD',align:'right'},{t:'Capture',align:'right'}],
+            [{ t: 'Dispatch' }, { t: '$/MW-yr', align: 'right' }, { t: 'Sharpe (gross)', align: 'right' },
+             { t: 'Sharpe (net)', align: 'right' }, { t: 'Max DD', align: 'right' }, { t: 'Capture', align: 'right' }],
             summary.battery.map(b => ({ _s: b.strategy, cells: [
-                { v: nameMap[b.strategy] || b.strategy, bold: b.strategy==='signal_p50' },
-                { v: money(b.ann_usd_per_mw_yr), align:'right' },
-                { v: (b.sharpe_gross ?? 0).toFixed(2), align:'right', color: b.sharpe_gross>=1?'#00d4aa':'#e8eaed' },
-                { v: (b.sharpe_net ?? 0).toFixed(2), align:'right', color: b.sharpe_net>=1?'#00d4aa':'#e8eaed' },
-                { v: money(b.max_dd_gross), align:'right', color: b.max_dd_gross>-100?'#00d4aa':'#ff9f43' },
-                { v: Math.round((b.capture_of_oracle ?? 0)*100)+'%', align:'right' },
-            ]})),
+                { v: nameMap[b.strategy] || b.strategy, bold: b.strategy === 'signal_p50' },
+                { v: money(b.ann_usd_per_mw_yr), align: 'right' },
+                { v: (b.sharpe_gross ?? 0).toFixed(2), align: 'right', color: b.sharpe_gross >= 1 ? 'var(--teal)' : 'var(--txt)' },
+                { v: (b.sharpe_net ?? 0).toFixed(2), align: 'right', color: b.sharpe_net >= 1 ? 'var(--teal)' : 'var(--txt)' },
+                { v: money(b.max_dd_gross), align: 'right', color: b.max_dd_gross > -100 ? 'var(--teal)' : 'var(--orange)' },
+                { v: utPct(b.capture_of_oracle ?? 0), align: 'right' },
+            ] })),
             r => r._s === 'signal_p50');
     }
-    // Demand response
     if (summary.demand_response) {
-        const order = { signal_p50:0, signal_p90:1, signal_clf:2, oracle:3, fixed:4 };
-        const dr = [...summary.demand_response].sort((a,b)=>(order[a.strategy]??9)-(order[b.strategy]??9));
+        const order = { signal_p50: 0, signal_p90: 1, signal_clf: 2, oracle: 3, fixed: 4 };
+        const dr = [...summary.demand_response].sort((a, b) => (order[a.strategy] ?? 9) - (order[b.strategy] ?? 9));
         utilTable(document.getElementById('utilDrTable'),
-            [{t:'Ranking'},{t:'Avoided $/MW-yr',align:'right'},{t:'Capture',align:'right'},{t:'Spike prec.',align:'right'}],
-            dr.map(d => ({ _s:d.strategy, cells: [
-                { v: nameMap[d.strategy] || d.strategy, bold: d.strategy==='signal_p50' },
-                { v: money(d.avoided_per_mw_year), align:'right' },
-                { v: Math.round((d.capture_of_oracle??0)*100)+'%', align:'right' },
-                { v: Math.round((d.precision_spike??0)*100)+'%', align:'right' },
-            ]})), r => r._s === 'signal_p50');
+            [{ t: 'Ranking' }, { t: 'Avoided $/MW-yr', align: 'right' }, { t: 'Capture', align: 'right' }, { t: 'Spike prec.', align: 'right' }],
+            dr.map(d => ({ _s: d.strategy, cells: [
+                { v: nameMap[d.strategy] || d.strategy, bold: d.strategy === 'signal_p50' },
+                { v: money(d.avoided_per_mw_year), align: 'right' },
+                { v: utPct(d.capture_of_oracle ?? 0), align: 'right' },
+                { v: utPct(d.precision_spike ?? 0), align: 'right' },
+            ] })), r => r._s === 'signal_p50');
     }
-    // Carbon
     if (summary.carbon) {
         utilTable(document.getElementById('utilCarbonTable'),
-            [{t:'Grid'},{t:'CO₂ avoided',align:'right'},{t:'$ saved/MWh',align:'right'},
-             {t:'t CO₂/MW-yr',align:'right'},{t:'$ @ $85/t',align:'right'}],
+            [{ t: 'Grid' }, { t: 'CO₂ avoided', align: 'right' }, { t: '$ saved/MWh', align: 'right' },
+             { t: 't CO₂/MW-yr', align: 'right' }, { t: '$ @ $85/t', align: 'right' }],
             summary.carbon.map(c => ({ cells: [
-                { v: c.grid==='CISO'?'CAISO':'ERCOT' },
-                { v: '−'+Math.abs(c.carbon_avoided_pct).toFixed(0)+'%', align:'right', color:'#00d4aa' },
-                { v: '$'+c.energy_saved_usd_per_mwh.toFixed(1), align:'right', color:'#00d4aa' },
-                { v: c.co2_avoided_tonnes_per_mw_year.toFixed(0), align:'right' },
-                { v: '$'+Math.round(c.co2_value_usd_yr_at_85).toLocaleString(), align:'right' },
-            ]})));
+                { v: c.grid === 'CISO' ? 'CAISO' : 'ERCOT' },
+                { v: '−' + Math.abs(c.carbon_avoided_pct).toFixed(0) + '%', align: 'right', color: 'var(--teal)' },
+                { v: '$' + c.energy_saved_usd_per_mwh.toFixed(1), align: 'right', color: 'var(--teal)' },
+                { v: c.co2_avoided_tonnes_per_mw_year.toFixed(0), align: 'right' },
+                { v: '$' + Math.round(c.co2_value_usd_yr_at_85).toLocaleString(), align: 'right' },
+            ] })));
     }
-    // Forecast skill
     if (summary.forecast_skill) {
         utilTable(document.getElementById('utilSkillTable'),
-            [{t:'Target'},{t:'Grid'},{t:'MAE',align:'right'},{t:'Skill vs naive',align:'right'}],
+            [{ t: 'Target' }, { t: 'Grid' }, { t: 'MAE', align: 'right' }, { t: 'Skill vs baseline', align: 'right' }],
             summary.forecast_skill.map(f => ({ cells: [
                 { v: f.target }, { v: f.grid },
-                { v: f.mae.toFixed(1), align:'right' },
-                { v: '+'+f.skill.toFixed(2), align:'right', color: f.skill>=0.3?'#00d4aa':'#e8eaed' },
-            ]})));
+                { v: f.mae.toFixed(1), align: 'right' },
+                { v: '+' + f.skill.toFixed(2), align: 'right', color: f.skill >= 0.3 ? 'var(--teal)' : 'var(--txt)' },
+            ] })));
     }
-    // Load-shift foot
     const ls = summary.load_shift;
     const lsFoot = document.getElementById('utilLoadShiftFoot');
     if (lsFoot && ls && ls.length) {
-        lsFoot.innerHTML = 'Load-shift signal ($/MWh saved running the k cheapest forecast hours vs anytime): ' +
-            ls.map(l => `<b>${l.grid==='CISO'?'CAISO':'ERCOT'} $${l.usd_per_mwh_saved.toFixed(2)}</b> `+
-                        `(${Math.round(l.capture_fraction*100)}% of oracle)`).join(' · ') + '.';
+        lsFoot.innerHTML = 'Load-shift signal ($/MWh saved by running the k cheapest forecast hours instead of any hour): ' +
+            ls.map(l => `${l.grid === 'CISO' ? 'CAISO' : 'ERCOT'} $${l.usd_per_mwh_saved.toFixed(2)} ` +
+                        `(${utPct(l.capture_fraction)} of perfect insight)`).join(', ') + '.';
     }
-    // Method footnote
-    const mf = document.getElementById('utilMethodFoot');
-    if (mf) mf.innerHTML = `<b>Methodology.</b> Direct t+24 hourly forecast (gradient-boosted trees, LightGBM/HistGB), `+
-        `expanding-window walk-forward with a horizon-length embargo (no look-ahead); quantile tails conformalized to `+
-        `~80–86% coverage. Dispatch is scored on <b>actual settled ERCOT day-ahead prices</b>; P&L includes a $5/MWh `+
-        `round-trip cost. Models and dispatch logic are identical to the validated research bundle — this is a `+
-        `walk-forward out-of-sample track, not live paper trading; it extends automatically once the live `+
-        `EIA / Open-Meteo / gridstatus data feeds are wired.`;
-}
-
-function renderUtilPlan(summary) {
-    const plan = summary?.dispatch_plan;
-    const el = document.getElementById('utilPlan');
-    const pd = document.getElementById('utilPlanDate');
-    if (!el) return;
-    if (!plan || !plan.charge_hours) { el.innerHTML = '<div class="ind-foot">No dispatch plan available.</div>'; return; }
-    if (pd) pd.textContent = plan.plan_date ? '(' + plan.plan_date + ')' : '';
-    const hourChip = (h, kind) => {
-        const c = kind === 'charge' ? '#00a8ff' : '#ff9f43';
-        const label = String(h).padStart(2,'0') + ':00';
-        return `<span style="display:inline-block;padding:5px 10px;margin:3px;border-radius:6px;`+
-               `border:1px solid ${c}55;background:${c}14;color:${c};font-size:12px;font-weight:600;">${label}</span>`;
-    };
-    el.innerHTML =
-        `<div style="margin-bottom:8px;"><span style="color:#00a8ff;font-weight:600;font-size:12px;">▼ CHARGE (buy)</span><br>` +
-        plan.charge_hours.map(h => hourChip(h,'charge')).join('') + `</div>` +
-        `<div><span style="color:#ff9f43;font-weight:600;font-size:12px;">▲ DISCHARGE (sell)</span><br>` +
-        plan.discharge_hours.map(h => hourChip(h,'discharge')).join('') + `</div>`;
 }
 </script>
 <script>
@@ -5850,11 +6056,6 @@ function renderUtilPlan(summary) {
   .news-source { color: var(--amber) !important; font-weight: 500 !important; }
   .news-pane::-webkit-scrollbar-thumb { background: var(--line-hard) !important; border-radius: 0 !important; }
 
-  /* ── 18. UTILITIES EQUITY CHART — bound the canvas ───────────────────────
-     The book is a near-flat, low-vol yield vs SPY, so a linear axis in a fixed
-     viewport reads correctly; the prior runaway height (unbounded canvas) is
-     what made it look like a giant spike. */
-  #utilEquityChart { max-height: 360px !important; }
 
   /* ── 19. MOBILE — macro tab must stack (base 2-col rule overrode the old
      media query by source order; this block loads last and wins) ───────────*/
@@ -5876,5 +6077,1093 @@ function renderUtilPlan(summary) {
   }
 
 </style>
+
+
+
+<style id="utilities-tab-css">
+/* Utilities tab (dashboard redesign Part A). Site tokens from the terminal skin; the heatmap
+   steps and the two greys come from the approved mockup where the skin has no token. */
+#utilities-tab .ut {
+    --ut-cream: var(--txt); --ut-gray: #7c8597; --ut-muted: #46506a; --ut-idle: #1a2130;
+    --ut-c3: var(--blue); --ut-c2: #2a6bb0; --ut-c1: #1d3d63; --ut-n: var(--surface-hi);
+    --ut-d1: #5c3a12; --ut-d2: #b06a1c; --ut-d3: var(--orange);
+    max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px;
+    color: var(--txt-dim); font-family: var(--font-ui); font-size: 15px; min-width: 0;
+}
+#utilities-tab .ut-body { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+#utilities-tab .ut-hero { display: flex; flex-direction: column; gap: 18px; padding: 8px 0 4px; }
+#utilities-tab .ut-tags { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+#utilities-tab .ut-eyebrow-box { font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em; color: var(--amber); border: 1px solid var(--amber); padding: 6px 12px; border-radius: 2px; }
+#utilities-tab .ut-mono-dim { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; color: var(--txt-faint); }
+#utilities-tab .ut-h1 { margin: 0; font-family: var(--font-serif); font-weight: 500; font-size: clamp(30px, 5vw, 52px); line-height: 1.08; color: var(--txt); max-width: 900px; letter-spacing: -.01em; }
+#utilities-tab .ut-lede { margin: 0; max-width: 760px; line-height: 1.65; font-size: 16.5px; }
+
+#utilities-tab .ut-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 860px) { #utilities-tab .ut-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+#utilities-tab .ut-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+#utilities-tab .ut-tile.wide { grid-column: 1 / -1; }
+#utilities-tab .ut-tile-l { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; color: var(--txt-faint); }
+#utilities-tab .ut-tile-v { font-family: var(--font-mono); font-size: 26px; color: var(--txt); font-variant-numeric: tabular-nums; }
+#utilities-tab .ut-tile.wide .ut-tile-v { font-size: 44px; color: var(--teal); line-height: 1; font-weight: 500; }
+#utilities-tab .ut-tile-s { font-size: 12.5px; color: var(--txt-faint); }
+#utilities-tab .ut-tile-s b { color: var(--txt); font-family: var(--font-mono); font-weight: 400; }
+#utilities-tab .ut-capbar { height: 8px; border-radius: 4px; background: var(--ut-idle); position: relative; overflow: hidden; margin-top: 6px; }
+#utilities-tab .ut-capbar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+
+#utilities-tab .ut-panel { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: clamp(18px, 3vw, 32px); display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+#utilities-tab .ut-head { display: flex; flex-direction: column; gap: 8px; max-width: 760px; }
+#utilities-tab .ut-eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; color: var(--amber); }
+#utilities-tab .ut-h2 { margin: 0; font-family: var(--font-serif); font-weight: 500; font-size: clamp(22px, 3vw, 30px); color: var(--txt); }
+#utilities-tab .ut-p { margin: 0; line-height: 1.6; }
+#utilities-tab .ut-foot { margin: 0; font-size: 12.5px; color: var(--txt-faint); line-height: 1.55; }
+#utilities-tab .ut-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; }
+#utilities-tab .ut-legend span { display: inline-flex; align-items: center; gap: 8px; }
+#utilities-tab .ut-sw-line { display: inline-block; width: 22px; border-top: 2px solid; }
+#utilities-tab .ut-dash-cream { border-top-style: dashed; border-color: var(--ut-cream); }
+#utilities-tab .ut-solid-cream { border-color: var(--ut-cream); }
+#utilities-tab .ut-solid-teal { border-top-width: 3px; border-color: var(--teal); }
+#utilities-tab .ut-dash-teal { border-top-style: dashed; border-color: var(--teal); }
+#utilities-tab .ut-solid-gray { border-color: var(--ut-gray); }
+#utilities-tab .ut-sw-box { display: inline-block; width: 13px; height: 13px; border-radius: 2px; }
+#utilities-tab .ut-bg-charge { background: var(--blue); opacity: .6; }
+#utilities-tab .ut-bg-discharge { background: var(--orange); opacity: .6; }
+
+#utilities-tab .ut-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+#utilities-tab .ut-svg { width: 100%; min-width: 640px; height: auto; display: block; }
+#utilities-tab .ut-svg .ax { font-family: var(--font-mono); font-size: 11px; fill: var(--txt-faint); }
+#utilities-tab .ut-svg .lbl { font-family: var(--font-mono); font-size: 12px; font-weight: 500; }
+#utilities-tab .ut-svg .ann { font-family: var(--font-ui); font-size: 12px; fill: var(--amber); }
+#utilities-tab .ut-svg .grid { stroke: var(--line-soft); stroke-width: 1; }
+
+#utilities-tab .ut-picker { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+#utilities-tab .ut-presets { display: flex; flex-wrap: wrap; gap: 8px; }
+#utilities-tab .ut-preset { min-height: 44px; padding: 4px 14px; border-radius: 4px; border: 1px solid var(--line-hard); background: var(--bg-2); color: var(--txt-dim); font: inherit; font-size: 13.5px; cursor: pointer; text-align: left; line-height: 1.25; }
+#utilities-tab .ut-preset small { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--txt-faint); }
+#utilities-tab .ut-preset[aria-pressed="true"] { border-color: var(--teal); background: rgba(35,199,166,.12); color: var(--txt); }
+#utilities-tab .ut-preset:focus-visible, #utilities-tab .ut-date input:focus-visible, #utilities-tab .ut-more summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+#utilities-tab .ut-date { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--txt-faint); }
+#utilities-tab .ut-date input { min-height: 40px; background: var(--bg-2); color: var(--txt); border: 1px solid var(--line-hard); border-radius: 4px; padding: 0 10px; font-family: var(--font-mono); font-size: 13px; color-scheme: dark; }
+#utilities-tab .ut-caption { margin: 0; font-size: 14px; color: var(--txt-dim); min-height: 1.4em; }
+
+#utilities-tab .ut-strips { display: flex; flex-direction: column; gap: 6px; }
+#utilities-tab .ut-strip { display: flex; align-items: center; gap: 10px; }
+#utilities-tab .ut-strip > span { width: 64px; flex: none; font-family: var(--font-mono); font-size: 11px; }
+#utilities-tab .ut-cells { flex: 1; display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 3px; min-width: 0; }
+#utilities-tab .ut-cells i { height: 22px; border-radius: 2px; background: var(--ut-idle); }
+#utilities-tab .ut-cells i.c { background: var(--blue); }
+#utilities-tab .ut-cells i.d { background: var(--orange); }
+#utilities-tab .ut-cells.soft i.c, #utilities-tab .ut-cells.soft i.d { opacity: .6; }
+#utilities-tab .ut-daystats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 12px; border-top: 1px solid var(--line); padding-top: 18px; }
+#utilities-tab .ut-daystats div { display: flex; flex-direction: column; gap: 4px; }
+#utilities-tab .ut-daystats span { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--txt-faint); }
+#utilities-tab .ut-daystats b { font-family: var(--font-mono); font-size: 22px; font-weight: 400; color: var(--txt); font-variant-numeric: tabular-nums; }
+
+#utilities-tab .ut-heat-foot { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+#utilities-tab .ut-scale { display: flex; align-items: center; gap: 10px; font-size: 12px; font-family: var(--font-mono); }
+#utilities-tab .ut-steps { display: flex; gap: 2px; }
+#utilities-tab .ut-steps i { width: 22px; height: 12px; }
+#utilities-tab .ut-step-n { outline: 1px solid var(--line-hard); }
+#utilities-tab .ut-c-charge { color: var(--blue); }
+#utilities-tab .ut-c-discharge { color: var(--orange); }
+#utilities-tab .ut-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; flex: 1 1 520px; font-size: 13px; line-height: 1.5; }
+#utilities-tab .ut-notes strong { color: var(--txt); font-weight: 600; }
+
+#utilities-tab .ut-regret-top { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: baseline; justify-content: space-between; }
+#utilities-tab .ut-regret-line { font-size: 14px; }
+#utilities-tab .ut-regret-line b { font-family: var(--font-mono); font-weight: 400; font-size: 28px; color: var(--orange); margin-right: 8px; }
+#utilities-tab .ut-regret-line em { font-style: normal; font-family: var(--font-mono); font-size: 18px; color: var(--txt); margin: 0 6px; }
+
+#utilities-tab .ut-plan { display: flex; flex-direction: column; gap: 10px; }
+#utilities-tab .ut-plan .ut-cells i { height: 44px; border-radius: 3px; }
+#utilities-tab .ut-ticks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); font-family: var(--font-mono); font-size: 11px; color: var(--txt-faint); }
+#utilities-tab .ut-plan-line { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 14px; }
+#utilities-tab .ut-plan-line span b { font-family: var(--font-mono); font-weight: 400; margin-right: 8px; }
+
+#utilities-tab .ut-more { border-top: 1px solid var(--line); padding-top: 14px; }
+#utilities-tab .ut-more summary { cursor: pointer; color: var(--txt); font-size: 14px; }
+#utilities-tab .ut-more-body { display: flex; flex-direction: column; gap: 24px; margin-top: 16px; }
+#utilities-tab .ut-sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px; }
+#utilities-tab .ut-sub { min-width: 0; }
+#utilities-tab .ut-sub h4 { margin: 0 0 6px; font-size: 14px; color: var(--txt); font-weight: 600; }
+#utilities-tab .ut-sub p { margin: 0 0 10px; font-size: 13px; line-height: 1.55; }
+#utilities-tab .ut-sub .history-table-wrap { overflow-x: auto; }
+#utilities-tab .ut-method { font-size: 13px; line-height: 1.65; color: var(--txt-faint); max-width: 900px; }
+#utilities-tab .ut-method strong { color: var(--txt-dim); }
+@media (max-width: 600px) {
+    #utilities-tab .ut-tile.wide .ut-tile-v { font-size: 36px; }
+    #utilities-tab .ut-strip > span { width: 52px; font-size: 10px; }
+    #utilities-tab .ut-cells { gap: 2px; }
+}
+</style>
+
+
+
+
+
+
+
+
+
+<style id="site-design-v3">
+/* Site-wide design layer (dashboard redesign, Part C follow-up): carries the Utilities / Research
+   look to every tab. Loads after the terminal skin, so it uses !important where that skin does. */
+
+/* page column: header, nav and every tab share one 1180px column */
+.header, .main-tabs { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+.tab-content { max-width: 1180px; margin: 0 auto; }
+
+/* header subtitle: sentence case, UI face */
+.logo-text h1 { font-weight: 500 !important; }
+.logo-text p { font-family: var(--font-ui) !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 12.5px !important; }
+.status, .refresh-btn { font-family: var(--font-ui) !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 12.5px !important; border-radius: 4px !important; }
+
+/* nav: plain sentence-case links, amber underline on the active tab */
+.main-tab { font-family: var(--font-ui) !important; font-size: 14px !important; text-transform: none !important; letter-spacing: 0 !important;
+            padding: 14px 14px !important; color: var(--txt-faint) !important; }
+.main-tab:hover { color: var(--txt) !important; background: transparent !important; }
+.main-tab.active { color: var(--txt) !important; border-bottom-color: var(--amber) !important; }
+.main-tabs { overflow-x: auto; flex-wrap: nowrap !important; scrollbar-width: none; }
+.main-tabs::-webkit-scrollbar { display: none; }
+.main-tab { white-space: nowrap; flex: none; }
+
+/* tab hero: eyebrow, serif headline, lede (same as Utilities / Research) */
+.pg-hero { display: flex; flex-direction: column; gap: 16px; padding: 8px 0 28px; }
+.pg-tags { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.pg-eyebrow-box { font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em; color: var(--amber); border: 1px solid var(--amber); padding: 6px 12px; border-radius: 2px; }
+.pg-mono { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; color: var(--txt-faint); }
+.pg-h1 { margin: 0; font-family: var(--font-serif); font-weight: 500; font-size: clamp(30px, 5vw, 50px); line-height: 1.1; color: var(--txt); max-width: 900px; letter-spacing: -.01em; }
+.pg-lede { margin: 0; max-width: 780px; line-height: 1.65; font-size: 16.5px; color: var(--txt-dim); }
+.pg-lede b { font-weight: 500; color: var(--txt); }
+
+/* panels: one surface, one radius, roomier padding */
+.metric-card, .chart-container, .allocation-container, .diagnostic-card, .benchmark-comparison, .history-container,
+.analytics-card, .mini-chart-container, .ticker-controls, .ticker-metric-card, .indicator-card, .news-pane,
+.overview-stats-bar, .overview-manifesto, .overview-canvas-wrapper, .ind-kpi, .ff-card, .strat-overview-card,
+.narrative-card, .strategy-filter {
+    border-radius: 6px !important; box-shadow: none !important; background: var(--surface) !important; border: 1px solid var(--line) !important;
+}
+.chart-container, .allocation-container, .history-container, .benchmark-comparison, .diagnostic-card, .overview-manifesto, .narrative-card {
+    padding: clamp(18px, 2.6vw, 28px) !important;
+}
+.mini-chart-container { padding: 18px 20px !important; }
+.metric-card::before { display: none !important; }
+.narrative-card { border-left: 1px solid var(--line) !important; }
+.overview-canvas-wrapper { overflow: hidden; }
+
+.strat-overview-card.active-tga, .strat-overview-card.active-markowitz, .strat-overview-card.active-carry {
+    border-color: var(--teal) !important; box-shadow: none !important; background: rgba(35,199,166,.06) !important; }
+.strat-active-indicator { display: none !important; }
+
+/* section titles: serif; subtitles: readable body text */
+.chart-title { font-family: var(--font-serif) !important; font-weight: 500 !important; font-size: clamp(19px, 2.2vw, 24px) !important; color: var(--txt) !important; letter-spacing: 0 !important; }
+.mini-chart-container .chart-title, .chart-title[style*="font-size:13px"], .chart-title[style*="font-size:14px"] { font-size: 17px !important; }
+.chart-subtitle { font-family: var(--font-ui) !important; font-size: 14px !important; line-height: 1.6 !important; color: var(--txt-dim) !important; max-width: 780px; text-transform: none !important; letter-spacing: 0 !important; }
+.chart-subtitle b { font-weight: 500; color: var(--txt); }
+.chart-header { margin-bottom: 18px !important; flex-wrap: wrap; gap: 6px 16px; }
+.chart-header > .chart-subtitle { flex-basis: 100%; }
+.ind-foot { font-size: 12.5px !important; color: var(--txt-faint) !important; line-height: 1.55 !important; }
+.manifesto-title { font-size: clamp(22px, 3vw, 30px) !important; font-weight: 500 !important; }
+.manifesto-subtitle { font-family: var(--font-ui) !important; color: var(--txt-dim) !important; font-style: normal !important; font-size: 15px !important; line-height: 1.65 !important; max-width: 820px; }
+.manifesto-item h4 { font-family: var(--font-serif); font-weight: 500 !important; font-size: 18px !important; }
+.manifesto-item p { color: var(--txt-dim) !important; font-size: 13.5px !important; line-height: 1.6 !important; }
+.section-divider span { font-family: var(--font-mono) !important; letter-spacing: .14em !important; color: var(--amber) !important; }
+
+/* tile labels: mono, tracked (the Utilities KPI style); values mono and calm */
+.metric-label, .analytics-card-label, .ticker-metric-label, .indicator-label, .comparison-stat-label, .overview-stat-label,
+.ind-kpi .label, .control-label, .total-equity-label, .narrative-label, .news-pane-title, .overview-section-label, .held-strip-label, .filter-label {
+    font-family: var(--font-mono) !important; font-size: 11px !important; letter-spacing: .14em !important; text-transform: uppercase !important;
+    color: var(--txt-faint) !important; font-weight: 400 !important;
+}
+.metric-value { font-weight: 400 !important; font-size: 26px !important; letter-spacing: 0 !important; }
+.metric-subtitle, .overview-stat-sub, .indicator-change, .ticker-metric-sub { font-family: var(--font-ui) !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 12.5px !important; color: var(--txt-faint) !important; }
+.overview-stat-value { font-family: var(--font-mono) !important; font-weight: 400 !important; }
+
+/* buttons, pills and switches: the Utilities day-picker style */
+.pill-btn, .ostab, .cot-btn, .inner-tab, .show-more-btn, .analyze-btn {
+    font-family: var(--font-ui) !important; text-transform: none !important; letter-spacing: 0 !important;
+    border-radius: 4px !important; font-size: 13.5px !important;
+}
+.pill-btn, .ostab, .cot-btn { min-height: 36px; padding: 6px 14px !important; background: var(--bg-2) !important; border: 1px solid var(--line-hard) !important; color: var(--txt-dim) !important; }
+.pill-btn:hover, .ostab:hover, .cot-btn:hover { color: var(--txt) !important; border-color: var(--txt-faint) !important; }
+.pill-btn.active, .ostab.active, .ostab.active[data-strat], .range-tabs .ostab.active, .cot-btn.active,
+.pill-btn[data-strategy].active {
+    background: rgba(35,199,166,.12) !important; border-color: var(--teal) !important; color: var(--txt) !important;
+}
+.analyze-btn { font-weight: 500 !important; font-size: 14px !important; }
+.strat-pill, .overview-badge, .status-badge, .strategy-section-badge, .ind-pill, .strat-card-freq {
+    border-radius: 3px !important; text-transform: none !important; letter-spacing: 0 !important; font-family: var(--font-mono) !important;
+}
+.strat-pill { font-size: 11px !important; padding: 4px 9px !important; }
+.strat-card-freq { font-size: 11.5px !important; color: var(--txt-faint) !important; }
+.strategy-section-badge { font-size: 12px !important; }
+.strat-card-desc { font-size: 14px !important; line-height: 1.65 !important; }
+.canvas-label-text { font-family: var(--font-ui) !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 13px !important; }
+
+/* metric strip: six across, then three, then two */
+.metrics-grid { display: grid !important; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 12px !important; }
+@media (max-width: 1100px) { .metrics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
+@media (max-width: 600px) { .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+
+/* tables */
+.history-table th, .release-table th { font-family: var(--font-mono) !important; font-size: 11px !important; letter-spacing: .12em !important; font-weight: 400 !important; }
+
+/* focus */
+.pill-btn:focus-visible, .ostab:focus-visible, .cot-btn:focus-visible, .analyze-btn:focus-visible, .main-tab:focus-visible,
+.inner-tab:focus-visible, .show-more-btn:focus-visible { outline: 2px solid var(--amber) !important; outline-offset: 2px; }
+
+@media (max-width: 600px) {
+    .pg-hero { padding-bottom: 20px; }
+    .main-tab { padding: 12px 10px !important; font-size: 13.5px !important; }
+}
+</style>
+
+
+
+<!-- RESEARCH-TAB:BEGIN style -->
+<style id="research-tab-css">
+#research-tab .rs-wrap { display:flex; flex-direction:column; gap:22px; max-width:1400px; margin:0 auto; min-width:0; }
+#research-tab .rs-loading, #research-tab .rs-error { color:var(--txt-dim); font-family:var(--font-mono); font-size:13px; padding:40px 0; text-align:center; }
+#research-tab .rs-error { color:var(--red); }
+#research-tab .rs-card { background:linear-gradient(180deg,var(--surface),var(--surface-2)); border:1px solid var(--line); border-radius:12px; padding:20px 22px; box-shadow:var(--shadow-md); min-width:0; }
+#research-tab .rs-h2 { font-size:17px; font-weight:650; color:var(--txt); margin:0 0 4px; letter-spacing:.2px; }
+#research-tab .rs-sub { font-size:13px; color:var(--txt-dim); line-height:1.55; margin:0 0 14px; max-width:880px; }
+#research-tab .rs-howto { font-size:12px; color:var(--txt-faint); margin-top:8px; line-height:1.5; }
+#research-tab .rs-eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--teal); }
+#research-tab .rs-hero h2 { font-size:24px; margin:6px 0 6px; color:var(--txt); font-weight:700; }
+#research-tab .rs-hero p { color:var(--txt-dim); font-size:14px; line-height:1.6; max-width:900px; margin:0 0 14px; }
+#research-tab .rs-meta { font-family:var(--font-mono); font-size:11.5px; color:var(--txt-faint); }
+#research-tab .rs-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+#research-tab .rs-chip { font-size:12px; padding:5px 11px; border-radius:16px; border:1px solid var(--line); background:rgba(0,0,0,.25); color:var(--txt-dim); }
+#research-tab .rs-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+#research-tab .rs-kpi { background:rgba(0,0,0,.22); border:1px solid var(--line); border-radius:10px; padding:14px 16px; min-width:0; }
+#research-tab .rs-kpi-label { font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--txt-faint); }
+#research-tab .rs-kpi-value { font-family:var(--font-mono); font-size:28px; font-weight:650; color:var(--txt); margin:4px 0 2px; font-variant-numeric:tabular-nums; }
+#research-tab .rs-kpi-sub { font-size:12px; color:var(--txt-dim); line-height:1.45; }
+#research-tab .rs-headline { display:flex; flex-wrap:wrap; gap:18px 28px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line-soft); }
+#research-tab .rs-headline .rs-hl { min-width:0; }
+#research-tab .rs-hl-v { font-family:var(--font-mono); font-size:18px; color:var(--teal); font-weight:600; }
+#research-tab .rs-hl-l { font-size:11.5px; color:var(--txt-faint); }
+#research-tab .rs-cases { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
+#research-tab .rs-case { text-align:left; background:rgba(0,0,0,.22); border:1px solid var(--line); border-radius:10px; padding:14px 15px; cursor:pointer; color:var(--txt); font:inherit; transition:border-color .15s, background .15s; }
+#research-tab .rs-case:hover, #research-tab .rs-case.active { border-color:var(--teal); background:rgba(0,212,170,.05); }
+#research-tab .rs-case h4 { margin:0 0 6px; font-size:13.5px; font-weight:600; }
+#research-tab .rs-case p { margin:0; font-size:12px; color:var(--txt-dim); line-height:1.5; }
+#research-tab .rs-toolbar { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-bottom:12px; }
+#research-tab .rs-toolbar .rs-tlabel { font-size:11px; color:var(--txt-faint); text-transform:uppercase; letter-spacing:1px; }
+#research-tab .rs-toolbar .ostab { padding:5px 11px; font-size:12px; }
+#research-tab .rs-toolbar .ostab.active { background:#e0e0e0; color:#0a0a0a; border-color:transparent; }
+#research-tab .rs-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; }
+#research-tab table.rs-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+#research-tab .rs-table th { text-align:left; font-weight:600; color:var(--txt-faint); font-size:11px; text-transform:uppercase; letter-spacing:.6px; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+#research-tab .rs-table td { padding:8px 10px; border-bottom:1px solid var(--line-soft); color:var(--txt); vertical-align:top; }
+#research-tab .rs-table td.num { font-family:var(--font-mono); font-variant-numeric:tabular-nums; white-space:nowrap; }
+#research-tab .rs-ledger tbody tr { cursor:pointer; }
+#research-tab .rs-ledger tbody tr:hover td { background:rgba(255,255,255,.025); }
+#research-tab .rs-ledger tbody tr.sel td { background:rgba(0,212,170,.06); }
+#research-tab .rs-ver { font-family:var(--font-mono); font-weight:600; color:var(--txt); white-space:nowrap; }
+#research-tab .rs-vint { display:block; font-family:var(--font-ui); font-size:10.5px; color:var(--txt-faint); white-space:normal; margin-top:2px; }
+#research-tab .rs-hyp { color:var(--txt-dim); min-width:220px; }
+#research-tab .rs-hist { display:inline-block; font-size:10.5px; color:var(--txt-faint); border:1px dashed var(--line); border-radius:6px; padding:1px 6px; margin-left:6px; }
+#research-tab .rs-badge { display:inline-block; font-family:var(--font-mono); font-size:10.5px; font-weight:700; letter-spacing:.6px; padding:3px 8px; border-radius:6px; white-space:nowrap; border:1px solid transparent; }
+#research-tab .rs-b-PASS, #research-tab .rs-b-DEPLOYED { color:var(--teal); background:var(--teal-soft); border-color:rgba(0,212,170,.35); }
+#research-tab .rs-b-SHADOW { color:var(--blue); background:var(--blue-soft); border-color:rgba(0,168,255,.35); }
+#research-tab .rs-b-FAIL { color:var(--red); background:var(--red-soft); border-color:rgba(255,71,87,.35); }
+#research-tab .rs-b-SUPERSEDED, #research-tab .rs-b-PAUSED { color:#b0b5bf; background:rgba(176,181,191,.12); border-color:rgba(176,181,191,.3); }
+#research-tab .rs-b-IN_PROGRESS { color:var(--orange); background:var(--orange-soft); border-color:rgba(255,159,67,.35); }
+#research-tab .rs-cards-mobile { display:none; }
+#research-tab .rs-mcard { border:1px solid var(--line); border-radius:10px; padding:12px 13px; margin-bottom:10px; background:rgba(0,0,0,.2); cursor:pointer; }
+#research-tab .rs-mcard-top { display:flex; justify-content:space-between; gap:10px; align-items:center; }
+#research-tab .rs-mcard p { margin:6px 0 4px; font-size:12.5px; color:var(--txt-dim); line-height:1.45; }
+#research-tab .rs-panel { border-color:rgba(0,212,170,.35); }
+#research-tab .rs-panel-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+#research-tab .rs-close { background:none; border:1px solid var(--line); color:var(--txt-dim); border-radius:8px; padding:5px 10px; cursor:pointer; font:inherit; font-size:12px; flex-shrink:0; }
+#research-tab .rs-close:hover { color:var(--txt); border-color:#3a3f49; }
+#research-tab .rs-grid2 { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; }
+#research-tab .rs-sec { margin-top:16px; }
+#research-tab .rs-sec h5 { margin:0 0 8px; font-size:11.5px; text-transform:uppercase; letter-spacing:1px; color:var(--txt-faint); font-weight:600; }
+#research-tab .rs-sec p, #research-tab .rs-sec li { font-size:13px; color:var(--txt-dim); line-height:1.6; }
+#research-tab .rs-sec ul { margin:0; padding-left:18px; }
+#research-tab .rs-cite { font-size:11.5px; color:var(--txt-faint); }
+#research-tab .rs-chart { position:relative; height:280px; width:100%; }
+#research-tab .rs-chart.sm { height:220px; }
+#research-tab .rs-verdict { display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:10px; background:rgba(0,0,0,.25); border:1px solid var(--line); }
+#research-tab .rs-verdict p { margin:0; font-size:13px; color:var(--txt); line-height:1.55; }
+#research-tab .rs-gates { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+#research-tab .rs-gate { font-family:var(--font-mono); font-size:11.5px; padding:4px 9px; border-radius:6px; border:1px solid var(--line); color:var(--txt-dim); }
+#research-tab .rs-foot { margin-top:16px; padding-top:10px; border-top:1px solid var(--line-soft); font-size:11.5px; color:var(--txt-faint); line-height:1.6; }
+#research-tab .rs-link { color:var(--teal); cursor:pointer; text-decoration:underline; text-underline-offset:2px; background:none; border:none; font:inherit; padding:0; }
+#research-tab .rs-calc { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin-top:6px; }
+#research-tab .rs-calc label { font-size:11px; color:var(--txt-faint); display:flex; flex-direction:column; gap:4px; }
+#research-tab .rs-calc input { background:rgba(0,0,0,.35); border:1px solid var(--line); border-radius:7px; color:var(--txt); font-family:var(--font-mono); font-size:13px; padding:7px 8px; width:100%; min-width:0; box-sizing:border-box; }
+#research-tab .rs-calc-out { display:flex; flex-wrap:wrap; gap:16px 26px; margin-top:12px; }
+#research-tab .rs-methods dt { font-weight:600; color:var(--txt); font-size:13.5px; margin-top:12px; }
+#research-tab .rs-methods dd { margin:4px 0 0; color:var(--txt-dim); font-size:13px; line-height:1.6; }
+#research-tab details.rs-gloss summary { cursor:pointer; color:var(--teal); font-size:13px; margin-top:14px; }
+#research-tab .rs-why { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); border-top:1px solid var(--line-soft); }
+#research-tab .rs-why > div { padding:11px 10px 11px 0; border-bottom:1px solid var(--line-soft); font-size:13px; line-height:1.55; }
+#research-tab .rs-why .rs-idea { color:var(--txt); font-weight:600; }
+#research-tab .rs-why .rs-reason { color:var(--txt-dim); }
+#research-tab .rs-closing { margin-top:14px; font-size:13.5px; color:var(--txt); line-height:1.6; }
+@media (max-width:900px) {
+    #research-tab .rs-grid2 { grid-template-columns:minmax(0,1fr); }
+    #research-tab .rs-kpis { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    #research-tab .rs-calc { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:720px) {
+    #research-tab .rs-ledger-desktop { display:none; }
+    #research-tab .rs-cards-mobile { display:block; }
+    #research-tab .rs-card { padding:16px 14px; }
+    #research-tab .rs-why { grid-template-columns:minmax(0,1fr); }
+    #research-tab .rs-why .rs-idea { border-bottom:none; padding-bottom:2px; }
+    #research-tab .rs-kpi-value { font-size:22px; }
+    #research-tab .rs-chart { height:240px; }
+}
+/* ── Part B: strategy cards + main chart (overview / Monte Carlo) ── */
+#research-tab .st-top { display:flex; flex-direction:column; gap:28px; min-width:0; }
+#research-tab .st-hero { display:flex; flex-direction:column; gap:16px; padding:8px 0 4px; }
+#research-tab .st-eyebrow { font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; color:var(--amber); }
+#research-tab .st-h1 { margin:0; font-family:var(--font-serif); font-weight:500; font-size:clamp(30px,4.6vw,50px); line-height:1.1; color:var(--txt); max-width:900px; letter-spacing:-.01em; }
+#research-tab .st-lede { margin:0; max-width:780px; line-height:1.65; font-size:16.5px; color:var(--txt-dim); }
+#research-tab .st-groups { display:flex; flex-direction:column; gap:18px; }
+#research-tab .st-group { display:flex; flex-direction:column; gap:10px; }
+#research-tab .st-glabel { display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; color:var(--txt-faint); }
+#research-tab .st-glabel i { width:10px; height:10px; border-radius:50%; }
+#research-tab .st-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,205px),1fr)); gap:10px; }
+#research-tab .st-card { text-align:left; min-height:44px; padding:14px 15px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--txt); font:inherit; cursor:pointer; display:flex; flex-direction:column; gap:6px; transition:border-color .12s, background .12s; }
+#research-tab .st-card:hover, #research-tab .st-card:focus-visible { border-color:var(--line-hard); background:var(--surface-hi); }
+#research-tab .st-card:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }
+#research-tab .st-card[aria-pressed="true"] { border-color:var(--teal); background:rgba(35,199,166,.10); }
+#research-tab .st-name { font-size:14px; font-weight:600; line-height:1.3; }
+#research-tab .st-tag { font-family:var(--font-mono); font-size:11px; color:var(--txt-faint); }
+#research-tab .st-sh { display:flex; align-items:baseline; gap:8px; margin-top:4px; }
+#research-tab .st-sh b { font-family:var(--font-mono); font-size:26px; font-weight:400; font-variant-numeric:tabular-nums; }
+#research-tab .st-sh span { font-size:12px; color:var(--txt-faint); }
+#research-tab .st-risk { font-family:var(--font-mono); font-size:12px; color:var(--txt-dim); }
+#research-tab .st-panel { background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:clamp(18px,3vw,32px); display:flex; flex-direction:column; gap:18px; min-width:0; scroll-margin-top:12px; }
+#research-tab .st-phead { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; align-items:flex-end; }
+#research-tab .st-phead.mc { align-items:flex-start; }
+#research-tab .st-h2 { margin:0; font-family:var(--font-serif); font-weight:500; font-size:clamp(22px,2.6vw,28px); color:var(--txt); }
+#research-tab .st-note { margin:0; font-size:14px; color:var(--txt-faint); }
+#research-tab .st-legend { display:flex; flex-wrap:wrap; gap:8px 16px; font-size:13px; color:var(--txt-dim); }
+#research-tab .st-legend span { display:inline-flex; align-items:center; gap:8px; }
+#research-tab .st-legend i { display:inline-block; width:22px; border-top:2px solid; }
+#research-tab .st-legend i.box { width:14px; height:12px; border:0; border-radius:2px; }
+#research-tab .st-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; }
+#research-tab .st-canvas { position:relative; height:clamp(300px,42vw,430px); min-width:600px; width:100%; overflow:hidden; }
+#research-tab .st-bench { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:16px; border-top:1px solid var(--line); padding-top:16px; font-size:13px; line-height:1.55; color:var(--txt-dim); }
+#research-tab .st-bench b { font-family:var(--font-mono); font-weight:400; margin-right:6px; }
+#research-tab .st-btn { min-height:44px; padding:0 16px; border-radius:4px; border:1px solid var(--line-hard); background:var(--bg-2); color:var(--txt-dim); font:inherit; font-size:14px; cursor:pointer; }
+#research-tab .st-btn[aria-pressed="true"] { border-color:var(--teal); background:rgba(35,199,166,.12); color:var(--txt); }
+#research-tab .st-btn:hover { color:var(--txt); }
+#research-tab .st-btn:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }
+#research-tab .st-read { margin:0; font-size:14px; line-height:1.6; max-width:820px; color:var(--txt-dim); }
+#research-tab .st-mcrow { display:grid; grid-template-columns:minmax(0,1fr) 240px; gap:24px; align-items:stretch; }
+#research-tab .st-mcchart { min-width:0; display:flex; flex-direction:column; gap:10px; }
+#research-tab .st-side { min-width:0; display:flex; flex-direction:column; gap:14px; border-left:1px solid var(--line); padding-left:20px; }
+#research-tab .st-stat { display:flex; flex-direction:column; gap:4px; }
+#research-tab .st-stat > span { font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--txt-faint); }
+#research-tab .st-stat > b { font-family:var(--font-mono); font-weight:400; font-size:22px; color:var(--txt); }
+#research-tab .st-stat > b.big { font-size:30px; color:var(--amber); }
+#research-tab .st-stat > small { font-size:12px; color:var(--txt-faint); }
+#research-tab .st-stat > div { font-family:var(--font-mono); font-size:14px; color:var(--txt); line-height:1.6; }
+#research-tab .st-story { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:20px; border-top:1px solid var(--line); padding-top:18px; font-size:14px; line-height:1.6; color:var(--txt-dim); }
+#research-tab .st-story h4 { margin:0 0 6px; font-family:var(--font-mono); font-weight:400; font-size:11px; letter-spacing:.12em; color:var(--txt-faint); }
+@media (max-width:900px) { #research-tab .st-mcrow { grid-template-columns:minmax(0,1fr); } }
+@media (max-width:760px) {
+    #research-tab .st-side { border-left:0; padding-left:0; border-top:1px solid var(--line); padding-top:16px; flex-direction:row; flex-wrap:wrap; gap:16px 28px; }
+    #research-tab .st-stat > b.big { font-size:24px; }
+}
+@media (prefers-reduced-motion: reduce) { #research-tab .st-card { transition:none; } }
+</style>
+<!-- RESEARCH-TAB:END style -->
+
+<!-- RESEARCH-TAB:BEGIN script -->
+<script id="research-tab-js">
+(function () {
+    'use strict';
+    const BASE = 'data/research/';
+    const R = { loaded: false, index: null, methods: null, trials: null, cases: {}, studies: {}, curves: {}, charts: {},
+                filters: { family: 'all', verdict: 'all' }, sort: 'date_asc', open: null, openCase: null };
+    const FAMILY = { sp_equity: 'S&P equity', cross_asset: 'Cross-asset', ml: 'ML', overlay: 'Risk overlay',
+                     replication: 'Replication', audit: 'Audit', infra: 'Infrastructure' };
+    const VERDICT_LABEL = { PASS: 'PASS', FAIL: 'FAIL', SUPERSEDED: 'SUPERSEDED', SHADOW: 'SHADOW',
+                            DEPLOYED: 'DEPLOYED', PAUSED: 'PAUSED', IN_PROGRESS: 'IN PROGRESS' };
+    const VCOLOR = { PASS: '#00d4aa', DEPLOYED: '#00d4aa', SHADOW: '#00a8ff', FAIL: '#ff4757', SUPERSEDED: '#8b919c',
+                     PAUSED: '#8b919c', IN_PROGRESS: '#ff9f43', variant: '#5d626c', diagnostic: '#ff9f43' };
+    const SERIES = ['#00d4aa', '#9d7bff', '#00a8ff', '#ff9f43', '#8b919c', '#ff4757', '#e6e8ec'];
+    const PCT_COLS = /^(cagr|max_dd|maxdd|ann_vol|ann\. vol|return|ret|vol target|% days invested|book|spy|blend|trend|base|final|deployed book|60\/40|both sides pass|long only|short only|none pass|first fit)$/i;
+
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const isNum = v => typeof v === 'number' && isFinite(v);
+    const fSh = v => isNum(v) ? (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2) : '—';
+    const fPct = (v, d = 1) => isNum(v) ? (v < 0 ? '−' : '') + Math.abs(v * 100).toFixed(d) + '%' : '—';
+    const fNum = (v, d = 3) => isNum(v) ? (Number.isInteger(v) ? String(v) : (v < 0 ? '−' : '') + Math.abs(v).toFixed(d)) : '—';
+    const badge = v => `<span class="rs-badge rs-b-${esc(v)}">${esc(VERDICT_LABEL[v] || v)}</span>`;
+    const fmtCell = (col, v, pctAll) => {
+        if (typeof v === 'boolean') return v ? '✓ yes' : '✗ no';
+        if (!isNum(v)) return v == null ? '—' : esc(v);
+        if (pctAll || PCT_COLS.test(col)) return fPct(v);
+        if (/sharpe/i.test(col)) return fSh(v);
+        return fNum(v);
+    };
+
+    async function getJSON(p) {
+        const r = await fetch(BASE + p);
+        if (!r.ok) throw new Error(p + ' → HTTP ' + r.status);
+        return r.json();
+    }
+    function getCSV(p) {
+        if (R.curves[p]) return Promise.resolve(R.curves[p]);
+        return new Promise((res, rej) => Papa.parse(BASE + p, {
+            download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
+            complete: out => { R.curves[p] = out.data; res(out.data); }, error: rej
+        }));
+    }
+    function killChart(key) { if (R.charts[key]) { R.charts[key].destroy(); delete R.charts[key]; } }
+    function baseOpts(extra) {
+        const o = (typeof chartOptions === 'function') ? chartOptions() : { responsive: true, maintainAspectRatio: false, plugins: {}, scales: { x: {}, y: {} } };
+        o.animation = false;
+        return Object.assign(o, extra || {});
+    }
+
+    // ── table renderer (one for every study) ──
+    function tableHTML(t, opts) {
+        if (!t || !t.columns || !t.rows || !t.rows.length) return '';
+        const pctAll = opts && opts.pctAll;
+        const head = t.columns.map(c => `<th>${esc(c)}</th>`).join('');
+        const body = t.rows.map(r => '<tr>' + r.map((v, i) =>
+            `<td class="${isNum(v) ? 'num' : ''}">${i === 0 && !isNum(v) ? esc(v) : fmtCell(t.columns[i], v, pctAll && i > 0)}</td>`).join('') + '</tr>').join('');
+        return `${t.title ? `<h5>${esc(t.title)}</h5>` : ''}<div class="rs-table-wrap"><table class="rs-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+    }
+
+    // ── charts ──
+    async function curveChart(canvasId, path, key) {
+        const rows = await getCSV(path);
+        const el = document.getElementById(canvasId);
+        if (!el || !rows.length) return;
+        const cols = Object.keys(rows[0]).filter(c => c !== 'date');
+        killChart(key);
+        R.charts[key] = new Chart(el.getContext('2d'), {
+            type: 'line',
+            data: { labels: rows.map(r => r.date), datasets: cols.map((c, i) => ({
+                label: c, data: rows.map(r => isNum(r[c]) ? r[c] : null), spanGaps: false,
+                borderColor: SERIES[i % SERIES.length], borderWidth: i === 0 ? 2 : 1.3, pointRadius: 0, tension: 0 })) },
+            options: baseOpts({ interaction: { mode: 'index', intersect: false },
+                scales: { x: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080', maxTicksLimit: 7, maxRotation: 0 } },
+                          y: { type: 'logarithmic', grid: { color: '#1a1a1a' }, ticks: { color: '#808080', maxTicksLimit: 6 },
+                               title: { display: true, text: 'growth of 100 (log)', color: '#5d626c', font: { size: 10 } } } },
+                plugins: { legend: { labels: { color: '#e0e0e0', font: { size: 11 }, boxWidth: 12 } },
+                           tooltip: { callbacks: { label: c => `${c.dataset.label}: ${isNum(c.parsed.y) ? c.parsed.y.toFixed(1) : '—'}` } } } })
+        });
+    }
+    function barChart(canvasId, key, labels, sets, pct, horizontal) {
+        const el = document.getElementById(canvasId);
+        if (!el) return;
+        killChart(key);
+        const scale = { grid: { color: '#1a1a1a' }, ticks: { color: '#808080', callback: v => pct ? (v * 100).toFixed(0) + '%' : v } };
+        R.charts[key] = new Chart(el.getContext('2d'), {
+            type: 'bar',
+            data: { labels, datasets: sets },
+            options: baseOpts({ indexAxis: horizontal ? 'y' : 'x',
+                scales: horizontal ? { x: scale, y: { grid: { display: false }, ticks: { color: '#b0b5bf', font: { size: 11 } } } }
+                                   : { x: { grid: { display: false }, ticks: { color: '#b0b5bf', font: { size: 10.5 }, maxRotation: 45 } }, y: scale },
+                plugins: { legend: { display: sets.length > 1, labels: { color: '#e0e0e0', font: { size: 11 }, boxWidth: 12 } },
+                           tooltip: { callbacks: { label: c => `${c.dataset.label || ''}: ${pct ? fPct(horizontal ? c.parsed.x : c.parsed.y) : fNum(horizontal ? c.parsed.x : c.parsed.y)}` } } } })
+        });
+    }
+
+    // ── strategy cards + main chart (overview / Monte Carlo) ──
+    // strategies.json, curves/strategies.csv and mc/<id>.json come from research/publish/strategies.py.
+    const ST = { list: [], byId: {}, rows: null, sel: null, hover: null, mc: {} };
+    const ST_GROUPS = [['live', 'LIVE'], ['built_in', 'BUILT INTO THE LIVE BOOK'], ['failed', 'TESTED AND REJECTED']];
+    const NUM_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen'];
+    const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    const stC = () => ({ live: cssVar('--teal'), built_in: cssVar('--blue'), failed: cssVar('--red'),
+                         spy: cssVar('--txt'), sixty_forty: cssVar('--txt-dim'), orange: cssVar('--orange'),
+                         grid: cssVar('--line-soft'), hard: cssVar('--line-hard'), faint: cssVar('--txt-faint'), dim: cssVar('--txt-dim') });
+    const rgba = (hex, a) => { const h = hex.replace('#', ''); const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+                               return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+    const shS = v => isNum(v) ? (v < 0 ? '−' : '') + Math.abs(v).toFixed(2) : '—';
+    const ordinal = k => { const j = k % 10, h = k % 100; return k + (j === 1 && h !== 11 ? 'st' : j === 2 && h !== 12 ? 'nd' : j === 3 && h !== 13 ? 'rd' : 'th'); };
+    const yrs = s => `${s.metrics.start.slice(0, 4)} to ${s.metrics.end.slice(0, 4)}`;
+    const styleOf = (s, C) => s.group === 'live' ? { c: C.live, w: 2.8, a: 1 }
+        : s.group === 'built_in' ? { c: C.built_in, w: 1.5, a: 0.85 }
+        : s.group === 'failed' ? { c: C.failed, w: 1.3, a: 0.75 }
+        : s.id === 'spy' ? { c: C.spy, w: 1.7, a: 1, dash: [5, 4] } : { c: C.sixty_forty, w: 1.5, a: 1, dash: [5, 4] };
+
+    function stTopHTML() {
+        const n = ST.list.filter(s => s.group !== 'benchmark').length;
+        return `
+        <div class="st-top">
+            <header class="st-hero">
+                <span class="st-eyebrow">RESEARCH · V28 TO V44</span>
+                <h2 class="st-h1">Every strategy we backtested, including the ones that failed</h2>
+                <p class="st-lede">${NUM_WORDS[n] || n} strategies, each started at $100 on its first day of data and drawn on a log scale, with SPY and a 60/40 portfolio for context. Pick a card to see that strategy’s Monte Carlo: 2,000 resampled histories with the real run drawn on top.</p>
+            </header>
+            <section class="st-groups" aria-label="Strategies" id="stGroups"></section>
+            <section class="st-panel" id="stPanel" aria-live="polite"></section>
+        </div>`;
+    }
+
+    function renderStCards() {
+        const C = stC();
+        const el = document.getElementById('stGroups');
+        el.innerHTML = ST_GROUPS.map(([g, label]) => `
+            <div class="st-group">
+                <div class="st-glabel"><i style="background:${C[g]}"></i>${label}</div>
+                <div class="st-cards">${ST.list.filter(s => s.group === g).map(s => `
+                    <button type="button" class="st-card" data-id="${esc(s.id)}" aria-pressed="${ST.sel === s.id}">
+                        <span class="st-name">${esc(s.name)}</span>
+                        <span class="st-tag">${esc(s.study)} · ${yrs(s)}</span>
+                        <span class="st-sh"><b style="color:${C[g]}">${shS(s.metrics.sharpe)}</b><span>Sharpe</span></span>
+                        <span class="st-risk">vol ${fPct(s.metrics.vol)} · max DD ${fPct(s.metrics.max_dd, 0)}</span>
+                    </button>`).join('')}</div>
+            </div>`).join('');
+        el.querySelectorAll('.st-card').forEach(b => {
+            const id = b.dataset.id;
+            b.addEventListener('click', () => stPick(id));
+            b.addEventListener('mouseenter', () => stHover(id));
+            b.addEventListener('mouseleave', () => stHover(null));
+            b.addEventListener('focus', () => stHover(id));
+            b.addEventListener('blur', () => stHover(null));
+        });
+    }
+
+    function stPick(id) {
+        ST.sel = ST.sel === id ? null : id;
+        document.querySelectorAll('#stGroups .st-card').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === ST.sel)));
+        renderStPanel();
+        const p = document.getElementById('stPanel').getBoundingClientRect();
+        if (ST.sel && (p.top > window.innerHeight * 0.6 || p.bottom < 80)) {
+            const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            document.getElementById('stPanel').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        }
+    }
+
+    function stHover(id) {
+        ST.hover = id;
+        const ch = R.charts.st;
+        if (!ch || ST.sel) return;
+        const C = stC();
+        ch.data.datasets.forEach(ds => {
+            const st = styleOf(ST.byId[ds.sid], C);
+            const on = !id || ds.sid === id;
+            ds.borderColor = rgba(st.c, on ? st.a : 0.16);
+            ds.borderWidth = id && ds.sid === id ? st.w + 1.2 : st.w;
+            ds.order = id && ds.sid === id ? -1 : ds.baseOrder;
+        });
+        ch.update('none');
+    }
+
+    function renderStPanel() {
+        killChart('st');
+        if (ST.sel) return renderStMC();
+        const C = stC();
+        const bm = id => { const m = ST.byId[id].metrics; return `Sharpe ${shS(m.sharpe)}, vol ${fPct(m.vol)}, max DD ${fPct(m.max_dd)}`; };
+        const panel = document.getElementById('stPanel');
+        panel.innerHTML = `
+            <div class="st-phead">
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <h3 class="st-h2">Growth of $100, log scale</h3>
+                    <p class="st-note">Hover a card to pick out its line. Click it for the Monte Carlo.</p>
+                </div>
+                <div class="st-legend">
+                    <span><i style="border-color:${C.live};border-top-width:3px"></i>Live</span>
+                    <span><i style="border-color:${C.built_in}"></i>Built into the book</span>
+                    <span><i style="border-color:${C.failed}"></i>Rejected</span>
+                    <span><i style="border-color:${C.spy};border-top-style:dashed"></i>SPY</span>
+                    <span><i style="border-color:${C.sixty_forty};border-top-style:dashed"></i>60/40</span>
+                </div>
+            </div>
+            <div class="st-scroll"><div class="st-canvas"><canvas id="stChart" role="img" aria-label="Equity curves of every backtested strategy with SPY and a 60/40 portfolio, log scale"></canvas></div></div>
+            <div class="st-bench">
+                <div><b style="color:${C.spy}">SPY</b>${bm('spy')}</div>
+                <div><b style="color:${C.sixty_forty}">60/40</b>${bm('sixty_forty')}</div>
+                <div style="color:${C.faint}">Lines start on different dates because each test used the longest clean history for its universe. Compare the cards, not the height of the lines.</div>
+            </div>`;
+        const rows = ST.rows, labels = rows.map(r => r.date);
+        // draw order: Chart.js paints the first dataset last (on top), so live goes first
+        const rank = { live: 0, benchmark: 1, built_in: 2, failed: 3 };
+        const series = ST.list.slice().sort((a, b) => (rank[a.group] - rank[b.group]) || (a.id === 'spy' ? -1 : b.id === 'spy' ? 1 : 0));
+        let lo = Infinity, hi = -Infinity;
+        const datasets = series.map((s, i) => {
+            const st = styleOf(s, C);
+            const data = rows.map(r => { const v = r[s.id]; if (isNum(v) && v > 0) { lo = Math.min(lo, v); hi = Math.max(hi, v); return v; } return null; });
+            return { sid: s.id, label: s.name, data, borderColor: rgba(st.c, st.a), borderWidth: st.w, borderDash: st.dash || [],
+                     pointRadius: 0, pointHoverRadius: 3, spanGaps: false, tension: 0, order: i, baseOrder: i };
+        });
+        const yticks = []; for (let v = 12.5; v <= hi * 1.2; v *= 2) if (v >= lo * 0.85) yticks.push(v);
+        const yearTick = labels.map((d, i) => { const y = +d.slice(0, 4); return (i === 0 || d.slice(0, 4) !== labels[i - 1].slice(0, 4)) && (y - 1994) % 4 === 0 ? String(y) : ''; });
+        const endLabels = {
+            id: 'stEndLabels',
+            afterDatasetsDraw(chart) {
+                const ids = ST.hover ? [ST.hover] : ['spy', 'sixty_forty', 'deployed'];
+                const ctx = chart.ctx;
+                ctx.save(); ctx.font = `500 12px ${cssVar('--font-mono') || 'monospace'}`; ctx.textAlign = 'right';
+                chart.data.datasets.forEach((ds, di) => {
+                    if (!ids.includes(ds.sid)) return;
+                    const meta = chart.getDatasetMeta(di);
+                    let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
+                    if (k < 0 || !meta.data[k]) return;
+                    const p = meta.data[k], s = ST.byId[ds.sid];
+                    ctx.fillStyle = styleOf(s, C).c;
+                    const text = s.id === 'deployed' ? 'Trend + Carry' : s.id === 'spy' ? 'SPY' : s.id === 'sixty_forty' ? '60/40' : s.name;
+                    const ty = s.id === 'deployed' && !ST.hover ? p.y + 22 : p.y - 10;
+                    ctx.lineWidth = 4; ctx.lineJoin = 'round'; ctx.strokeStyle = cssVar('--surface') || '#000';
+                    ctx.strokeText(text, p.x - 4, ty);
+                    ctx.fillText(text, p.x - 4, ty);
+                });
+                ctx.restore();
+            }
+        };
+        R.charts.st = new Chart(document.getElementById('stChart').getContext('2d'), {
+            type: 'line',
+            data: { labels, datasets },
+            plugins: [endLabels],
+            options: {
+                responsive: true, maintainAspectRatio: false, animation: false, normalized: true,
+                interaction: { mode: 'nearest', intersect: false, axis: 'xy' },
+                layout: { padding: { right: 8, top: 8 } },
+                plugins: { legend: { display: false },
+                           tooltip: { callbacks: { title: it => it.length ? it[0].label : '',
+                                                   label: c => `${c.dataset.label}: $${c.parsed.y.toFixed(0)}` } } },
+                scales: {
+                    x: { grid: { display: false }, border: { color: C.hard },
+                         ticks: { autoSkip: false, maxRotation: 0, color: C.faint, font: { family: cssVar('--font-mono'), size: 11 },
+                                  callback: (v, i) => yearTick[i] } },
+                    y: { type: 'logarithmic', min: yticks[0], max: yticks[yticks.length - 1],
+                         grid: { color: c => c.tick && c.tick.value === 100 ? C.hard : C.grid }, border: { display: false },
+                         afterBuildTicks: ax => { ax.ticks = yticks.map(v => ({ value: v })); },
+                         ticks: { color: C.faint, font: { family: cssVar('--font-mono'), size: 11 }, callback: v => '$' + Number(v).toLocaleString('en-US') } },
+                },
+            },
+        });
+        if (ST.hover) stHover(ST.hover);
+    }
+
+    async function renderStMC() {
+        const s = ST.byId[ST.sel], C = stC(), panel = document.getElementById('stPanel');
+        if (!ST.mc[s.id]) {
+            panel.innerHTML = '<div class="rs-loading">Loading the Monte Carlo…</div>';
+            try { ST.mc[s.id] = await getJSON(s.mc); }
+            catch (e) { panel.innerHTML = `<div class="rs-error">Could not load the Monte Carlo (${esc(e.message)}).</div>`; return; }
+            if (ST.sel !== s.id) return;
+        }
+        const mc = ST.mc[s.id], m = s.metrics, fan = mc.fan, last = mc.dates.length - 1;
+        const r = Math.round(mc.boot_rank);
+        const rank = r >= 100 ? 'above all' : r <= 0 ? 'below all' : ordinal(r);
+        const read = `Each faint path is the strategy’s own history cut into one-month blocks and shuffled. The real run sits near the middle by construction, so the useful number is the spread. The 5th-percentile Sharpe of ${shS(mc.sharpe.p5)} is what a run of bad luck could have looked like.`;
+        panel.innerHTML = `
+            <div class="st-phead mc">
+                <div style="display:flex;flex-direction:column;gap:6px;max-width:720px;">
+                    <span class="st-eyebrow" style="font-size:11px;letter-spacing:.14em;">MONTE CARLO · ${mc.n_paths.toLocaleString('en-US')} PATHS · ${mc.block}-DAY BLOCKS</span>
+                    <h3 class="st-h2">${esc(s.name)}</h3>
+                    <p class="st-note">${yrs(s)} · ${m.years} years of daily returns</p>
+                </div>
+                <button type="button" class="st-btn" id="stBack">← All strategies</button>
+            </div>
+            <p class="st-read">${read}</p>
+            <div class="st-mcrow">
+                <div class="st-mcchart">
+                    <div class="st-legend">
+                        <span><i style="border-color:${C.orange};border-top-width:3px"></i>Real run</span>
+                        <span><i class="box" style="background:${rgba(C.live, 0.35)}"></i>25th to 75th pct</span>
+                        <span><i class="box" style="background:${rgba(C.live, 0.15)}"></i>5th to 95th pct</span>
+                        <span><i style="border-color:${C.live};border-top-style:dashed"></i>Median path</span>
+                    </div>
+                    <div class="st-scroll"><div class="st-canvas"><canvas id="stChart" role="img" aria-label="Monte Carlo fan of resampled equity paths with the real equity curve drawn on top"></canvas></div></div>
+                </div>
+                <div class="st-side">
+                    <div class="st-stat"><span>REAL RUN VS RESAMPLES</span><b class="big">${rank}</b><small>percentile at the end of the test</small></div>
+                    <div class="st-stat"><span>SHARPE, 5TH TO 95TH PCT</span><b>${shS(mc.sharpe.p5)} to ${shS(mc.sharpe.p95)}</b></div>
+                    <div class="st-stat"><span>CHANCE SHARPE IS BELOW 0</span><b>${fPct(mc.sharpe.p_below_0, 0)}</b></div>
+                    <div class="st-stat"><span>REAL RUN</span><div>Sharpe ${shS(m.sharpe)}<br>vol ${fPct(m.vol)}<br>max DD ${fPct(m.max_dd)}</div></div>
+                </div>
+            </div>
+            <div class="st-story">
+                <div><h4>THE IDEA</h4>${esc(s.blurb)}</div>
+                <div><h4>WHAT HAPPENED · ${esc(s.study)}</h4>${esc(s.outcome)}</div>
+            </div>`;
+        panel.querySelector('#stBack').addEventListener('click', () => { const id = ST.sel; stPick(id); const b = document.querySelector(`#stGroups .st-card[data-id="${id}"]`); if (b) b.focus({ preventScroll: true }); });
+
+        const flat = v => mc.dates.map(() => v);
+        const ds = [];
+        const line = (label, data, color, width, extra) => ds.push(Object.assign({ label, data, borderColor: color, borderWidth: width, pointRadius: 0, tension: 0, fill: false }, extra || {}));
+        line('Real run', mc.actual, C.orange, 2.8, { pointRadius: mc.actual.map((_, i) => i === last ? 5 : 0), pointBackgroundColor: C.orange, pointBorderWidth: 0 });
+        line('Median path', fan.p50, C.live, 1.6, { borderDash: [6, 4] });
+        mc.paths.slice(0, 8).forEach((p, i) => line('path ' + i, p, 'rgba(159,179,200,0.28)', 0.8));
+        const i75 = ds.length; line('75th', fan.p75, 'transparent', 0);
+        line('25th', fan.p25, 'transparent', 0, { fill: i75, backgroundColor: rgba(C.live, 0.22) });
+        const i95 = ds.length; line('95th', fan.p95, 'transparent', 0);
+        line('5th', fan.p5, 'transparent', 0, { fill: i95, backgroundColor: rgba(C.live, 0.12) });
+        line('$100', flat(100), C.hard, 1, { borderDash: [3, 4] });
+
+        let lo = 100, hi = 100;
+        const scan = a => a.forEach(v => { if (v > 0) { lo = Math.min(lo, v); hi = Math.max(hi, v); } });
+        [fan.p5, fan.p95, mc.actual].concat(mc.paths.slice(0, 8)).forEach(scan);
+        const pad = (Math.log(hi) - Math.log(lo)) * 0.06, ymin = Math.exp(Math.log(lo) - pad), ymax = Math.exp(Math.log(hi) + pad);
+        const NICE = [1, 2, 3, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 250, 300, 400, 500, 600, 800, 1000, 1500, 2000, 3000, 5000];
+        const inR = NICE.filter(v => v > ymin && v < ymax);
+        const yt = [...new Set([0, 1, 2, 3, 4].map(k => inR[Math.round(k * (inR.length - 1) / 4)]).filter(v => v != null))];
+        const xk = new Set([0, 0.25, 0.5, 0.75, 1].map(f => Math.round(f * last)));
+        R.charts.st = new Chart(document.getElementById('stChart').getContext('2d'), {
+            type: 'line',
+            data: { labels: mc.dates, datasets: ds },
+            options: {
+                responsive: true, maintainAspectRatio: false, animation: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                scales: {
+                    x: { grid: { display: false }, border: { color: C.hard },
+                         ticks: { autoSkip: false, maxRotation: 0, color: C.faint, font: { family: cssVar('--font-mono'), size: 11 },
+                                  callback: (v, i) => xk.has(i) ? mc.dates[i].slice(0, 4) : '' } },
+                    y: { type: 'logarithmic', min: ymin, max: ymax, border: { display: false }, grid: { color: C.grid },
+                         afterBuildTicks: ax => { ax.ticks = yt.map(v => ({ value: v })); },
+                         ticks: { color: C.faint, font: { family: cssVar('--font-mono'), size: 11 }, callback: v => '$' + Number(v).toLocaleString('en-US') } },
+                },
+            },
+        });
+    }
+
+    function initStrategies() {
+        renderStCards();
+        renderStPanel();
+        document.getElementById('stPanel').addEventListener('keydown', e => {
+            if (e.key === 'Escape' && ST.sel) { const id = ST.sel; stPick(id); const b = document.querySelector(`#stGroups .st-card[data-id="${id}"]`); if (b) b.focus(); }
+        });
+    }
+
+    // ── page skeleton ──
+    function renderPage() {
+        const I = R.index, M = R.methods, h = I.headline;
+        const root = document.getElementById('rsRoot');
+        root.innerHTML = `
+        ${stTopHTML()}
+
+        <section class="rs-card">
+            <div class="rs-h2">Featured case studies</div>
+            <p class="rs-sub">Long-form stories behind the ledger. Each opens below.</p>
+            <div class="rs-cases" id="rsCases"></div>
+            <div id="rsCasePanel"></div>
+        </section>
+
+        <section class="rs-card" id="rsLedgerCard">
+            <div class="rs-h2">Research ledger</div>
+            <p class="rs-sub">One row per study. Failed and superseded studies are shown by default. Click a row for the full study.</p>
+            <div class="rs-toolbar" id="rsToolbar"></div>
+            <div class="rs-ledger-desktop rs-table-wrap"><table class="rs-table rs-ledger"><thead><tr>
+                <th>Version</th><th>Date</th><th>Family</th><th>Hypothesis</th><th>Window</th><th>Sharpe</th><th>MaxDD</th><th>N</th><th>DSR</th><th>Verdict</th>
+            </tr></thead><tbody id="rsLedgerBody"></tbody></table></div>
+            <div class="rs-cards-mobile" id="rsLedgerCards"></div>
+            <div id="rsPanel"></div>
+        </section>
+
+        <section class="rs-card">
+            <div class="rs-h2">Overfitting: every trial we ran</div>
+            <p class="rs-sub">Each dot is one gate-tested configuration, in the order we ran them. The line is the Sharpe you would expect from the best of N pure-noise backtests on a 10-year sample; it rises as we test more ideas, which is why the bar for a real edge rises too.</p>
+            <div class="rs-chart"><canvas id="rsTrialsChart" role="img" aria-label="Scatter of every trial's Sharpe against trial number, with the expected maximum Sharpe of N noise trials"></canvas></div>
+            <div class="rs-howto">How to read this: dots well above the line are candidates; dots near or below it are what noise alone produces. Rows that never traded (v43) are plotted at 0. Each dot's data vintage is its study's (see the ledger).</div>
+            <div class="rs-sec">
+                <h5>Deflated Sharpe calculator</h5>
+                <div class="rs-calc">
+                    <label>Trials tested (N)<input id="rsCN" type="number" min="1" step="1"></label>
+                    <label>Observed Sharpe (annual)<input id="rsCS" type="number" step="0.01" value="1.24"></label>
+                    <label>Years of data<input id="rsCY" type="number" min="0.5" step="0.1" value="19.7"></label>
+                    <label>Skew<input id="rsCK" type="number" step="0.1" value="-0.5"></label>
+                    <label>Kurtosis (normal = 3)<input id="rsCU" type="number" min="1" step="0.5" value="6"></label>
+                </div>
+                <div class="rs-calc-out" id="rsCalcOut"></div>
+                <div class="rs-howto">Defaults = the deployed book (ETF cache 2026-09-11, 2007-01 → 2026-09) and our trial count. Bailey &amp; López de Prado (2014). The deflated Sharpe is the probability that the true Sharpe beats the expected best of N noise trials, after adjusting for sample length, skew and fat tails.</div>
+            </div>
+        </section>
+
+        <section class="rs-card" id="rsRobust">
+            <div class="rs-h2">Flagship robustness</div>
+            <p class="rs-sub">The deployed book (${esc(h.label)}), ${esc(h.vintage)}.</p>
+            <div class="rs-grid2">
+                <div><h5 class="rs-cite">MONTE CARLO · 5,000 block-bootstrap paths</h5><div class="rs-chart sm"><canvas id="rsMC" role="img" aria-label="Histogram of bootstrapped Sharpe ratios"></canvas></div>
+                    <div class="rs-howto" id="rsMCNote"></div></div>
+                <div><h5 class="rs-cite">ROLLING 1-YEAR SHARPE</h5><div class="rs-chart sm"><canvas id="rsRoll" role="img" aria-label="Rolling one-year Sharpe ratio"></canvas></div>
+                    <div class="rs-howto">How to read this: the book has bad years; what matters is that the long-run average holds up.</div></div>
+                <div><h5 class="rs-cite">CRISIS WINDOWS · total return</h5><div class="rs-chart sm"><canvas id="rsCrisis" role="img" aria-label="Book versus SPY return in crisis windows"></canvas></div>
+                    <div class="rs-howto">How to read this: a diversifier should lose far less than equities when equities fall.</div></div>
+                <div><h5 class="rs-cite">SENSITIVITY · TREND signal clip</h5><div class="rs-chart sm"><canvas id="rsSens" role="img" aria-label="Sharpe across signal clip settings"></canvas></div>
+                    <div class="rs-howto">How to read this: a robust result sits on a plateau; neighbouring settings give similar Sharpe.</div></div>
+            </div>
+        </section>
+
+        <section class="rs-card rs-methods" id="rsMethods">
+            <div class="rs-h2">${esc(M.methods.title)}</div>
+            <p class="rs-sub">${esc(M.methods.intro)}</p>
+            <dl>${M.methods.items.map(it => `<dt>${esc(it.name)}</dt><dd>${esc(it.text)}</dd>`).join('')}
+                <dt>${esc(M.methods.limitations.title)}</dt><dd><ul>${M.methods.limitations.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></dd></dl>
+            <details class="rs-gloss"><summary>Glossary</summary>
+                <dl>${M.glossary.map(g => `<dt>${esc(g.term)}</dt><dd>${esc(g.text)}</dd>`).join('')}</dl></details>
+            <div class="rs-foot">${esc(I.page.footer)}</div>
+        </section>
+
+        <section class="rs-card" id="rsWhy">
+            <div class="rs-h2">${esc(M.why_failed.title)}</div>
+            <p class="rs-sub">${esc(M.why_failed.intro)}</p>
+            <div class="rs-why">${M.why_failed.items.map(it => `
+                <div class="rs-idea">${esc(it.idea)}<br><button class="rs-link" data-study="${esc(it.study)}">see ${esc(it.study)}</button></div>
+                <div class="rs-reason">${esc(it.why)}</div>`).join('')}</div>
+            <p class="rs-closing">${esc(M.why_failed.closing)}</p>
+        </section>`;
+
+        initStrategies();
+        renderCases();
+        renderToolbar();
+        renderLedger();
+        renderTrials();
+        renderRobust();
+        root.querySelectorAll('.rs-link[data-study]').forEach(b => b.addEventListener('click', () => openStudy(b.dataset.study, true)));
+    }
+
+    // ── featured case studies ──
+    const CASE_ORDER = ['flagship', 'sp_failure', 'replication', 'audit', 'lstm'];
+    function renderCases() {
+        const el = document.getElementById('rsCases');
+        el.innerHTML = CASE_ORDER.filter(k => R.cases[k]).map(k => `<button class="rs-case${R.openCase === k ? ' active' : ''}" data-case="${k}">
+            <h4>${esc(R.cases[k].title)}</h4><p>${esc(R.cases[k].summary)}</p></button>`).join('');
+        el.querySelectorAll('.rs-case').forEach(b => b.addEventListener('click', () => openCase(b.dataset.case)));
+    }
+    const CASE_TABLE_TITLES = { table: 'Results', pead: 'PEAD regressed on SPY', reported: 'Live tracks as reported (before the fix)',
+                                v36: 'v36: LSTM with pretraining look-ahead', v37: 'v37: the same, trained walk-forward' };
+    const CASE_STUDIES = { flagship: ['v29', 'v30', 'v33', 'v35', 'v38', 'v39', 'v42', 'v44'], sp_failure: ['v26', 'v27', 'v28'],
+                           replication: ['v43'], audit: ['v41'], lstm: ['v36', 'v37'] };
+    function openCase(k) {
+        const c = R.cases[k], el = document.getElementById('rsCasePanel');
+        if (R.openCase === k) { R.openCase = null; el.innerHTML = ''; renderCases(); killChart('caseW'); killChart('caseC'); return; }
+        R.openCase = k; renderCases();
+        let html = `<div class="rs-card rs-panel rs-sec"><div class="rs-panel-head"><div><div class="rs-h2">${esc(c.title)}</div>
+            <p class="rs-sub">${esc(c.summary)}</p></div><button class="rs-close" id="rsCaseClose">Close</button></div>`;
+        if (c.claim) html += `<div class="rs-sec"><h5>The paper's claim</h5><p>${fPct(c.claim.cagr)} a year, information ratio ${fNum(c.claim.ir, 2)}, max drawdown ${fPct(c.claim.max_dd, 0)} (${esc(c.claim.window)}, S&amp;P 500, 5 bps). Our replication, one change at a time:</p></div>`;
+        if (c.waterfall) {
+            html += `<div class="rs-sec"><h5>Sharpe as each piece was added (faded = tried and rejected)</h5><div class="rs-chart"><canvas id="rsCaseW" role="img" aria-label="Sharpe waterfall of the flagship book"></canvas></div>
+                <div class="rs-howto">Steps come from different data vintages (shown in the table), so adjacent bars are not a clean A/B, except the last two, which share the 2026-09-11 cache.</div>
+                ${tableHTML(c.waterfall)}</div>`;
+        }
+        Object.keys(CASE_TABLE_TITLES).forEach(key => { if (c[key] && c[key].columns) html += `<div class="rs-sec">${tableHTML(Object.assign({ title: CASE_TABLE_TITLES[key] }, c[key]))}</div>`; });
+        if (c.curves && c.curves.length) html += `<div class="rs-sec"><h5>Deployed book vs benchmarks (log)</h5><div class="rs-chart"><canvas id="rsCaseC" role="img" aria-label="Deployed book equity curve"></canvas></div></div>`;
+        html += `<div class="rs-sec"><h5>Studies in this story</h5><p>${(CASE_STUDIES[k] || []).map(s => `<button class="rs-link" data-study="${s}">${s}</button>`).join(' · ')}</p></div>
+            <div class="rs-foot">Data vintage: ${esc(c.vintage || '—')}<br>${esc(R.index.page.footer)}</div></div>`;
+        el.innerHTML = html;
+        document.getElementById('rsCaseClose').addEventListener('click', () => openCase(k));
+        el.querySelectorAll('.rs-link[data-study]').forEach(b => b.addEventListener('click', () => openStudy(b.dataset.study, true)));
+        if (c.waterfall) {
+            const rows = c.waterfall.rows;
+            barChart('rsCaseW', 'caseW', rows.map(r => r[0]), [{ label: 'Sharpe', data: rows.map(r => r[1]),
+                backgroundColor: rows.map(r => r[4] === 'kept' ? 'rgba(0,212,170,.75)' : 'rgba(255,71,87,.28)'),
+                borderColor: rows.map(r => r[4] === 'kept' ? '#00d4aa' : 'rgba(255,71,87,.6)'), borderWidth: 1 }], false, true);
+            R.charts.caseW.options.plugins.tooltip.callbacks.afterLabel = ctx => rows[ctx.dataIndex][3];
+            R.charts.caseW.update();
+        }
+        if (c.curves && c.curves.length) curveChart('rsCaseC', c.curves[0], 'caseC');
+    }
+
+    // ── ledger ──
+    function renderToolbar() {
+        const fams = ['all'].concat(Object.keys(FAMILY).filter(f => R.index.studies.some(s => s.family === f)));
+        const vers = ['all'].concat(Object.keys(VERDICT_LABEL).filter(v => R.index.studies.some(s => s.verdict === v)));
+        const chip = (grp, v, lab) => `<button class="ostab${R.filters[grp] === v ? ' active' : ''}" data-grp="${grp}" data-v="${v}">${esc(lab)}</button>`;
+        const el = document.getElementById('rsToolbar');
+        el.innerHTML = `<span class="rs-tlabel">Family</span>${fams.map(f => chip('family', f, f === 'all' ? 'All' : FAMILY[f])).join('')}
+            <span class="rs-tlabel">Verdict</span>${vers.map(v => chip('verdict', v, v === 'all' ? 'All' : VERDICT_LABEL[v])).join('')}
+            <span class="rs-tlabel">Sort</span>${[['date_asc', 'Oldest first'], ['date_desc', 'Newest first'], ['sharpe_desc', 'Sharpe']].map(([v, l]) =>
+                `<button class="ostab${R.sort === v ? ' active' : ''}" data-grp="sort" data-v="${v}">${l}</button>`).join('')}`;
+        el.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+            if (b.dataset.grp === 'sort') R.sort = b.dataset.v; else R.filters[b.dataset.grp] = b.dataset.v;
+            renderToolbar(); renderLedger();
+        }));
+    }
+    function ledgerRows() {
+        let rows = R.index.studies.filter(s => (R.filters.family === 'all' || s.family === R.filters.family)
+                                             && (R.filters.verdict === 'all' || s.verdict === R.filters.verdict));
+        const vnum = s => s.id === 'era1' ? 0 : parseInt(s.id.replace('v', ''), 10);
+        if (R.sort === 'sharpe_desc') rows = rows.slice().sort((a, b) => (isNum(b.sharpe) ? b.sharpe : -9) - (isNum(a.sharpe) ? a.sharpe : -9));
+        else rows = rows.slice().sort((a, b) => R.sort === 'date_desc' ? vnum(b) - vnum(a) : vnum(a) - vnum(b));
+        return rows;
+    }
+    function verLabel(s) { return s.id === 'era1' ? 'v10–v25' : s.id; }
+    function renderLedger() {
+        const rows = ledgerRows();
+        const win = s => s.window ? `${esc(s.window[0].slice(0, 7))} → ${esc(s.window[1].slice(0, 7))}` : '—';
+        document.getElementById('rsLedgerBody').innerHTML = rows.map(s => `<tr data-id="${s.id}" class="${R.open === s.id ? 'sel' : ''}" tabindex="0">
+            <td><span class="rs-ver">${esc(verLabel(s))}</span></td>
+            <td class="num">${esc(s.date)}</td>
+            <td>${esc(FAMILY[s.family] || s.family)}</td>
+            <td class="rs-hyp">${esc(s.title)}${s.historical ? '<span class="rs-hist">historical, not reproducible</span>' : ''}<span class="rs-vint">${esc(s.hypothesis)}</span></td>
+            <td class="num">${win(s)}</td>
+            <td class="num">${fSh(s.sharpe)}${isNum(s.sharpe) ? `<span class="rs-vint">${esc(s.vintage)}${s.row_note ? ' · ' + esc(s.row_note) : ''}</span>` : ''}</td>
+            <td class="num">${fPct(s.max_dd)}</td>
+            <td class="num">${isNum(s.n_trials) ? s.n_trials : '—'}</td>
+            <td class="num">${isNum(s.dsr) ? s.dsr.toFixed(3) : '—'}</td>
+            <td>${badge(s.verdict)}</td></tr>`).join('') || `<tr><td colspan="10" style="color:var(--txt-faint)">No studies match these filters.</td></tr>`;
+        document.getElementById('rsLedgerCards').innerHTML = rows.map(s => `<div class="rs-mcard" data-id="${s.id}" tabindex="0">
+            <div class="rs-mcard-top"><span class="rs-ver">${esc(verLabel(s))} · ${esc(s.date)}</span>${badge(s.verdict)}</div>
+            <p><b style="color:var(--txt)">${esc(s.title)}</b>${s.historical ? '<span class="rs-hist">historical, not reproducible</span>' : ''}<br>${esc(s.hypothesis)}</p>
+            <div class="rs-meta">Sharpe ${fSh(s.sharpe)}${isNum(s.sharpe) ? ' · ' + esc(s.vintage) : ''} · ${esc(FAMILY[s.family] || s.family)}</div></div>`).join('');
+        document.querySelectorAll('#rsLedgerBody tr[data-id], #rsLedgerCards .rs-mcard').forEach(el => {
+            el.addEventListener('click', () => openStudy(el.dataset.id));
+            el.addEventListener('keydown', e => { if (e.key === 'Enter') openStudy(el.dataset.id); });
+        });
+    }
+
+    // ── study panel (shared template) ──
+    async function openStudy(id, scroll) {
+        const panel = document.getElementById('rsPanel');
+        if (R.open === id && !scroll) { closeStudy(); return; }
+        R.open = id; renderLedger();
+        panel.innerHTML = `<div class="rs-card rs-panel rs-sec"><div class="rs-loading">Loading ${esc(id)}…</div></div>`;
+        try { R.studies[id] = R.studies[id] || await getJSON('studies/' + id + '.json'); }
+        catch (e) { panel.innerHTML = `<div class="rs-card rs-panel rs-sec rs-error">Could not load ${esc(id)}: ${esc(e.message)}</div>`; return; }
+        const s = R.studies[id], row = R.index.studies.find(x => x.id === id) || {};
+        const g = s.gate;
+        const gates = g ? `<div class="rs-gates">
+            <span class="rs-gate">Gate 2 economics: ${g.gate2 === true ? '✓' : g.gate2 === false ? '✗' : '—'}</span>
+            <span class="rs-gate">Gate 3 DSR: ${isNum(g.gate3_dsr) ? g.gate3_dsr.toFixed(3) : '—'}</span>
+            <span class="rs-gate">Gate 4 MC 5th-pct Sharpe: ${fSh(g.gate4_mc5)}</span>
+            <span class="rs-gate">Overall: ${g.pass ? '✓ pass' : '✗ fail'}</span></div>` : '';
+        const vline = `<div class="rs-howto">Data vintage: ${esc(s.vintage)}</div>`;
+        let html = `<div class="rs-card rs-panel rs-sec" id="rsPanelCard"><div class="rs-panel-head"><div>
+                <div class="rs-eyebrow">${esc(verLabel(row))} · ${esc(FAMILY[row.family] || '')} · ${esc(row.date || '')}</div>
+                <div class="rs-h2" style="margin-top:4px">${esc(s.title)}</div></div><button class="rs-close" id="rsPanelClose">Close</button></div>
+            <div class="rs-grid2 rs-sec">
+                <div><h5>Question</h5><p>${esc(s.question)}</p><h5 style="margin-top:12px">Why it was worth testing</h5><p>${esc(s.prior)}</p>
+                    ${s.citations && s.citations.length ? `<p class="rs-cite">${s.citations.map(esc).join('<br>')}</p>` : ''}</div>
+                <div><h5>Method</h5><ul>${(s.method || []).map(m => `<li>${esc(m)}</li>`).join('')}</ul></div>
+            </div>
+            <div class="rs-sec"><h5>Verdict</h5><div class="rs-verdict">${badge(s.verdict)}<p>${esc(s.verdict_reason)}</p></div>${gates}</div>`;
+        if (s.metrics) html += `<div class="rs-sec"><h5>Result</h5>${tableHTML(s.metrics)}${vline}</div>`;
+        if (s.curves && s.curves.length) html += `<div class="rs-sec"><h5>Equity curves (weekly, log scale, rebased to 100)</h5><div class="rs-chart"><canvas id="rsPanelCurve" role="img" aria-label="Equity curves for ${esc(id)}"></canvas></div>
+            ${s.curves_note ? `<div class="rs-howto">${esc(s.curves_note)}</div>` : ''}</div>`;
+        if (s.crisis || s.sensitivity) {
+            html += `<div class="rs-grid2 rs-sec">`;
+            if (s.crisis) html += `<div><h5>Crisis windows (total return)</h5><div class="rs-chart sm"><canvas id="rsPanelCrisis" role="img" aria-label="Crisis window returns"></canvas></div></div>`;
+            if (s.sensitivity) html += `<div><h5>Sensitivity</h5><div class="rs-chart sm"><canvas id="rsPanelSens" role="img" aria-label="Sensitivity of Sharpe to parameter changes"></canvas></div></div>`;
+            html += `</div>`;
+        }
+        (s.extra_tables || []).forEach(t => { html += `<div class="rs-sec">${tableHTML(t)}</div>`; });
+        html += `<div class="rs-sec"><h5>What we learned</h5><ul>${(s.lessons || []).map(l => `<li>${esc(l)}</li>`).join('')}</ul>
+            ${s.next ? `<p>What it led to: <button class="rs-link" data-study="${esc(s.next)}">${esc(s.next)}</button></p>` : ''}</div>
+            <div class="rs-foot">Data vintage: ${esc(s.vintage)} · Trials counted: ${isNum(s.n_trials) ? s.n_trials : '—'}${s.metrics_note ? ' · ' + esc(s.metrics_note) : ''}<br>${esc(s.footer || R.index.page.footer)}</div></div>`;
+        panel.innerHTML = html;
+        document.getElementById('rsPanelClose').addEventListener('click', closeStudy);
+        panel.querySelectorAll('.rs-link[data-study]').forEach(b => b.addEventListener('click', () => openStudy(b.dataset.study, true)));
+        if (s.curves && s.curves.length) curveChart('rsPanelCurve', s.curves[0], 'panelCurve');
+        if (s.crisis) {
+            const c = s.crisis;
+            barChart('rsPanelCrisis', 'panelCrisis', c.rows.map(r => r[0]),
+                c.columns.slice(1).map((name, i) => ({ label: name, data: c.rows.map(r => r[i + 1]), backgroundColor: SERIES[i % SERIES.length] + 'cc' })), true, false);
+        }
+        if (s.sensitivity) {
+            const t = s.sensitivity, si = t.columns.findIndex(c => /sharpe/i.test(c));
+            barChart('rsPanelSens', 'panelSens', t.rows.map(r => r[0]), [{ label: 'Sharpe', data: t.rows.map(r => r[si]), backgroundColor: 'rgba(0,168,255,.7)' }], false, true);
+        }
+        const card = document.getElementById('rsPanelCard');
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function closeStudy() {
+        R.open = null; document.getElementById('rsPanel').innerHTML = '';
+        ['panelCurve', 'panelCrisis', 'panelSens'].forEach(killChart); renderLedger();
+    }
+
+    // ── overfitting panel ──
+    const GAMMA = 0.5772156649015329;
+    function normCdf(x) { const t = 1 / (1 + 0.3275911 * Math.abs(x) / Math.SQRT2);
+        const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x / 2);
+        return x >= 0 ? (1 + y) / 2 : (1 - y) / 2; }
+    function normInv(p) {   // Acklam
+        const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239];
+        const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
+        const c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+        const d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416];
+        const pl = 0.02425; let q, r;
+        if (p < pl) { q = Math.sqrt(-2 * Math.log(p)); return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+        if (p > 1 - pl) { q = Math.sqrt(-2 * Math.log(1 - p)); return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+        q = p - 0.5; r = q * q;
+        return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+    }
+    function expMaxSR(N, nObs) {          // per-period, null SR std = 1/sqrt(n)
+        if (N <= 1) return 0;
+        return (1 / Math.sqrt(nObs)) * ((1 - GAMMA) * normInv(1 - 1 / N) + GAMMA * normInv(1 - 1 / (N * Math.E)));
+    }
+    function dsr(N, srAnn, years, skew, kurt) {
+        const n = Math.max(10, Math.round(years * 252)), sr = srAnn / Math.sqrt(252), sr0 = expMaxSR(N, n);
+        const den = Math.sqrt(Math.max(1 - skew * sr + (kurt - 1) / 4 * sr * sr, 1e-12));
+        return { dsr: normCdf((sr - sr0) * Math.sqrt(n - 1) / den), sr0Ann: sr0 * Math.sqrt(252) };
+    }
+    function renderTrials() {
+        const T = R.trials, vint = {};
+        R.index.studies.forEach(s => { vint[s.id] = s.vintage; });
+        const pts = T.map(t => ({ x: t.seq, y: isNum(t.sharpe) ? t.sharpe : 0, t }));
+        const groups = {};
+        pts.forEach(p => { const v = p.t.verdict; (groups[v] = groups[v] || []).push(p); });
+        const line = []; for (let n = 1; n <= T.length; n++) line.push({ x: n, y: expMaxSR(n, 2520) * Math.sqrt(252) });
+        const sets = Object.keys(groups).map(v => ({ type: 'scatter', label: v, data: groups[v], pointRadius: 4, pointHoverRadius: 6,
+            backgroundColor: (VCOLOR[v] || '#8b919c') + 'cc', borderColor: VCOLOR[v] || '#8b919c' }));
+        sets.push({ type: 'line', label: 'Expected max Sharpe of N noise trials (10 y)', data: line, borderColor: '#ff9f43', borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0 });
+        killChart('trials');
+        R.charts.trials = new Chart(document.getElementById('rsTrialsChart').getContext('2d'), {
+            type: 'scatter', data: { datasets: sets },
+            options: baseOpts({ scales: { x: { type: 'linear', min: 0, max: T.length + 1, grid: { color: '#1a1a1a' }, ticks: { color: '#808080' }, title: { display: true, text: 'trial number (chronological)', color: '#5d626c' } },
+                                          y: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080' }, title: { display: true, text: 'annualised Sharpe', color: '#5d626c' } } },
+                plugins: { legend: { labels: { color: '#e0e0e0', font: { size: 11 }, boxWidth: 10 } },
+                           tooltip: { callbacks: { label: c => { const t = c.raw.t; if (!t) return `N=${c.raw.x}: ${fSh(c.raw.y)}`;
+                               return [`${t.study} · ${t.trial_id}`, `Sharpe ${isNum(t.sharpe) ? fSh(t.sharpe) : 'no trades'} · ${t.verdict}`, `vintage: ${vint[t.study] || '—'}`]; } } } } })
+        });
+        document.getElementById('rsCN').value = T.length;
+        const calc = () => {
+            const v = id => parseFloat(document.getElementById(id).value);
+            const N = Math.max(1, Math.round(v('rsCN') || 1)), r = dsr(N, v('rsCS') || 0, v('rsCY') || 1, v('rsCK') || 0, isNum(v('rsCU')) ? v('rsCU') : 3);
+            document.getElementById('rsCalcOut').innerHTML = `
+                <div class="rs-hl"><div class="rs-hl-v">${fSh(r.sr0Ann)}</div><div class="rs-hl-l">expected best Sharpe from ${N} noise trials</div></div>
+                <div class="rs-hl"><div class="rs-hl-v">${r.dsr.toFixed(3)}</div><div class="rs-hl-l">deflated Sharpe (bar: 0.95)</div></div>
+                <div class="rs-hl"><div class="rs-hl-v">${fPct(1 - r.dsr, 1)}</div><div class="rs-hl-l">probability this is luck</div></div>`;
+        };
+        ['rsCN', 'rsCS', 'rsCY', 'rsCK', 'rsCU'].forEach(id => document.getElementById(id).addEventListener('input', calc));
+        calc();
+    }
+
+    // ── flagship robustness ──
+    function renderRobust() {
+        const F = R.cases.flagship; if (!F) return;
+        const mc = F.mc, mids = mc.counts.map((_, i) => (mc.edges[i] + mc.edges[i + 1]) / 2);
+        barChart('rsMC', 'mc', mids.map(m => m.toFixed(2)), [{ label: 'paths', data: mc.counts,
+            backgroundColor: mids.map(m => m < mc.p5 ? 'rgba(255,71,87,.6)' : 'rgba(0,212,170,.6)'), barPercentage: 1, categoryPercentage: 1 }], false, false);
+        document.getElementById('rsMCNote').textContent = `How to read this: red bars are the worst 5% of resampled histories. 5th percentile Sharpe ${fSh(mc.p5)}, median ${fSh(mc.p50)}; ${fPct(mc.p_le_0, 1)} of paths at or below zero.`;
+        const rs = F.rolling_sharpe;
+        killChart('roll');
+        R.charts.roll = new Chart(document.getElementById('rsRoll').getContext('2d'), { type: 'line',
+            data: { labels: rs.map(r => r[0]), datasets: [{ label: '1-year Sharpe', data: rs.map(r => r[1]), borderColor: '#9d7bff', borderWidth: 1.4, pointRadius: 0, fill: false }] },
+            options: baseOpts({ plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080', maxTicksLimit: 6, maxRotation: 0 } }, y: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080' } } } }) });
+        const c = F.crisis;
+        barChart('rsCrisis', 'crisis', c.rows.map(r => r[0]), [
+            { label: c.columns[1], data: c.rows.map(r => r[1]), backgroundColor: 'rgba(0,212,170,.75)' },
+            { label: c.columns[2], data: c.rows.map(r => r[2]), backgroundColor: 'rgba(139,145,156,.6)' }], true, false);
+        const s = F.sensitivity;
+        barChart('rsSens', 'sens', s.rows.map(r => r[0]), [{ label: 'Sharpe', data: s.rows.map(r => r[1]), backgroundColor: 'rgba(0,168,255,.7)' }], false, true);
+    }
+
+    // ── entry point (lazy; called by switchMainTab) ──
+    window.loadResearchTab = async function () {
+        if (R.loaded) return;
+        R.loaded = true;
+        try {
+            const [index, methods, trials] = await Promise.all([getJSON('index.json'), getJSON('methods.json'), getJSON('trials.json')]);
+            R.index = index; R.methods = methods; R.trials = trials;
+            const strat = await getJSON('strategies.json');
+            ST.list = strat.strategies; ST.list.forEach(x => { ST.byId[x.id] = x; });
+            ST.rows = await getCSV(strat.curve);
+            await Promise.all(CASE_ORDER.map(k => getJSON('case_studies/' + k + '.json').then(c => { R.cases[k] = c; }).catch(() => null)));
+            renderPage();
+        } catch (e) {
+            R.loaded = false;
+            document.getElementById('rsRoot').innerHTML = `<div class="rs-error">Could not load the research record (${esc(e.message)}).</div>`;
+        }
+    };
+})();
+</script>
+<!-- RESEARCH-TAB:END script -->
 </body>
 </html>
