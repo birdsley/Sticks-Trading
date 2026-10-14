@@ -1,9 +1,9 @@
 {
-  "as_of": "2026-10-13",
+  "as_of": "2026-10-14",
   "T10Y3M": {
-    "value": 0.99,
-    "obs_date": "2026-10-09",
-    "release_date": "2026-10-13",
+    "value": 0.95,
+    "obs_date": "2026-10-13",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
       {
@@ -1993,13 +1993,17 @@
       {
         "date": "2026-10-09",
         "value": 0.99
+      },
+      {
+        "date": "2026-10-13",
+        "value": 0.95
       }
     ]
   },
   "CPIAUCSL": {
     "value": 334.131,
     "obs_date": "2026-08-01",
-    "release_date": "2026-10-13",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
       {
@@ -2097,7 +2101,7 @@
   "GDPC1": {
     "value": 24408.011,
     "obs_date": "2026-04-01",
-    "release_date": "2026-10-13",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
       {
@@ -2135,7 +2139,7 @@
   "PAYEMS": {
     "value": 159044.0,
     "obs_date": "2026-09-01",
-    "release_date": "2026-10-13",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
       {
@@ -2240,14 +2244,10 @@
   },
   "DFF": {
     "value": 3.88,
-    "obs_date": "2026-10-08",
-    "release_date": "2026-10-13",
+    "obs_date": "2026-10-12",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
-      {
-        "date": "2024-10-13",
-        "value": 4.83
-      },
       {
         "date": "2024-10-14",
         "value": 4.83
@@ -5147,13 +5147,29 @@
       {
         "date": "2026-10-08",
         "value": 3.88
+      },
+      {
+        "date": "2026-10-09",
+        "value": 3.88
+      },
+      {
+        "date": "2026-10-10",
+        "value": 3.88
+      },
+      {
+        "date": "2026-10-11",
+        "value": 3.88
+      },
+      {
+        "date": "2026-10-12",
+        "value": 3.88
       }
     ]
   },
   "UNRATE": {
     "value": 4.2,
     "obs_date": "2026-09-01",
-    "release_date": "2026-10-13",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
       {
@@ -5252,9 +5268,9 @@
     "prior_val": 4.1
   },
   "BAMLH0A0HYM2": {
-    "value": 3.15,
-    "obs_date": "2026-10-08",
-    "release_date": "2026-10-13",
+    "value": 3.11,
+    "obs_date": "2026-10-12",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
       {
@@ -7340,13 +7356,21 @@
       {
         "date": "2026-10-08",
         "value": 3.15
+      },
+      {
+        "date": "2026-10-09",
+        "value": 3.11
+      },
+      {
+        "date": "2026-10-12",
+        "value": 3.11
       }
     ]
   },
   "UMCSENT": {
     "value": 51.7,
     "obs_date": "2026-08-01",
-    "release_date": "2026-10-13",
+    "release_date": "2026-10-14",
     "spy_reaction": null,
     "series": [
       {
