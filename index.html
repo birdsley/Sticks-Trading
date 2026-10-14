@@ -2067,11 +2067,11 @@
             <div class="chart-container">
                 <div class="chart-header">
                     <div>
-                        <div class="chart-title">Yield spread (10Y − 3M) and portfolio equity</div>
-                        <div class="chart-subtitle">Inversion below zero = historical recession signal. Shaded bands: 18-mo lag to recession.</div>
+                        <div class="chart-title">Yield curve: 10-year minus 3-month Treasury spread</div>
+                        <div class="chart-subtitle">Below zero the curve is inverted (red), which has come before most US recessions. The Trend + Carry book reads this spread to size its bond holdings, so its live return is shown underneath on the same dates.</div>
                     </div>
                 </div>
-                <div id="macroYieldChart" style="height:300px;"></div>
+                <div id="macroYieldChart" style="height:380px;"></div>
             </div>
 
             <!-- VIX + CPI (2-column) -->
@@ -4757,45 +4757,69 @@ function renderMacroKPIs(fred, mkt) {
 function renderMacroCharts(fred, mkt, allEquity) {
     const plotCfg = { responsive: true, displayModeBar: false };
 
-    // ─── Yield Spread (with zero-line + equity overlay) ───────────────
+    // ─── Yield spread (top) and the Trend + Carry book (bottom), shared dates ───
     if (fred?.T10Y3M?.series) {
         const { x, y } = seriesXY(fred.T10Y3M.series);
+        const pos = y.map(v => (v == null ? null : Math.max(v, 0)));
+        const neg = y.map(v => (v == null ? null : Math.min(v, 0)));
         const traces = [
-            {
-                x, y, type: 'scatter', mode: 'lines', name: '10Y−3M Spread (%)',
-                line: { color: '#00a8ff', width: 2 },
-                fill: 'tozeroy',
-                fillcolor: y.map(v => v >= 0 ? 'rgba(0,212,170,0.08)' : 'rgba(255,71,87,0.08)')[0],
-            },
-            {
-                x: [x[0], x[x.length - 1]], y: [0, 0],
-                type: 'scatter', mode: 'lines',
-                line: { color: '#ff4757', width: 1, dash: 'dot' },
-                name: 'Inversion line', hoverinfo: 'skip', showlegend: false,
-            },
+            { x, y: pos, type: 'scatter', mode: 'lines', line: { width: 0 }, fill: 'tozeroy',
+              fillcolor: 'rgba(0,212,170,0.18)', hoverinfo: 'skip', showlegend: false },
+            { x, y: neg, type: 'scatter', mode: 'lines', line: { width: 0 }, fill: 'tozeroy',
+              fillcolor: 'rgba(255,71,87,0.28)', hoverinfo: 'skip', showlegend: false },
+            { x, y, type: 'scatter', mode: 'lines', name: '10Y − 3M spread',
+              line: { color: '#00a8ff', width: 2 },
+              hovertemplate: '%{y:+.2f}%<extra>10Y − 3M</extra>' },
         ];
-        // Overlay portfolio equity (normalised to spread scale for visual comparison)
-        if (allEquity.length > 0) {
-            const eqDates = allEquity.map(d => d.date);
-            const eqVals  = allEquity.map(d => d.equity || d.value || 0);
-            const eqMin   = Math.min(...eqVals), eqMax = Math.max(...eqVals);
-            const yMin    = Math.min(...y), yMax = Math.max(...y);
-            const scale   = (yMax - yMin) / (eqMax - eqMin || 1);
-            const norm    = eqVals.map(v => yMin + (v - eqMin) * scale);
-            traces.push({
-                x: eqDates, y: norm, type: 'scatter', mode: 'lines',
-                name: 'Combined portfolio (scaled)',
-                line: { color: '#ff9f43', width: 1.5, dash: 'dot' },
-                yaxis: 'y', opacity: 0.6,
-            });
+
+        // Inverted stretches (spread below zero), shaded across the top panel
+        const shapes = [{ type: 'line', xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: 0, y1: 0,
+                          line: { color: 'rgba(255,71,87,0.7)', width: 1, dash: 'dot' } }];
+        const annotations = [];
+        let runStart = null;
+        for (let i = 0; i <= y.length; i++) {
+            const inv = i < y.length && y[i] != null && y[i] < 0;
+            if (inv && runStart === null) runStart = i;
+            if (!inv && runStart !== null && i - runStart < 5) runStart = null;   // ignore one-day dips
+            if (!inv && runStart !== null) {
+                const x0 = x[runStart], x1 = x[i - 1];
+                shapes.push({ type: 'rect', xref: 'x', yref: 'paper', x0, x1, y0: 0.40, y1: 1,
+                              fillcolor: 'rgba(255,71,87,0.06)', line: { width: 0 } });
+                if (i - runStart > 20) annotations.push({ xref: 'x', yref: 'paper', x: x0, y: 1, xanchor: 'left', yanchor: 'top',
+                    text: 'Inverted', showarrow: false, font: { color: '#ff6b7a', size: 10 } });
+                runStart = null;
+            }
         }
+
+        // Bottom panel: the Trend + Carry book is the strategy that reads the curve slope.
+        // Falls back to the combined portfolio if its track is missing.
+        const book = (state.equity && state.equity.carry && state.equity.carry.length) ? state.equity.carry : allEquity;
+        const bookName = book === allEquity ? 'Combined portfolio' : 'Trend + Carry book';
+        if (book && book.length > 1) {
+            const bx = book.map(d => d.date);
+            const bv = book.map(d => +(d.equity ?? d.value ?? 0));
+            const v0 = bv.find(v => v > 0) || 1;
+            traces.push({ x: bx, y: bv.map(v => (v / v0 - 1) * 100), type: 'scatter', mode: 'lines', yaxis: 'y2',
+                          name: bookName + ', % since start', line: { color: '#ff9f43', width: 1.8 },
+                          hovertemplate: '%{y:+.1f}%<extra>' + bookName + '</extra>' });
+            annotations.push({ xref: 'paper', yref: 'paper', x: 0, y: 0.31, xanchor: 'left', yanchor: 'bottom',
+                text: bookName.toUpperCase() + ' · % SINCE START OF LIVE TRACK', showarrow: false,
+                font: { color: '#8b919c', size: 10 } });
+        }
+        annotations.push({ xref: 'paper', yref: 'paper', x: 0, y: 1.0, xanchor: 'left', yanchor: 'bottom',
+            text: '10Y − 3M TREASURY SPREAD, %', showarrow: false, font: { color: '#8b919c', size: 10 } });
+
+        const ys = y.filter(v => v != null);
+        const lo = Math.min(0, ...ys), hi = Math.max(0, ...ys), pad = Math.max(0.15, (hi - lo) * 0.12);
+        const base = macroPlotLayout('');
         Plotly.newPlot('macroYieldChart', traces, {
-            ...macroPlotLayout('Spread (%)'),
-            shapes: [{
-                type: 'rect', xref: 'paper', yref: 'y',
-                x0: 0, x1: 1, y0: -10, y1: 0,
-                fillcolor: 'rgba(255,71,87,0.04)', line: { width: 0 },
-            }],
+            ...base,
+            showlegend: false,
+            margin: { l: 48, r: 16, t: 22, b: 34 },
+            xaxis: { ...base.xaxis, anchor: 'y2', range: [x[0], x[x.length - 1]] },
+            yaxis: { ...base.yaxis, title: '', domain: [0.42, 1], range: [lo - pad, hi + pad], ticksuffix: '%', zeroline: false },
+            yaxis2: { gridcolor: '#1a1a1a', showgrid: true, domain: [0, 0.30], anchor: 'x', ticksuffix: '%', zeroline: true, zerolinecolor: '#2a2a2a' },
+            shapes, annotations,
         }, plotCfg);
     }
 
