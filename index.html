@@ -1309,12 +1309,12 @@
             <div class="overview-section-label">Three Strategies</div>
 
             <div class="overview-strat-tabs">
-                <button class="ostab active" data-strat="tga"       onclick="selectOverviewStrat('tga')">Sticks TGA</button>
-                <button class="ostab"        data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button>
+                <button class="ostab active" data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button>
+                <button class="ostab"        data-strat="tga"       onclick="selectOverviewStrat('tga')">Sticks TGA</button>
                 <button class="ostab"        data-strat="markowitz" onclick="selectOverviewStrat('markowitz')">Markowitz</button>
             </div>
 
-            <div class="strat-overview-card active-tga shown" data-strat="tga" onclick="selectOverviewStrat('tga')">
+            <div class="strat-overview-card" data-strat="tga" onclick="selectOverviewStrat('tga')">
                 <div class="strat-card-header">
                     <span class="strategy-section-badge sticks">Sticks TGA</span>
                     <span class="strat-card-freq">Daily &nbsp;·&nbsp; Mean Reversion</span>
@@ -1329,7 +1329,7 @@
                 <div class="strat-active-indicator"></div>
             </div>
 
-            <div class="strat-overview-card" data-strat="carry" onclick="selectOverviewStrat('carry')">
+            <div class="strat-overview-card active-carry shown" data-strat="carry" onclick="selectOverviewStrat('carry')">
                 <div class="strat-card-header">
                     <span class="strategy-section-badge carry">Trend + Carry</span>
                     <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Live since 2026-06-02</span></span>
@@ -1365,12 +1365,12 @@
             <div class="overview-canvas-wrapper">
                 <div class="overview-canvas-header">
                     <div class="canvas-dot-ind" id="canvasDot"></div>
-                    <span class="canvas-label-text" id="canvasLabelText">MST network: topological graph arbitrage</span>
+                    <span class="canvas-label-text" id="canvasLabelText">Cross-asset trend + carry engine</span>
                 </div>
                 <div style="position:relative; height:420px;">
-                    <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="TGA Network"></iframe>
+                    <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="TGA Network"></iframe>
                     <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
-                    <iframe id="demo-carry"      src="demos/carry.html"               style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Trend + Carry Cross-Asset Engine"></iframe>
+                    <iframe id="demo-carry"      src="demos/carry.html"               style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="Trend + Carry Cross-Asset Engine"></iframe>
                 </div>
             </div>
         </div>
@@ -2063,15 +2063,15 @@
             </div>
             <div class="ind-foot" id="macroKpiFoot" style="margin-top:-6px;"></div>
 
-            <!-- Yield Spread chart (full-width, equity overlay) -->
+            <!-- Yield Spread chart (full-width) -->
             <div class="chart-container">
                 <div class="chart-header">
                     <div>
                         <div class="chart-title">Yield curve: 10-year minus 3-month Treasury spread</div>
-                        <div class="chart-subtitle">Below zero the curve is inverted (red), which has come before most US recessions. The Trend + Carry book reads this spread to size its bond holdings, so its live return is shown underneath on the same dates.</div>
+                        <div class="chart-subtitle">Below zero the curve is inverted (red), which has come before most US recessions. The Trend + Carry book reads this spread to size its bond holdings.</div>
                     </div>
                 </div>
-                <div id="macroYieldChart" style="height:380px;"></div>
+                <div id="macroYieldChart" style="height:320px;"></div>
             </div>
 
             <!-- VIX + CPI (2-column) -->
@@ -3693,8 +3693,8 @@ function selectOverviewStrat(strat) {
 function initOverviewCanvas() {
     if (_overviewCanvasReady) return;
     _overviewCanvasReady = true;
-    // Ensure TGA is the default active card on first visit
-    selectOverviewStrat('tga');
+    // Trend + Carry (the flagship) is the default card on first visit
+    selectOverviewStrat('carry');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -4757,7 +4757,7 @@ function renderMacroKPIs(fred, mkt) {
 function renderMacroCharts(fred, mkt, allEquity) {
     const plotCfg = { responsive: true, displayModeBar: false };
 
-    // ─── Yield spread (top) and the Trend + Carry book (bottom), shared dates ───
+    // ─── Yield spread (10Y − 3M) with inverted stretches shaded ───
     if (fred?.T10Y3M?.series) {
         const { x, y } = seriesXY(fred.T10Y3M.series);
         const pos = y.map(v => (v == null ? null : Math.max(v, 0)));
@@ -4772,7 +4772,7 @@ function renderMacroCharts(fred, mkt, allEquity) {
               hovertemplate: '%{y:+.2f}%<extra>10Y − 3M</extra>' },
         ];
 
-        // Inverted stretches (spread below zero), shaded across the top panel
+        // Inverted stretches (spread below zero), shaded full height
         const shapes = [{ type: 'line', xref: 'paper', yref: 'y', x0: 0, x1: 1, y0: 0, y1: 0,
                           line: { color: 'rgba(255,71,87,0.7)', width: 1, dash: 'dot' } }];
         const annotations = [];
@@ -4783,7 +4783,7 @@ function renderMacroCharts(fred, mkt, allEquity) {
             if (!inv && runStart !== null && i - runStart < 5) runStart = null;   // ignore one-day dips
             if (!inv && runStart !== null) {
                 const x0 = x[runStart], x1 = x[i - 1];
-                shapes.push({ type: 'rect', xref: 'x', yref: 'paper', x0, x1, y0: 0.40, y1: 1,
+                shapes.push({ type: 'rect', xref: 'x', yref: 'paper', x0, x1, y0: 0, y1: 1,
                               fillcolor: 'rgba(255,71,87,0.06)', line: { width: 0 } });
                 if (i - runStart > 20) annotations.push({ xref: 'x', yref: 'paper', x: x0, y: 1, xanchor: 'left', yanchor: 'top',
                     text: 'Inverted', showarrow: false, font: { color: '#ff6b7a', size: 10 } });
@@ -4791,21 +4791,6 @@ function renderMacroCharts(fred, mkt, allEquity) {
             }
         }
 
-        // Bottom panel: the Trend + Carry book is the strategy that reads the curve slope.
-        // Falls back to the combined portfolio if its track is missing.
-        const book = (state.equity && state.equity.carry && state.equity.carry.length) ? state.equity.carry : allEquity;
-        const bookName = book === allEquity ? 'Combined portfolio' : 'Trend + Carry book';
-        if (book && book.length > 1) {
-            const bx = book.map(d => d.date);
-            const bv = book.map(d => +(d.equity ?? d.value ?? 0));
-            const v0 = bv.find(v => v > 0) || 1;
-            traces.push({ x: bx, y: bv.map(v => (v / v0 - 1) * 100), type: 'scatter', mode: 'lines', yaxis: 'y2',
-                          name: bookName + ', % since start', line: { color: '#ff9f43', width: 1.8 },
-                          hovertemplate: '%{y:+.1f}%<extra>' + bookName + '</extra>' });
-            annotations.push({ xref: 'paper', yref: 'paper', x: 0, y: 0.31, xanchor: 'left', yanchor: 'bottom',
-                text: bookName.toUpperCase() + ' · % SINCE START OF LIVE TRACK', showarrow: false,
-                font: { color: '#8b919c', size: 10 } });
-        }
         annotations.push({ xref: 'paper', yref: 'paper', x: 0, y: 1.0, xanchor: 'left', yanchor: 'bottom',
             text: '10Y − 3M TREASURY SPREAD, %', showarrow: false, font: { color: '#8b919c', size: 10 } });
 
@@ -4816,9 +4801,8 @@ function renderMacroCharts(fred, mkt, allEquity) {
             ...base,
             showlegend: false,
             margin: { l: 48, r: 16, t: 22, b: 34 },
-            xaxis: { ...base.xaxis, anchor: 'y2', range: [x[0], x[x.length - 1]] },
-            yaxis: { ...base.yaxis, title: '', domain: [0.42, 1], range: [lo - pad, hi + pad], ticksuffix: '%', zeroline: false },
-            yaxis2: { gridcolor: '#1a1a1a', showgrid: true, domain: [0, 0.30], anchor: 'x', ticksuffix: '%', zeroline: true, zerolinecolor: '#2a2a2a' },
+            xaxis: { ...base.xaxis, range: [x[0], x[x.length - 1]] },
+            yaxis: { ...base.yaxis, title: '', range: [lo - pad, hi + pad], ticksuffix: '%', zeroline: false },
             shapes, annotations,
         }, plotCfg);
     }

@@ -92,7 +92,7 @@ function resize() {
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   layout();
 }
-window.addEventListener('resize', resize);
+window.addEventListener('resize', () => { resize(); paint(performance.now()); });   // resizing clears the canvas
 
 let yaw = 0, pitch = 0.5;
 const ZC = 6, DIST = 44;
@@ -287,24 +287,28 @@ function drawFooter() {
 
 // ── loop ──
 let last = performance.now();
+function paint(now) {
+  const tt = now / 1000;
+  yaw = -0.16 + Math.sin(tt * 0.12) * 0.13;
+  pitch = (L.wide ? 0.42 : 0.5) + Math.sin(tt * 0.09) * 0.04;
+  ctx.clearRect(0, 0, W, H);
+  const g = ctx.createRadialGradient(W / 2, H * 0.45, 10, W / 2, H * 0.45, Math.max(W, H) * 0.75);
+  g.addColorStop(0, '#0b1220'); g.addColorStop(1, C.bg); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  drawScene(); drawHeader(); drawTop(); drawEquity(); drawFooter();
+  if (hold > 2.6) { ctx.fillStyle = `rgba(5,8,13,${Math.min(1, (hold - 2.6) / 1.4)})`; ctx.fillRect(0, 0, W, H); }
+}
 function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now;
   if (!document.hidden) {
     if (T < NM - 1) T = Math.min(NM - 1, T + dt * speedAt(T));
     else { hold += dt; if (hold > 4) { hold = 0; T = 0; } }
-    const tt = now / 1000;
-    yaw = -0.16 + Math.sin(tt * 0.12) * 0.13;
-    pitch = (L.wide ? 0.42 : 0.5) + Math.sin(tt * 0.09) * 0.04;
-    ctx.clearRect(0, 0, W, H);
-    const g = ctx.createRadialGradient(W / 2, H * 0.45, 10, W / 2, H * 0.45, Math.max(W, H) * 0.75);
-    g.addColorStop(0, '#0b1220'); g.addColorStop(1, C.bg); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-    drawScene(); drawHeader(); drawTop(); drawEquity(); drawFooter();
-    if (hold > 2.6) { ctx.fillStyle = `rgba(5,8,13,${Math.min(1, (hold - 2.6) / 1.4)})`; ctx.fillRect(0, 0, W, H); }
+    paint(now);
   }
   requestAnimationFrame(frame);
 }
 (function () { const q = new URLSearchParams(location.search).get('m'); const i = q ? D.m.indexOf(q) : -1; if (i >= 0) T = i; })();
-resize(); requestAnimationFrame(frame);
+resize(); paint(performance.now());   // first frame draws even in a hidden tab or a preview
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
