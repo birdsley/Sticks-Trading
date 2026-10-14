@@ -1,43 +1,11 @@
 {
-  "as_of": "2026-10-09",
-  "cash": 12718.419635,
-  "equity_estimate": 10232.079676809082,
-  "last_run_id": "2026-10-12_sticks_live",
+  "as_of": "2026-10-13",
+  "cash": 9008.687259,
+  "equity_estimate": 10152.987277310547,
+  "last_run_id": "2026-10-13_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
-    {
-      "avg_cost": 205.046369,
-      "entry_date": "2026-09-21",
-      "last_price": 180.389999,
-      "shares": -5,
-      "strategy": "sticks",
-      "ticker": "COIN"
-    },
-    {
-      "avg_cost": 1894.083247,
-      "entry_date": "2026-09-23",
-      "last_price": 1487.329956,
-      "shares": -1,
-      "strategy": "sticks",
-      "ticker": "SNDK"
-    },
-    {
-      "avg_cost": 1050.484825,
-      "entry_date": "2026-09-24",
-      "last_price": 989.039978,
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "MU"
-    },
-    {
-      "avg_cost": 126.741221,
-      "entry_date": "2026-09-25",
-      "last_price": 101.349998,
-      "shares": -7,
-      "strategy": "sticks",
-      "ticker": "INTC"
-    },
     {
       "avg_cost": 542.829775,
       "entry_date": "2026-10-02",
@@ -61,6 +29,22 @@
       "shares": 1,
       "strategy": "sticks",
       "ticker": "FICO"
+    },
+    {
+      "avg_cost": 767.5369,
+      "entry_date": "2026-10-13",
+      "last_price": 753.25,
+      "shares": 1,
+      "strategy": "sticks",
+      "ticker": "STX"
+    },
+    {
+      "avg_cost": 394.365859,
+      "entry_date": "2026-10-13",
+      "last_price": 383.850006,
+      "shares": 2,
+      "strategy": "sticks",
+      "ticker": "TER"
     }
   ]
 }
