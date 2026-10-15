@@ -1,15 +1,15 @@
 {
   "as_of": "2026-10-13",
   "cash": 9008.687259,
-  "equity_estimate": 10152.987277310547,
-  "last_run_id": "2026-10-13_sticks_live",
+  "equity_estimate": 10173.03735665625,
+  "last_run_id": "2026-10-14_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
       "avg_cost": 542.829775,
       "entry_date": "2026-10-02",
-      "last_price": 497.529999,
+      "last_price": 464.23999,
       "shares": -1,
       "strategy": "sticks",
       "ticker": "AMAT"
@@ -17,7 +17,7 @@
     {
       "avg_cost": 349.755,
       "entry_date": "2026-10-02",
-      "last_price": 309.559998,
+      "last_price": 301.109985,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "LRCX"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 695.276331,
       "entry_date": "2026-10-06",
-      "last_price": 740.0,
+      "last_price": 723.030029,
       "shares": 1,
       "strategy": "sticks",
       "ticker": "FICO"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 767.5369,
       "entry_date": "2026-10-13",
-      "last_price": 753.25,
+      "last_price": 747.200012,
       "shares": 1,
       "strategy": "sticks",
       "ticker": "STX"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 394.365859,
       "entry_date": "2026-10-13",
-      "last_price": 383.850006,
+      "last_price": 380.290009,
       "shares": 2,
       "strategy": "sticks",
       "ticker": "TER"
