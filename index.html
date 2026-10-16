@@ -1765,6 +1765,8 @@
 
 
 
+
+
 <!-- ══════════════════════════════════════════════ UTILITIES TAB ══ -->
 <div id="utilities-tab" class="tab-content">
 <div class="ut">
@@ -1775,7 +1777,7 @@
             <span class="ut-mono-dim">1 MW / 4 MWh · ONE CYCLE / DAY · WALK-FORWARD OOS</span>
         </div>
         <h2 class="ut-h1">A forecast that decides when a battery buys and sells power.</h2>
-        <p class="ut-lede">A gradient-boosted model forecasts the next day’s 24 day-ahead prices. The battery charges in the four cheapest forecast hours and discharges in the four most expensive, and each trade is scored against the price that settled. This tab replays that rule out of sample from October 2025 to June 2026 and measures how much of the perfect-insight profit the forecast captures, and how much better that is than running the battery on a fixed schedule.</p>
+        <p class="ut-lede">A gradient-boosted model forecasts the next day’s 24 day-ahead prices. Each day is then planned hour by hour so the battery stays between empty and full: it buys in up to four cheap hours, sells in up to four dear ones, and every trade is scored against the price that settled. This tab replays that rule out of sample from October 2025 to June 2026 and measures how much of the perfect-insight profit the forecast captures, and how much better that is than running the battery on a fixed schedule.</p>
     </header>
 
     <div id="utilEmpty" class="macro-empty" style="display:none;padding:40px;">
@@ -1837,7 +1839,7 @@
                     <span class="ut-c-discharge">DISCHARGE</span>
                 </div>
                 <div class="ut-notes">
-                    <div><strong>Winter.</strong> Two discharge windows, early morning (05:00 to 07:00) and evening (17:00 to 20:00), with charging moved to midday.</div>
+                    <div><strong>Winter.</strong> Charging moves to midday (11:00 to 15:00) and discharge sits in the evening (17:00 to 20:00).</div>
                     <div><strong>Spring.</strong> Charging sits in the late morning (09:00 to 12:00) and discharge moves later, to 19:00 to 21:00.</div>
                     <div><strong>June.</strong> Charge 08:00 to 11:00, discharge 19:00 to 21:00 on almost every day. The window ends in June, so this is one month of summer.</div>
                 </div>
@@ -1873,9 +1875,8 @@
                 <div class="ut-more-body">
                     <div class="ut-sub">
                         <h4>Battery dispatch: profitability against the fixed schedule and perfect insight</h4>
-                        <p>Annualised $/MW-yr and risk-adjusted metrics per dispatch rule. <b>signal_p50</b> is the deployed rule; the fixed schedule charges overnight and discharges at the evening peak; perfect insight is the ceiling. Sharpe and Sortino annualise the daily $/MW P&amp;L (√365). Capture is the share of the perfect-insight profit.</p>
+                        <p>Annualised $/MW-yr and risk-adjusted metrics per dispatch rule. <b>signal_p50</b> is the deployed plan on the p50 forecast; the fixed schedule charges overnight and discharges at the evening peak; perfect insight runs the same plan on settled prices and is the ceiling. Sharpe annualises the daily $/MW P&amp;L (√365). Capture is the share of the perfect-insight profit.</p>
                         <div class="history-table-wrap"><table class="history-table" id="utilBatteryTable"></table></div>
-                        <p class="ut-foot">The signal’s gross Sharpe (8.2) is higher than perfect insight’s (7.83): perfect insight earns more dollars only by taking spike-day variance.</p>
                     </div>
                     <div class="ut-sub-grid">
                         <div class="ut-sub">
@@ -1899,7 +1900,7 @@
             </details>
         </section>
 
-        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Dispatch is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and a $5/MWh cost. Every number here is walk-forward out of sample. None of it is live paper trading yet.</footer>
+        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Each day’s dispatch is planned in time order, starting and ending empty, with at most four charging and four discharging hours. It is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and $5 per MWh moved. Every number here is walk-forward out of sample. None of it is live paper trading yet.</footer>
     </div>
 </div>
 </div><!-- /utilities-tab -->
@@ -6456,6 +6457,10 @@ function renderUtilTables(summary) {
 
 
 
+
+
+
+
 <!-- RESEARCH-TAB:BEGIN style -->
 <style id="research-tab-css">
 #research-tab .rs-wrap { display:flex; flex-direction:column; gap:22px; max-width:1400px; margin:0 auto; min-width:0; }
@@ -6622,7 +6627,8 @@ function renderUtilTables(summary) {
     const R = { loaded: false, index: null, methods: null, trials: null, cases: {}, studies: {}, curves: {}, charts: {},
                 filters: { family: 'all', verdict: 'all' }, sort: 'date_asc', open: null, openCase: null };
     const FAMILY = { sp_equity: 'S&P equity', cross_asset: 'Cross-asset', ml: 'ML', overlay: 'Risk overlay',
-                     replication: 'Replication', audit: 'Audit', infra: 'Infrastructure' };
+                     replication: 'Replication', audit: 'Audit', infra: 'Infrastructure',
+                     utilities: 'Power markets' };
     const VERDICT_LABEL = { PASS: 'PASS', FAIL: 'FAIL', SUPERSEDED: 'SUPERSEDED', SHADOW: 'SHADOW',
                             DEPLOYED: 'DEPLOYED', PAUSED: 'PAUSED', IN_PROGRESS: 'IN PROGRESS' };
     const VCOLOR = { PASS: '#00d4aa', DEPLOYED: '#00d4aa', SHADOW: '#00a8ff', FAIL: '#ff4757', SUPERSEDED: '#8b919c',
