@@ -1,15 +1,15 @@
 {
-  "as_of": "2026-10-15",
-  "cash": 12737.282477,
-  "equity_estimate": 10303.722513773682,
-  "last_run_id": "2026-10-15_sticks_live",
+  "as_of": "2026-10-16",
+  "cash": 12414.093257,
+  "equity_estimate": 10229.37320824817,
+  "last_run_id": "2026-10-16_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
       "avg_cost": 542.829775,
       "entry_date": "2026-10-02",
-      "last_price": 430.01001,
+      "last_price": 409.290009,
       "shares": -1,
       "strategy": "sticks",
       "ticker": "AMAT"
@@ -17,7 +17,7 @@
     {
       "avg_cost": 349.755,
       "entry_date": "2026-10-02",
-      "last_price": 277.459991,
+      "last_price": 263.940002,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "LRCX"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 165.693931,
       "entry_date": "2026-10-08",
-      "last_price": 154.169998,
+      "last_price": 152.020004,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "VST"
@@ -41,26 +41,26 @@
     {
       "avg_cost": 194.733586,
       "entry_date": "2026-10-12",
-      "last_price": 193.149994,
+      "last_price": 192.979996,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "PTC"
     },
     {
-      "avg_cost": 694.415744,
-      "entry_date": "2026-10-13",
-      "last_price": 690.809998,
-      "shares": 1,
-      "strategy": "sticks",
-      "ticker": "STX"
-    },
-    {
       "avg_cost": 217.642248,
       "entry_date": "2026-10-14",
-      "last_price": 236.5,
+      "last_price": 218.009995,
       "shares": 2,
       "strategy": "sticks",
       "ticker": "MRNA"
+    },
+    {
+      "avg_cost": 34.499131,
+      "entry_date": "2026-10-16",
+      "last_price": 31.629999,
+      "shares": 29,
+      "strategy": "sticks",
+      "ticker": "SMCI"
     }
   ]
 }
