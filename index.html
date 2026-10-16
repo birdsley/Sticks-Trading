@@ -1298,7 +1298,7 @@
             <span class="pg-mono">DAILY BARS · PAPER TRADING SINCE 2026-06-02</span>
         </div>
         <h2 class="pg-h1">Trading Research Suite</h2>
-        <p class="pg-lede">This project tests the limits of informational edge in point-in-time daily S&amp;P 500 OHLCV data. It does not compete on execution speed. It asks whether structural signals from graph topology, portfolio theory and reinforcement learning keep their statistical significance at daily resolution, and what the ways they fail say about market microstructure.</p>
+        <p class="pg-lede">This project tests whether structural signals keep a statistical edge on daily bars once fills and costs are realistic and nothing looks ahead. It does not compete on execution speed. It started on point-in-time S&amp;P 500 single names with graph topology, portfolio theory and reinforcement learning. None of those found a standalone edge. The one that survived is a cross-asset trend and carry book on 23 ETFs.</p>
     </header>
 
     <!-- Strategy cards + Canvas -->
@@ -1317,14 +1317,14 @@
             <div class="strat-overview-card" data-strat="tga" onclick="selectOverviewStrat('tga')">
                 <div class="strat-card-header">
                     <span class="strategy-section-badge sticks">Sticks TGA</span>
-                    <span class="strat-card-freq">Daily &nbsp;·&nbsp; Mean Reversion</span>
+                    <span class="strat-card-freq">Daily &nbsp;·&nbsp; Reversal + Momentum &nbsp;·&nbsp; Legacy reference</span>
                 </div>
-                <div class="strat-card-desc">This strategy builds a Minimum Spanning Tree (MST) on the correlation-distance matrix of S&amp;P 500 daily returns and measures how far each stock's return sits from its expected MST position. That residual is the trading signal: stocks that stray far from the graph tend to mean-revert over 3 to 7 days. Trade entry is determined by a z-score threshold and XGBoost probability, with position sizing based on ATR-inverse volatility parity.</div>
+                <div class="strat-card-desc">The legacy S&amp;P 500 book. A cross-sectional engine trades short-term reversal and momentum in point-in-time S&amp;P 500 names, with an XGBoost gate, quarter-Kelly sizing and a regime allocator that shifts weight between the two legs. It keeps the TGA name from the original minimum-spanning-tree design, which the cross-sectional engine replaced in v18. The v26–v28 re-measurement found no standalone edge, so it paper-trades as a reference only.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">S&amp;P 500 PIT Universe</span>
-                    <span class="strat-pill">MST Heat Diffusion</span>
+                    <span class="strat-pill">Reversal + Momentum Legs</span>
                     <span class="strat-pill">MOO T+1 Fills · 7 bps</span>
-                    <span class="strat-pill">Backtest Sharpe +0.602</span>
+                    <a class="strat-pill" href="#research" onclick="event.stopPropagation(); event.preventDefault(); openResearchCase('sp_failure');">Legacy reference strategy, no standalone edge after v26–v28 · why it failed →</a>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1332,14 +1332,15 @@
             <div class="strat-overview-card active-carry shown" data-strat="carry" onclick="selectOverviewStrat('carry')">
                 <div class="strat-card-header">
                     <span class="strategy-section-badge carry">Trend + Carry</span>
-                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Live since 2026-06-02</span></span>
+                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Track since 2026-06-02 · forward record from 2026-10-08</span></span>
                 </div>
-                <div class="strat-card-desc">A diversified cross-asset book on ~23 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones, sized by how statistically strong each trend is (the Newey-West t-statistic of returns over 3, 6 and 12 months, capped, following Baltas &amp; Kosowski) rather than by its sign alone, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. On top, a gradient-boosted (XGBoost) meta-model sizes or vetoes each trend bet, and a regime overlay trims exposure when markets turn risk-off, which roughly halves drawdowns. The whole book is held to a steady volatility target. The book loses little in crisis windows (worst −6.4%, the 2020 COVID crash) and keeps a low correlation to the S&P.</div>
+                <div class="strat-card-desc">A diversified cross-asset book on 23 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones, sized by how statistically strong each trend is (the Newey-West t-statistic of returns over 3, 6 and 12 months, capped, following Baltas &amp; Kosowski) rather than by its sign alone, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. On top, a gradient-boosted (XGBoost) meta-model sizes or vetoes each trend bet, and a regime overlay trims exposure when markets turn risk-off, which roughly halves drawdowns. The whole book is held to a steady volatility target. The book loses little in crisis windows (worst −6.4%, the 2020 COVID crash) and keeps a low correlation to the S&P.</div>
                 <div class="strat-card-pills">
-                    <span class="strat-pill">~23-ETF Cross-Asset</span>
+                    <span class="strat-pill">23-ETF Cross-Asset</span>
                     <span class="strat-pill">Trend + Yield-Curve Carry</span>
                     <span class="strat-pill">Backtest Sharpe +1.24 · 2007–2026 · 8% vol</span>
-                    <span class="strat-pill">Corr to S&amp;P +0.17 · MaxDD −12.5%</span>
+                    <span class="strat-pill">Backtest 2007–2026: corr to S&amp;P +0.17 · MaxDD −12.5%</span>
+                    <span class="strat-pill" id="carryLiveCorr" style="display:none;"></span>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1349,12 +1350,12 @@
                     <span class="strategy-section-badge markowitz">Markowitz</span>
                     <span class="strat-card-freq">Weekly &nbsp;·&nbsp; Portfolio Optimization</span>
                 </div>
-                <div class="strat-card-desc">Classical mean-variance optimization over S&amp;P 500 stocks and a set of commodity futures (gold, silver, crude oil, natural gas, corn, wheat, and soy). It estimates a Ledoit-Wolf-shrunk covariance matrix over a 252-day rolling window and solves for the maximum Sharpe ratio, subject to long-only, full-investment, and 10% per-position constraints. The portfolio is rebalanced weekly at the market open.</div>
+                <div class="strat-card-desc">Classical mean-variance optimization over S&amp;P 500 stocks and a set of commodity futures (gold, silver, crude oil, natural gas, corn, wheat, and soy). It estimates a Ledoit-Wolf-shrunk covariance matrix over a 252-day rolling window and solves for the maximum Sharpe ratio, subject to long-only, fully invested and 10% per-position constraints. It re-optimises after each Monday close and the trades fill at Tuesday’s open; a Monday market holiday skips that week. Trades under $100 are dropped, so in practice the book holds about 59–90% of its capital.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">S&amp;P 500 + Commodities</span>
                     <span class="strat-pill">Ledoit-Wolf Shrinkage</span>
                     <span class="strat-pill">Max 10% Position</span>
-                    <span class="strat-pill">Weekly Rebalance</span>
+                    <span class="strat-pill">Monday Close · Tuesday Open Fill</span>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1382,14 +1383,14 @@
         <div class="manifesto-subtitle">Institutional trading systems run at sub-millisecond latency. We use daily bars on purpose, even though they are a handicap. The goal is to find out whether structural signals stay statistically significant across macroeconomic regimes, and what their failures say about market efficiency, rather than to beat high-frequency trading.</div>
         <div class="manifesto-grid">
             <div class="manifesto-item">
-                <span class="manifesto-tag">Hypothesis 1</span>
+                <span class="manifesto-tag">Hypothesis 1 · Rejected</span>
                 <h4>Graph topology as alpha</h4>
-                <p>Cross-sectional variations from MST-predicted positions are thought to represent temporary mispricing that mean-reverts over a 3 to 7 day horizon. The topological signal is expected to fail gracefully; when ineffective, the residuals disperse randomly rather than reversing, which gives a clear null signal.</p>
+                <p>Cross-sectional variations from MST-predicted positions are thought to represent temporary mispricing that mean-reverts over a 3 to 7 day horizon. The topological signal is expected to fail gracefully; when ineffective, the residuals disperse randomly rather than reversing, which gives a clear null signal. It did not hold: the cross-sectional engine replaced the MST in v18, and by v26–v28 no S&amp;P sleeve had an edge after costs.</p>
             </div>
             <div class="manifesto-item">
-                <span class="manifesto-tag">Hypothesis 2</span>
+                <span class="manifesto-tag">Hypothesis 2 · Partly</span>
                 <h4>Regime non-stationarity</h4>
-                <p>Markets transition among structural states, such as bull, bear, crisis, and neutral, which can be identified through cross-sectional correlation and trailing momentum. Allocating assets based on regime identification, rather than relying on simple extrapolation, is expected to generate diversification alpha beyond that of a plain buy-and-hold strategy.</p>
+                <p>Markets transition among structural states, such as bull, bear, crisis, and neutral, which can be identified through cross-sectional correlation and trailing momentum. Allocating assets based on regime identification, rather than relying on simple extrapolation, is expected to generate diversification alpha beyond that of a plain buy-and-hold strategy. On S&amp;P names the regime allocator added no edge. On Trend + Carry a simple regime de-risk roughly halved drawdowns (v38) and is part of the live book.</p>
             </div>
             <div class="manifesto-item">
                 <span class="manifesto-tag">Hypothesis 3 · Retired</span>
@@ -1397,9 +1398,9 @@
                 <p>A PPO agent was expected to learn a nonlinear risk-scaling policy that beats basic volatility-targeting heuristics on a controlled nine-ETF universe. It did not: fed correctly, its live weights stayed within 2% of equal-weight. The strategy was retired in October 2026 and its defensive role passed to Trend + Carry. Deep RL may return with a richer state space and a broader universe.</p>
             </div>
             <div class="manifesto-item">
-                <span class="manifesto-tag">Hypothesis 4</span>
+                <span class="manifesto-tag">Hypothesis 4 · Live</span>
                 <h4>Diversification as the premium</h4>
-                <p>Single-name statistical edges on the S&amp;P have decayed, but cross-asset time-series momentum and carry still hold up on daily data. Blending two sleeves with low correlation to each other (trend + carry) across ~25 ETFs is expected to deliver a credible, crisis-positive risk-adjusted return uncorrelated to equities. Under a daily-bar constraint, the lasting signal is the diversification premium rather than single-stock alpha.</p>
+                <p>Single-name statistical edges on the S&amp;P have decayed, but cross-asset time-series momentum and carry still hold up on daily data. Blending two sleeves with low correlation to each other (trend + carry) across 23 ETFs is expected to deliver a credible risk-adjusted return with low correlation to equities that holds up in crises. In backtest it did: Sharpe 1.24 from 2007, correlation to the S&amp;P +0.17, and a worst crisis window of −6.4% (COVID). Under a daily-bar constraint, the lasting signal is the diversification premium rather than single-stock alpha.</p>
             </div>
         </div>
     </div>
@@ -1413,8 +1414,8 @@
         </div>
         <div class="overview-stat-item">
             <div class="overview-stat-label">Validation Method</div>
-            <div class="overview-stat-value">Walk-Forward 252 / 21</div>
-            <div class="overview-stat-sub">252-day train · 21-day test windows</div>
+            <div class="overview-stat-value">Walk-forward only</div>
+            <div class="overview-stat-sub">S&amp;P engine: 252-day train · 21-day test</div>
         </div>
         <div class="overview-stat-item">
             <div class="overview-stat-label">Execution Model</div>
@@ -1424,7 +1425,7 @@
         <div class="overview-stat-item">
             <div class="overview-stat-label">Paper Trading</div>
             <div class="overview-stat-value" id="overviewDaysLive">— days live</div>
-            <div class="overview-stat-sub">$10,000 per strategy · $40k total</div>
+            <div class="overview-stat-sub">$10,000 per strategy · $30k total</div>
         </div>
         <div class="overview-stat-item">
             <div class="overview-stat-label">Total Portfolio</div>
@@ -1677,19 +1678,19 @@
         <div id="analyticsStrategyContent">
             <div class="strategy-section-header" id="sticksSection">
                 <span class="strategy-section-badge sticks">Sticks TGA</span>
-                <span style="font-size:13px;color:#606060;">Topological graph arbitrage, daily mean reversion</span>
+                <span style="font-size:13px;color:#606060;">Legacy S&amp;P reference book: daily reversal and momentum</span>
             </div>
             <div class="analytics-cards" id="sticksAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="carrySection">
                 <span class="strategy-section-badge carry">Trend + Carry</span>
-                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry on a ~25 ETF universe (live since 2026-06-02)</span>
+                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry on 23 ETFs (track since 2026-06-02, forward record from 2026-10-08)</span>
             </div>
             <div class="analytics-cards" id="carryAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="markowitzSection">
                 <span class="strategy-section-badge markowitz">Markowitz</span>
-                <span style="font-size:13px;color:#606060;">Mean-variance optimization, rebalanced on Mondays</span>
+                <span style="font-size:13px;color:#606060;">Mean-variance optimization, re-optimised after each Monday close and filled at Tuesday’s open</span>
             </div>
             <div class="analytics-cards" id="markowitzAnalyticsCards"></div>
         </div>
@@ -1762,6 +1763,8 @@
 
 
 
+
+
 <!-- ══════════════════════════════════════════════ UTILITIES TAB ══ -->
 <div id="utilities-tab" class="tab-content">
 <div class="ut">
@@ -1772,7 +1775,7 @@
             <span class="ut-mono-dim">1 MW / 4 MWh · ONE CYCLE / DAY · WALK-FORWARD OOS</span>
         </div>
         <h2 class="ut-h1">A forecast that decides when a battery buys and sells power.</h2>
-        <p class="ut-lede">Every evening a gradient-boosted model forecasts tomorrow’s 24 day-ahead prices. The battery charges in the four cheapest forecast hours and discharges in the four most expensive, and each trade is scored against the price that settled. This tab measures how much of the perfect-insight profit the forecast captures, and how much better that is than running the battery on a fixed schedule.</p>
+        <p class="ut-lede">A gradient-boosted model forecasts the next day’s 24 day-ahead prices. The battery charges in the four cheapest forecast hours and discharges in the four most expensive, and each trade is scored against the price that settled. This tab replays that rule out of sample from October 2025 to June 2026 and measures how much of the perfect-insight profit the forecast captures, and how much better that is than running the battery on a fixed schedule.</p>
     </header>
 
     <div id="utilEmpty" class="macro-empty" style="display:none;padding:40px;">
@@ -1896,7 +1899,7 @@
             </details>
         </section>
 
-        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Dispatch is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and a $5/MWh cost. Every number here is walk-forward out of sample. None of it is live paper trading yet.</footer>
+        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Dispatch is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and a $5/MWh cost. Every number here is walk-forward out of sample. None of it is live paper trading yet. The rule ranks hours within each day and ignores the battery’s state of charge: on 94 of the 254 days it discharges before it has charged, which only works with energy carried over from the day before, and no single overnight level makes every day feasible. Those 94 days account for $12.3k of the $34.1k gross the rule earned over the window. A state-of-charge-aware rule is planned as a separate research version.</footer>
     </div>
 </div>
 </div><!-- /utilities-tab -->
@@ -1934,7 +1937,7 @@
                     placeholder="Type to search (e.g., AAPL, MSFT, TSLA…)" autocomplete="off">
                 <div class="autocomplete-dropdown" id="tickerDropdown"></div>
             </div>
-            <div class="ticker-count" id="tickerCount">505 S&amp;P 500 tickers available</div>
+            <div class="ticker-count" id="tickerCount">503 S&amp;P 500 tickers and 23 ETFs available</div>
         </div>
         <div class="control-group">
             <label class="control-label">Date (intraday)</label>
@@ -2305,6 +2308,13 @@ function switchMainTab(e, name) {
     }
 }
 
+// Jump to the Research tab and open one featured case study (used by the Sticks TGA card).
+function openResearchCase(key) {
+    const tab = [...document.querySelectorAll('.main-tab')].find(t => (t.getAttribute('onclick') || '').includes("'research'"));
+    if (tab) tab.click();
+    if (window.rsOpenCase) window.rsOpenCase(key);
+}
+
 function switchInnerTab(e, name) {
     const tabs = e.target.closest('.history-container').querySelectorAll('.inner-tab');
     tabs.forEach(t => t.classList.remove('active'));
@@ -2411,6 +2421,32 @@ function refreshOverviewStats() {
         trEl.textContent = fmtPct(totalRet) + ' since inception';
         trEl.style.color = totalRet >= 0 ? '#00d4aa' : '#ff4757';
     }
+
+    // Trend + Carry card: live correlation to SPY over the whole track, next to the backtest figure
+    const lc = document.getElementById('carryLiveCorr');
+    const corr = dailyCorrToSpy(state.equity.carry);
+    if (lc && corr) {
+        lc.textContent = `Live track: corr to S&P ${corr.r >= 0 ? '+' : '−'}${Math.abs(corr.r).toFixed(2)} over ${corr.n} days since ${state.equity.carry[0].date}`;
+        lc.style.display = '';
+    }
+}
+
+// Correlation of a book's daily equity returns to SPY over the days both have a price.
+function dailyCorrToSpy(eq) {
+    if (!eq || eq.length < 5 || !state.spy || state.spy.length < 5) return null;
+    const spy = Object.fromEntries(state.spy.map(d => [d.date, d.price]));
+    const xs = [], ys = [];
+    for (let i = 1; i < eq.length; i++) {
+        const a = spy[eq[i - 1].date], b = spy[eq[i].date];
+        if (a == null || b == null) continue;
+        xs.push((b - a) / a);
+        ys.push((eq[i].equity - eq[i - 1].equity) / eq[i - 1].equity);
+    }
+    if (xs.length < 5) return null;
+    const mx = xs.reduce((s, v) => s + v, 0) / xs.length, my = ys.reduce((s, v) => s + v, 0) / ys.length;
+    let c = 0, vx = 0, vy = 0;
+    xs.forEach((x, i) => { c += (x - mx) * (ys[i] - my); vx += (x - mx) ** 2; vy += (ys[i] - my) ** 2; });
+    return vx > 0 && vy > 0 ? { r: c / Math.sqrt(vx * vy), n: xs.length } : null;
 }
 
 async function fetchCSV(url) {
@@ -2420,7 +2456,7 @@ async function fetchCSV(url) {
     return new Promise(resolve => {
         Papa.parse(text, {
             header: true, dynamicTyping: true, skipEmptyLines: true,
-            complete: res => resolve(res.data)
+            complete: res => resolve(res.data.map(r => (r.date != null ? { ...r, date: String(r.date).slice(0, 10) } : r)))
         });
     });
 }
@@ -3655,8 +3691,8 @@ let overviewAnimId = null; // unused for iframe approach; kept for switchMainTab
 let _overviewCanvasReady = false;
 
 const DEMO_META = {
-    tga:        { label: 'MST network: topological graph arbitrage',    dotColor: '#00d4aa', activeClass: 'active-tga' },
-    markowitz:  { label: 'Efficient frontier: mean-variance optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
+    tga:        { label: 'MST network: illustration of the original TGA idea',    dotColor: '#00d4aa', activeClass: 'active-tga' },
+    markowitz:  { label: 'Efficient frontier: illustration of mean-variance optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
     carry:      { label: 'Cross-asset trend + carry engine',             dotColor: '#9d7bff', activeClass: 'active-carry' },
 };
 
@@ -4579,21 +4615,21 @@ function renderMacroNarrative(fred, mkt) {
     // Yield curve signal
     if (spread !== null) {
         if (spread < -0.5)
-            parts.push(`The yield curve is inverted by ${Math.abs(spread).toFixed(2)}% (10Y−3M), which has historically come before recessions. Mean-reversion strategies tend to struggle when credit tightens after an inversion.`);
+            parts.push(`The yield curve is inverted by ${Math.abs(spread).toFixed(2)}% (10Y−3M), which has historically come before recessions. Trend + Carry’s carry sleeve trims duration while the curve is inverted.`);
         else if (spread < 0)
             parts.push(`The yield curve is slightly inverted (${spread.toFixed(2)}%), signaling mild stress but not yet a clear recession warning.`);
         else
-            parts.push(`The yield curve is normal (+${spread.toFixed(2)}%), consistent with expansionary conditions that historically favor equity mean-reversion strategies.`);
+            parts.push(`The yield curve is normal (+${spread.toFixed(2)}%), consistent with expansionary conditions.`);
     }
 
     // VIX signal
     if (vix !== null) {
         if (vix > 28)
-            parts.push(`VIX at ${vix.toFixed(1)} indicates a crisis-level fear regime. Expect wide bid/ask spreads, momentum overrides and more false signals for residual mean reversion.`);
+            parts.push(`VIX at ${vix.toFixed(1)} is in the crisis range (above 28). Expect wide bid/ask spreads and fast-moving prices.`);
         else if (vix > 18)
-            parts.push(`VIX at ${vix.toFixed(1)} flags elevated uncertainty. Risk-off overlays may trim gross exposure; monitor fill quality closely.`);
+            parts.push(`VIX at ${vix.toFixed(1)} flags elevated uncertainty (18 to 28). Trend + Carry halves its exposure only when SPY is below its 200-day average and 21-day realised vol is above 20%.`);
         else
-            parts.push(`VIX at ${vix.toFixed(1)} reflects calm conditions. Low implied vol usually widens the opportunity set for statistical arbitrage.`);
+            parts.push(`VIX at ${vix.toFixed(1)} reflects calm conditions (below 18).`);
     }
 
     // Inflation + Fed
@@ -5025,6 +5061,8 @@ window.addEventListener('DOMContentLoaded', () => {
         const from = prev ? prev.num : 0;
         const to = info.num;
         if (from === to) { el.dataset.cuLast = targetStr; return; }
+        // a background tab gets no animation frames; show the value straight away
+        if (document.hidden) { el.dataset.cuLast = targetStr; return; }
         el.dataset.cuAnim = '1';
         el.classList.remove('cu-flash');
         void el.offsetWidth;            // restart flash animation
@@ -5034,16 +5072,25 @@ window.addEventListener('DOMContentLoaded', () => {
             const p = Math.min(1, (now - t0) / DUR);
             const e = 1 - Math.pow(1 - p, 3);   // easeOutCubic
             el.dataset.cuGuard = '1';
-            el.textContent = fmt(from + (to - from) * e, info);
+            el.textContent = el.dataset.cuWrote = fmt(from + (to - from) * e, info);
             el.dataset.cuGuard = '';
             if (p < 1) requestAnimationFrame(step);
-            else { el.dataset.cuLast = targetStr; el.dataset.cuAnim = ''; }
+            else {
+                el.dataset.cuLast = targetStr; el.dataset.cuAnim = '';
+                // the data code wrote a newer value while we were animating: show that one
+                const next = el.dataset.cuNext; el.dataset.cuNext = '';
+                if (next && next !== targetStr) animate(el, next);
+            }
         })(t0);
     }
     function hook(el) {
         if (parse(el.textContent)) el.dataset.cuLast = el.textContent;
         new MutationObserver(() => {
-            if (el.dataset.cuAnim || el.dataset.cuGuard) return;   // ignore our own writes
+            if (el.dataset.cuGuard) return;                        // ignore our own writes
+            if (el.dataset.cuAnim) {                               // queue a data write that lands mid-animation
+                if (el.textContent !== el.dataset.cuWrote) el.dataset.cuNext = el.textContent;
+                return;
+            }
             const t = el.textContent;
             if (el.dataset.cuLast === t) return;
             if (!parse(t)) { el.dataset.cuLast = t; return; }       // non-numeric (—, n/a)
@@ -5386,7 +5433,7 @@ function renderUtilPlan(summary) {
     const plan = summary.dispatch_plan;
     const el = document.getElementById('utPlan');
     if (!plan || !plan.charge_hours) { el.innerHTML = '<p class="ut-foot">No dispatch plan available.</p>'; return; }
-    document.getElementById('utPlanTitle').textContent = 'Dispatch for ' + plan.plan_date;
+    document.getElementById('utPlanTitle').textContent = 'Dispatch for ' + plan.plan_date + ', the last day of the backtest';
     const ch = plan.charge_hours, di = plan.discharge_hours;
     el.innerHTML =
         `<div><div class="ut-cells">` + Array.from({ length: 24 }, (_, h) =>
@@ -5645,7 +5692,7 @@ function renderUtilTables(summary) {
         section.style.display='';
         const sp = document.getElementById('ffScopePill');
         sp.className='ind-pill blue'; sp.textContent='flagship';
-        document.getElementById('ffNote').textContent = d.note || '';
+        document.getElementById('ffNote').textContent = 'These are backtest curves to ' + String(d.window || '').split('→').pop().trim() + '. The flagship line is the base Trend + Carry blend (v33), before the meta-label, regime and 8% vol layers of the deployed v44 book. Re-running it on the deployed book is an open item.';
         document.getElementById('ffFoot').innerHTML = `Window ${d.window} (${d.freq}). ${d.method}`;
 
         const host = document.getElementById('ffCards');
@@ -5664,7 +5711,7 @@ function renderUtilTables(summary) {
                 </div>`;
             }).join('');
             return `<div class="ff-card">
-                <h4>${b.label}</h4>
+                <h4>${b.col === 'Blend' ? 'Trend + Carry base book (v33)' : b.label}</h4>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
                     ${kpi('Annual alpha',(b.alpha_ann_pct>=0?'+':'')+b.alpha_ann_pct.toFixed(1)+'%','t='+(b.alpha_t>=0?'+':'')+b.alpha_t.toFixed(2)+' · '+sig,aCol)}
                     ${kpi('Market β',(b.betas.MKT.beta>=0?'+':'')+b.betas.MKT.beta.toFixed(2),'t='+(b.betas.MKT.t>=0?'+':'')+b.betas.MKT.t.toFixed(1))}
@@ -6402,6 +6449,10 @@ function renderUtilTables(summary) {
     .main-tab { padding: 12px 10px !important; font-size: 13.5px !important; }
 }
 </style>
+
+
+
+
 
 
 
@@ -7232,9 +7283,11 @@ function renderUtilTables(summary) {
     }
 
     // ── entry point (lazy; called by switchMainTab) ──
-    window.loadResearchTab = async function () {
-        if (R.loaded) return;
-        R.loaded = true;
+    window.loadResearchTab = function () {
+        if (!R.loaded) { R.loaded = true; R.loading = loadResearch(); }
+        return R.loading;
+    };
+    async function loadResearch() {
         try {
             const [index, methods, trials] = await Promise.all([getJSON('index.json'), getJSON('methods.json'), getJSON('trials.json')]);
             R.index = index; R.methods = methods; R.trials = trials;
@@ -7247,6 +7300,15 @@ function renderUtilTables(summary) {
             R.loaded = false;
             document.getElementById('rsRoot').innerHTML = `<div class="rs-error">Could not load the research record (${esc(e.message)}).</div>`;
         }
+    }
+
+    // Open one featured case study from elsewhere on the site (e.g. the Sticks TGA card).
+    window.rsOpenCase = async function (k) {
+        await window.loadResearchTab();
+        if (!R.cases[k]) return;
+        if (R.openCase !== k) openCase(k);
+        const el = document.getElementById('rsCasePanel');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 })();
 </script>
