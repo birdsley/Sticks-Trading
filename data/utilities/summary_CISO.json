@@ -1,0 +1,69 @@
+{
+  "grid": "CISO",
+  "as_of": "2026-10-16",
+  "window": {
+    "start": "2025-10-12",
+    "end": "2026-06-27"
+  },
+  "n_days": 259,
+  "capital_per_mw": 1200000.0,
+  "cost_per_mwh": 5.0,
+  "headline": {
+    "deployed_signal": "signal_p50",
+    "dispatch_rule": "charge_aware",
+    "ann_usd_per_mw_yr_gross": 33566.0,
+    "ann_usd_per_mw_yr_net": 19135.0,
+    "sharpe_gross": 39.0,
+    "sharpe_net": 22.64,
+    "max_dd_gross": -8.8,
+    "capture_of_oracle": 0.965
+  },
+  "battery": [
+    {
+      "strategy": "fixed",
+      "ann_usd_per_mw_yr": -5029.0,
+      "capture_of_oracle": -0.145,
+      "sharpe_gross": -12.02,
+      "sharpe_net": -46.63,
+      "max_dd_gross": -3578.3,
+      "hit_rate_gross": 0.266
+    },
+    {
+      "strategy": "signal_p50",
+      "ann_usd_per_mw_yr": 33566.0,
+      "capture_of_oracle": 0.965,
+      "sharpe_gross": 39.0,
+      "sharpe_net": 22.64,
+      "max_dd_gross": -8.8,
+      "hit_rate_gross": 0.977
+    },
+    {
+      "strategy": "oracle",
+      "ann_usd_per_mw_yr": 34773.0,
+      "capture_of_oracle": 1.0,
+      "sharpe_gross": 40.77,
+      "sharpe_net": 23.65,
+      "max_dd_gross": 0.0,
+      "hit_rate_gross": 1.0
+    }
+  ],
+  "dispatch_plan": {
+    "plan_date": "2026-06-27",
+    "charge_hours": [
+      12,
+      13,
+      14,
+      15
+    ],
+    "discharge_hours": [
+      20,
+      21,
+      22,
+      23
+    ],
+    "power_mw": 1.0,
+    "eff": 0.85,
+    "rule": "charge_aware"
+  },
+  "source": "v45: ERCOT spike model refitted on CAISO (SP15), walk-forward t+24"
+}
