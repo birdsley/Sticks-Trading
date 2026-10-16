@@ -10,16 +10,16 @@
   },
   "fill_counts": {
     "sticks": 2,
-    "markowitz": 3
+    "markowitz": 5
   },
   "equity": {
-    "sticks": 9865.435303450073,
-    "markowitz": 10476.245684627105
+    "sticks": 9858.87025091101,
+    "markowitz": 10442.752791102615
   },
-  "total_equity": 20341.68,
+  "total_equity": 20301.62,
   "total_orders": 2,
-  "total_fills": 5,
-  "elapsed_s": 0.7,
+  "total_fills": 7,
+  "elapsed_s": 0.6,
   "errors": [],
   "status": "ok"
 }

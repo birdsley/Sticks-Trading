@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-10-13",
-  "cash": 9008.687259,
-  "equity_estimate": 10170.91723946875,
+  "as_of": "2026-10-15",
+  "cash": 12737.282477,
+  "equity_estimate": 10303.722513773682,
   "last_run_id": "2026-10-15_sticks_live",
   "open_orders": [],
   "pending_orders": [],
@@ -23,15 +23,31 @@
       "ticker": "LRCX"
     },
     {
-      "avg_cost": 695.276331,
-      "entry_date": "2026-10-06",
-      "last_price": 769.929993,
-      "shares": 1,
+      "avg_cost": 14.19006,
+      "entry_date": "2026-10-08",
+      "last_price": 12.88,
+      "shares": -68,
       "strategy": "sticks",
-      "ticker": "FICO"
+      "ticker": "CTVA"
     },
     {
-      "avg_cost": 767.5369,
+      "avg_cost": 165.693931,
+      "entry_date": "2026-10-08",
+      "last_price": 154.169998,
+      "shares": -5,
+      "strategy": "sticks",
+      "ticker": "VST"
+    },
+    {
+      "avg_cost": 194.733586,
+      "entry_date": "2026-10-12",
+      "last_price": 193.149994,
+      "shares": -5,
+      "strategy": "sticks",
+      "ticker": "PTC"
+    },
+    {
+      "avg_cost": 694.415744,
       "entry_date": "2026-10-13",
       "last_price": 690.809998,
       "shares": 1,
@@ -39,12 +55,12 @@
       "ticker": "STX"
     },
     {
-      "avg_cost": 394.365859,
-      "entry_date": "2026-10-13",
-      "last_price": 343.209991,
+      "avg_cost": 217.642248,
+      "entry_date": "2026-10-14",
+      "last_price": 236.5,
       "shares": 2,
       "strategy": "sticks",
-      "ticker": "TER"
+      "ticker": "MRNA"
     }
   ]
 }

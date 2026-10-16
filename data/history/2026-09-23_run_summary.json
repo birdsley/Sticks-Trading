@@ -13,13 +13,13 @@
     "markowitz": 0
   },
   "equity": {
-    "sticks": 9788.923282237061,
-    "markowitz": 10579.5178574357
+    "sticks": 9782.36051623706,
+    "markowitz": 10557.66860127388
   },
-  "total_equity": 20368.44,
+  "total_equity": 20340.03,
   "total_orders": 1,
   "total_fills": 4,
-  "elapsed_s": 0.7,
+  "elapsed_s": 0.6,
   "errors": [],
   "status": "ok"
 }
