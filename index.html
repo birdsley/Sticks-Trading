@@ -1899,7 +1899,7 @@
             </details>
         </section>
 
-        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Dispatch is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and a $5/MWh cost. Every number here is walk-forward out of sample. None of it is live paper trading yet. The rule ranks hours within each day and ignores the battery’s state of charge: on 94 of the 254 days it discharges before it has charged, which only works with energy carried over from the day before, and no single overnight level makes every day feasible. Those 94 days account for $12.3k of the $34.1k gross the rule earned over the window. A state-of-charge-aware rule is planned as a separate research version.</footer>
+        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Dispatch is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and a $5/MWh cost. Every number here is walk-forward out of sample. None of it is live paper trading yet.</footer>
     </div>
 </div>
 </div><!-- /utilities-tab -->
