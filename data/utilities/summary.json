@@ -170,5 +170,31 @@
       "ci_hi": 14.59,
       "capture_fraction": 0.673
     }
-  ]
+  ],
+  "live": {
+    "start": null,
+    "grids": {},
+    "backfill_days": 216,
+    "late_days_excluded": 0,
+    "backfill": {
+      "CISO": {
+        "days": 110,
+        "first": "2026-06-28",
+        "last": "2026-10-15",
+        "net_usd": 7426.33,
+        "gross_usd": 11826.33,
+        "capture_of_perfect_insight": 0.954,
+        "note": "plans the live rule would have made, scored after the fact; not forward record"
+      },
+      "ERCO": {
+        "days": 106,
+        "first": "2026-06-28",
+        "last": "2026-10-15",
+        "net_usd": 8369.11,
+        "gross_usd": 12609.11,
+        "capture_of_perfect_insight": 0.9,
+        "note": "plans the live rule would have made, scored after the fact; not forward record"
+      }
+    }
+  }
 }
