@@ -298,13 +298,15 @@ function paint(now) {
   if (hold > 2.6) { ctx.fillStyle = `rgba(5,8,13,${Math.min(1, (hold - 2.6) / 1.4)})`; ctx.fillRect(0, 0, W, H); }
 }
 function frame(now) {
-  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  requestAnimationFrame(frame);   // queue the next frame first, so one bad frame can't stop the loop
+  // the first rAF timestamp can be earlier than the performance.now() taken when the script ran;
+  // a negative step pushed T below 0, paint() read month -1 and threw, and the loop died
+  const dt = Math.max(0, Math.min(0.1, (now - last) / 1000)); last = now;
   if (!document.hidden) {
-    if (T < NM - 1) T = Math.min(NM - 1, T + dt * speedAt(T));
+    if (T < NM - 1) T = Math.max(0, Math.min(NM - 1, T + dt * speedAt(T)));
     else { hold += dt; if (hold > 4) { hold = 0; T = 0; } }
     paint(now);
   }
-  requestAnimationFrame(frame);
 }
 (function () { const q = new URLSearchParams(location.search).get('m'); const i = q ? D.m.indexOf(q) : -1; if (i >= 0) T = i; })();
 resize(); paint(performance.now());   // first frame draws even in a hidden tab or a preview

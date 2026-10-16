@@ -339,7 +339,7 @@ function updateTelemetry(feat) {
 let lastTs = performance.now();
 function frame(ts) {
   // Decouple sim speed from refresh rate → identical motion at 60/120Hz
-  const dt = Math.min(2.5, (ts - lastTs) / 16.667);
+  const dt = Math.max(0, Math.min(2.5, (ts - lastTs) / 16.667));
   lastTs = ts;
   t += dt;
 
