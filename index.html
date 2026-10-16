@@ -1773,7 +1773,7 @@
 
     <header class="ut-hero">
         <div class="ut-tags">
-            <span class="ut-eyebrow-box">POWER MARKETS · ERCOT</span>
+            <span class="ut-eyebrow-box" id="utEyebrow">POWER MARKETS · ERCOT</span>
             <span class="ut-mono-dim">1 MW / 4 MWh · ONE CYCLE / DAY · WALK-FORWARD OOS</span>
         </div>
         <h2 class="ut-h1">A forecast that decides when a battery buys and sells power.</h2>
@@ -1798,6 +1798,7 @@
                 <span><i class="ut-sw-line ut-dash-cream"></i>Perfect insight</span>
                 <span><i class="ut-sw-line ut-solid-teal"></i>Forecast model (signal_p50)</span>
                 <span><i class="ut-sw-line ut-solid-gray"></i>Fixed schedule: charge 01:00 to 05:00, discharge 17:00 to 21:00</span>
+                <span id="utLiveLegend" style="display:none;"><i class="ut-sw-line" style="border-top-width:3px;border-color:var(--amber);"></i>Live forward record (plan logged before the market closed)</span>
             </div>
             <div class="ut-scroll"><svg id="utLadder" class="ut-svg" viewBox="0 0 1000 380" role="img" aria-label="Cumulative gross revenue per MW for perfect insight, the forecast model and the fixed schedule"></svg></div>
             <div class="ut-foot" id="utLadderFoot"></div>
@@ -1838,7 +1839,7 @@
                     <span class="ut-steps"><i style="background:var(--ut-c3)"></i><i style="background:var(--ut-c2)"></i><i style="background:var(--ut-c1)"></i><i style="background:var(--ut-n)" class="ut-step-n"></i><i style="background:var(--ut-d1)"></i><i style="background:var(--ut-d2)"></i><i style="background:var(--ut-d3)"></i></span>
                     <span class="ut-c-discharge">DISCHARGE</span>
                 </div>
-                <div class="ut-notes">
+                <div class="ut-notes" id="utNotes">
                     <div><strong>Winter.</strong> Charging moves to midday (11:00 to 15:00) and discharge sits in the evening (17:00 to 20:00).</div>
                     <div><strong>Spring.</strong> Charging sits in the late morning (09:00 to 12:00) and discharge moves later, to 19:00 to 21:00.</div>
                     <div><strong>June.</strong> Charge 08:00 to 11:00, discharge 19:00 to 21:00 on almost every day. The window ends in June, so this is one month of summer.</div>
@@ -1868,6 +1869,7 @@
                 <div class="ut-eyebrow">05 · LATEST PLAN</div>
                 <h3 class="ut-h2" id="utPlanTitle">Dispatch plan</h3>
             </div>
+            <p class="ut-foot" id="utPlanMeta" style="display:none;"></p>
             <div class="ut-plan" id="utPlan"></div>
 
             <details class="ut-more">
@@ -1900,7 +1902,7 @@
             </details>
         </section>
 
-        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Each day’s dispatch is planned in time order, starting and ending empty, with at most four charging and four discharging hours. It is scored on settled ERCOT day-ahead prices, after 85% round-trip efficiency and $5 per MWh moved. Every number here is walk-forward out of sample. None of it is live paper trading yet.</footer>
+        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Each day’s dispatch is planned in time order, starting and ending empty, with at most four charging and four discharging hours. It is scored on settled day-ahead prices (ERCOT hub average, CAISO SP15), after 85% round-trip efficiency and $5 per MWh moved. <span id="utLiveNote">Every number here is walk-forward out of sample. None of it is live paper trading yet.</span></footer>
     </div>
 </div>
 </div><!-- /utilities-tab -->
@@ -5146,25 +5148,63 @@ window.addEventListener('DOMContentLoaded', () => {
 //  as "fixed schedule".
 // ══════════════════════════════════════════════════════════════
 let utilLoaded = false;
-const UT = { summary: null, disp: null, byDay: {}, sel: null };
+const UT = { summary: null, disp: null, byDay: {}, sel: null, grid: 'ERCO', base: null, grids: {}, live: [], latest: null };
+const UT_GRID_NAME = { ERCO: 'ERCOT', CISO: 'CAISO' };
 
 async function loadUtilitiesTab() {
     if (utilLoaded) return;
     const empty = document.getElementById('utilEmpty');
     const body  = document.getElementById('utilBody');
     try {
-        const [rawEq, summary, disp] = await Promise.all([
-            fetchCSV('data/equity/utilities.csv').catch(() => []),
+        const [summary, disp, sumC, dispC, live, latest] = await Promise.all([
             fetchJSON('data/utilities/summary.json').catch(() => null),
             fetchJSON('data/utilities/dispatch.json').catch(() => null),
+            fetchJSON('data/utilities/summary_CISO.json').catch(() => null),
+            fetchJSON('data/utilities/dispatch_CISO.json').catch(() => null),
+            fetchCSV('data/utilities/live/scores.csv').catch(() => []),
+            fetchJSON('data/utilities/forecasts/latest.json').catch(() => null),
         ]);
         if (!summary) { empty.style.display = 'block'; body.style.display = 'none'; return; }
         empty.style.display = 'none'; body.style.display = '';
-        UT.summary = summary; UT.disp = disp;
-        const eq = filterTradingDays(rawEq || []);
+        UT.base = summary;
+        UT.grids = { ERCO: { summary, disp } };
+        if (sumC && dispC && dispC.days) UT.grids.CISO = { summary: { ...summary, ...sumC }, disp: dispC };
+        UT.live = (live || []).filter(r => r.segment === 'live' && String(r.issued_before_close).toLowerCase() === 'true');
+        UT.latest = latest && latest.grids ? latest : null;
         if (!state.spy || state.spy.length === 0) state.spy = await fetchSpy().catch(() => []);
-        renderUtilKpis(eq, summary);
-        if (disp && disp.days && disp.days.length) {
+        utRenderGridToggle();
+        utShowGrid('ERCO');
+        utilLoaded = true;
+    } catch (err) {
+        console.error('utilities tab load failed', err);
+        empty.style.display = 'block'; body.style.display = 'none';
+    }
+}
+
+// Grid toggle: only shown when a second grid's backtest is published.
+function utRenderGridToggle() {
+    const hero = document.querySelector('#utilities-tab .ut-tags');
+    if (!hero || !UT.grids.CISO || document.getElementById('utGridToggle')) return;
+    hero.insertAdjacentHTML('beforeend', `<span class="ut-gridtoggle" id="utGridToggle" role="group" aria-label="Grid">
+        ${Object.keys(UT.grids).map(g => `<button type="button" data-grid="${g}" aria-pressed="${g === UT.grid}">${UT_GRID_NAME[g]}</button>`).join('')}</span>`);
+    document.querySelectorAll('#utGridToggle button').forEach(b => b.addEventListener('click', () => utShowGrid(b.dataset.grid)));
+}
+
+function utShowGrid(grid) {
+    const G = UT.grids[grid] || UT.grids.ERCO;
+    UT.grid = UT.grids[grid] ? grid : 'ERCO';
+    UT.summary = G.summary; UT.disp = G.disp; UT.byDay = {}; UT.sel = null;
+    document.querySelectorAll('#utGridToggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.grid === UT.grid)));
+    document.getElementById('utEyebrow').textContent = 'POWER MARKETS · ' + UT_GRID_NAME[UT.grid];
+    const notes = document.getElementById('utNotes');
+    if (notes) notes.style.display = UT.grid === 'ERCO' ? '' : 'none';     // the season notes describe ERCOT
+    const liveN = UT.live.filter(r => r.grid === UT.grid).length;
+    document.getElementById('utLiveNote').textContent = liveN
+        ? `The backtest is walk-forward out of sample; the live segment is ${liveN} day${liveN === 1 ? '' : 's'} of plans logged before the day-ahead market closed.`
+        : 'Every number here is walk-forward out of sample. None of it is live paper trading yet.';
+    renderUtilKpis(null, UT.summary);
+    const disp = UT.disp;
+    if (disp && disp.days && disp.days.length) {
             disp.days.forEach(d => { UT.byDay[d.day] = d; });
             renderUtLadder();
             renderUtReplaySetup();
@@ -5176,13 +5216,8 @@ async function loadUtilitiesTab() {
                 p.innerHTML = '<p class="ut-foot">Daily dispatch detail appears here once data/utilities/dispatch.json is published.</p>';
             });
         }
-        renderUtilPlan(summary);
-        renderUtilTables(summary);
-        utilLoaded = true;
-    } catch (err) {
-        console.error('utilities tab load failed', err);
-        empty.style.display = 'block'; body.style.display = 'none';
-    }
+    renderUtilPlan(UT.summary);
+    renderUtilTables(UT.summary);
 }
 
 // ── formatting ──
@@ -5212,6 +5247,25 @@ function utMonthTicks(first, last, x) {
     return out;
 }
 
+// Correlation of the battery's net daily P&L ($/MW, after $5/MWh moved) to SPY's daily return.
+function utilDispSpyCorr() {
+    if (!UT.disp || !UT.disp.days || !state.spy || state.spy.length < 5) return null;
+    const spy = state.spy, ret = {};
+    for (let i = 1; i < spy.length; i++) ret[spy[i].date] = (spy[i].price - spy[i - 1].price) / spy[i - 1].price;
+    const cost = (UT.summary && UT.summary.cost_per_mwh) || 5;
+    const xs = [], ys = [];
+    UT.disp.days.forEach(d => {
+        if (ret[d.day] == null) return;
+        const p = d.picks.signal_p50, mwh = p.charge.length + p.discharge.length;
+        xs.push(ret[d.day]); ys.push(d.pnl.signal_p50 - cost * mwh);
+    });
+    if (xs.length < 5) return null;
+    const mx = xs.reduce((a, b) => a + b, 0) / xs.length, my = ys.reduce((a, b) => a + b, 0) / ys.length;
+    let c = 0, vx = 0, vy = 0;
+    xs.forEach((x, i) => { c += (x - mx) * (ys[i] - my); vx += (x - mx) ** 2; vy += (ys[i] - my) ** 2; });
+    return vx > 0 && vy > 0 ? { r: c / Math.sqrt(vx * vy), n: xs.length } : null;
+}
+
 // Correlation of the book's daily equity returns to SPY over the overlapping days.
 function utilSpyCorr(eq) {
     if (!eq || eq.length < 5 || !state.spy || state.spy.length < 5) return null;
@@ -5234,7 +5288,7 @@ function renderUtilKpis(eq, summary) {
     const h = summary.headline || {};
     const bat = Object.fromEntries((summary.battery || []).map(b => [b.strategy, b]));
     const fixedCap = bat.fixed ? bat.fixed.capture_of_oracle : null;
-    const corr = utilSpyCorr(eq);
+    const corr = utilDispSpyCorr();
     const tile = (label, value, sub) => `<div class="ut-tile"><div class="ut-tile-l">${label}</div><div class="ut-tile-v">${value}</div><div class="ut-tile-s">${sub}</div></div>`;
     const cap = h.capture_of_oracle ?? 0;
     document.getElementById('utilKpis').innerHTML =
@@ -5254,17 +5308,20 @@ function renderUtilKpis(eq, summary) {
         tile('NET SHARPE', (h.sharpe_net ?? 0).toFixed(2), `after $${summary.cost_per_mwh ?? 5}/MWh · ${(h.sharpe_gross ?? 0).toFixed(2)} gross`) +
         tile('MAX DRAWDOWN', utMoney(h.max_dd_gross ?? 0), 'per MW, peak to trough, gross') +
         tile('CORR. TO SPY', corr == null ? '—' : (corr.r >= 0 ? '+' : '−') + Math.abs(corr.r).toFixed(2),
-             corr == null ? 'daily returns' : `daily returns, ${corr.n} days`);
+             corr == null ? 'net daily P&L vs SPY' : `net daily P&L vs SPY, ${corr.n} days`);
 }
 
 // ── 01 · dispatch ladder ──
 function renderUtLadder() {
     const days = UT.disp.days, N = days.length;
-    const t0 = utDayMs(days[0].day), t1 = utDayMs(days[N - 1].day);
+    const live = UT.live.filter(r => r.grid === UT.grid).sort((a, b) => String(a.target_day).localeCompare(String(b.target_day)));
+    const t0 = utDayMs(days[0].day), t1 = utDayMs(live.length ? String(live[live.length - 1].target_day) : days[N - 1].day);
     const X = t => 60 + (t - t0) / (t1 - t0) * 920;
     let co = 0, cm = 0, cb = 0;
     const cum = days.map(d => { co += d.pnl.oracle; cm += d.pnl.signal_p50; cb += d.pnl.fixed; return [co, cm, cb]; });
-    const top = Math.ceil(Math.max(co, cm, cb) / 10000) * 10000;
+    const btEnd = [co, cm, cb];
+    const liveCum = live.map(r => { co += +r.perfect_insight_gross_usd; cm += +r.gross_usd; cb += +r.fixed_schedule_gross_usd; return [co, cm, cb]; });
+    const top = Math.ceil(Math.max(co, cm, cb, 1) / 10000) * 10000;
     const Y = v => 340 - v / top * 310;
     const po = [], pm = [], pb = [];
     days.forEach((d, i) => { const x = X(utDayMs(d.day)); po.push([x, Y(cum[i][0])]); pm.push([x, Y(cum[i][1])]); pb.push([x, Y(cum[i][2])]); });
@@ -5273,7 +5330,8 @@ function renderUtLadder() {
         const v = top * k / 5, y = Y(v);
         g += `<line class="grid" x1="60" x2="980" y1="${utF(y)}" y2="${utF(y)}"/><text class="ax" x="52" y="${utF(y + 4)}" text-anchor="end">${v ? '$' + (v / 1000) + 'k' : '$0'}</text>`;
     }
-    utMonthTicks(days[0].day, days[N - 1].day, X).forEach(t => { g += `<text class="ax" x="${utF(t.x)}" y="364" text-anchor="middle">${t.label}</text>`; });
+    utMonthTicks(days[0].day, live.length ? String(live[live.length - 1].target_day) : days[N - 1].day, X)
+        .forEach(t => { g += `<text class="ax" x="${utF(t.x)}" y="364" text-anchor="middle">${t.label}</text>`; });
     // largest single-day gap between perfect insight and the model
     let ai = 0;
     days.forEach((d, i) => { if (d.pnl.oracle - d.pnl.signal_p50 > days[ai].pnl.oracle - days[ai].pnl.signal_p50) ai = i; });
@@ -5297,9 +5355,20 @@ function renderUtLadder() {
         <text class="lbl" x="976" y="${utF(endY[0])}" fill="var(--ut-cream)" text-anchor="end">Perfect insight ${utK(co)}</text>
         <text class="lbl" x="976" y="${utF(endY[1])}" fill="var(--teal)" text-anchor="end">Model ${utK(cm)}</text>
         <text class="lbl" x="976" y="${utF(endY[2])}" fill="var(--txt-dim)" text-anchor="end">Fixed schedule ${utK(cb)}</text>`;
+    if (live.length) {
+        const lx = live.map(r => X(utDayMs(String(r.target_day))));
+        const seg = k => utLine([[lx[0], Y(btEnd[k])], ...live.map((r, i) => [lx[i], Y(liveCum[i][k])])]);
+        g += `<line x1="${utF(lx[0])}" x2="${utF(lx[0])}" y1="20" y2="340" stroke="var(--amber)" stroke-dasharray="3 4" opacity="0.8"/>
+            <text class="ann" x="${utF(lx[0] - 6)}" y="34" text-anchor="end">Live from ${utShort(String(live[0].target_day))}</text>
+            <path d="${seg(2)}" fill="none" stroke="var(--ut-gray)" stroke-width="1.8" stroke-dasharray="2 3"/>
+            <path d="${seg(0)}" fill="none" stroke="var(--ut-cream)" stroke-width="1.6" stroke-dasharray="2 3"/>
+            <path d="${seg(1)}" fill="none" stroke="var(--amber)" stroke-width="2.8"/>`;
+    }
+    document.getElementById('utLiveLegend').style.display = live.length ? '' : 'none';
     document.getElementById('utLadder').innerHTML = g;
     document.getElementById('utLadderFoot').textContent =
-        `Gross of the $5/MWh cost, summed over ${N} full days from ${days[0].day} to ${days[N - 1].day}.`;
+        `Gross of the $5/MWh cost. Backtest: ${N} full days from ${days[0].day} to ${days[N - 1].day}.` +
+        (live.length ? ` Live: ${live.length} day${live.length === 1 ? '' : 's'} from ${live[0].target_day} to ${live[live.length - 1].target_day}, each plan logged before that day's market closed.` : '');
 }
 
 // ── 02 · day replay ──
@@ -5312,7 +5381,7 @@ function renderUtReplaySetup() {
     document.querySelectorAll('#utPresets .ut-preset').forEach(b => b.addEventListener('click', () => renderUtDay(b.dataset.day)));
     const inp = document.getElementById('utDate');
     inp.min = UT.disp.window.start; inp.max = UT.disp.window.end;
-    inp.addEventListener('change', () => { if (inp.value) renderUtDay(inp.value); });
+    inp.onchange = () => { if (inp.value) renderUtDay(inp.value); };   // reassigned on each grid switch, not stacked
     renderUtDay(presets.length ? presets[0].day : UT.disp.days[0].day);
 }
 
@@ -5431,10 +5500,23 @@ function renderUtRegret() {
 
 // ── 05 · latest plan ──
 function renderUtilPlan(summary) {
-    const plan = summary.dispatch_plan;
-    const el = document.getElementById('utPlan');
+    let plan = summary.dispatch_plan;
+    const el = document.getElementById('utPlan'), meta = document.getElementById('utPlanMeta');
+    const lf = UT.latest && UT.latest.grids && UT.latest.grids[UT.grid];
+    meta.style.display = 'none';
+    if (lf && lf.plan) {
+        plan = { plan_date: lf.target_day, charge_hours: lf.plan.charge_hours, discharge_hours: lf.plan.discharge_hours };
+        const made = new Date(UT.latest.created_utc), close = new Date(lf.da_close_utc);
+        const lead = Math.round((close - made) / 60000);
+        meta.textContent = `Made ${UT.latest.created_utc.replace('T', ' ').slice(0, 16)} UTC, ` +
+            `${Math.floor(lead / 60)} h ${lead % 60} min before ${UT_GRID_NAME[UT.grid]}'s day-ahead market closed. ` +
+            `Forecast from data through ${String(lf.origin_utc).replace('T', ' ').slice(0, 16)} UTC.`;
+        meta.style.display = '';
+    }
     if (!plan || !plan.charge_hours) { el.innerHTML = '<p class="ut-foot">No dispatch plan available.</p>'; return; }
-    document.getElementById('utPlanTitle').textContent = 'Dispatch for ' + plan.plan_date + ', the last day of the backtest';
+    document.getElementById('utPlanTitle').textContent = lf && lf.plan
+        ? `Tomorrow's plan: ${plan.plan_date}`
+        : 'Dispatch for ' + plan.plan_date + ', the last day of the backtest';
     const ch = plan.charge_hours, di = plan.discharge_hours;
     el.innerHTML =
         `<div><div class="ut-cells">` + Array.from({ length: 24 }, (_, h) =>
@@ -6299,6 +6381,10 @@ function renderUtilTables(summary) {
 #utilities-tab .ut-step-n { outline: 1px solid var(--line-hard); }
 #utilities-tab .ut-c-charge { color: var(--blue); }
 #utilities-tab .ut-c-discharge { color: var(--orange); }
+#utilities-tab .ut-gridtoggle { display: inline-flex; gap: 0; margin-left: auto; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+#utilities-tab .ut-gridtoggle button { font: inherit; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em; background: transparent; color: var(--txt-dim); border: 0; padding: 6px 12px; cursor: pointer; }
+#utilities-tab .ut-gridtoggle button[aria-pressed="true"] { background: var(--teal); color: #05080d; }
+#utilities-tab .ut-gridtoggle button:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
 #utilities-tab .ut-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; flex: 1 1 520px; font-size: 13px; line-height: 1.5; }
 #utilities-tab .ut-notes strong { color: var(--txt); font-weight: 600; }
 
