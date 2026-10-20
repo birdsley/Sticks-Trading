@@ -1,8 +1,8 @@
 {
   "as_of": "2026-10-13",
   "cash": 717.748058,
-  "equity_estimate": 10600.323142342955,
-  "last_run_id": "2026-10-16_markowitz_live",
+  "equity_estimate": 10587.228078179747,
+  "last_run_id": "2026-10-19_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -65,7 +65,7 @@
     {
       "avg_cost": 88.639504,
       "entry_date": "2026-06-03",
-      "last_price": 99.040001,
+      "last_price": 98.419998,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "CL=F"
@@ -201,7 +201,7 @@
     {
       "avg_cost": 3.066052,
       "entry_date": "2026-06-03",
-      "last_price": 3.117,
+      "last_price": 3.034,
       "shares": 130,
       "strategy": "markowitz",
       "ticker": "NG=F"
@@ -249,7 +249,7 @@
     {
       "avg_cost": 16.294886,
       "entry_date": "2026-06-03",
-      "last_price": 18.655001,
+      "last_price": 18.66,
       "shares": 35,
       "strategy": "markowitz",
       "ticker": "VTRS"
