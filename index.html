@@ -1751,11 +1751,21 @@
 <!-- RESEARCH-TAB:BEGIN container -->
 <!-- ══════════════════════════════════════════════ RESEARCH TAB ══ -->
 <div id="research-tab" class="tab-content">
-    <div class="rs-wrap" id="rsRoot">
-        <div class="rs-loading" id="rsLoading">Loading the research record…</div>
+    <div class="rx-wrap" id="rsRoot">
+        <div class="rx-loading" id="rsLoading">Loading the research record…</div>
     </div>
 </div><!-- /research-tab -->
 <!-- RESEARCH-TAB:END container -->
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6566,161 +6576,196 @@ function renderUtilTables(summary) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- RESEARCH-TAB:BEGIN style -->
 <style id="research-tab-css">
-#research-tab .rs-wrap { display:flex; flex-direction:column; gap:22px; max-width:1400px; margin:0 auto; min-width:0; }
-#research-tab .rs-loading, #research-tab .rs-error { color:var(--txt-dim); font-family:var(--font-mono); font-size:13px; padding:40px 0; text-align:center; }
-#research-tab .rs-error { color:var(--red); }
-#research-tab .rs-card { background:linear-gradient(180deg,var(--surface),var(--surface-2)); border:1px solid var(--line); border-radius:12px; padding:20px 22px; box-shadow:var(--shadow-md); min-width:0; }
-#research-tab .rs-h2 { font-size:17px; font-weight:650; color:var(--txt); margin:0 0 4px; letter-spacing:.2px; }
-#research-tab .rs-sub { font-size:13px; color:var(--txt-dim); line-height:1.55; margin:0 0 14px; max-width:880px; }
-#research-tab .rs-howto { font-size:12px; color:var(--txt-faint); margin-top:8px; line-height:1.5; }
-#research-tab .rs-eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--teal); }
-#research-tab .rs-hero h2 { font-size:24px; margin:6px 0 6px; color:var(--txt); font-weight:700; }
-#research-tab .rs-hero p { color:var(--txt-dim); font-size:14px; line-height:1.6; max-width:900px; margin:0 0 14px; }
-#research-tab .rs-meta { font-family:var(--font-mono); font-size:11.5px; color:var(--txt-faint); }
-#research-tab .rs-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-#research-tab .rs-chip { font-size:12px; padding:5px 11px; border-radius:16px; border:1px solid var(--line); background:rgba(0,0,0,.25); color:var(--txt-dim); }
-#research-tab .rs-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
-#research-tab .rs-kpi { background:rgba(0,0,0,.22); border:1px solid var(--line); border-radius:10px; padding:14px 16px; min-width:0; }
-#research-tab .rs-kpi-label { font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--txt-faint); }
-#research-tab .rs-kpi-value { font-family:var(--font-mono); font-size:28px; font-weight:650; color:var(--txt); margin:4px 0 2px; font-variant-numeric:tabular-nums; }
-#research-tab .rs-kpi-sub { font-size:12px; color:var(--txt-dim); line-height:1.45; }
-#research-tab .rs-headline { display:flex; flex-wrap:wrap; gap:18px 28px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line-soft); }
-#research-tab .rs-headline .rs-hl { min-width:0; }
-#research-tab .rs-hl-v { font-family:var(--font-mono); font-size:18px; color:var(--teal); font-weight:600; }
-#research-tab .rs-hl-l { font-size:11.5px; color:var(--txt-faint); }
-#research-tab .rs-cases { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
-#research-tab .rs-case { text-align:left; background:rgba(0,0,0,.22); border:1px solid var(--line); border-radius:10px; padding:14px 15px; cursor:pointer; color:var(--txt); font:inherit; transition:border-color .15s, background .15s; }
-#research-tab .rs-case:hover, #research-tab .rs-case.active { border-color:var(--teal); background:rgba(0,212,170,.05); }
-#research-tab .rs-case h4 { margin:0 0 6px; font-size:13.5px; font-weight:600; }
-#research-tab .rs-case p { margin:0; font-size:12px; color:var(--txt-dim); line-height:1.5; }
-#research-tab .rs-toolbar { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-bottom:12px; }
-#research-tab .rs-toolbar .rs-tlabel { font-size:11px; color:var(--txt-faint); text-transform:uppercase; letter-spacing:1px; }
-#research-tab .rs-toolbar .ostab { padding:5px 11px; font-size:12px; }
-#research-tab .rs-toolbar .ostab.active { background:#e0e0e0; color:#0a0a0a; border-color:transparent; }
-#research-tab .rs-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; }
-#research-tab table.rs-table { width:100%; border-collapse:collapse; font-size:12.5px; }
-#research-tab .rs-table th { text-align:left; font-weight:600; color:var(--txt-faint); font-size:11px; text-transform:uppercase; letter-spacing:.6px; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
-#research-tab .rs-table td { padding:8px 10px; border-bottom:1px solid var(--line-soft); color:var(--txt); vertical-align:top; }
-#research-tab .rs-table td.num { font-family:var(--font-mono); font-variant-numeric:tabular-nums; white-space:nowrap; }
-#research-tab .rs-ledger tbody tr { cursor:pointer; }
-#research-tab .rs-ledger tbody tr:hover td { background:rgba(255,255,255,.025); }
-#research-tab .rs-ledger tbody tr.sel td { background:rgba(0,212,170,.06); }
-#research-tab .rs-ver { font-family:var(--font-mono); font-weight:600; color:var(--txt); white-space:nowrap; }
-#research-tab .rs-vint { display:block; font-family:var(--font-ui); font-size:10.5px; color:var(--txt-faint); white-space:normal; margin-top:2px; }
-#research-tab .rs-hyp { color:var(--txt-dim); min-width:220px; }
-#research-tab .rs-hist { display:inline-block; font-size:10.5px; color:var(--txt-faint); border:1px dashed var(--line); border-radius:6px; padding:1px 6px; margin-left:6px; }
-#research-tab .rs-badge { display:inline-block; font-family:var(--font-mono); font-size:10.5px; font-weight:700; letter-spacing:.6px; padding:3px 8px; border-radius:6px; white-space:nowrap; border:1px solid transparent; }
-#research-tab .rs-b-PASS, #research-tab .rs-b-DEPLOYED { color:var(--teal); background:var(--teal-soft); border-color:rgba(0,212,170,.35); }
-#research-tab .rs-b-SHADOW { color:var(--blue); background:var(--blue-soft); border-color:rgba(0,168,255,.35); }
-#research-tab .rs-b-FAIL { color:var(--red); background:var(--red-soft); border-color:rgba(255,71,87,.35); }
-#research-tab .rs-b-SUPERSEDED, #research-tab .rs-b-PAUSED { color:#b0b5bf; background:rgba(176,181,191,.12); border-color:rgba(176,181,191,.3); }
-#research-tab .rs-b-IN_PROGRESS { color:var(--orange); background:var(--orange-soft); border-color:rgba(255,159,67,.35); }
-#research-tab .rs-cards-mobile { display:none; }
-#research-tab .rs-mcard { border:1px solid var(--line); border-radius:10px; padding:12px 13px; margin-bottom:10px; background:rgba(0,0,0,.2); cursor:pointer; }
-#research-tab .rs-mcard-top { display:flex; justify-content:space-between; gap:10px; align-items:center; }
-#research-tab .rs-mcard p { margin:6px 0 4px; font-size:12.5px; color:var(--txt-dim); line-height:1.45; }
-#research-tab .rs-panel { border-color:rgba(0,212,170,.35); }
-#research-tab .rs-panel-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-#research-tab .rs-close { background:none; border:1px solid var(--line); color:var(--txt-dim); border-radius:8px; padding:5px 10px; cursor:pointer; font:inherit; font-size:12px; flex-shrink:0; }
-#research-tab .rs-close:hover { color:var(--txt); border-color:#3a3f49; }
-#research-tab .rs-grid2 { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; }
-#research-tab .rs-sec { margin-top:16px; }
-#research-tab .rs-sec h5 { margin:0 0 8px; font-size:11.5px; text-transform:uppercase; letter-spacing:1px; color:var(--txt-faint); font-weight:600; }
-#research-tab .rs-sec p, #research-tab .rs-sec li { font-size:13px; color:var(--txt-dim); line-height:1.6; }
-#research-tab .rs-sec ul { margin:0; padding-left:18px; }
-#research-tab .rs-cite { font-size:11.5px; color:var(--txt-faint); }
-#research-tab .rs-chart { position:relative; height:280px; width:100%; }
-#research-tab .rs-chart.sm { height:220px; }
-#research-tab .rs-verdict { display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:10px; background:rgba(0,0,0,.25); border:1px solid var(--line); }
-#research-tab .rs-verdict p { margin:0; font-size:13px; color:var(--txt); line-height:1.55; }
-#research-tab .rs-gates { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-#research-tab .rs-gate { font-family:var(--font-mono); font-size:11.5px; padding:4px 9px; border-radius:6px; border:1px solid var(--line); color:var(--txt-dim); }
-#research-tab .rs-foot { margin-top:16px; padding-top:10px; border-top:1px solid var(--line-soft); font-size:11.5px; color:var(--txt-faint); line-height:1.6; }
-#research-tab .rs-link { color:var(--teal); cursor:pointer; text-decoration:underline; text-underline-offset:2px; background:none; border:none; font:inherit; padding:0; }
-#research-tab .rs-calc { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin-top:6px; }
-#research-tab .rs-calc label { font-size:11px; color:var(--txt-faint); display:flex; flex-direction:column; gap:4px; }
-#research-tab .rs-calc input { background:rgba(0,0,0,.35); border:1px solid var(--line); border-radius:7px; color:var(--txt); font-family:var(--font-mono); font-size:13px; padding:7px 8px; width:100%; min-width:0; box-sizing:border-box; }
-#research-tab .rs-calc-out { display:flex; flex-wrap:wrap; gap:16px 26px; margin-top:12px; }
-#research-tab .rs-methods dt { font-weight:600; color:var(--txt); font-size:13.5px; margin-top:12px; }
-#research-tab .rs-methods dd { margin:4px 0 0; color:var(--txt-dim); font-size:13px; line-height:1.6; }
-#research-tab details.rs-gloss summary { cursor:pointer; color:var(--teal); font-size:13px; margin-top:14px; }
-#research-tab .rs-why { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); border-top:1px solid var(--line-soft); }
-#research-tab .rs-why > div { padding:11px 10px 11px 0; border-bottom:1px solid var(--line-soft); font-size:13px; line-height:1.55; }
-#research-tab .rs-why .rs-idea { color:var(--txt); font-weight:600; }
-#research-tab .rs-why .rs-reason { color:var(--txt-dim); }
-#research-tab .rs-closing { margin-top:14px; font-size:13.5px; color:var(--txt); line-height:1.6; }
-@media (max-width:900px) {
-    #research-tab .rs-grid2 { grid-template-columns:minmax(0,1fr); }
-    #research-tab .rs-kpis { grid-template-columns:repeat(2,minmax(0,1fr)); }
-    #research-tab .rs-calc { grid-template-columns:repeat(2,minmax(0,1fr)); }
+/* small-text grey that clears 4.5:1 on every surface this tab uses (skin --txt-faint measures 3.3:1) */
+:root { --rx-faint: #80868f; }
+/* Research tab (rebuild 2026-10): strategy explorer, detail template, ledger, overfitting, methods.
+   Uses the dashboard's tokens only (skin: --bg/--surface/--line/--txt/--teal/--amber/--red, serif headings, mono numbers). */
+#research-tab .rx-wrap { display:flex; flex-direction:column; gap:40px; max-width:1440px; margin:0 auto; min-width:0; }
+#research-tab .rx-loading, #research-tab .rx-error { color:var(--txt-dim); font-size:14px; padding:40px 0; text-align:center; }
+#research-tab .rx-error { color:var(--red); }
+#research-tab .rx-num { font-family:var(--font-mono); font-variant-numeric:tabular-nums; }
+
+/* header */
+#research-tab .rx-head { display:flex; flex-direction:column; gap:14px; padding-top:6px; }
+#research-tab .rx-h1 { margin:0; font-family:var(--font-serif); font-weight:500; font-size:clamp(30px,4.2vw,46px); line-height:1.1; color:var(--txt); letter-spacing:-.01em; }
+#research-tab .rx-lede { margin:0; max-width:68ch; font-size:16.5px; line-height:1.65; color:var(--txt-dim); }
+#research-tab .rx-funnel { display:flex; flex-wrap:wrap; gap:0; margin-top:6px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+#research-tab .rx-funnel div { flex:1 1 140px; padding:14px 18px 14px 0; display:flex; flex-direction:column; gap:2px; min-width:0; }
+#research-tab .rx-funnel div + div { padding-left:18px; border-left:1px solid var(--line); }
+#research-tab .rx-funnel b { font-family:var(--font-ui); font-weight:500; font-size:30px; color:var(--txt); line-height:1.1; }
+#research-tab .rx-funnel span { font-size:13px; color:var(--txt-dim); }
+#research-tab .rx-funnel div:last-child b { color:var(--teal); }
+
+/* filter chips: one row, scrolls sideways on a phone */
+#research-tab .rx-chips { display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:2px 2px 6px; scrollbar-width:thin; }
+#research-tab .rx-chip { flex:0 0 auto; min-height:36px; padding:0 14px; border-radius:18px; border:1px solid var(--line-hard); background:transparent; color:var(--txt-dim); font:inherit; font-size:13.5px; cursor:pointer; white-space:nowrap; }
+#research-tab .rx-chip:hover { color:var(--txt); }
+#research-tab .rx-chip[aria-pressed="true"] { background:var(--txt); color:var(--bg); border-color:var(--txt); }
+#research-tab .rx-chip:focus-visible, #research-tab .rx-card:focus-visible, #research-tab .rx-btn:focus-visible,
+#research-tab .rx-link:focus-visible, #research-tab .rx-lrow:focus-visible, #research-tab summary:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }
+
+/* explorer: cards beside a sticky stage on wide screens; stage first on narrow ones */
+#research-tab .rx-explorer { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:28px; align-items:start; }
+#research-tab .rx-cards { display:flex; flex-direction:column; gap:22px; min-width:0; }
+#research-tab .rx-group h3 { margin:0 0 10px; font-size:14px; font-weight:600; color:var(--txt); display:flex; align-items:center; gap:9px; }
+#research-tab .rx-group h3 i { width:9px; height:9px; border-radius:50%; flex:0 0 auto; }
+#research-tab .rx-group h3 small { font-weight:400; color:var(--rx-faint); font-size:13px; }
+#research-tab .rx-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr)); gap:8px; }
+#research-tab .rx-card { text-align:left; padding:12px 13px 13px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--txt); font:inherit; cursor:pointer; display:flex; flex-direction:column; gap:5px; min-width:0; }
+#research-tab .rx-card:hover, #research-tab .rx-card.hot { border-color:var(--line-hard); background:var(--surface-hi); }
+#research-tab .rx-card[aria-current="true"] { border-color:var(--teal); background:var(--teal-soft); }
+#research-tab .rx-card-top { display:flex; justify-content:space-between; gap:8px; align-items:baseline; }
+#research-tab .rx-name { font-size:14px; font-weight:600; line-height:1.3; }
+#research-tab .rx-tag { font-family:var(--font-mono); font-size:11px; color:var(--rx-faint); white-space:nowrap; }
+#research-tab .rx-stats { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+#research-tab .rx-sh { font-family:var(--font-mono); font-size:20px; color:var(--txt); }
+#research-tab .rx-sh small, #research-tab .rx-st2 { font-size:12px; color:var(--txt-dim); font-family:var(--font-ui); }
+#research-tab .rx-reason { font-size:12.5px; line-height:1.45; color:var(--txt-dim); }
+
+#research-tab .rx-stage { position:sticky; top:12px; min-width:0; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:clamp(16px,2.2vw,26px); display:flex; flex-direction:column; gap:16px; }
+#research-tab .rx-stage-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; }
+#research-tab .rx-h2 { margin:0; font-family:var(--font-serif); font-weight:500; font-size:clamp(21px,2.3vw,26px); line-height:1.2; color:var(--txt); }
+#research-tab .rx-note { margin:0; font-size:13.5px; line-height:1.55; color:var(--txt-dim); max-width:70ch; }
+#research-tab .rx-legend { display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--txt-dim); }
+#research-tab .rx-legend span { display:inline-flex; align-items:center; gap:7px; }
+#research-tab .rx-legend i { display:inline-block; width:20px; border-top:2px solid; }
+#research-tab .rx-legend i.box { width:13px; height:11px; border:0; border-radius:2px; }
+#research-tab .rx-canvas { position:relative; height:clamp(280px,34vw,420px); width:100%; }
+#research-tab .rx-canvas.sm { height:240px; }
+#research-tab .rx-canvas.xs { height:200px; }
+#research-tab .rx-btn { min-height:40px; padding:0 14px; border-radius:4px; border:1px solid var(--line-hard); background:var(--bg-2); color:var(--txt-dim); font:inherit; font-size:13.5px; cursor:pointer; }
+#research-tab .rx-btn:hover { color:var(--txt); }
+
+/* detail template */
+#research-tab .rx-detail { display:flex; flex-direction:column; gap:22px; }
+#research-tab .rx-detail h4 { margin:0 0 8px; font-size:15px; font-weight:600; color:var(--txt); }
+#research-tab .rx-detail p { margin:0; font-size:14px; line-height:1.65; color:var(--txt-dim); max-width:72ch; }
+#research-tab .rx-detail p + p { margin-top:8px; }
+#research-tab .rx-cite { font-size:12.5px !important; color:var(--rx-faint) !important; margin-top:8px !important; }
+#research-tab .rx-spec { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); border-radius:6px; }
+#research-tab .rx-spec div { padding:10px 12px; min-width:0; }
+#research-tab .rx-spec div + div { border-left:1px solid var(--line); }
+#research-tab .rx-spec dt { font-size:12px; color:var(--rx-faint); margin-bottom:3px; }
+#research-tab .rx-spec dd { margin:0; font-size:13px; line-height:1.45; color:var(--txt); }
+#research-tab .rx-flag { font-size:13px; line-height:1.55; color:var(--txt-dim); border-left:2px solid var(--amber); padding:4px 0 4px 12px; }
+#research-tab .rx-sub { font-size:12.5px; color:var(--rx-faint); margin-top:6px; }
+#research-tab .rx-pass { color:var(--teal); white-space:nowrap; }
+#research-tab .rx-fail { color:var(--red); white-space:nowrap; }
+#research-tab .rx-na { color:var(--rx-faint); white-space:nowrap; }
+#research-tab .rx-tablewrap { overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; }
+#research-tab table.rx-table { width:100%; border-collapse:collapse; font-size:13px; }
+#research-tab .rx-table th { text-align:left; font-weight:500; color:var(--rx-faint); font-size:12px; padding:7px 10px 7px 0; border-bottom:1px solid var(--line); white-space:nowrap; }
+#research-tab .rx-table td { padding:8px 10px 8px 0; border-bottom:1px solid var(--line-soft); color:var(--txt); vertical-align:top; }
+#research-tab .rx-table td.n { font-family:var(--font-mono); font-variant-numeric:tabular-nums; white-space:nowrap; }
+#research-tab details.rx-tv summary { cursor:pointer; font-size:12.5px; color:var(--txt-dim); margin-top:8px; width:max-content; }
+#research-tab details.rx-tv[open] summary { margin-bottom:6px; }
+#research-tab .rx-statrow { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+#research-tab .rx-stat { border:1px solid var(--line); border-radius:6px; padding:10px 12px; }
+#research-tab .rx-stat span { display:block; font-size:12px; color:var(--rx-faint); }
+#research-tab .rx-stat b { display:block; font-family:var(--font-mono); font-weight:400; font-size:17px; color:var(--txt); margin-top:3px; }
+#research-tab .rx-mcrow { display:grid; grid-template-columns:minmax(0,1fr) 190px; gap:18px; }
+#research-tab .rx-mcside { display:flex; flex-direction:column; gap:12px; border-left:1px solid var(--line); padding-left:16px; }
+#research-tab .rx-mcside div span { display:block; font-size:12px; color:var(--rx-faint); }
+#research-tab .rx-mcside div b { font-family:var(--font-mono); font-weight:400; font-size:17px; color:var(--txt); }
+#research-tab .rx-multiples { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+#research-tab .rx-multiples h5 { margin:0 0 6px; font-size:13px; font-weight:600; color:var(--txt); }
+#research-tab a.rx-gl { color:inherit; text-decoration:underline dotted var(--rx-faint); text-underline-offset:3px; }
+#research-tab a.rx-gl:hover { color:var(--txt); }
+
+/* sections below the explorer */
+#research-tab .rx-sec { display:flex; flex-direction:column; gap:12px; }
+#research-tab .rx-sec > p { margin:0; max-width:72ch; font-size:14px; line-height:1.6; color:var(--txt-dim); }
+#research-tab details.rx-ledger > summary { list-style:none; cursor:pointer; display:flex; align-items:baseline; gap:12px; }
+#research-tab details.rx-ledger > summary::-webkit-details-marker { display:none; }
+#research-tab details.rx-ledger > summary .rx-h2::before { content:"+ "; color:var(--rx-faint); font-family:var(--font-mono); }
+#research-tab details.rx-ledger[open] > summary .rx-h2::before { content:"− "; }
+#research-tab .rx-toolbar { display:flex; gap:8px; overflow-x:auto; padding:2px 2px 6px; align-items:center; }
+#research-tab .rx-toolbar .rx-sep { width:1px; align-self:stretch; background:var(--line); margin:0 4px; flex:0 0 auto; }
+#research-tab .rx-lrow { cursor:pointer; }
+#research-tab .rx-lrow:hover td { background:rgba(255,255,255,.02); }
+#research-tab .rx-lrow[aria-expanded="true"] td { background:var(--teal-soft); }
+#research-tab .rx-lmore td { background:rgba(0,0,0,.18); }
+#research-tab .rx-lmore dl { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px 20px; margin:2px 0 8px; }
+#research-tab .rx-lmore dt { font-size:12px; color:var(--rx-faint); }
+#research-tab .rx-lmore dd { margin:2px 0 0; font-size:13px; color:var(--txt); }
+#research-tab .rx-badge { display:inline-block; font-size:12px; font-weight:600; padding:2px 8px; border-radius:4px; white-space:nowrap; }
+#research-tab .rx-b-PASS, #research-tab .rx-b-DEPLOYED { color:var(--teal); background:var(--teal-soft); }
+#research-tab .rx-b-FAIL { color:var(--red); background:var(--red-soft); }
+#research-tab .rx-b-SUPERSEDED, #research-tab .rx-b-PAUSED { color:var(--txt-dim); background:rgba(154,160,170,.12); }
+#research-tab .rx-b-IN_PROGRESS, #research-tab .rx-b-SHADOW { color:var(--amber); background:var(--amber-soft); }
+#research-tab .rx-study { margin-top:6px; display:flex; flex-direction:column; gap:10px; }
+#research-tab .rx-study h5 { margin:6px 0 0; font-size:13px; font-weight:600; color:var(--txt); }
+#research-tab .rx-study p, #research-tab .rx-study li { font-size:13px; line-height:1.6; color:var(--txt-dim); margin:0; }
+#research-tab .rx-study ul { margin:0; padding-left:18px; }
+#research-tab .rx-link { color:var(--teal); cursor:pointer; text-decoration:underline; text-underline-offset:2px; background:none; border:none; font:inherit; padding:0; }
+#research-tab .rx-calc { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
+#research-tab .rx-calc label { font-size:12px; color:var(--rx-faint); display:flex; flex-direction:column; gap:4px; }
+#research-tab .rx-calc input { background:var(--bg-2); border:1px solid var(--line-hard); border-radius:4px; color:var(--txt); font-family:var(--font-mono); font-size:14px; padding:8px; width:100%; min-width:0; box-sizing:border-box; }
+#research-tab .rx-calcout { display:flex; flex-wrap:wrap; gap:14px 30px; }
+#research-tab .rx-calcout b { display:block; font-family:var(--font-mono); font-weight:400; font-size:20px; color:var(--txt); }
+#research-tab .rx-calcout span { font-size:12.5px; color:var(--txt-dim); }
+#research-tab .rx-methods { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px 40px; }
+#research-tab .rx-methods dl { margin:0; }
+#research-tab .rx-methods dt { font-weight:600; color:var(--txt); font-size:14px; margin-top:12px; }
+#research-tab .rx-methods dt:first-child { margin-top:0; }
+#research-tab .rx-methods dd { margin:4px 0 0; color:var(--txt-dim); font-size:13.5px; line-height:1.6; }
+#research-tab .rx-methods dd:target, #research-tab .rx-methods dt:target + dd { color:var(--txt); }
+#research-tab .rx-methods dt:target { color:var(--amber); }
+#research-tab .rx-foot { font-size:12.5px; color:var(--rx-faint); border-top:1px solid var(--line); padding-top:12px; }
+
+@media (max-width:1100px) {
+    #research-tab .rx-explorer { grid-template-columns:minmax(0,1fr); }
+    #research-tab .rx-stage { position:static; order:-1; }
+    #research-tab .rx-methods { grid-template-columns:minmax(0,1fr); }
 }
 @media (max-width:720px) {
-    #research-tab .rs-ledger-desktop { display:none; }
-    #research-tab .rs-cards-mobile { display:block; }
-    #research-tab .rs-card { padding:16px 14px; }
-    #research-tab .rs-why { grid-template-columns:minmax(0,1fr); }
-    #research-tab .rs-why .rs-idea { border-bottom:none; padding-bottom:2px; }
-    #research-tab .rs-kpi-value { font-size:22px; }
-    #research-tab .rs-chart { height:240px; }
+    #research-tab .rx-wrap { gap:30px; padding:0 16px; }
+    #research-tab .rx-chip, #research-tab .rx-btn, #research-tab .rx-calc input { min-height:44px; }
+    #research-tab details.rx-tv summary { min-height:44px; display:flex; align-items:center; margin-top:0; }
+    #research-tab .rx-link { display:inline-flex; align-items:center; min-height:44px; }
+    #research-tab .rx-gtable thead { display:none; }
+    #research-tab .rx-gtable tr { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 12px; padding:9px 0; border-bottom:1px solid var(--line-soft); }
+    #research-tab .rx-gtable td { border:0; padding:0; }
+    #research-tab .rx-gtable td:nth-child(1) { grid-column:1 / -1; color:var(--txt); }
+    #research-tab .rx-gtable td:nth-child(2) { color:var(--rx-faint); font-size:12.5px; }
+    #research-tab .rx-gtable td:nth-child(2)::before { content:"Bar: "; }
+    #research-tab .rx-gtable td:nth-child(3) { grid-column:1; white-space:normal; }
+    #research-tab .rx-gtable td:nth-child(4) { grid-column:2; grid-row:2 / span 2; align-self:center; }
+    #research-tab .rx-spec { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+    #research-tab .rx-spec div:nth-child(3) { border-left:0; }
+    #research-tab .rx-spec div:nth-child(n+3) { border-top:1px solid var(--line); }
+    #research-tab .rx-mcrow { grid-template-columns:minmax(0,1fr); }
+    #research-tab .rx-mcside { border-left:0; padding-left:0; border-top:1px solid var(--line); padding-top:12px; flex-direction:row; flex-wrap:wrap; gap:12px 22px; }
+    #research-tab .rx-multiples { grid-template-columns:minmax(0,1fr); }
+    #research-tab .rx-calc { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    #research-tab .rx-funnel div { flex-basis:45%; }
+    #research-tab .rx-funnel div:nth-child(3) { border-left:0; padding-left:0; }
+    #research-tab .rx-funnel b { font-size:24px; }
+    #research-tab .rx-hide-sm { display:none; }
 }
-/* ── Part B: strategy cards + main chart (overview / Monte Carlo) ── */
-#research-tab .st-top { display:flex; flex-direction:column; gap:28px; min-width:0; }
-#research-tab .st-hero { display:flex; flex-direction:column; gap:16px; padding:8px 0 4px; }
-#research-tab .st-eyebrow { font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; color:var(--amber); }
-#research-tab .st-h1 { margin:0; font-family:var(--font-serif); font-weight:500; font-size:clamp(30px,4.6vw,50px); line-height:1.1; color:var(--txt); max-width:900px; letter-spacing:-.01em; }
-#research-tab .st-lede { margin:0; max-width:780px; line-height:1.65; font-size:16.5px; color:var(--txt-dim); }
-#research-tab .st-groups { display:flex; flex-direction:column; gap:18px; }
-#research-tab .st-group { display:flex; flex-direction:column; gap:10px; }
-#research-tab .st-glabel { display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; color:var(--txt-faint); }
-#research-tab .st-glabel i { width:10px; height:10px; border-radius:50%; }
-#research-tab .st-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,205px),1fr)); gap:10px; }
-#research-tab .st-card { text-align:left; min-height:44px; padding:14px 15px; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--txt); font:inherit; cursor:pointer; display:flex; flex-direction:column; gap:6px; transition:border-color .12s, background .12s; }
-#research-tab .st-card:hover, #research-tab .st-card:focus-visible { border-color:var(--line-hard); background:var(--surface-hi); }
-#research-tab .st-card:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }
-#research-tab .st-card[aria-pressed="true"] { border-color:var(--teal); background:rgba(35,199,166,.10); }
-#research-tab .st-name { font-size:14px; font-weight:600; line-height:1.3; }
-#research-tab .st-tag { font-family:var(--font-mono); font-size:11px; color:var(--txt-faint); }
-#research-tab .st-sh { display:flex; align-items:baseline; gap:8px; margin-top:4px; }
-#research-tab .st-sh b { font-family:var(--font-mono); font-size:26px; font-weight:400; font-variant-numeric:tabular-nums; }
-#research-tab .st-sh span { font-size:12px; color:var(--txt-faint); }
-#research-tab .st-risk { font-family:var(--font-mono); font-size:12px; color:var(--txt-dim); }
-#research-tab .st-panel { background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:clamp(18px,3vw,32px); display:flex; flex-direction:column; gap:18px; min-width:0; scroll-margin-top:12px; }
-#research-tab .st-phead { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; align-items:flex-end; }
-#research-tab .st-phead.mc { align-items:flex-start; }
-#research-tab .st-h2 { margin:0; font-family:var(--font-serif); font-weight:500; font-size:clamp(22px,2.6vw,28px); color:var(--txt); }
-#research-tab .st-note { margin:0; font-size:14px; color:var(--txt-faint); }
-#research-tab .st-legend { display:flex; flex-wrap:wrap; gap:8px 16px; font-size:13px; color:var(--txt-dim); }
-#research-tab .st-legend span { display:inline-flex; align-items:center; gap:8px; }
-#research-tab .st-legend i { display:inline-block; width:22px; border-top:2px solid; }
-#research-tab .st-legend i.box { width:14px; height:12px; border:0; border-radius:2px; }
-#research-tab .st-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; }
-#research-tab .st-canvas { position:relative; height:clamp(300px,42vw,430px); min-width:600px; width:100%; overflow:hidden; }
-#research-tab .st-bench { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:16px; border-top:1px solid var(--line); padding-top:16px; font-size:13px; line-height:1.55; color:var(--txt-dim); }
-#research-tab .st-bench b { font-family:var(--font-mono); font-weight:400; margin-right:6px; }
-#research-tab .st-btn { min-height:44px; padding:0 16px; border-radius:4px; border:1px solid var(--line-hard); background:var(--bg-2); color:var(--txt-dim); font:inherit; font-size:14px; cursor:pointer; }
-#research-tab .st-btn[aria-pressed="true"] { border-color:var(--teal); background:rgba(35,199,166,.12); color:var(--txt); }
-#research-tab .st-btn:hover { color:var(--txt); }
-#research-tab .st-btn:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }
-#research-tab .st-read { margin:0; font-size:14px; line-height:1.6; max-width:820px; color:var(--txt-dim); }
-#research-tab .st-mcrow { display:grid; grid-template-columns:minmax(0,1fr) 240px; gap:24px; align-items:stretch; }
-#research-tab .st-mcchart { min-width:0; display:flex; flex-direction:column; gap:10px; }
-#research-tab .st-side { min-width:0; display:flex; flex-direction:column; gap:14px; border-left:1px solid var(--line); padding-left:20px; }
-#research-tab .st-stat { display:flex; flex-direction:column; gap:4px; }
-#research-tab .st-stat > span { font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--txt-faint); }
-#research-tab .st-stat > b { font-family:var(--font-mono); font-weight:400; font-size:22px; color:var(--txt); }
-#research-tab .st-stat > b.big { font-size:30px; color:var(--amber); }
-#research-tab .st-stat > small { font-size:12px; color:var(--txt-faint); }
-#research-tab .st-stat > div { font-family:var(--font-mono); font-size:14px; color:var(--txt); line-height:1.6; }
-#research-tab .st-story { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:20px; border-top:1px solid var(--line); padding-top:18px; font-size:14px; line-height:1.6; color:var(--txt-dim); }
-#research-tab .st-story h4 { margin:0 0 6px; font-family:var(--font-mono); font-weight:400; font-size:11px; letter-spacing:.12em; color:var(--txt-faint); }
-@media (max-width:900px) { #research-tab .st-mcrow { grid-template-columns:minmax(0,1fr); } }
-@media (max-width:760px) {
-    #research-tab .st-side { border-left:0; padding-left:0; border-top:1px solid var(--line); padding-top:16px; flex-direction:row; flex-wrap:wrap; gap:16px 28px; }
-    #research-tab .st-stat > b.big { font-size:24px; }
-}
-@media (prefers-reduced-motion: reduce) { #research-tab .st-card { transition:none; } }
+@media (prefers-reduced-motion: reduce) { #research-tab * { scroll-behavior:auto !important; } }
 </style>
 <!-- RESEARCH-TAB:END style -->
 
@@ -6729,599 +6774,554 @@ function renderUtilTables(summary) {
 (function () {
     'use strict';
     const BASE = 'data/research/';
-    const R = { loaded: false, index: null, methods: null, trials: null, cases: {}, studies: {}, curves: {}, charts: {},
-                filters: { family: 'all', verdict: 'all' }, sort: 'date_asc', open: null, openCase: null };
-    const FAMILY = { sp_equity: 'S&P equity', cross_asset: 'Cross-asset', ml: 'ML', overlay: 'Risk overlay',
-                     replication: 'Replication', audit: 'Audit', infra: 'Infrastructure',
-                     utilities: 'Power markets' };
-    const VERDICT_LABEL = { PASS: 'PASS', FAIL: 'FAIL', SUPERSEDED: 'SUPERSEDED', SHADOW: 'SHADOW',
-                            DEPLOYED: 'DEPLOYED', PAUSED: 'PAUSED', IN_PROGRESS: 'IN PROGRESS' };
-    const VCOLOR = { PASS: '#00d4aa', DEPLOYED: '#00d4aa', SHADOW: '#00a8ff', FAIL: '#ff4757', SUPERSEDED: '#8b919c',
-                     PAUSED: '#8b919c', IN_PROGRESS: '#ff9f43', variant: '#5d626c', diagnostic: '#ff9f43' };
-    const SERIES = ['#00d4aa', '#9d7bff', '#00a8ff', '#ff9f43', '#8b919c', '#ff4757', '#e6e8ec'];
-    const PCT_COLS = /^(cagr|max_dd|maxdd|ann_vol|ann\. vol|return|ret|vol target|% days invested|book|spy|blend|trend|base|final|deployed book|60\/40|both sides pass|long only|short only|none pass|first fit)$/i;
+    const R = { loaded: false, index: null, methods: null, trials: null, studies: {}, curves: {}, charts: {}, open: null,
+                filters: { family: 'all', verdict: 'all' } };
+    const X = { cards: [], byId: {}, groups: [], bench: [], rows: null, fam: 'all', sel: null, hover: null, mc: {}, power: null };
+    const FAMILY = { sp_equity: 'S&P equity', cross_asset: 'Cross-asset', ml: 'Machine learning', overlay: 'Risk overlay',
+                     replication: 'Replication', audit: 'Audit', infra: 'Infrastructure', utilities: 'Power markets' };
+    const VERDICT = { PASS: 'Passed', FAIL: 'Failed', SUPERSEDED: 'Superseded', SHADOW: 'Shadow', DEPLOYED: 'Deployed',
+                      PAUSED: 'Paused', IN_PROGRESS: 'In progress' };
+    // Categorical slots, validated with the dataviz skill's validate_palette.js --mode dark --surface #101319
+    // (lightness band, chroma, adjacent CVD ΔE ≥ 13, normal-vision ΔE ≥ 21, contrast ≥ 3:1). Fixed order, never cycled.
+    const CAT = ['#00ac8c', '#cb7f00', '#339ae0', '#e8556b', '#9876f9'];
+    const GROUP_DOT = { live: 'teal', in_book: 'blue', rej_sp: 'red', rej_book: 'red', rej_sleeve: 'red', rej_rep: 'red', power: 'amber', stopped: 'rx-faint' };
+    const CHIP_LABEL = { all: 'All', live: 'Live and in the book', rej_sp: 'S&P single names', rej_book: 'Added to the book',
+                         rej_sleeve: 'Standalone sleeves', rej_rep: 'Replication', power: 'Power markets', stopped: 'Stopped early' };
+    const famOf = g => g === 'in_book' ? 'live' : g;
 
     const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const isNum = v => typeof v === 'number' && isFinite(v);
-    const fSh = v => isNum(v) ? (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2) : '—';
-    const fPct = (v, d = 1) => isNum(v) ? (v < 0 ? '−' : '') + Math.abs(v * 100).toFixed(d) + '%' : '—';
-    const fNum = (v, d = 3) => isNum(v) ? (Number.isInteger(v) ? String(v) : (v < 0 ? '−' : '') + Math.abs(v).toFixed(d)) : '—';
-    const badge = v => `<span class="rs-badge rs-b-${esc(v)}">${esc(VERDICT_LABEL[v] || v)}</span>`;
-    const fmtCell = (col, v, pctAll) => {
-        if (typeof v === 'boolean') return v ? '✓ yes' : '✗ no';
-        if (!isNum(v)) return v == null ? '—' : esc(v);
-        if (pctAll || PCT_COLS.test(col)) return fPct(v);
-        if (/sharpe/i.test(col)) return fSh(v);
-        return fNum(v);
-    };
-
-    async function getJSON(p) {
-        const r = await fetch(BASE + p);
-        if (!r.ok) throw new Error(p + ' → HTTP ' + r.status);
-        return r.json();
-    }
-    function getCSV(p) {
-        if (R.curves[p]) return Promise.resolve(R.curves[p]);
-        return new Promise((res, rej) => Papa.parse(BASE + p, {
-            download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
-            complete: out => { R.curves[p] = out.data; res(out.data); }, error: rej
-        }));
-    }
-    function killChart(key) { if (R.charts[key]) { R.charts[key].destroy(); delete R.charts[key]; } }
-    function baseOpts(extra) {
-        const o = (typeof chartOptions === 'function') ? chartOptions() : { responsive: true, maintainAspectRatio: false, plugins: {}, scales: { x: {}, y: {} } };
-        o.animation = false;
-        return Object.assign(o, extra || {});
-    }
-
-    // ── table renderer (one for every study) ──
-    function tableHTML(t, opts) {
-        if (!t || !t.columns || !t.rows || !t.rows.length) return '';
-        const pctAll = opts && opts.pctAll;
-        const head = t.columns.map(c => `<th>${esc(c)}</th>`).join('');
-        const body = t.rows.map(r => '<tr>' + r.map((v, i) =>
-            `<td class="${isNum(v) ? 'num' : ''}">${i === 0 && !isNum(v) ? esc(v) : fmtCell(t.columns[i], v, pctAll && i > 0)}</td>`).join('') + '</tr>').join('');
-        return `${t.title ? `<h5>${esc(t.title)}</h5>` : ''}<div class="rs-table-wrap"><table class="rs-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
-    }
-
-    // ── charts ──
-    async function curveChart(canvasId, path, key) {
-        const rows = await getCSV(path);
-        const el = document.getElementById(canvasId);
-        if (!el || !rows.length) return;
-        const cols = Object.keys(rows[0]).filter(c => c !== 'date');
-        killChart(key);
-        R.charts[key] = new Chart(el.getContext('2d'), {
-            type: 'line',
-            data: { labels: rows.map(r => r.date), datasets: cols.map((c, i) => ({
-                label: c, data: rows.map(r => isNum(r[c]) ? r[c] : null), spanGaps: false,
-                borderColor: SERIES[i % SERIES.length], borderWidth: i === 0 ? 2 : 1.3, pointRadius: 0, tension: 0 })) },
-            options: baseOpts({ interaction: { mode: 'index', intersect: false },
-                scales: { x: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080', maxTicksLimit: 7, maxRotation: 0 } },
-                          y: { type: 'logarithmic', grid: { color: '#1a1a1a' }, ticks: { color: '#808080', maxTicksLimit: 6 },
-                               title: { display: true, text: 'growth of 100 (log)', color: '#5d626c', font: { size: 10 } } } },
-                plugins: { legend: { labels: { color: '#e0e0e0', font: { size: 11 }, boxWidth: 12 } },
-                           tooltip: { callbacks: { label: c => `${c.dataset.label}: ${isNum(c.parsed.y) ? c.parsed.y.toFixed(1) : '—'}` } } } })
-        });
-    }
-    function barChart(canvasId, key, labels, sets, pct, horizontal) {
-        const el = document.getElementById(canvasId);
-        if (!el) return;
-        killChart(key);
-        const scale = { grid: { color: '#1a1a1a' }, ticks: { color: '#808080', callback: v => pct ? (v * 100).toFixed(0) + '%' : v } };
-        R.charts[key] = new Chart(el.getContext('2d'), {
-            type: 'bar',
-            data: { labels, datasets: sets },
-            options: baseOpts({ indexAxis: horizontal ? 'y' : 'x',
-                scales: horizontal ? { x: scale, y: { grid: { display: false }, ticks: { color: '#b0b5bf', font: { size: 11 } } } }
-                                   : { x: { grid: { display: false }, ticks: { color: '#b0b5bf', font: { size: 10.5 }, maxRotation: 45 } }, y: scale },
-                plugins: { legend: { display: sets.length > 1, labels: { color: '#e0e0e0', font: { size: 11 }, boxWidth: 12 } },
-                           tooltip: { callbacks: { label: c => `${c.dataset.label || ''}: ${pct ? fPct(horizontal ? c.parsed.x : c.parsed.y) : fNum(horizontal ? c.parsed.x : c.parsed.y)}` } } } })
-        });
-    }
-
-    // ── strategy cards + main chart (overview / Monte Carlo) ──
-    // strategies.json, curves/strategies.csv and mc/<id>.json come from research/publish/strategies.py.
-    const ST = { list: [], byId: {}, rows: null, sel: null, hover: null, mc: {} };
-    const ST_GROUPS = [['live', 'LIVE'], ['built_in', 'BUILT INTO THE LIVE BOOK'], ['failed', 'TESTED AND REJECTED']];
-    const NUM_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen'];
+    const minus = s => s.replace(/-/g, '−');
+    const fSh = v => isNum(v) ? minus(v.toFixed(2)) : '—';
+    const fPct = (v, d = 1) => isNum(v) ? minus((v * 100).toFixed(d)) + '%' : '—';
+    const fSigned = (v, d = 1) => isNum(v) ? (v > 0 ? '+' : '') + minus(v.toFixed(d)) : '—';
+    const fUsd = v => isNum(v) ? (v < 0 ? '−$' : '$') + Math.abs(Math.round(v)).toLocaleString('en-US') : '—';
+    const fmtUnit = (v, unit) => !isNum(v) ? '—' : unit === 'pct' ? fPct(v) : unit === 'bp' ? fSigned(v, 1) + ' bp'
+        : unit === 'sharpe' ? fSh(v) : unit === 'count' ? Math.round(v).toLocaleString('en-US') : unit === 'num' ? minus(v.toFixed(4)) : fSh(v);
     const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-    const stC = () => ({ live: cssVar('--teal'), built_in: cssVar('--blue'), failed: cssVar('--red'),
-                         spy: cssVar('--txt'), sixty_forty: cssVar('--txt-dim'), orange: cssVar('--orange'),
-                         grid: cssVar('--line-soft'), hard: cssVar('--line-hard'), faint: cssVar('--txt-faint'), dim: cssVar('--txt-dim') });
     const rgba = (hex, a) => { const h = hex.replace('#', ''); const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
                                return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
-    const shS = v => isNum(v) ? (v < 0 ? '−' : '') + Math.abs(v).toFixed(2) : '—';
-    const ordinal = k => { const j = k % 10, h = k % 100; return k + (j === 1 && h !== 11 ? 'st' : j === 2 && h !== 12 ? 'nd' : j === 3 && h !== 13 ? 'rd' : 'th'); };
-    const yrs = s => `${s.metrics.start.slice(0, 4)} to ${s.metrics.end.slice(0, 4)}`;
-    const styleOf = (s, C) => s.group === 'live' ? { c: C.live, w: 2.8, a: 1 }
-        : s.group === 'built_in' ? { c: C.built_in, w: 1.5, a: 0.85 }
-        : s.group === 'failed' ? { c: C.failed, w: 1.3, a: 0.75 }
-        : s.id === 'spy' ? { c: C.spy, w: 1.7, a: 1, dash: [5, 4] } : { c: C.sixty_forty, w: 1.5, a: 1, dash: [5, 4] };
+    const C = () => ({ teal: cssVar('--teal'), blue: cssVar('--blue'), red: cssVar('--red'), amber: cssVar('--amber'), txt: cssVar('--txt'),
+                       dim: cssVar('--txt-dim'), faint: cssVar('--rx-faint'), grid: cssVar('--line-soft'), hard: cssVar('--line-hard'),
+                       surface: cssVar('--surface'), mono: cssVar('--font-mono') || 'monospace' });
+    const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function stTopHTML() {
-        const n = ST.list.filter(s => s.group !== 'benchmark').length;
-        return `
-        <div class="st-top">
-            <header class="st-hero">
-                <span class="st-eyebrow">RESEARCH · V28 TO V44</span>
-                <h2 class="st-h1">Every strategy we backtested, including the ones that failed</h2>
-                <p class="st-lede">${NUM_WORDS[n] || n} strategies, each started at $100 on its first day of data and drawn on a log scale, with SPY and a 60/40 portfolio for context. Pick a card to see that strategy’s Monte Carlo: 2,000 resampled histories with the real run drawn on top.</p>
-            </header>
-            <section class="st-groups" aria-label="Strategies" id="stGroups"></section>
-            <section class="st-panel" id="stPanel" aria-live="polite"></section>
-        </div>`;
+    async function getJSON(p) { const r = await fetch(BASE + p); if (!r.ok) throw new Error(p + ' returned HTTP ' + r.status); return r.json(); }
+    function getCSV(p) {
+        if (R.curves[p]) return Promise.resolve(R.curves[p]);
+        return new Promise((res, rej) => Papa.parse(BASE + p, { download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
+            complete: out => { R.curves[p] = out.data; res(out.data); }, error: rej }));
     }
+    function kill(key) { if (R.charts[key]) { R.charts[key].destroy(); delete R.charts[key]; } }
+    function killPrefix(pre) { Object.keys(R.charts).filter(k => k.startsWith(pre)).forEach(kill); }
 
-    function renderStCards() {
-        const C = stC();
-        const el = document.getElementById('stGroups');
-        el.innerHTML = ST_GROUPS.map(([g, label]) => `
-            <div class="st-group">
-                <div class="st-glabel"><i style="background:${C[g]}"></i>${label}</div>
-                <div class="st-cards">${ST.list.filter(s => s.group === g).map(s => `
-                    <button type="button" class="st-card" data-id="${esc(s.id)}" aria-pressed="${ST.sel === s.id}">
-                        <span class="st-name">${esc(s.name)}</span>
-                        <span class="st-tag">${esc(s.study)} · ${yrs(s)}</span>
-                        <span class="st-sh"><b style="color:${C[g]}">${shS(s.metrics.sharpe)}</b><span>Sharpe</span></span>
-                        <span class="st-risk">vol ${fPct(s.metrics.vol)} · max DD ${fPct(s.metrics.max_dd, 0)}</span>
-                    </button>`).join('')}</div>
-            </div>`).join('');
-        el.querySelectorAll('.st-card').forEach(b => {
-            const id = b.dataset.id;
-            b.addEventListener('click', () => stPick(id));
-            b.addEventListener('mouseenter', () => stHover(id));
-            b.addEventListener('mouseleave', () => stHover(null));
-            b.addEventListener('focus', () => stHover(id));
-            b.addEventListener('blur', () => stHover(null));
+    // ── glossary links: first mention of a defined term in each prose block links to its definition ──
+    const GL_TERMS = [['deflated Sharpe', 'deflated-sharpe'], ['walk-forward', 'walk-forward'], ['bootstrap', 'block-bootstrap'],
+                      ['point-in-time', 'point-in-time'], ['meta-label', 'meta-labeling'], ['AUC', 'auc'], ['alpha gate', 'alpha-gate'],
+                      ['kill test', 'kill-test'], ['perfect insight', 'perfect-insight'], ['basis(?! point)', 'basis'], ['drawdown', 'drawdown']];
+    function linkify(text) {
+        let html = esc(text);
+        const done = new Set();
+        GL_TERMS.forEach(([t, id]) => {
+            if (done.has(id)) return;
+            const re = new RegExp(`(^|[^\\w-])(${t.replace(/[-]/g, '\\-')})(?=[^\\w]|$)`, 'i');
+            if (re.test(html)) { html = html.replace(re, (m, a, b) => `${a}<a class="rx-gl" href="#rx-gl-${id}" data-gl="${id}">${b}</a>`); done.add(id); }
         });
+        return html;
     }
 
-    function stPick(id) {
-        ST.sel = ST.sel === id ? null : id;
-        document.querySelectorAll('#stGroups .st-card').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === ST.sel)));
-        renderStPanel();
-        const p = document.getElementById('stPanel').getBoundingClientRect();
-        if (ST.sel && (p.top > window.innerHeight * 0.6 || p.bottom < 80)) {
-            const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            document.getElementById('stPanel').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    // ── shared chart pieces ──
+    const refLines = {
+        id: 'rxRefs',
+        afterDatasetsDraw(chart, _a, opts) {
+            const refs = (opts && opts.refs) || []; if (!refs.length) return;
+            const horiz = chart.options.indexAxis === 'y', sc = horiz ? chart.scales.x : chart.scales.y, ctx = chart.ctx, a = chart.chartArea, c = C();
+            ctx.save(); ctx.font = `12px ${cssVar('--font-ui')}`; ctx.fillStyle = c.dim; ctx.strokeStyle = c.dim; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+            refs.forEach(r => {
+                const p = sc.getPixelForValue(r.value); if (!isFinite(p)) return;
+                ctx.beginPath();
+                if (horiz) { ctx.moveTo(p, a.top); ctx.lineTo(p, a.bottom); } else { ctx.moveTo(a.left, p); ctx.lineTo(a.right, p); }
+                ctx.stroke();
+                ctx.textAlign = horiz ? 'left' : 'right';
+                ctx.fillText(r.label, horiz ? p + 4 : a.right - 2, horiz ? a.top + 12 : p - 5);
+            });
+            ctx.restore();
         }
+    };
+    const endLabels = {
+        id: 'rxEnds',
+        afterDatasetsDraw(chart, _a, opts) {
+            const ids = (opts && opts.ids) || []; if (!ids.length) return;
+            const ctx = chart.ctx, c = C(), placed = [];
+            ctx.save(); ctx.font = `500 12px ${cssVar('--font-ui')}`; ctx.textAlign = 'right';
+            chart.data.datasets.forEach((ds, di) => {
+                if (!ids.includes(ds.key)) return;
+                const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+                let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
+                if (k < 0 || !meta.data[k]) return;
+                let y = meta.data[k].y - 9;
+                while (placed.some(p => Math.abs(p - y) < 14)) y += 14;
+                placed.push(y);
+                ctx.lineWidth = 4; ctx.lineJoin = 'round'; ctx.strokeStyle = c.surface; ctx.strokeText(ds.label, meta.data[k].x - 4, y);
+                ctx.fillStyle = ds.labelColor || c.txt; ctx.fillText(ds.label, meta.data[k].x - 4, y);
+            });
+            ctx.restore();
+        }
+    };
+    function logTicks(lo, hi) {
+        if (hi / lo > 60) { const out = []; for (let k = Math.floor(Math.log10(lo)); k <= Math.ceil(Math.log10(hi)); k++) out.push(10 ** k);
+                            return out.filter(v => v >= lo * 0.5 && v <= hi * 2); }
+        const NICE = [5, 10, 20, 25, 50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1500, 2000, 3000, 5000, 10000];
+        const r = NICE.filter(v => v >= lo * 0.9 && v <= hi * 1.1);
+        if (r.length <= 6) return r;
+        const step = Math.ceil(r.length / 6); return r.filter((_, i) => i % step === 0 || r[i] === 100);
+    }
+    function yearTicks(labels, maxN) {
+        const years = [...new Set(labels.map(d => d.slice(0, 4)))];
+        const step = Math.max(1, Math.ceil(years.length / maxN));
+        const keep = new Set(years.filter((_, i) => i % step === 0));
+        return labels.map((d, i) => (i === 0 || d.slice(0, 4) !== labels[i - 1].slice(0, 4)) && keep.has(d.slice(0, 4)) ? d.slice(0, 4) : '');
+    }
+    function lineChart(canvas, key, labels, sets, opts) {
+        const c = C(); kill(key);
+        let lo = Infinity, hi = -Infinity;
+        sets.forEach(s => s.data.forEach(v => { if (isNum(v) && v > 0) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }));
+        const log = opts.log !== false && isFinite(lo), yt = log ? (logTicks(lo, hi).length ? logTicks(lo, hi) : [lo, hi]) : null, xt = yearTicks(labels, window.innerWidth < 720 ? 4 : 7);
+        R.charts[key] = new Chart(canvas.getContext('2d'), {
+            type: 'line', data: { labels, datasets: sets }, plugins: [endLabels],
+            options: {
+                responsive: true, maintainAspectRatio: false, animation: false, normalized: true,
+                interaction: { mode: 'index', intersect: false },
+                layout: { padding: { right: 6, top: 20 } },
+                plugins: { legend: { display: false }, rxEnds: { ids: opts.labelIds || [] },
+                           tooltip: { itemSort: (a, b) => b.parsed.y - a.parsed.y, filter: it => !it.dataset.noTip,
+                                      callbacks: { label: t => `${t.dataset.label}: ${opts.fmt ? opts.fmt(t.parsed.y) : '$' + t.parsed.y.toFixed(0)}` } } },
+                scales: {
+                    x: { grid: { display: false }, border: { color: c.hard },
+                         ticks: { autoSkip: false, maxRotation: 0, color: c.faint, font: { family: c.mono, size: 11 }, callback: (v, i) => xt[i] } },
+                    y: log ? { type: 'logarithmic', min: Math.min(...yt, lo) * 0.97, max: Math.max(...yt, hi) * 1.03, border: { display: false },
+                               grid: { color: g => g.tick && g.tick.value === 100 ? c.hard : c.grid },
+                               afterBuildTicks: ax => { ax.ticks = yt.map(v => ({ value: v })); },
+                               ticks: { color: c.faint, font: { family: c.mono, size: 11 }, callback: v => '$' + Number(v).toLocaleString('en-US') } }
+                           : { border: { display: false }, grid: { color: c.grid },
+                               ticks: { color: c.faint, font: { family: c.mono, size: 11 }, maxTicksLimit: 6, callback: v => opts.fmt ? opts.fmt(v) : v } },
+                },
+            },
+        });
+        return R.charts[key];
     }
 
-    function stHover(id) {
-        ST.hover = id;
-        const ch = R.charts.st;
-        if (!ch || ST.sel) return;
-        const C = stC();
-        ch.data.datasets.forEach(ds => {
-            const st = styleOf(ST.byId[ds.sid], C);
-            const on = !id || ds.sid === id;
-            ds.borderColor = rgba(st.c, on ? st.a : 0.16);
-            ds.borderWidth = id && ds.sid === id ? st.w + 1.2 : st.w;
-            ds.order = id && ds.sid === id ? -1 : ds.baseOrder;
+    // ── header ──
+    function headHTML() {
+        const I = R.index, f = I.funnel;
+        return `<header class="rx-head">
+            <h2 class="rx-h1">${esc(I.page.title)}</h2>
+            <p class="rx-lede">${esc(I.page.purpose)}</p>
+            <div class="rx-funnel" role="list">
+                <div role="listitem"><b>${f.studies}</b><span>studies run</span></div>
+                <div role="listitem"><b>${f.trials}</b><span>trials counted</span></div>
+                <div role="listitem"><b>${f.passed}</b><span>passed the gate</span></div>
+                <div role="listitem"><b>${f.deployed}</b><span>in the live book</span></div>
+            </div>
+        </header>`;
+    }
+
+    // ── cards ──
+    function cardStats(s) {
+        const m = s.metrics, pm = s.pair_metrics;
+        let sh = '—', shNote = 'Sharpe', st2 = '';
+        if (s.mode === 'line') sh = fSh(m.sharpe);
+        else if (s.mode === 'pair') { const k = Object.keys(pm); sh = `${fSh(pm[k[0]].sharpe)} → ${fSh(pm[k[1]].sharpe)}`; shNote = 'Sharpe, without → with'; }
+        else if (s.mode === 'power') { const e = s.capture.ERCOT; sh = fPct(e.model, 0); shNote = 'of perfect insight (ERCOT)'; st2 = `14-day shape: ${fPct(e.n2, 0)}`; }
+        else if (s.recorded && isNum(s.recorded.sharpe)) { sh = fSh(s.recorded.sharpe); shNote = 'Sharpe, recorded'; }
+        if (s.id === 'accounting_fix') shNote = 'momentum Sharpe, before → after';
+        if (!st2) {
+            if (s.stat2 === 'vol' && m) st2 = `vol ${fPct(m.vol)}`;
+            else if (s.stat2 === 'max_dd' && m) st2 = `max drawdown ${fPct(m.max_dd, 0)}`;
+            else if (s.stat2 === 'bp' && isNum(s.stat_bp)) st2 = `${fSigned(s.stat_bp, 1)} bp a trade, gross`;
+        }
+        if (sh === '—' && s.mode === 'none') { sh = ''; shNote = s.group === 'stopped' ? 'no backtest' : 'no curve'; }
+        return { sh, shNote, st2 };
+    }
+    function cardHTML(s) {
+        const st = cardStats(s);
+        return `<button type="button" class="rx-card" data-id="${esc(s.id)}" aria-current="${X.sel === s.id}" aria-label="${esc(s.name)}: ${esc(s.reason)} Open details.">
+            <span class="rx-card-top"><span class="rx-name">${esc(s.name)}</span><span class="rx-tag">${esc(s.tag)}</span></span>
+            <span class="rx-stats">${st.sh ? `<span class="rx-sh">${st.sh}</span>` : ''}<span class="rx-st2">${esc(st.shNote)}${st.st2 ? ', ' + esc(st.st2) : ''}</span></span>
+            <span class="rx-reason">${esc(s.reason)}</span>
+        </button>`;
+    }
+    function renderCards() {
+        const el = document.getElementById('rxCards');
+        const c = C();
+        el.innerHTML = X.groups.filter(g => X.fam === 'all' || famOf(g.id) === X.fam).map(g => {
+            const cs = X.cards.filter(s => s.group === g.id);
+            if (!cs.length) return '';
+            return `<section class="rx-group" aria-label="${esc(g.label)}"><h3><i style="background:${cssVar('--' + GROUP_DOT[g.id]) || c.dim}"></i>${esc(g.label)} <small>${cs.length}</small></h3>
+                <div class="rx-grid">${cs.map(cardHTML).join('')}</div></section>`;
+        }).join('');
+        el.querySelectorAll('.rx-card').forEach(b => {
+            const id = b.dataset.id;
+            b.addEventListener('click', () => openDetail(id, true));
+            b.addEventListener('mouseenter', () => hover(id)); b.addEventListener('mouseleave', () => hover(null));
+            b.addEventListener('focus', () => hover(id)); b.addEventListener('blur', () => hover(null));
         });
+    }
+    function renderChips() {
+        const fams = ['all', 'live', 'rej_sp', 'rej_book', 'rej_sleeve', 'rej_rep', 'power', 'stopped'];
+        const el = document.getElementById('rxChips');
+        el.innerHTML = fams.map(f => `<button type="button" class="rx-chip" data-f="${f}" aria-pressed="${X.fam === f}">${esc(CHIP_LABEL[f])}</button>`).join('');
+        el.querySelectorAll('.rx-chip').forEach(b => b.addEventListener('click', () => {
+            X.fam = b.dataset.f; X.sel = null; renderChips(); renderCards(); renderStage();
+        }));
+    }
+
+    // ── main chart: growth of $100 ──
+    function lineStyle(id, c) {
+        const s = X.byId[id];
+        if (id === 'spy') return { col: c.txt, w: 1.5, a: 0.9, dash: [5, 4] };
+        if (id === 'sixty_forty') return { col: c.dim, w: 1.5, a: 0.9, dash: [5, 4] };
+        if (X.fam !== 'all' && X.fam !== 'live' && famOf(s.group) === X.fam) {
+            const fam = X.cards.filter(x => famOf(x.group) === X.fam && x.mode === 'line').map(x => x.id);
+            return { col: CAT[fam.indexOf(id) % CAT.length], w: 2, a: 1, label: true };
+        }
+        if (X.fam === 'live' && famOf(s.group) === 'live') {
+            if (s.group === 'live') return { col: c.txt, w: 2.6, a: 1, label: true };
+            const fam = X.cards.filter(x => x.group === 'in_book' && x.mode === 'line').map(x => x.id);
+            return { col: CAT[fam.indexOf(id) % CAT.length], w: 1.8, a: 1, label: true };
+        }
+        if (X.fam !== 'all') return { col: s.group === 'live' ? c.txt : c.faint, w: s.group === 'live' ? 1.8 : 1, a: s.group === 'live' ? 0.55 : 0.25 };
+        if (s.group === 'live') return { col: c.teal, w: 2.8, a: 1, label: true };
+        if (s.group === 'in_book') return { col: c.blue, w: 1.5, a: 0.85 };
+        return { col: c.red, w: 1.1, a: 0.28 };
+    }
+    function stageMainHTML() {
+        const fam = X.fam, c = C();
+        const noLines = { rej_book: 'These ideas only make sense next to the book, so each card compares the book with and without it. Pick a card.',
+                          stopped: 'These stopped before a backtest, so they have no curve. Pick a card for the test that stopped them.' }[fam];
+        const legend = fam === 'all' ? `
+                <span><i style="border-color:${c.teal};border-top-width:3px"></i>Live</span>
+                <span><i style="border-color:${c.blue}"></i>In the live book</span>
+                <span><i style="border-color:${rgba(c.red, 0.6)}"></i>Rejected</span>
+                <span><i style="border-color:${c.txt};border-top-style:dashed"></i>SPY</span>
+                <span><i style="border-color:${c.dim};border-top-style:dashed"></i>60/40</span>`
+            : `<span><i style="border-color:${c.txt};border-top-style:dashed"></i>SPY</span><span><i style="border-color:${c.dim};border-top-style:dashed"></i>60/40</span>
+               <span>Lines are labelled at their end; hover for values.</span>`;
+        return `<div class="rx-stage-head"><div><h3 class="rx-h2">Growth of $100, log scale</h3>
+                <p class="rx-note">${noLines ? esc(noLines) : 'Each line starts at $100 on its first day of data. Hover a card to pick out its line; click it for the full test.'}</p></div></div>
+            <div class="rx-legend">${legend}</div>
+            <div class="rx-canvas"><canvas id="rxMain" role="img" aria-label="Growth of $100 for each tested strategy that produced a return stream, with SPY and 60/40, log scale. A table view follows."></canvas></div>
+            <details class="rx-tv"><summary>Show as a table</summary><div class="rx-tablewrap" id="rxMainTable"></div></details>
+            <p class="rx-sub">Lines start on different dates because each test used the longest clean history for its market, so compare Sharpe ratios on the cards rather than line heights.</p>`;
+    }
+    function renderMain() {
+        const c = C(), rows = X.rows, labels = rows.map(r => r.date);
+        const ids = X.cards.filter(s => s.mode === 'line').map(s => s.id).concat(['spy', 'sixty_forty']);
+        const name = id => (X.byId[id] || X.bench.find(b => b.id === id)).name;
+        const front = id => { const s = X.byId[id]; if (!s) return 1; if (X.fam === 'all') return s.group === 'live' ? 0 : s.group === 'in_book' ? 2 : 3;
+                              return famOf(s.group) === X.fam ? 0 : 3; };
+        const order = ids.slice().sort((a, b) => front(a) - front(b));
+        const labelIds = [];
+        const sets = order.map((id, i) => {
+            const st = lineStyle(id, c);
+            if (st.label) labelIds.push(id);
+            return { key: id, label: id === 'spy' ? 'SPY' : id === 'sixty_forty' ? '60/40' : id === 'deployed' ? 'Trend + Carry' : name(id), data: rows.map(r => isNum(r[id]) && r[id] > 0 ? r[id] : null), labelColor: st.col,
+                     borderColor: rgba(st.col, st.a), borderWidth: st.w, borderDash: st.dash || [], pointRadius: 0, pointHoverRadius: 3,
+                     spanGaps: false, tension: 0, order: i, baseOrder: i, baseColor: st.col, baseA: st.a, baseW: st.w };
+        });
+        if (X.fam === 'all') labelIds.push('spy', 'sixty_forty');
+        lineChart(document.getElementById('rxMain'), 'main', labels, sets, { labelIds });
+        // table view: start, end value and Sharpe for every line
+        const tRows = order.map(id => { const s = X.byId[id] || X.bench.find(b => b.id === id); const m = s.metrics;
+            return `<tr><td>${esc(s.name)}</td><td class="n">${esc(m.start)} to ${esc(m.end)}</td><td class="n">${fSh(m.sharpe)}</td><td class="n">${fPct(m.cagr)}</td><td class="n">${fPct(m.max_dd)}</td></tr>`; }).join('');
+        document.getElementById('rxMainTable').innerHTML = `<table class="rx-table"><thead><tr><th>Strategy</th><th>Window</th><th>Sharpe</th><th>Annual return</th><th>Worst drawdown</th></tr></thead><tbody>${tRows}</tbody></table>`;
+        if (X.hover) hover(X.hover);
+    }
+    function hover(id) {
+        X.hover = id;
+        document.querySelectorAll('#rxCards .rx-card').forEach(b => b.classList.toggle('hot', b.dataset.id === id));
+        const ch = R.charts.main; if (!ch || X.sel) return;
+        const on = id && ch.data.datasets.some(d => d.key === id);
+        ch.data.datasets.forEach(ds => {
+            const me = ds.key === id;
+            ds.borderColor = rgba(ds.baseColor, !on || me ? ds.baseA : Math.min(ds.baseA, 0.12));
+            ds.borderWidth = me ? ds.baseW + 1.4 : ds.baseW;
+            ds.order = me ? -1 : ds.baseOrder;
+        });
+        ch.options.plugins.rxEnds.ids = on ? [id] : ch.data.datasets.filter(d => lineStyle(d.key, C()).label).map(d => d.key).concat(X.fam === 'all' ? ['spy', 'sixty_forty'] : []);
         ch.update('none');
     }
 
-    function renderStPanel() {
-        killChart('st');
-        if (ST.sel) return renderStMC();
-        const C = stC();
-        const bm = id => { const m = ST.byId[id].metrics; return `Sharpe ${shS(m.sharpe)}, vol ${fPct(m.vol)}, max DD ${fPct(m.max_dd)}`; };
-        const panel = document.getElementById('stPanel');
-        panel.innerHTML = `
-            <div class="st-phead">
-                <div style="display:flex;flex-direction:column;gap:6px;">
-                    <h3 class="st-h2">Growth of $100, log scale</h3>
-                    <p class="st-note">Hover a card to pick out its line. Click it for the Monte Carlo.</p>
-                </div>
-                <div class="st-legend">
-                    <span><i style="border-color:${C.live};border-top-width:3px"></i>Live</span>
-                    <span><i style="border-color:${C.built_in}"></i>Built into the book</span>
-                    <span><i style="border-color:${C.failed}"></i>Rejected</span>
-                    <span><i style="border-color:${C.spy};border-top-style:dashed"></i>SPY</span>
-                    <span><i style="border-color:${C.sixty_forty};border-top-style:dashed"></i>60/40</span>
-                </div>
-            </div>
-            <div class="st-scroll"><div class="st-canvas"><canvas id="stChart" role="img" aria-label="Equity curves of every backtested strategy with SPY and a 60/40 portfolio, log scale"></canvas></div></div>
-            <div class="st-bench">
-                <div><b style="color:${C.spy}">SPY</b>${bm('spy')}</div>
-                <div><b style="color:${C.sixty_forty}">60/40</b>${bm('sixty_forty')}</div>
-                <div style="color:${C.faint}">Lines start on different dates because each test used the longest clean history for its universe. Compare the cards, not the height of the lines.</div>
-            </div>`;
-        const rows = ST.rows, labels = rows.map(r => r.date);
-        // draw order: Chart.js paints the first dataset last (on top), so live goes first
-        const rank = { live: 0, benchmark: 1, built_in: 2, failed: 3 };
-        const series = ST.list.slice().sort((a, b) => (rank[a.group] - rank[b.group]) || (a.id === 'spy' ? -1 : b.id === 'spy' ? 1 : 0));
-        let lo = Infinity, hi = -Infinity;
-        const datasets = series.map((s, i) => {
-            const st = styleOf(s, C);
-            const data = rows.map(r => { const v = r[s.id]; if (isNum(v) && v > 0) { lo = Math.min(lo, v); hi = Math.max(hi, v); return v; } return null; });
-            return { sid: s.id, label: s.name, data, borderColor: rgba(st.c, st.a), borderWidth: st.w, borderDash: st.dash || [],
-                     pointRadius: 0, pointHoverRadius: 3, spanGaps: false, tension: 0, order: i, baseOrder: i };
+    // ── power markets: cumulative $ per MW, small multiples (never on the $100 chart) ──
+    const POWER_STYLE = { 'perfect insight': ['txt', [5, 4]], '14-day price shape': [0, []], "yesterday's prices": [2, []], 'forecast model': [1, []], 'fixed schedule': ['faint', []] };
+    function powerHTML(prefix) {
+        const c = C();
+        return `<div class="rx-legend">${Object.entries(POWER_STYLE).map(([k, [col, d]]) =>
+                `<span><i style="border-color:${typeof col === 'number' ? CAT[col] : c[col]};${d.length ? 'border-top-style:dashed' : ''}"></i>${esc(k)}</span>`).join('')}</div>
+            <div class="rx-multiples">${['ERCOT', 'CAISO'].map((g, i) => `<div><h5>${g}</h5><div class="rx-canvas sm"><canvas id="${prefix}${i}" role="img" aria-label="Cumulative net dollars per MW for each battery rule in ${g}"></canvas></div></div>`).join('')}</div>
+            <details class="rx-tv"><summary>Show as a table</summary><div class="rx-tablewrap" id="${prefix}T"></div></details>`;
+    }
+    async function renderPower(prefix) {
+        if (!X.power) X.power = await getJSON('power.json');
+        const c = C(), P = X.power;
+        P.panels.forEach((p, i) => {
+            const sets = Object.entries(p.series).map(([k, v]) => { const [col, d] = POWER_STYLE[k]; const cc = typeof col === 'number' ? CAT[col] : c[col];
+                return { key: k, label: k, data: v, borderColor: cc, labelColor: cc, borderWidth: k === 'forecast model' || k === '14-day price shape' ? 2.2 : 1.5,
+                         borderDash: d, pointRadius: 0, tension: 0 }; });
+            lineChart(document.getElementById(prefix + i), prefix + i, p.dates, sets, { log: false, fmt: fUsd, labelIds: [] });
         });
-        const yticks = []; for (let v = 12.5; v <= hi * 1.2; v *= 2) if (v >= lo * 0.85) yticks.push(v);
-        const yearTick = labels.map((d, i) => { const y = +d.slice(0, 4); return (i === 0 || d.slice(0, 4) !== labels[i - 1].slice(0, 4)) && (y - 1994) % 4 === 0 ? String(y) : ''; });
-        const endLabels = {
-            id: 'stEndLabels',
-            afterDatasetsDraw(chart) {
-                const ids = ST.hover ? [ST.hover] : ['spy', 'sixty_forty', 'deployed'];
-                const ctx = chart.ctx;
-                ctx.save(); ctx.font = `500 12px ${cssVar('--font-mono') || 'monospace'}`; ctx.textAlign = 'right';
-                chart.data.datasets.forEach((ds, di) => {
-                    if (!ids.includes(ds.sid)) return;
-                    const meta = chart.getDatasetMeta(di);
-                    let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
-                    if (k < 0 || !meta.data[k]) return;
-                    const p = meta.data[k], s = ST.byId[ds.sid];
-                    ctx.fillStyle = styleOf(s, C).c;
-                    const text = s.id === 'deployed' ? 'Trend + Carry' : s.id === 'spy' ? 'SPY' : s.id === 'sixty_forty' ? '60/40' : s.name;
-                    const ty = s.id === 'deployed' && !ST.hover ? p.y + 22 : p.y - 10;
-                    ctx.lineWidth = 4; ctx.lineJoin = 'round'; ctx.strokeStyle = cssVar('--surface') || '#000';
-                    ctx.strokeText(text, p.x - 4, ty);
-                    ctx.fillText(text, p.x - 4, ty);
-                });
-                ctx.restore();
+        const cap = P.capture, f = v => fPct(v, 1);
+        document.getElementById(prefix + 'T').innerHTML = `<table class="rx-table"><thead><tr><th>Grid</th><th>Forecast</th><th>14-day shape</th><th>Yesterday's prices</th><th>Fixed schedule</th><th>Net $ per MW, forecast</th><th>Net $ per MW, 14-day shape</th></tr></thead><tbody>
+            ${P.panels.map(p => { const k = cap[p.title]; const last = s => s[s.length - 1];
+                return `<tr><td>${p.title}</td><td class="n">${f(k.model)}</td><td class="n">${f(k.n2)}</td><td class="n">${f(k.n1)}</td><td class="n">${f(k.fixed)}</td><td class="n">${fUsd(last(p.series['forecast model']))}</td><td class="n">${fUsd(last(p.series['14-day price shape']))}</td></tr>`; }).join('')}
+            </tbody></table><p class="rx-sub">Capture is the share of perfect-insight profit, ${esc(P.panels[0].dates[0])} to ${esc(P.panels[0].dates[P.panels[0].dates.length - 1])}, weather as forecast at the time.</p>`;
+    }
+
+    // ── stage: the main chart, or one strategy's detail ──
+    function renderStage() {
+        killPrefix('main'); killPrefix('d_'); killPrefix('pw');
+        const el = document.getElementById('rxStage');
+        if (X.sel) return renderDetail();
+        if (X.fam === 'power') {
+            el.innerHTML = `<div class="rx-stage-head"><div><h3 class="rx-h2">Battery rules, cumulative net $ per MW</h3>
+                <p class="rx-note">A battery earns dollars per megawatt, not a return on capital, so it gets its own chart. Each rule plans the same 1 MW, 4-hour battery the day before.</p></div></div>${powerHTML('pw')}`;
+            renderPower('pw');
+            return;
+        }
+        el.innerHTML = stageMainHTML();
+        renderMain();
+    }
+
+    function gateTable(rows) {
+        const mark = ok => ok === true ? '<span class="rx-pass">✓ Pass</span>' : ok === false ? '<span class="rx-fail">✗ Fail</span>' : '<span class="rx-na">– Not run</span>';
+        return `<div class="rx-tablewrap"><table class="rx-table rx-gtable"><thead><tr><th>Test</th><th>Bar set in advance</th><th>Result</th><th></th></tr></thead><tbody>
+            ${rows.map(([t, b, r, ok]) => `<tr><td>${esc(t)}</td><td>${esc(b)}</td><td class="n">${esc(r)}</td><td>${mark(ok)}</td></tr>`).join('')}</tbody></table></div>`;
+    }
+    function diagTable(d) {
+        if (d.type === 'bars') {
+            const extra = d.table_extra;
+            return `<table class="rx-table"><thead><tr><th></th>${d.series.map(s => `<th>${esc(s.name)}</th>`).join('')}${extra ? `<th>${esc(extra.name)}</th>` : ''}</tr></thead><tbody>
+                ${d.labels.map((l, i) => `<tr><td>${esc(l)}</td>${d.series.map(s => `<td class="n">${fmtUnit(s.values[i], d.unit)}</td>`).join('')}${extra ? `<td class="n">${fSh(extra.values[i])}</td>` : ''}</tr>`).join('')}</tbody></table>`;
+        }
+        if (d.type === 'interval') return `<table class="rx-table"><thead><tr><th>Period</th><th>Slope</th><th>95% interval</th></tr></thead><tbody>
+                ${d.labels.map((l, i) => `<tr><td>${esc(l)}</td><td class="n">${fmtUnit(d.est[i], 'num')}</td><td class="n">${fmtUnit(d.lo[i], 'num')} to ${fmtUnit(d.hi[i], 'num')}</td></tr>`).join('')}</tbody></table>`;
+        if (d.type === 'scatter') return `<table class="rx-table"><tbody><tr><td>Days plotted</td><td class="n">${d.x.length}</td></tr><tr><td>Beta to SPY</td><td class="n">${fSh(d.fit.beta)}</td></tr>
+                <tr><td>Alpha, a year</td><td class="n">${fPct(d.fit.alpha_ann, 2)} (t ${fSh(d.fit.t_alpha)})</td></tr><tr><td>R²</td><td class="n">${fSh(d.fit.r2)}</td></tr></tbody></table>`;
+        return '';
+    }
+    function diagHTML(d) {
+        if (!d) return '';
+        if (d.type === 'stats') return `<div class="rx-statrow">${d.rows.map(r => `<div class="rx-stat"><span>${esc(r.label)}</span><b>${r.unit === 'count'
+                ? `${fmtUnit(r.after, 'count')} of ${fmtUnit(r.of, 'count')}` : `${fmtUnit(r.before, r.unit)} → ${fmtUnit(r.after, r.unit)}`}</b></div>`).join('')}</div>`;
+        const h = d.type === 'bars' && d.horizontal ? Math.max(240, d.labels.length * 26) : null;
+        return `<div class="rx-canvas sm" ${h ? `style="height:${h}px"` : ''}><canvas id="d_diag" role="img" aria-label="${esc(d.title)}. A table view follows."></canvas></div>
+            ${d.type === 'bars' && d.series.length > 1 ? `<div class="rx-legend">${d.series.map((s, i) => `<span><i class="box" style="background:${i === (d.emph || 0) ? CAT[0] : cssVar('--rx-faint')}"></i>${esc(s.name)}</span>`).join('')}</div>` : ''}
+            ${d.note_cost ? `<p class="rx-sub">The hedge alone costs about ${d.note_cost} bp per round trip, off this chart's scale.</p>` : ''}
+            ${d.note ? `<p class="rx-sub">${esc(d.note)}</p>` : ''}
+            <details class="rx-tv"><summary>Show as a table</summary><div class="rx-tablewrap">${diagTable(d)}</div></details>`;
+    }
+    function drawDiag(d) {
+        if (!d || d.type === 'stats') return;
+        const el = document.getElementById('d_diag'); if (!el) return;
+        const c = C(), u = d.unit;
+        const tick = v => u === 'pct' ? minus((v * 100).toFixed(Math.abs(v) < 0.1 ? 1 : 0)) + '%' : u === 'bp' ? minus(String(Math.round(v))) : u === 'num' ? minus(v.toFixed(3)) : minus(Number(v).toFixed(u === 'count' ? 0 : 1));
+        const base = { responsive: true, maintainAspectRatio: false, animation: false,
+                       plugins: { legend: { display: false }, rxRefs: { refs: d.refs || [] },
+                                  tooltip: { callbacks: { label: t => `${t.dataset.label ? t.dataset.label + ': ' : ''}${fmtUnit(d.horizontal ? t.parsed.x : t.parsed.y, u)}` } } } };
+        if (d.type === 'bars') {
+            const hl = new Set(d.highlight || []);
+            const sets = d.series.map((s, i) => ({ label: s.name, data: s.values,
+                backgroundColor: s.values.map((_, j) => i === (d.emph || 0) ? (hl.size && !hl.has(j) ? rgba(CAT[0], 0.45) : CAT[0]) : cssVar('--rx-faint')),
+                borderRadius: 3, borderSkipped: 'start', maxBarThickness: 34, categoryPercentage: 0.7, barPercentage: 0.9 }));
+            const rv = (d.refs || []).map(r => r.value), dv = d.series.flatMap(s => s.values).filter(isNum).concat(rv);
+            const valAx = { suggestedMax: Math.max(...dv) * 1.08, suggestedMin: Math.min(0, ...dv) * 1.08, border: { display: false }, grid: { color: c.grid }, ticks: { color: c.faint, font: { family: c.mono, size: 11 }, maxTicksLimit: 6, callback: tick } };
+            const catAx = { grid: { display: false }, border: { color: c.hard }, ticks: { color: c.dim, font: { size: 11.5 }, autoSkip: false, maxRotation: 0,
+                            callback: function (v) { const l = this.getLabelForValue(v); return l.length > 18 && !d.horizontal ? l.split(/ (?=\S+$)|: /) : l; } } };
+            R.charts.d_diag = new Chart(el.getContext('2d'), { type: 'bar', data: { labels: d.labels, datasets: sets }, plugins: [refLines],
+                options: { ...base, indexAxis: d.horizontal ? 'y' : 'x', scales: d.horizontal ? { x: valAx, y: catAx } : { x: catAx, y: valAx } } });
+        } else if (d.type === 'interval') {
+            const sets = [{ label: '95% interval', data: d.labels.map((_, i) => [d.lo[i], d.hi[i]]), backgroundColor: rgba(CAT[2], 0.35), borderRadius: 3, maxBarThickness: 40, borderSkipped: false },
+                          { type: 'scatter', label: 'slope', data: d.labels.map((l, i) => ({ x: l, y: d.est[i] })), pointRadius: 6, pointBackgroundColor: CAT[2], pointBorderColor: c.surface, pointBorderWidth: 2 }];
+            R.charts.d_diag = new Chart(el.getContext('2d'), { type: 'bar', data: { labels: d.labels, datasets: sets }, plugins: [refLines],
+                options: { ...base, plugins: { ...base.plugins, tooltip: { callbacks: { label: t => Array.isArray(t.raw) ? `95% interval: ${fmtUnit(t.raw[0], 'num')} to ${fmtUnit(t.raw[1], 'num')}` : `slope: ${fmtUnit(t.parsed.y, 'num')}` } } },
+                           scales: { x: { grid: { display: false }, border: { color: c.hard }, ticks: { color: c.dim, font: { size: 11.5 } } },
+                                     y: { border: { display: false }, grid: { color: c.grid }, ticks: { color: c.faint, font: { family: c.mono, size: 11 }, callback: tick } } } } });
+        } else if (d.type === 'scatter') {
+            const pts = d.x.map((x, i) => ({ x, y: d.y[i] }));
+            const xs = d.x.slice().sort((a, b) => a - b), a0 = d.fit.alpha_ann / 252;
+            const fit = [xs[0], xs[xs.length - 1]].map(x => ({ x, y: a0 + d.fit.beta * x }));
+            R.charts.d_diag = new Chart(el.getContext('2d'), { type: 'scatter',
+                data: { datasets: [{ label: 'day', data: pts, pointRadius: 2.5, pointHoverRadius: 5, backgroundColor: rgba(CAT[2], 0.5), borderWidth: 0 },
+                                   { type: 'line', label: `fit: beta ${fSh(d.fit.beta)}`, data: fit, borderColor: CAT[1], borderWidth: 2, pointRadius: 0 }] },
+                options: { ...base, plugins: { legend: { display: false }, tooltip: { callbacks: { label: t => `SPY ${fPct(t.parsed.x, 2)}, strategy ${fPct(t.parsed.y, 2)}` } } },
+                           scales: { x: { type: 'linear', title: { display: true, text: d.x_label, color: c.faint }, grid: { color: c.grid }, border: { color: c.hard }, ticks: { color: c.faint, callback: v => fPct(v, 0), maxTicksLimit: 6 } },
+                                     y: { title: { display: true, text: d.y_label, color: c.faint }, grid: { color: c.grid }, border: { display: false }, ticks: { color: c.faint, callback: v => fPct(v, 0), maxTicksLimit: 6 } } } } });
+        }
+    }
+    function specHTML(sp) {
+        return `<dl class="rx-spec"><div><dt>Data and window</dt><dd>${esc(sp.data)}</dd></div><div><dt>Execution</dt><dd>${esc(sp.execution)}</dd></div>
+            <div><dt>Bar set in advance</dt><dd>${linkify(sp.bar)}</dd></div><div><dt>Trials counted</dt><dd>${esc(sp.trials)}</dd></div></dl>`;
+    }
+    function verdictWord(s) { return s.group === 'live' ? 'Live' : s.group === 'in_book' ? 'In the live book' : s.group === 'power' ? 'Live, claim under review'
+                                   : s.group === 'stopped' ? (s.id === 'cno' ? 'Paused' : 'Stopped') : 'Rejected'; }
+    function verdictClass(s) { return s.group === 'live' || s.group === 'in_book' ? 'PASS' : s.group === 'power' ? 'IN_PROGRESS' : s.group === 'stopped' ? 'PAUSED' : 'FAIL'; }
+
+    async function renderDetail() {
+        const s = X.byId[X.sel], el = document.getElementById('rxStage'), c = C();
+        const works = s.group === 'live' || s.group === 'in_book';
+        const happened = s.mode === 'line' ? `
+                <div class="rx-legend" id="d_cmpLegend"></div>
+                <div class="rx-canvas sm"><canvas id="d_cmp" role="img" aria-label="${esc(s.name)} against ${esc(s.compare)}, growth of $100, log scale"></canvas></div>
+                <h4 style="margin-top:14px">Against luck</h4>
+                <p class="rx-note">Two thousand shuffled histories of this strategy's own daily returns (the green band), and the same shuffles with its average return removed, which is what <a class="rx-gl" href="#rx-gl-null-fan" data-gl="null-fan">no edge</a> looks like (the grey band).</p>
+                <div class="rx-mcrow"><div><div class="rx-legend">
+                        <span><i style="border-color:${c.amber};border-top-width:3px"></i>Real run</span>
+                        <span><i class="box" style="background:${rgba(CAT[0], 0.35)}"></i>Shuffled, 5th to 95th percentile</span>
+                        <span><i class="box" style="background:${rgba(c.dim, 0.3)}"></i>No edge, 5th to 95th percentile</span></div>
+                    <div class="rx-canvas sm"><canvas id="d_mc" role="img" aria-label="Monte Carlo fan and no-edge fan, with the real run on top"></canvas></div></div>
+                    <div class="rx-mcside" id="d_mcside"></div></div>`
+            : s.mode === 'pair' ? `<div class="rx-legend" id="d_cmpLegend"></div>
+                <div class="rx-canvas sm"><canvas id="d_cmp" role="img" aria-label="${esc(s.compare)} against the version with this change, growth of $100, log scale"></canvas></div>
+                <details class="rx-tv"><summary>Show as a table</summary><div class="rx-tablewrap" id="d_pairT"></div></details>`
+            : s.mode === 'power' ? powerHTML('d_pw')
+            : `<div class="rx-flag">${esc(s.repro || (s.group === 'stopped' ? 'No backtest was run, so there is no curve.' : 'No curve.'))}</div>`;
+        el.innerHTML = `<article class="rx-detail" aria-labelledby="d_title" tabindex="-1" id="d_root">
+            <div class="rx-stage-head"><div><span class="rx-badge rx-b-${verdictClass(s)}">${esc(verdictWord(s))}</span>
+                <h3 class="rx-h2" id="d_title" style="margin-top:8px">${esc(s.name)} <span class="rx-tag">${esc(s.tag)}</span></h3>
+                <p class="rx-note" style="margin-top:4px">${esc(s.reason)}</p></div>
+                <button type="button" class="rx-btn" id="d_back">Back to all strategies</button></div>
+            <section><h4>What we expected</h4><p>${linkify(s.expected)}</p><p class="rx-cite">${esc(s.citation)}</p></section>
+            <section><h4>How we tested it</h4>${specHTML(s.spec)}</section>
+            <section><h4>What happened</h4>${happened}
+                <div style="margin-top:14px">${gateTable(s.gates)}</div>
+                ${s.gap ? `<p class="rx-sub">${esc(s.gap)}</p>` : ''}</section>
+            <section><h4>${esc(s.why_title || (works ? 'Why it works' : 'Why it doesn’t work'))}</h4><p>${linkify(s.why)}</p>
+                ${s.diag ? `<h4 style="margin-top:16px;font-size:13.5px">${esc(s.diag.title)}</h4>${diagHTML(s.diag)}` : ''}</section>
+            ${s.mind ? `<section><h4>What would change our mind</h4><p>${linkify(s.mind)}</p></section>` : ''}
+        </article>`;
+        document.getElementById('d_back').addEventListener('click', closeDetail);
+        el.querySelectorAll('a.rx-gl').forEach(bindGl);
+        drawDiag(s.diag);
+        if (s.mode === 'power') renderPower('d_pw');
+        if (s.mode === 'line' || s.mode === 'pair') {
+            const rows = await getCSV(s.curve); if (X.sel !== s.id) return;
+            const cols = Object.keys(rows[0]).filter(k => k !== 'date');
+            const cols2 = s.mode === 'pair' ? cols : cols;
+            const colr = (i, k) => s.mode === 'pair' ? (i === 0 ? c.txt : CAT[0]) : (i === 0 ? CAT[0] : /claim/i.test(k) ? c.dim : c.txt);
+            const sets = cols2.map((k, i) => ({ key: k, label: k, data: rows.map(r => isNum(r[k]) && r[k] > 0 ? r[k] : null), borderColor: colr(i, k), labelColor: colr(i, k),
+                borderWidth: i === (s.mode === 'pair' ? 1 : 0) ? 2.2 : 1.5, borderDash: (s.mode === 'line' && i > 0) || /claim/i.test(k) ? [5, 4] : [], pointRadius: 0, tension: 0 }));
+            document.getElementById('d_cmpLegend').innerHTML = sets.map(d => `<span><i style="border-color:${d.borderColor};${d.borderDash.length ? 'border-top-style:dashed' : ''}"></i>${esc(d.label)}</span>`).join('');
+            lineChart(document.getElementById('d_cmp'), 'd_cmp', rows.map(r => r.date), sets, { labelIds: [] });
+            if (s.mode === 'pair') {
+                const pm = s.pair_metrics;
+                document.getElementById('d_pairT').innerHTML = `<table class="rx-table"><thead><tr><th></th><th>Window</th><th>Sharpe</th><th>Annual return</th><th>Worst drawdown</th></tr></thead><tbody>
+                    ${Object.entries(pm).map(([k, m]) => `<tr><td>${esc(k)}</td><td class="n">${esc(m.start)} to ${esc(m.end)}</td><td class="n">${fSh(m.sharpe)}</td><td class="n">${fPct(m.cagr)}</td><td class="n">${fPct(m.max_dd)}</td></tr>`).join('')}</tbody></table>`;
             }
-        };
-        R.charts.st = new Chart(document.getElementById('stChart').getContext('2d'), {
-            type: 'line',
-            data: { labels, datasets },
-            plugins: [endLabels],
-            options: {
-                responsive: true, maintainAspectRatio: false, animation: false, normalized: true,
-                interaction: { mode: 'nearest', intersect: false, axis: 'xy' },
-                layout: { padding: { right: 8, top: 8 } },
-                plugins: { legend: { display: false },
-                           tooltip: { callbacks: { title: it => it.length ? it[0].label : '',
-                                                   label: c => `${c.dataset.label}: $${c.parsed.y.toFixed(0)}` } } },
-                scales: {
-                    x: { grid: { display: false }, border: { color: C.hard },
-                         ticks: { autoSkip: false, maxRotation: 0, color: C.faint, font: { family: cssVar('--font-mono'), size: 11 },
-                                  callback: (v, i) => yearTick[i] } },
-                    y: { type: 'logarithmic', min: yticks[0], max: yticks[yticks.length - 1],
-                         grid: { color: c => c.tick && c.tick.value === 100 ? C.hard : C.grid }, border: { display: false },
-                         afterBuildTicks: ax => { ax.ticks = yticks.map(v => ({ value: v })); },
-                         ticks: { color: C.faint, font: { family: cssVar('--font-mono'), size: 11 }, callback: v => '$' + Number(v).toLocaleString('en-US') } },
-                },
-            },
-        });
-        if (ST.hover) stHover(ST.hover);
-    }
-
-    async function renderStMC() {
-        const s = ST.byId[ST.sel], C = stC(), panel = document.getElementById('stPanel');
-        if (!ST.mc[s.id]) {
-            panel.innerHTML = '<div class="rs-loading">Loading the Monte Carlo…</div>';
-            try { ST.mc[s.id] = await getJSON(s.mc); }
-            catch (e) { panel.innerHTML = `<div class="rs-error">Could not load the Monte Carlo (${esc(e.message)}).</div>`; return; }
-            if (ST.sel !== s.id) return;
         }
-        const mc = ST.mc[s.id], m = s.metrics, fan = mc.fan, last = mc.dates.length - 1;
-        const r = Math.round(mc.boot_rank);
-        const rank = r >= 100 ? 'above all' : r <= 0 ? 'below all' : ordinal(r);
-        const read = `Each faint path is the strategy’s own history cut into one-month blocks and shuffled. The real run sits near the middle by construction, so the useful number is the spread. The 5th-percentile Sharpe of ${shS(mc.sharpe.p5)} is what a run of bad luck could have looked like.`;
-        panel.innerHTML = `
-            <div class="st-phead mc">
-                <div style="display:flex;flex-direction:column;gap:6px;max-width:720px;">
-                    <span class="st-eyebrow" style="font-size:11px;letter-spacing:.14em;">MONTE CARLO · ${mc.n_paths.toLocaleString('en-US')} PATHS · ${mc.block}-DAY BLOCKS</span>
-                    <h3 class="st-h2">${esc(s.name)}</h3>
-                    <p class="st-note">${yrs(s)} · ${m.years} years of daily returns</p>
-                </div>
-                <button type="button" class="st-btn" id="stBack">← All strategies</button>
-            </div>
-            <p class="st-read">${read}</p>
-            <div class="st-mcrow">
-                <div class="st-mcchart">
-                    <div class="st-legend">
-                        <span><i style="border-color:${C.orange};border-top-width:3px"></i>Real run</span>
-                        <span><i class="box" style="background:${rgba(C.live, 0.35)}"></i>25th to 75th pct</span>
-                        <span><i class="box" style="background:${rgba(C.live, 0.15)}"></i>5th to 95th pct</span>
-                        <span><i style="border-color:${C.live};border-top-style:dashed"></i>Median path</span>
-                    </div>
-                    <div class="st-scroll"><div class="st-canvas"><canvas id="stChart" role="img" aria-label="Monte Carlo fan of resampled equity paths with the real equity curve drawn on top"></canvas></div></div>
-                </div>
-                <div class="st-side">
-                    <div class="st-stat"><span>REAL RUN VS RESAMPLES</span><b class="big">${rank}</b><small>percentile at the end of the test</small></div>
-                    <div class="st-stat"><span>SHARPE, 5TH TO 95TH PCT</span><b>${shS(mc.sharpe.p5)} to ${shS(mc.sharpe.p95)}</b></div>
-                    <div class="st-stat"><span>CHANCE SHARPE IS BELOW 0</span><b>${fPct(mc.sharpe.p_below_0, 0)}</b></div>
-                    <div class="st-stat"><span>REAL RUN</span><div>Sharpe ${shS(m.sharpe)}<br>vol ${fPct(m.vol)}<br>max DD ${fPct(m.max_dd)}</div></div>
-                </div>
-            </div>
-            <div class="st-story">
-                <div><h4>THE IDEA</h4>${esc(s.blurb)}</div>
-                <div><h4>WHAT HAPPENED · ${esc(s.study)}</h4>${esc(s.outcome)}</div>
-            </div>`;
-        panel.querySelector('#stBack').addEventListener('click', () => { const id = ST.sel; stPick(id); const b = document.querySelector(`#stGroups .st-card[data-id="${id}"]`); if (b) b.focus({ preventScroll: true }); });
-
-        const flat = v => mc.dates.map(() => v);
+        if (s.mode === 'line') {
+            if (!X.mc[s.id]) { try { X.mc[s.id] = await getJSON(s.mc); } catch (e) { return; } }
+            if (X.sel !== s.id) return;
+            drawMC(s, X.mc[s.id]);
+        }
+    }
+    function drawMC(s, mc) {
+        const c = C(), f = mc.fan, n = mc.null.fan, m = s.metrics;
         const ds = [];
-        const line = (label, data, color, width, extra) => ds.push(Object.assign({ label, data, borderColor: color, borderWidth: width, pointRadius: 0, tension: 0, fill: false }, extra || {}));
-        line('Real run', mc.actual, C.orange, 2.8, { pointRadius: mc.actual.map((_, i) => i === last ? 5 : 0), pointBackgroundColor: C.orange, pointBorderWidth: 0 });
-        line('Median path', fan.p50, C.live, 1.6, { borderDash: [6, 4] });
-        mc.paths.slice(0, 8).forEach((p, i) => line('path ' + i, p, 'rgba(159,179,200,0.28)', 0.8));
-        const i75 = ds.length; line('75th', fan.p75, 'transparent', 0);
-        line('25th', fan.p25, 'transparent', 0, { fill: i75, backgroundColor: rgba(C.live, 0.22) });
-        const i95 = ds.length; line('95th', fan.p95, 'transparent', 0);
-        line('5th', fan.p5, 'transparent', 0, { fill: i95, backgroundColor: rgba(C.live, 0.12) });
-        line('$100', flat(100), C.hard, 1, { borderDash: [3, 4] });
-
-        let lo = 100, hi = 100;
-        const scan = a => a.forEach(v => { if (v > 0) { lo = Math.min(lo, v); hi = Math.max(hi, v); } });
-        [fan.p5, fan.p95, mc.actual].concat(mc.paths.slice(0, 8)).forEach(scan);
-        const pad = (Math.log(hi) - Math.log(lo)) * 0.06, ymin = Math.exp(Math.log(lo) - pad), ymax = Math.exp(Math.log(hi) + pad);
-        const NICE = [1, 2, 3, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 250, 300, 400, 500, 600, 800, 1000, 1500, 2000, 3000, 5000];
-        const inR = NICE.filter(v => v > ymin && v < ymax);
-        const yt = [...new Set([0, 1, 2, 3, 4].map(k => inR[Math.round(k * (inR.length - 1) / 4)]).filter(v => v != null))];
-        const xk = new Set([0, 0.25, 0.5, 0.75, 1].map(f => Math.round(f * last)));
-        R.charts.st = new Chart(document.getElementById('stChart').getContext('2d'), {
-            type: 'line',
-            data: { labels: mc.dates, datasets: ds },
-            options: {
-                responsive: true, maintainAspectRatio: false, animation: false,
-                plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                scales: {
-                    x: { grid: { display: false }, border: { color: C.hard },
-                         ticks: { autoSkip: false, maxRotation: 0, color: C.faint, font: { family: cssVar('--font-mono'), size: 11 },
-                                  callback: (v, i) => xk.has(i) ? mc.dates[i].slice(0, 4) : '' } },
-                    y: { type: 'logarithmic', min: ymin, max: ymax, border: { display: false }, grid: { color: C.grid },
-                         afterBuildTicks: ax => { ax.ticks = yt.map(v => ({ value: v })); },
-                         ticks: { color: C.faint, font: { family: cssVar('--font-mono'), size: 11 }, callback: v => '$' + Number(v).toLocaleString('en-US') } },
-                },
-            },
-        });
+        const line = (label, data, color, w, extra) => ds.push(Object.assign({ label, data, borderColor: color, borderWidth: w, pointRadius: 0, tension: 0, fill: false, noTip: true }, extra || {}));
+        line('Real run', mc.actual, c.amber, 2.6, { noTip: false });
+        const i95 = ds.length; line('95th', f.p95, 'transparent', 0); line('5th', f.p5, 'transparent', 0, { fill: i95, backgroundColor: rgba(CAT[0], 0.22) });
+        const j95 = ds.length; line('null 95th', n.p95, 'transparent', 0); line('null 5th', n.p5, 'transparent', 0, { fill: j95, backgroundColor: rgba(c.dim, 0.22) });
+        line('No-edge median', n.p50, rgba(c.dim, 0.9), 1.2, { borderDash: [4, 4] });
+        lineChart(document.getElementById('d_mc'), 'd_mc', mc.dates, ds, { labelIds: [] });
+        const rank = Math.round(mc.null.rank);
+        document.getElementById('d_mcside').innerHTML = `
+            <div><span>Real run beats</span><b>${rank >= 100 ? 'all' : rank + '%'}</b><span>of no-edge histories</span></div>
+            <div><span>Shuffled Sharpe, 5th to 95th</span><b>${fSh(mc.sharpe.p5)} to ${fSh(mc.sharpe.p95)}</b></div>
+            <div><span>Chance Sharpe is below 0</span><b>${fPct(mc.sharpe.p_below_0, 0)}</b></div>
+            <div><span>Real run</span><b>${fSh(m.sharpe)}</b><span>Sharpe, ${esc(m.start.slice(0, 4))} to ${esc(m.end.slice(0, 4))}</span></div>`;
     }
-
-    function initStrategies() {
-        renderStCards();
-        renderStPanel();
-        document.getElementById('stPanel').addEventListener('keydown', e => {
-            if (e.key === 'Escape' && ST.sel) { const id = ST.sel; stPick(id); const b = document.querySelector(`#stGroups .st-card[data-id="${id}"]`); if (b) b.focus(); }
-        });
-    }
-
-    // ── page skeleton ──
-    function renderPage() {
-        const I = R.index, M = R.methods, h = I.headline;
-        const root = document.getElementById('rsRoot');
-        root.innerHTML = `
-        ${stTopHTML()}
-
-        <section class="rs-card">
-            <div class="rs-h2">Featured case studies</div>
-            <p class="rs-sub">Long-form stories behind the ledger. Each opens below.</p>
-            <div class="rs-cases" id="rsCases"></div>
-            <div id="rsCasePanel"></div>
-        </section>
-
-        <section class="rs-card" id="rsLedgerCard">
-            <div class="rs-h2">Research ledger</div>
-            <p class="rs-sub">One row per study. Failed and superseded studies are shown by default. Click a row for the full study.</p>
-            <div class="rs-toolbar" id="rsToolbar"></div>
-            <div class="rs-ledger-desktop rs-table-wrap"><table class="rs-table rs-ledger"><thead><tr>
-                <th>Version</th><th>Date</th><th>Family</th><th>Hypothesis</th><th>Window</th><th>Sharpe</th><th>MaxDD</th><th>N</th><th>DSR</th><th>Verdict</th>
-            </tr></thead><tbody id="rsLedgerBody"></tbody></table></div>
-            <div class="rs-cards-mobile" id="rsLedgerCards"></div>
-            <div id="rsPanel"></div>
-        </section>
-
-        <section class="rs-card">
-            <div class="rs-h2">Overfitting: every trial we ran</div>
-            <p class="rs-sub">Each dot is one gate-tested configuration, in the order we ran them. The line is the Sharpe you would expect from the best of N pure-noise backtests on a 10-year sample; it rises as we test more ideas, which is why the bar for a real edge rises too.</p>
-            <div class="rs-chart"><canvas id="rsTrialsChart" role="img" aria-label="Scatter of every trial's Sharpe against trial number, with the expected maximum Sharpe of N noise trials"></canvas></div>
-            <div class="rs-howto">How to read this: dots well above the line are candidates; dots near or below it are what noise alone produces. Rows that never traded (v43) are plotted at 0. Each dot's data vintage is its study's (see the ledger).</div>
-            <div class="rs-sec">
-                <h5>Deflated Sharpe calculator</h5>
-                <div class="rs-calc">
-                    <label>Trials tested (N)<input id="rsCN" type="number" min="1" step="1"></label>
-                    <label>Observed Sharpe (annual)<input id="rsCS" type="number" step="0.01" value="1.24"></label>
-                    <label>Years of data<input id="rsCY" type="number" min="0.5" step="0.1" value="19.7"></label>
-                    <label>Skew<input id="rsCK" type="number" step="0.1" value="-0.5"></label>
-                    <label>Kurtosis (normal = 3)<input id="rsCU" type="number" min="1" step="0.5" value="6"></label>
-                </div>
-                <div class="rs-calc-out" id="rsCalcOut"></div>
-                <div class="rs-howto">Defaults = the deployed book (ETF cache 2026-09-11, 2007-01 → 2026-09) and our trial count. Bailey &amp; López de Prado (2014). The deflated Sharpe is the probability that the true Sharpe beats the expected best of N noise trials, after adjusting for sample length, skew and fat tails.</div>
-            </div>
-        </section>
-
-        <section class="rs-card" id="rsRobust">
-            <div class="rs-h2">Flagship robustness</div>
-            <p class="rs-sub">The deployed book (${esc(h.label)}), ${esc(h.vintage)}.</p>
-            <div class="rs-grid2">
-                <div><h5 class="rs-cite">MONTE CARLO · 5,000 block-bootstrap paths</h5><div class="rs-chart sm"><canvas id="rsMC" role="img" aria-label="Histogram of bootstrapped Sharpe ratios"></canvas></div>
-                    <div class="rs-howto" id="rsMCNote"></div></div>
-                <div><h5 class="rs-cite">ROLLING 1-YEAR SHARPE</h5><div class="rs-chart sm"><canvas id="rsRoll" role="img" aria-label="Rolling one-year Sharpe ratio"></canvas></div>
-                    <div class="rs-howto">How to read this: the book has bad years; what matters is that the long-run average holds up.</div></div>
-                <div><h5 class="rs-cite">CRISIS WINDOWS · total return</h5><div class="rs-chart sm"><canvas id="rsCrisis" role="img" aria-label="Book versus SPY return in crisis windows"></canvas></div>
-                    <div class="rs-howto">How to read this: a diversifier should lose far less than equities when equities fall.</div></div>
-                <div><h5 class="rs-cite">SENSITIVITY · TREND signal clip</h5><div class="rs-chart sm"><canvas id="rsSens" role="img" aria-label="Sharpe across signal clip settings"></canvas></div>
-                    <div class="rs-howto">How to read this: a robust result sits on a plateau; neighbouring settings give similar Sharpe.</div></div>
-            </div>
-        </section>
-
-        <section class="rs-card rs-methods" id="rsMethods">
-            <div class="rs-h2">${esc(M.methods.title)}</div>
-            <p class="rs-sub">${esc(M.methods.intro)}</p>
-            <dl>${M.methods.items.map(it => `<dt>${esc(it.name)}</dt><dd>${esc(it.text)}</dd>`).join('')}
-                <dt>${esc(M.methods.limitations.title)}</dt><dd><ul>${M.methods.limitations.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></dd></dl>
-            <details class="rs-gloss"><summary>Glossary</summary>
-                <dl>${M.glossary.map(g => `<dt>${esc(g.term)}</dt><dd>${esc(g.text)}</dd>`).join('')}</dl></details>
-            <div class="rs-foot">${esc(I.page.footer)}</div>
-        </section>
-
-        <section class="rs-card" id="rsWhy">
-            <div class="rs-h2">${esc(M.why_failed.title)}</div>
-            <p class="rs-sub">${esc(M.why_failed.intro)}</p>
-            <div class="rs-why">${M.why_failed.items.map(it => `
-                <div class="rs-idea">${esc(it.idea)}<br><button class="rs-link" data-study="${esc(it.study)}">see ${esc(it.study)}</button></div>
-                <div class="rs-reason">${esc(it.why)}</div>`).join('')}</div>
-            <p class="rs-closing">${esc(M.why_failed.closing)}</p>
-        </section>`;
-
-        initStrategies();
-        renderCases();
-        renderToolbar();
-        renderLedger();
-        renderTrials();
-        renderRobust();
-        root.querySelectorAll('.rs-link[data-study]').forEach(b => b.addEventListener('click', () => openStudy(b.dataset.study, true)));
-    }
-
-    // ── featured case studies ──
-    const CASE_ORDER = ['flagship', 'sp_failure', 'replication', 'audit', 'lstm'];
-    function renderCases() {
-        const el = document.getElementById('rsCases');
-        el.innerHTML = CASE_ORDER.filter(k => R.cases[k]).map(k => `<button class="rs-case${R.openCase === k ? ' active' : ''}" data-case="${k}">
-            <h4>${esc(R.cases[k].title)}</h4><p>${esc(R.cases[k].summary)}</p></button>`).join('');
-        el.querySelectorAll('.rs-case').forEach(b => b.addEventListener('click', () => openCase(b.dataset.case)));
-    }
-    const CASE_TABLE_TITLES = { table: 'Results', pead: 'PEAD regressed on SPY', reported: 'Live tracks as reported (before the fix)',
-                                v36: 'v36: LSTM with pretraining look-ahead', v37: 'v37: the same, trained walk-forward' };
-    const CASE_STUDIES = { flagship: ['v29', 'v30', 'v33', 'v35', 'v38', 'v39', 'v42', 'v44'], sp_failure: ['v26', 'v27', 'v28'],
-                           replication: ['v43'], audit: ['v41'], lstm: ['v36', 'v37'] };
-    function openCase(k) {
-        const c = R.cases[k], el = document.getElementById('rsCasePanel');
-        if (R.openCase === k) { R.openCase = null; el.innerHTML = ''; renderCases(); killChart('caseW'); killChart('caseC'); return; }
-        R.openCase = k; renderCases();
-        let html = `<div class="rs-card rs-panel rs-sec"><div class="rs-panel-head"><div><div class="rs-h2">${esc(c.title)}</div>
-            <p class="rs-sub">${esc(c.summary)}</p></div><button class="rs-close" id="rsCaseClose">Close</button></div>`;
-        if (c.claim) html += `<div class="rs-sec"><h5>The paper's claim</h5><p>${fPct(c.claim.cagr)} a year, information ratio ${fNum(c.claim.ir, 2)}, max drawdown ${fPct(c.claim.max_dd, 0)} (${esc(c.claim.window)}, S&amp;P 500, 5 bps). Our replication, one change at a time:</p></div>`;
-        if (c.waterfall) {
-            html += `<div class="rs-sec"><h5>Sharpe as each piece was added (faded = tried and rejected)</h5><div class="rs-chart"><canvas id="rsCaseW" role="img" aria-label="Sharpe waterfall of the flagship book"></canvas></div>
-                <div class="rs-howto">Steps come from different data vintages (shown in the table), so adjacent bars are not a clean A/B, except the last two, which share the 2026-09-11 cache.</div>
-                ${tableHTML(c.waterfall)}</div>`;
+    function openDetail(id, scroll) {
+        if (X.sel === id) { closeDetail(); return; }
+        X.sel = id;
+        document.querySelectorAll('#rxCards .rx-card').forEach(b => b.setAttribute('aria-current', String(b.dataset.id === id)));
+        renderStage();
+        const root = document.getElementById('d_root');
+        if (scroll && root) {
+            const r = document.getElementById('rxStage').getBoundingClientRect();
+            if (r.top < 0 || r.top > window.innerHeight * 0.5) document.getElementById('rxStage').scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' });
+            root.focus({ preventScroll: true });
         }
-        Object.keys(CASE_TABLE_TITLES).forEach(key => { if (c[key] && c[key].columns) html += `<div class="rs-sec">${tableHTML(Object.assign({ title: CASE_TABLE_TITLES[key] }, c[key]))}</div>`; });
-        if (c.curves && c.curves.length) html += `<div class="rs-sec"><h5>Deployed book vs benchmarks (log)</h5><div class="rs-chart"><canvas id="rsCaseC" role="img" aria-label="Deployed book equity curve"></canvas></div></div>`;
-        html += `<div class="rs-sec"><h5>Studies in this story</h5><p>${(CASE_STUDIES[k] || []).map(s => `<button class="rs-link" data-study="${s}">${s}</button>`).join(' · ')}</p></div>
-            <div class="rs-foot">Data vintage: ${esc(c.vintage || '—')}<br>${esc(R.index.page.footer)}</div></div>`;
-        el.innerHTML = html;
-        document.getElementById('rsCaseClose').addEventListener('click', () => openCase(k));
-        el.querySelectorAll('.rs-link[data-study]').forEach(b => b.addEventListener('click', () => openStudy(b.dataset.study, true)));
-        if (c.waterfall) {
-            const rows = c.waterfall.rows;
-            barChart('rsCaseW', 'caseW', rows.map(r => r[0]), [{ label: 'Sharpe', data: rows.map(r => r[1]),
-                backgroundColor: rows.map(r => r[4] === 'kept' ? 'rgba(0,212,170,.75)' : 'rgba(255,71,87,.28)'),
-                borderColor: rows.map(r => r[4] === 'kept' ? '#00d4aa' : 'rgba(255,71,87,.6)'), borderWidth: 1 }], false, true);
-            R.charts.caseW.options.plugins.tooltip.callbacks.afterLabel = ctx => rows[ctx.dataIndex][3];
-            R.charts.caseW.update();
-        }
-        if (c.curves && c.curves.length) curveChart('rsCaseC', c.curves[0], 'caseC');
+    }
+    function closeDetail() {
+        const id = X.sel; X.sel = null;
+        document.querySelectorAll('#rxCards .rx-card').forEach(b => b.setAttribute('aria-current', 'false'));
+        renderStage();
+        const b = id && document.querySelector(`#rxCards .rx-card[data-id="${id}"]`); if (b) b.focus({ preventScroll: true });
     }
 
-    // ── ledger ──
-    function renderToolbar() {
+    // ── research ledger (collapsed) ──
+    function ledgerHTML() {
+        return `<section class="rx-sec"><details class="rx-ledger" id="rxLedger"><summary><h2 class="rx-h2">Research ledger</h2><span class="rx-note">Every study, in the order we ran them.</span></summary>
+            <div class="rx-sec" style="margin-top:14px"><div class="rx-toolbar" id="rxLbar"></div>
+            <div class="rx-tablewrap"><table class="rx-table"><thead><tr><th>Version</th><th>The question</th><th>Verdict</th><th class="rx-hide-sm">Why</th></tr></thead><tbody id="rxLbody"></tbody></table></div></div>
+        </details></section>`;
+    }
+    function renderLbar() {
         const fams = ['all'].concat(Object.keys(FAMILY).filter(f => R.index.studies.some(s => s.family === f)));
-        const vers = ['all'].concat(Object.keys(VERDICT_LABEL).filter(v => R.index.studies.some(s => s.verdict === v)));
-        const chip = (grp, v, lab) => `<button class="ostab${R.filters[grp] === v ? ' active' : ''}" data-grp="${grp}" data-v="${v}">${esc(lab)}</button>`;
-        const el = document.getElementById('rsToolbar');
-        el.innerHTML = `<span class="rs-tlabel">Family</span>${fams.map(f => chip('family', f, f === 'all' ? 'All' : FAMILY[f])).join('')}
-            <span class="rs-tlabel">Verdict</span>${vers.map(v => chip('verdict', v, v === 'all' ? 'All' : VERDICT_LABEL[v])).join('')}
-            <span class="rs-tlabel">Sort</span>${[['date_asc', 'Oldest first'], ['date_desc', 'Newest first'], ['sharpe_desc', 'Sharpe']].map(([v, l]) =>
-                `<button class="ostab${R.sort === v ? ' active' : ''}" data-grp="sort" data-v="${v}">${l}</button>`).join('')}`;
-        el.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
-            if (b.dataset.grp === 'sort') R.sort = b.dataset.v; else R.filters[b.dataset.grp] = b.dataset.v;
-            renderToolbar(); renderLedger();
-        }));
+        const vers = ['all'].concat(Object.keys(VERDICT).filter(v => R.index.studies.some(s => s.verdict === v)));
+        const chip = (g, v, l) => `<button type="button" class="rx-chip" data-g="${g}" data-v="${v}" aria-pressed="${R.filters[g] === v}">${esc(l)}</button>`;
+        const el = document.getElementById('rxLbar');
+        el.innerHTML = fams.map(f => chip('family', f, f === 'all' ? 'All families' : FAMILY[f])).join('') + '<span class="rx-sep" aria-hidden="true"></span>'
+            + vers.map(v => chip('verdict', v, v === 'all' ? 'All verdicts' : VERDICT[v])).join('');
+        el.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { R.filters[b.dataset.g] = b.dataset.v; R.open = null; renderLbar(); renderLedger(); }));
     }
-    function ledgerRows() {
-        let rows = R.index.studies.filter(s => (R.filters.family === 'all' || s.family === R.filters.family)
-                                             && (R.filters.verdict === 'all' || s.verdict === R.filters.verdict));
-        const vnum = s => s.id === 'era1' ? 0 : parseInt(s.id.replace('v', ''), 10);
-        if (R.sort === 'sharpe_desc') rows = rows.slice().sort((a, b) => (isNum(b.sharpe) ? b.sharpe : -9) - (isNum(a.sharpe) ? a.sharpe : -9));
-        else rows = rows.slice().sort((a, b) => R.sort === 'date_desc' ? vnum(b) - vnum(a) : vnum(a) - vnum(b));
-        return rows;
-    }
-    function verLabel(s) { return s.id === 'era1' ? 'v10–v25' : s.id; }
+    const verLabel = s => s.id === 'era1' ? 'v10–v25' : s.id;
     function renderLedger() {
-        const rows = ledgerRows();
-        const win = s => s.window ? `${esc(s.window[0].slice(0, 7))} → ${esc(s.window[1].slice(0, 7))}` : '—';
-        document.getElementById('rsLedgerBody').innerHTML = rows.map(s => `<tr data-id="${s.id}" class="${R.open === s.id ? 'sel' : ''}" tabindex="0">
-            <td><span class="rs-ver">${esc(verLabel(s))}</span></td>
-            <td class="num">${esc(s.date)}</td>
-            <td>${esc(FAMILY[s.family] || s.family)}</td>
-            <td class="rs-hyp">${esc(s.title)}${s.historical ? '<span class="rs-hist">historical, not reproducible</span>' : ''}<span class="rs-vint">${esc(s.hypothesis)}</span></td>
-            <td class="num">${win(s)}</td>
-            <td class="num">${fSh(s.sharpe)}${isNum(s.sharpe) ? `<span class="rs-vint">${esc(s.vintage)}${s.row_note ? ' · ' + esc(s.row_note) : ''}</span>` : ''}</td>
-            <td class="num">${fPct(s.max_dd)}</td>
-            <td class="num">${isNum(s.n_trials) ? s.n_trials : '—'}</td>
-            <td class="num">${isNum(s.dsr) ? s.dsr.toFixed(3) : '—'}</td>
-            <td>${badge(s.verdict)}</td></tr>`).join('') || `<tr><td colspan="10" style="color:var(--txt-faint)">No studies match these filters.</td></tr>`;
-        document.getElementById('rsLedgerCards').innerHTML = rows.map(s => `<div class="rs-mcard" data-id="${s.id}" tabindex="0">
-            <div class="rs-mcard-top"><span class="rs-ver">${esc(verLabel(s))} · ${esc(s.date)}</span>${badge(s.verdict)}</div>
-            <p><b style="color:var(--txt)">${esc(s.title)}</b>${s.historical ? '<span class="rs-hist">historical, not reproducible</span>' : ''}<br>${esc(s.hypothesis)}</p>
-            <div class="rs-meta">Sharpe ${fSh(s.sharpe)}${isNum(s.sharpe) ? ' · ' + esc(s.vintage) : ''} · ${esc(FAMILY[s.family] || s.family)}</div></div>`).join('');
-        document.querySelectorAll('#rsLedgerBody tr[data-id], #rsLedgerCards .rs-mcard').forEach(el => {
-            el.addEventListener('click', () => openStudy(el.dataset.id));
-            el.addEventListener('keydown', e => { if (e.key === 'Enter') openStudy(el.dataset.id); });
+        const rows = R.index.studies.filter(s => (R.filters.family === 'all' || s.family === R.filters.family) && (R.filters.verdict === 'all' || s.verdict === R.filters.verdict));
+        const win = s => s.window ? `${s.window[0].slice(0, 7)} to ${s.window[1].slice(0, 7)}` : '—';
+        document.getElementById('rxLbody').innerHTML = rows.map(s => `
+            <tr class="rx-lrow" data-id="${esc(s.id)}" tabindex="0" aria-expanded="${R.open === s.id}"><td class="n">${esc(verLabel(s))}</td><td>${esc(s.ask || s.title)}</td>
+                <td><span class="rx-badge rx-b-${esc(s.verdict)}">${esc(VERDICT[s.verdict] || s.verdict)}</span></td><td class="rx-hide-sm" style="color:var(--txt-dim)">${esc(s.reason || '')}</td></tr>
+            ${R.open === s.id ? `<tr class="rx-lmore"><td colspan="4"><p class="rx-note" style="margin:4px 0 8px">${esc(s.reason || '')}</p><dl>
+                <div><dt>Ran</dt><dd class="rx-num">${esc(s.date)}</dd></div><div><dt>Test window</dt><dd class="rx-num">${win(s)}</dd></div>
+                <div><dt>Trials tested</dt><dd class="rx-num">${isNum(s.n_trials) ? s.n_trials : '—'}</dd></div>
+                <div><dt>Deflated Sharpe</dt><dd class="rx-num">${isNum(s.dsr) ? s.dsr.toFixed(3) : '—'}</dd></div>
+                <div><dt>Sharpe</dt><dd class="rx-num">${fSh(s.sharpe)}${s.row_note ? ` <span class="rx-sub">(${esc(s.row_note)})</span>` : ''}</dd></div>
+                <div style="grid-column:1/-1"><dt>Data vintage</dt><dd>${esc(s.vintage)}</dd></div></dl>
+                <div id="rxStudy"><button type="button" class="rx-link" data-study="${esc(s.id)}">Read the full study</button></div></td></tr>` : ''}`).join('')
+            || `<tr><td colspan="4" style="color:var(--rx-faint)">No studies match these filters. Choose “All families” or “All verdicts”.</td></tr>`;
+        document.querySelectorAll('#rxLbody .rx-lrow').forEach(tr => {
+            const t = () => { R.open = R.open === tr.dataset.id ? null : tr.dataset.id; renderLedger(); const n = document.querySelector(`#rxLbody .rx-lrow[data-id="${tr.dataset.id}"]`); if (n) n.focus(); };
+            tr.addEventListener('click', t); tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); t(); } });
         });
+        const b = document.querySelector('#rxStudy .rx-link'); if (b) b.addEventListener('click', () => fullStudy(b.dataset.study));
     }
-
-    // ── study panel (shared template) ──
-    async function openStudy(id, scroll) {
-        const panel = document.getElementById('rsPanel');
-        if (R.open === id && !scroll) { closeStudy(); return; }
-        R.open = id; renderLedger();
-        panel.innerHTML = `<div class="rs-card rs-panel rs-sec"><div class="rs-loading">Loading ${esc(id)}…</div></div>`;
+    function studyTable(t) {
+        if (!t || !t.columns || !t.rows || !t.rows.length) return '';
+        const cell = (col, v) => typeof v === 'boolean' ? (v ? 'yes' : 'no') : !isNum(v) ? esc(v == null ? '—' : v)
+            : /max_dd|maxdd|cagr|return|vol|ret$/i.test(col) ? fPct(v) : /sharpe/i.test(col) ? fSh(v) : (Number.isInteger(v) ? v.toLocaleString('en-US') : minus(v.toFixed(3)));
+        return `${t.title ? `<h5>${esc(t.title)}</h5>` : ''}<div class="rx-tablewrap"><table class="rx-table"><thead><tr>${t.columns.map(c => `<th>${esc(c.replace(/_/g, ' '))}</th>`).join('')}</tr></thead>
+            <tbody>${t.rows.map(r => `<tr>${r.map((v, i) => `<td class="${isNum(v) ? 'n' : ''}">${cell(t.columns[i], v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    }
+    async function fullStudy(id) {
+        const box = document.getElementById('rxStudy'); box.innerHTML = '<p class="rx-note">Loading the study…</p>';
         try { R.studies[id] = R.studies[id] || await getJSON('studies/' + id + '.json'); }
-        catch (e) { panel.innerHTML = `<div class="rs-card rs-panel rs-sec rs-error">Could not load ${esc(id)}: ${esc(e.message)}</div>`; return; }
-        const s = R.studies[id], row = R.index.studies.find(x => x.id === id) || {};
-        const g = s.gate;
-        const gates = g ? `<div class="rs-gates">
-            <span class="rs-gate">Gate 2 economics: ${g.gate2 === true ? '✓' : g.gate2 === false ? '✗' : '—'}</span>
-            <span class="rs-gate">Gate 3 DSR: ${isNum(g.gate3_dsr) ? g.gate3_dsr.toFixed(3) : '—'}</span>
-            <span class="rs-gate">Gate 4 MC 5th-pct Sharpe: ${fSh(g.gate4_mc5)}</span>
-            <span class="rs-gate">Overall: ${g.pass ? '✓ pass' : '✗ fail'}</span></div>` : '';
-        const vline = `<div class="rs-howto">Data vintage: ${esc(s.vintage)}</div>`;
-        let html = `<div class="rs-card rs-panel rs-sec" id="rsPanelCard"><div class="rs-panel-head"><div>
-                <div class="rs-eyebrow">${esc(verLabel(row))} · ${esc(FAMILY[row.family] || '')} · ${esc(row.date || '')}</div>
-                <div class="rs-h2" style="margin-top:4px">${esc(s.title)}</div></div><button class="rs-close" id="rsPanelClose">Close</button></div>
-            <div class="rs-grid2 rs-sec">
-                <div><h5>Question</h5><p>${esc(s.question)}</p><h5 style="margin-top:12px">Why it was worth testing</h5><p>${esc(s.prior)}</p>
-                    ${s.citations && s.citations.length ? `<p class="rs-cite">${s.citations.map(esc).join('<br>')}</p>` : ''}</div>
-                <div><h5>Method</h5><ul>${(s.method || []).map(m => `<li>${esc(m)}</li>`).join('')}</ul></div>
-            </div>
-            <div class="rs-sec"><h5>Verdict</h5><div class="rs-verdict">${badge(s.verdict)}<p>${esc(s.verdict_reason)}</p></div>${gates}</div>`;
-        if (s.metrics) html += `<div class="rs-sec"><h5>Result</h5>${tableHTML(s.metrics)}${vline}</div>`;
-        if (s.curves && s.curves.length) html += `<div class="rs-sec"><h5>Equity curves (weekly, log scale, rebased to 100)</h5><div class="rs-chart"><canvas id="rsPanelCurve" role="img" aria-label="Equity curves for ${esc(id)}"></canvas></div>
-            ${s.curves_note ? `<div class="rs-howto">${esc(s.curves_note)}</div>` : ''}</div>`;
-        if (s.crisis || s.sensitivity) {
-            html += `<div class="rs-grid2 rs-sec">`;
-            if (s.crisis) html += `<div><h5>Crisis windows (total return)</h5><div class="rs-chart sm"><canvas id="rsPanelCrisis" role="img" aria-label="Crisis window returns"></canvas></div></div>`;
-            if (s.sensitivity) html += `<div><h5>Sensitivity</h5><div class="rs-chart sm"><canvas id="rsPanelSens" role="img" aria-label="Sensitivity of Sharpe to parameter changes"></canvas></div></div>`;
-            html += `</div>`;
-        }
-        (s.extra_tables || []).forEach(t => { html += `<div class="rs-sec">${tableHTML(t)}</div>`; });
-        html += `<div class="rs-sec"><h5>What we learned</h5><ul>${(s.lessons || []).map(l => `<li>${esc(l)}</li>`).join('')}</ul>
-            ${s.next ? `<p>What it led to: <button class="rs-link" data-study="${esc(s.next)}">${esc(s.next)}</button></p>` : ''}</div>
-            <div class="rs-foot">Data vintage: ${esc(s.vintage)} · Trials counted: ${isNum(s.n_trials) ? s.n_trials : '—'}${s.metrics_note ? ' · ' + esc(s.metrics_note) : ''}<br>${esc(s.footer || R.index.page.footer)}</div></div>`;
-        panel.innerHTML = html;
-        document.getElementById('rsPanelClose').addEventListener('click', closeStudy);
-        panel.querySelectorAll('.rs-link[data-study]').forEach(b => b.addEventListener('click', () => openStudy(b.dataset.study, true)));
-        if (s.curves && s.curves.length) curveChart('rsPanelCurve', s.curves[0], 'panelCurve');
-        if (s.crisis) {
-            const c = s.crisis;
-            barChart('rsPanelCrisis', 'panelCrisis', c.rows.map(r => r[0]),
-                c.columns.slice(1).map((name, i) => ({ label: name, data: c.rows.map(r => r[i + 1]), backgroundColor: SERIES[i % SERIES.length] + 'cc' })), true, false);
-        }
-        if (s.sensitivity) {
-            const t = s.sensitivity, si = t.columns.findIndex(c => /sharpe/i.test(c));
-            barChart('rsPanelSens', 'panelSens', t.rows.map(r => r[0]), [{ label: 'Sharpe', data: t.rows.map(r => r[si]), backgroundColor: 'rgba(0,168,255,.7)' }], false, true);
-        }
-        const card = document.getElementById('rsPanelCard');
-        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    function closeStudy() {
-        R.open = null; document.getElementById('rsPanel').innerHTML = '';
-        ['panelCurve', 'panelCrisis', 'panelSens'].forEach(killChart); renderLedger();
+        catch (e) { box.innerHTML = `<p class="rx-error">Couldn't load this study (${esc(e.message)}). Reload the page to try again.</p>`; return; }
+        const s = R.studies[id];
+        box.innerHTML = `<div class="rx-study"><h5>Question</h5><p>${esc(s.question)}</p><h5>Why it was worth testing</h5><p>${esc(s.prior)}</p>
+            ${(s.citations || []).length ? `<p class="rx-cite">${s.citations.map(esc).join('<br>')}</p>` : ''}
+            <h5>Method</h5><ul>${(s.method || []).map(m => `<li>${esc(m)}</li>`).join('')}</ul>
+            <h5>Verdict</h5><p>${esc(s.verdict_reason)}</p>${studyTable(s.metrics)}${(s.extra_tables || []).map(studyTable).join('')}
+            <h5>What we learned</h5><ul>${(s.lessons || []).map(l => `<li>${esc(l)}</li>`).join('')}</ul>
+            <p class="rx-sub">Data vintage: ${esc(s.vintage)}. ${esc(s.footer || '')}</p></div>`;
     }
 
-    // ── overfitting panel ──
+    // ── overfitting check + deflated Sharpe calculator ──
     const GAMMA = 0.5772156649015329;
     function normCdf(x) { const t = 1 / (1 + 0.3275911 * Math.abs(x) / Math.SQRT2);
         const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x / 2);
         return x >= 0 ? (1 + y) / 2 : (1 - y) / 2; }
-    function normInv(p) {   // Acklam
+    function normInv(p) {
         const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239];
         const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
         const c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
@@ -7332,94 +7332,117 @@ function renderUtilTables(summary) {
         q = p - 0.5; r = q * q;
         return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
     }
-    function expMaxSR(N, nObs) {          // per-period, null SR std = 1/sqrt(n)
-        if (N <= 1) return 0;
-        return (1 / Math.sqrt(nObs)) * ((1 - GAMMA) * normInv(1 - 1 / N) + GAMMA * normInv(1 - 1 / (N * Math.E)));
-    }
+    function expMaxSR(N, nObs) { if (N <= 1) return 0; return (1 / Math.sqrt(nObs)) * ((1 - GAMMA) * normInv(1 - 1 / N) + GAMMA * normInv(1 - 1 / (N * Math.E))); }
     function dsr(N, srAnn, years, skew, kurt) {
         const n = Math.max(10, Math.round(years * 252)), sr = srAnn / Math.sqrt(252), sr0 = expMaxSR(N, n);
         const den = Math.sqrt(Math.max(1 - skew * sr + (kurt - 1) / 4 * sr * sr, 1e-12));
         return { dsr: normCdf((sr - sr0) * Math.sqrt(n - 1) / den), sr0Ann: sr0 * Math.sqrt(252) };
     }
+    function overfitHTML() {
+        const nPow = R.trials.filter(t => t.power).length;
+        return `<section class="rx-sec"><h2 class="rx-h2">Overfitting check</h2>
+            <p>Each dot is one trial, in the order we ran them. The dashed line is the best Sharpe that pure-noise backtests would produce from the same number of tries, so it rises as we test more ideas; only results well above it count.</p>
+            <div class="rx-legend" id="rxTLegend"></div>
+            <div class="rx-canvas"><canvas id="rxTrials" role="img" aria-label="Every trial's Sharpe ratio against trial number, with the expected best Sharpe from the same number of noise trials. A table view follows."></canvas></div>
+            <details class="rx-tv"><summary>Show as a table</summary><div class="rx-tablewrap" id="rxTTable"></div></details>
+            <p class="rx-sub">The ${nPow} power-market trials are left out: a battery's daily Sharpe (above 20 in CAISO) measures a different thing from a trading book's and would flatten every other dot. Trials that never traded are plotted at 0.</p>
+            <h3 class="rx-h2" style="font-size:19px;margin-top:10px">Deflated Sharpe calculator</h3>
+            <div class="rx-calc">
+                <label>Trials tested<input id="rsCN" type="number" min="1" step="1" inputmode="numeric"></label>
+                <label>Observed Sharpe, a year<input id="rsCS" type="number" step="0.01" value="1.24" inputmode="decimal"></label>
+                <label>Years of data<input id="rsCY" type="number" min="0.5" step="0.1" value="19.7" inputmode="decimal"></label>
+                <label>Skew<input id="rsCK" type="number" step="0.1" value="-0.5" inputmode="decimal"></label>
+                <label>Kurtosis (normal is 3)<input id="rsCU" type="number" min="1" step="0.5" value="6" inputmode="decimal"></label>
+            </div>
+            <div class="rx-calcout" id="rsCalcOut" aria-live="polite"></div>
+            <p class="rx-sub">Defaults are the live book (2007 to 2026) and every trial on this page. Method: Bailey and López de Prado (2014).</p></section>`;
+    }
     function renderTrials() {
-        const T = R.trials, vint = {};
-        R.index.studies.forEach(s => { vint[s.id] = s.vintage; });
-        const pts = T.map(t => ({ x: t.seq, y: isNum(t.sharpe) ? t.sharpe : 0, t }));
+        const c = C(), T = R.trials.filter(t => !t.power);
+        const col = { PASS: c.teal, DEPLOYED: c.teal, FAIL: c.red, SUPERSEDED: c.dim, diagnostic: c.amber, variant: c.faint };
+        const lab = { PASS: 'Passed', DEPLOYED: 'Deployed', FAIL: 'Failed', SUPERSEDED: 'Superseded', diagnostic: 'Diagnostic', variant: 'Variant' };
         const groups = {};
-        pts.forEach(p => { const v = p.t.verdict; (groups[v] = groups[v] || []).push(p); });
+        T.forEach((t, i) => { const v = t.verdict; (groups[v] = groups[v] || []).push({ x: i + 1, y: isNum(t.sharpe) ? t.sharpe : 0, t }); });
         const line = []; for (let n = 1; n <= T.length; n++) line.push({ x: n, y: expMaxSR(n, 2520) * Math.sqrt(252) });
-        const sets = Object.keys(groups).map(v => ({ type: 'scatter', label: v, data: groups[v], pointRadius: 4, pointHoverRadius: 6,
-            backgroundColor: (VCOLOR[v] || '#8b919c') + 'cc', borderColor: VCOLOR[v] || '#8b919c' }));
-        sets.push({ type: 'line', label: 'Expected max Sharpe of N noise trials (10 y)', data: line, borderColor: '#ff9f43', borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0 });
-        killChart('trials');
-        R.charts.trials = new Chart(document.getElementById('rsTrialsChart').getContext('2d'), {
+        const sets = Object.keys(groups).map(v => ({ type: 'scatter', label: lab[v] || v, data: groups[v], pointRadius: 4.5, pointHoverRadius: 7, pointHitRadius: 8,
+            backgroundColor: rgba(col[v] || c.dim, 0.85), borderColor: c.surface, borderWidth: 1.5 }));
+        sets.push({ type: 'line', label: 'Best Sharpe from the same number of noise trials (10 years)', data: line, borderColor: c.amber, borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0 });
+        document.getElementById('rxTLegend').innerHTML = sets.map(s => s.type === 'line' ? `<span><i style="border-color:${c.amber};border-top-style:dashed"></i>${esc(s.label)}</span>`
+            : `<span><i class="box" style="background:${s.backgroundColor};border-radius:50%;width:10px;height:10px"></i>${esc(s.label)}</span>`).join('');
+        kill('trials');
+        R.charts.trials = new Chart(document.getElementById('rxTrials').getContext('2d'), {
             type: 'scatter', data: { datasets: sets },
-            options: baseOpts({ scales: { x: { type: 'linear', min: 0, max: T.length + 1, grid: { color: '#1a1a1a' }, ticks: { color: '#808080' }, title: { display: true, text: 'trial number (chronological)', color: '#5d626c' } },
-                                          y: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080' }, title: { display: true, text: 'annualised Sharpe', color: '#5d626c' } } },
-                plugins: { legend: { labels: { color: '#e0e0e0', font: { size: 11 }, boxWidth: 10 } },
-                           tooltip: { callbacks: { label: c => { const t = c.raw.t; if (!t) return `N=${c.raw.x}: ${fSh(c.raw.y)}`;
-                               return [`${t.study} · ${t.trial_id}`, `Sharpe ${isNum(t.sharpe) ? fSh(t.sharpe) : 'no trades'} · ${t.verdict}`, `vintage: ${vint[t.study] || '—'}`]; } } } } })
-        });
-        document.getElementById('rsCN').value = T.length;
+            options: { responsive: true, maintainAspectRatio: false, animation: false,
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: t => { const r = t.raw.t; if (!r) return `${t.raw.x} trials: ${fSh(t.raw.y)}`;
+                    return [`${r.study}, ${r.trial_id}`, `Sharpe ${isNum(r.sharpe) ? fSh(r.sharpe) : 'no trades'}, ${(lab[r.verdict] || r.verdict).toLowerCase()}`]; } } } },
+                scales: { x: { type: 'linear', min: 0, max: T.length + 1, grid: { display: false }, border: { color: c.hard }, ticks: { color: c.faint, font: { family: c.mono, size: 11 } },
+                               title: { display: true, text: 'trial number, in the order run', color: c.faint } },
+                          y: { grid: { color: c.grid }, border: { display: false }, ticks: { color: c.faint, font: { family: c.mono, size: 11 } }, title: { display: true, text: 'Sharpe, a year', color: c.faint } } } } });
+        document.getElementById('rxTTable').innerHTML = `<table class="rx-table"><thead><tr><th>#</th><th>Study</th><th>Trial</th><th>Sharpe</th><th>Verdict</th></tr></thead><tbody>
+            ${T.map((t, i) => `<tr><td class="n">${i + 1}</td><td class="n">${esc(t.study)}</td><td>${esc(t.trial_id)}</td><td class="n">${isNum(t.sharpe) ? fSh(t.sharpe) : 'no trades'}</td><td>${esc(lab[t.verdict] || t.verdict)}</td></tr>`).join('')}</tbody></table>`;
+        document.getElementById('rsCN').value = R.trials.length;
         const calc = () => {
             const v = id => parseFloat(document.getElementById(id).value);
             const N = Math.max(1, Math.round(v('rsCN') || 1)), r = dsr(N, v('rsCS') || 0, v('rsCY') || 1, v('rsCK') || 0, isNum(v('rsCU')) ? v('rsCU') : 3);
             document.getElementById('rsCalcOut').innerHTML = `
-                <div class="rs-hl"><div class="rs-hl-v">${fSh(r.sr0Ann)}</div><div class="rs-hl-l">expected best Sharpe from ${N} noise trials</div></div>
-                <div class="rs-hl"><div class="rs-hl-v">${r.dsr.toFixed(3)}</div><div class="rs-hl-l">deflated Sharpe (bar: 0.95)</div></div>
-                <div class="rs-hl"><div class="rs-hl-v">${fPct(1 - r.dsr, 1)}</div><div class="rs-hl-l">probability this is luck</div></div>`;
+                <div><b>${fSh(r.sr0Ann)}</b><span>best Sharpe from ${N} noise trials</span></div>
+                <div><b>${r.dsr.toFixed(3)}</b><span>deflated Sharpe (we need 0.95)</span></div>
+                <div><b>${fPct(1 - r.dsr, 1)}</b><span>chance it's luck</span></div>`;
         };
         ['rsCN', 'rsCS', 'rsCY', 'rsCK', 'rsCU'].forEach(id => document.getElementById(id).addEventListener('input', calc));
         calc();
     }
 
-    // ── flagship robustness ──
-    function renderRobust() {
-        const F = R.cases.flagship; if (!F) return;
-        const mc = F.mc, mids = mc.counts.map((_, i) => (mc.edges[i] + mc.edges[i + 1]) / 2);
-        barChart('rsMC', 'mc', mids.map(m => m.toFixed(2)), [{ label: 'paths', data: mc.counts,
-            backgroundColor: mids.map(m => m < mc.p5 ? 'rgba(255,71,87,.6)' : 'rgba(0,212,170,.6)'), barPercentage: 1, categoryPercentage: 1 }], false, false);
-        document.getElementById('rsMCNote').textContent = `How to read this: red bars are the worst 5% of resampled histories. 5th percentile Sharpe ${fSh(mc.p5)}, median ${fSh(mc.p50)}; ${fPct(mc.p_le_0, 1)} of paths at or below zero.`;
-        const rs = F.rolling_sharpe;
-        killChart('roll');
-        R.charts.roll = new Chart(document.getElementById('rsRoll').getContext('2d'), { type: 'line',
-            data: { labels: rs.map(r => r[0]), datasets: [{ label: '1-year Sharpe', data: rs.map(r => r[1]), borderColor: '#9d7bff', borderWidth: 1.4, pointRadius: 0, fill: false }] },
-            options: baseOpts({ plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080', maxTicksLimit: 6, maxRotation: 0 } }, y: { grid: { color: '#1a1a1a' }, ticks: { color: '#808080' } } } }) });
-        const c = F.crisis;
-        barChart('rsCrisis', 'crisis', c.rows.map(r => r[0]), [
-            { label: c.columns[1], data: c.rows.map(r => r[1]), backgroundColor: 'rgba(0,212,170,.75)' },
-            { label: c.columns[2], data: c.rows.map(r => r[2]), backgroundColor: 'rgba(139,145,156,.6)' }], true, false);
-        const s = F.sensitivity;
-        barChart('rsSens', 'sens', s.rows.map(r => r[0]), [{ label: 'Sharpe', data: s.rows.map(r => r[1]), backgroundColor: 'rgba(0,168,255,.7)' }], false, true);
+    // ── methods + glossary ──
+    function methodsHTML() {
+        const M = R.methods.methods;
+        return `<section class="rx-sec" id="rxMethods"><h2 class="rx-h2">${esc(M.title)}</h2><p>${esc(M.intro)}</p>
+            <div class="rx-methods"><dl>${M.items.map(it => `<dt>${esc(it.name)}</dt><dd>${linkify(it.text)}</dd>`).join('')}
+                <dt>${esc(M.limitations.title)}</dt><dd><ul style="margin:0;padding-left:18px">${M.limitations.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></dd></dl>
+            <dl id="rxGloss" aria-label="Glossary">${R.methods.glossary.map(g => `<dt id="rx-gl-${esc(g.id)}" tabindex="-1">${esc(g.term)}</dt><dd>${esc(g.text)}</dd>`).join('')}</dl></div>
+            ${R.index.page.footer ? `<p class="rx-foot">${esc(R.index.page.footer)}</p>` : ''}</section>`;
+    }
+    function bindGl(a) {
+        a.addEventListener('click', e => { e.preventDefault(); const t = document.getElementById('rx-gl-' + a.dataset.gl); if (!t) return;
+            t.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' }); t.focus({ preventScroll: true }); });
     }
 
-    // ── entry point (lazy; called by switchMainTab) ──
-    window.loadResearchTab = function () {
-        if (!R.loaded) { R.loaded = true; R.loading = loadResearch(); }
-        return R.loading;
-    };
+    // ── page ──
+    function renderPage() {
+        const root = document.getElementById('rsRoot');
+        root.innerHTML = `${headHTML()}
+            <section class="rx-sec" aria-label="Strategy explorer">
+                <div class="rx-chips" id="rxChips" role="group" aria-label="Show a family of strategies"></div>
+                <div class="rx-explorer"><div class="rx-cards" id="rxCards"></div><div class="rx-stage" id="rxStage" aria-live="polite"></div></div>
+            </section>
+            ${ledgerHTML()}${overfitHTML()}${methodsHTML()}`;
+        renderChips(); renderCards(); renderStage(); renderLbar(); renderLedger(); renderTrials();
+        root.querySelectorAll('a.rx-gl').forEach(bindGl);
+        document.getElementById('rxStage').addEventListener('keydown', e => { if (e.key === 'Escape' && X.sel) closeDetail(); });
+        let t = null;
+        window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { if (document.getElementById('rxStage')) renderStage(); }, 200); });
+    }
+
+    window.loadResearchTab = function () { if (!R.loaded) { R.loaded = true; R.loading = loadResearch(); } return R.loading; };
     async function loadResearch() {
         try {
-            const [index, methods, trials] = await Promise.all([getJSON('index.json'), getJSON('methods.json'), getJSON('trials.json')]);
+            const [index, methods, trials, st] = await Promise.all([getJSON('index.json'), getJSON('methods.json'), getJSON('trials.json'), getJSON('strategies.json')]);
             R.index = index; R.methods = methods; R.trials = trials;
-            const strat = await getJSON('strategies.json');
-            ST.list = strat.strategies; ST.list.forEach(x => { ST.byId[x.id] = x; });
-            ST.rows = await getCSV(strat.curve);
-            await Promise.all(CASE_ORDER.map(k => getJSON('case_studies/' + k + '.json').then(c => { R.cases[k] = c; }).catch(() => null)));
+            X.cards = st.cards; X.groups = st.groups; X.bench = st.benchmarks; X.cards.forEach(s => { X.byId[s.id] = s; });
+            X.rows = await getCSV(st.curve);
             renderPage();
         } catch (e) {
             R.loaded = false;
-            document.getElementById('rsRoot').innerHTML = `<div class="rs-error">Could not load the research record (${esc(e.message)}).</div>`;
+            document.getElementById('rsRoot').innerHTML = `<div class="rx-error">Couldn't load the research record (${esc(e.message)}). Reload the page to try again.</div>`;
         }
     }
-
-    // Open one featured case study from elsewhere on the site (e.g. the Sticks TGA card).
+    // Open one strategy from elsewhere on the site (the Overview's Sticks TGA card asks for the S&P story).
     window.rsOpenCase = async function (k) {
         await window.loadResearchTab();
-        if (!R.cases[k]) return;
-        if (R.openCase !== k) openCase(k);
-        const el = document.getElementById('rsCasePanel');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const id = { sp_failure: 'accounting_fix', replication: 'graph_paper', flagship: 'deployed', lstm: 'lstm' }[k] || k;
+        if (!X.byId[id]) return;
+        X.fam = 'all'; renderChips(); renderCards();
+        X.sel = null; openDetail(id, true);
     };
 })();
 </script>
