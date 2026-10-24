@@ -1,15 +1,15 @@
 {
   "as_of": "2026-10-19",
   "cash": 12374.796869,
-  "equity_estimate": 10354.476812237304,
-  "last_run_id": "2026-10-22_sticks_live",
+  "equity_estimate": 10412.33682047705,
+  "last_run_id": "2026-10-23_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
       "avg_cost": 542.829775,
       "entry_date": "2026-10-02",
-      "last_price": 408.940002,
+      "last_price": 377.23999,
       "shares": -1,
       "strategy": "sticks",
       "ticker": "AMAT"
@@ -17,7 +17,7 @@
     {
       "avg_cost": 349.755,
       "entry_date": "2026-10-02",
-      "last_price": 260.809998,
+      "last_price": 230.100006,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "LRCX"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 165.693931,
       "entry_date": "2026-10-08",
-      "last_price": 156.139999,
+      "last_price": 140.160004,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "VST"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 194.733586,
       "entry_date": "2026-10-12",
-      "last_price": 194.380005,
+      "last_price": 193.800003,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "PTC"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 217.642248,
       "entry_date": "2026-10-14",
-      "last_price": 245.809998,
+      "last_price": 200.100006,
       "shares": 2,
       "strategy": "sticks",
       "ticker": "MRNA"
@@ -57,7 +57,7 @@
     {
       "avg_cost": 57.695357,
       "entry_date": "2026-10-19",
-      "last_price": 58.169998,
+      "last_price": 56.689999,
       "shares": 18,
       "strategy": "sticks",
       "ticker": "HPE"

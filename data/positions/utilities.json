@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-10-22",
+  "as_of": "2026-10-23",
   "cash": 10149.35995,
   "equity_estimate": 10149.35995,
-  "last_run_id": "2026-10-22_utilities_catchup",
+  "last_run_id": "2026-10-23_utilities_catchup",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -20,7 +20,7 @@
         21,
         22
       ],
-      "entry_date": "2026-10-22",
+      "entry_date": "2026-10-23",
       "shares": 1,
       "strategy": "utilities",
       "ticker": "ERCOT_BATTERY_1MW"
