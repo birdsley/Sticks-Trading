@@ -1,8 +1,8 @@
 {
   "as_of": "2026-10-20",
   "cash": 559.047049,
-  "equity_estimate": 10712.01699456427,
-  "last_run_id": "2026-10-23_markowitz_live",
+  "equity_estimate": 10701.287019817566,
+  "last_run_id": "2026-10-26_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -65,7 +65,7 @@
     {
       "avg_cost": 88.639504,
       "entry_date": "2026-06-03",
-      "last_price": 103.440002,
+      "last_price": 101.050003,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "CL=F"
@@ -201,7 +201,7 @@
     {
       "avg_cost": 3.066052,
       "entry_date": "2026-06-03",
-      "last_price": 3.047,
+      "last_price": 3.038,
       "shares": 130,
       "strategy": "markowitz",
       "ticker": "NG=F"
