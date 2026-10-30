@@ -1,8 +1,8 @@
 {
   "as_of": "2026-10-26",
   "cash": 12910.464791,
-  "equity_estimate": 10341.534809920899,
-  "last_run_id": "2026-10-28_sticks_live",
+  "equity_estimate": 10372.684788558594,
+  "last_run_id": "2026-10-29_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -17,7 +17,7 @@
     {
       "avg_cost": 165.693931,
       "entry_date": "2026-10-08",
-      "last_price": 146.660004,
+      "last_price": 142.720001,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "VST"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 194.733586,
       "entry_date": "2026-10-12",
-      "last_price": 194.619995,
+      "last_price": 194.970001,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "PTC"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 116.428445,
       "entry_date": "2026-10-26",
-      "last_price": 118.330002,
+      "last_price": 118.68,
       "shares": -8,
       "strategy": "sticks",
       "ticker": "HAS"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 189.062244,
       "entry_date": "2026-10-26",
-      "last_price": 191.990005,
+      "last_price": 195.190002,
       "shares": 5,
       "strategy": "sticks",
       "ticker": "HWM"
