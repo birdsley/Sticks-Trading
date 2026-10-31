@@ -1349,9 +1349,9 @@
             <div class="strat-overview-card" data-strat="carry21" onclick="selectOverviewStrat('carry21')">
                 <div class="strat-card-header">
                     <span class="strategy-section-badge carry21">Trend + Carry 2.1</span>
-                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span class="c21-amber">Incubating · track backfilled from 2026-06-02 · forward record from 2026-10-30</span></span>
+                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; Track since 2026-06-02 &nbsp;·&nbsp; <span class="c21-amber">backfilled to 2026-10-29, live from 2026-10-30</span></span>
                 </div>
-                <div class="strat-card-desc">The same cross-asset book as Trend + Carry 1.3, with one change to how positions are sized. 1.3 sizes each ETF by its trailing 60-day volatility, so a position stays large until a shock has already shown up in two months of returns. 2.1 sizes each ETF by a forecast of its volatility over the next 21 trading days. The forecaster is a gradient-boosted tree model (XGBoost) trained on all 23 ETFs together since 2006. It reads recent realised and intraday-range volatility, downside moves, overnight gaps and volume, the VIX term structure and VIX futures, each ETF's own options-implied volatility where CBOE publishes one (9 of the 23), and the number of days to the next Fed decision. Everything else is unchanged from 1.3: the trend signals, the yield-curve carry tilt, the XGBoost meta-model, the regime overlay and the 8% volatility target. The forecaster beats the 60-day window on held-back data. The gain in the book is small and not yet confirmed, so 2.1 is incubating and is kept out of the portfolio total.</div>
+                <div class="strat-card-desc">The same cross-asset book as Trend + Carry 1.3, with one change to how positions are sized. 1.3 sizes each ETF by its trailing 60-day volatility, so a position stays large until a shock has already shown up in two months of returns. 2.1 sizes each ETF by a forecast of its volatility over the next 21 trading days. The forecaster is a gradient-boosted tree model (XGBoost) trained on all 23 ETFs together since 2006. It reads recent realised and intraday-range volatility, downside moves, overnight gaps and volume, the VIX term structure and VIX futures, each ETF's own options-implied volatility where CBOE publishes one (9 of the 23), and the number of days to the next Fed decision. Everything else is unchanged from 1.3: the trend signals, the yield-curve carry tilt, the XGBoost meta-model, the regime overlay and the 8% volatility target. The forecaster beats the 60-day window on held-back data; the gain in the book is small in the backtest, and the paper track shows how the two compare from here.</div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">23-ETF Cross-Asset</span>
                     <span class="strat-pill">Volatility-forecast sizing</span>
@@ -1488,7 +1488,7 @@
             <span class="pg-mono">$10,000 PER STRATEGY · NEXT-OPEN FILLS · 7 BPS</span>
         </div>
         <h2 class="pg-h1">How the live books are doing</h2>
-        <p class="pg-lede">Each strategy started with $10,000 on 2026-06-02 and trades on a simulated broker: orders are decided at the close and filled at the next day’s open with 7 bps of slippage. Trend + Carry 1.3’s book changed in v44, so its forward record restarts with the 2026-10-08 session. Trend + Carry 2.1 is backfilled to 2026-06-02 and records forward from 2026-10-30; it is not counted in the portfolio total.</p>
+        <p class="pg-lede">Each strategy started with $10,000 on 2026-06-02 and trades on a simulated broker: orders are decided at the close and filled at the next day’s open with 7 bps of slippage. Trend + Carry 1.3’s book changed in v44, so its forward record restarts with the 2026-10-08 session. Trend + Carry 2.1 starts on the same day as 1.3: its track is backfilled to 2026-10-29 and live from 2026-10-30. It has no order log, since its value is tracked from the book like 1.3’s.</p>
     </header>
 
     <!-- Strategy filter pills -->
@@ -1562,9 +1562,10 @@
             <div class="total-equity-label">TOTAL EQUITY</div>
             <div class="total-equity-value" id="totalEquityValue">—</div>
             <div class="alloc-bar-track" id="allocBar">
-                <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:33.34%"></div>
-                <div class="alloc-bar-segment carry"     id="barCarry"     style="width:33.33%"></div>
-                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:33.33%"></div>
+                <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:25%"></div>
+                <div class="alloc-bar-segment carry"     id="barCarry"     style="width:25%"></div>
+                <div class="alloc-bar-segment carry21"   id="barCarry21"   style="width:25%"></div>
+                <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:25%"></div>
             </div>
             <div id="strategyRows"></div>
             <div class="run-status-row" id="runStatusRow">
@@ -1683,6 +1684,7 @@
                         <th>Sticks Equity</th>
                         <th>Markowitz Equity</th>
                         <th>Trend + Carry 1.3 Equity</th>
+                        <th>Trend + Carry 2.1 Equity</th>
                         <th>Total Equity</th>
                         <th>Orders</th>
                         <th>Fills</th>
@@ -1734,7 +1736,7 @@
 
             <div class="strategy-section-header" id="carry21Section">
                 <span class="strategy-section-badge carry21">Trend + Carry 2.1</span>
-                <span style="font-size:13px;color:#606060;">1.3 with positions sized by a volatility forecast. Incubating, not in the portfolio total. Track backfilled from 2026-06-02 with out-of-sample forecasts; forward record from 2026-10-30</span>
+                <span style="font-size:13px;color:#606060;">1.3 with positions sized by a volatility forecast (track since 2026-06-02, backfilled with out-of-sample forecasts to 2026-10-29, live from 2026-10-30)</span>
             </div>
             <div class="analytics-cards" id="carry21AnalyticsCards"></div>
 
@@ -2294,9 +2296,8 @@
 //  STATE
 // ══════════════════════════════════════════════════════════════
 const STRATEGIES = ['sticks','carry','carry21','markowitz'];   // DRL Vol retired 2026-10-06
-// Capital pools summed in portfolio totals. carry21 (Trend + Carry 2.1) is a research variant of carry with a
-// backfilled track, shown on its own everywhere but never added to the totals.
-const TOTAL_STRATEGIES = ['sticks','carry','markowitz'];
+// Capital pools summed in portfolio totals: all four $10,000 books (carry21's track is backfilled to 2026-06-02).
+const TOTAL_STRATEGIES = ['sticks','carry','carry21','markowitz'];
 const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', carry:'Trend + Carry 1.3', carry21:'Trend + Carry 2.1' };
 // Series colours validated for colour-blind separation on the dark surface (dataviz validator, worst ΔE 11.5)
 const COLORS     = { sticks:'#1aa98d', markowitz:'#2a5ab0', carry:'#9a80e4', carry21:'#c8742a', spy:'#606060' };
@@ -2917,7 +2918,7 @@ function updateAllocationPanel() {
                 <span class="strategy-dot ${s}"></span>
                 <div>
                     <div class="strategy-name">${LABELS[s]}</div>
-                    <div class="strategy-sub">$${(equities[s]/total*100).toFixed(1)}% of portfolio</div>
+                    <div class="strategy-sub">${(equities[s]/total*100).toFixed(1)}% of portfolio</div>
                 </div>
             </div>
             <div style="text-align:right;">
@@ -3340,16 +3341,19 @@ function updateRunHistoryTable() {
     const show = showAllRuns ? history : history.slice(0, 10);
 
     if (show.length === 0) {
-        body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#606060;padding:30px;">No run history yet. The first trading day is Monday.</td></tr>';
+        body.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#606060;padding:30px;">No run history yet. The first trading day is Monday.</td></tr>';
         btn.classList.remove('visible');
         return;
     }
 
     body.innerHTML = show.map(r => {
-        const eq     = r.equity || {};
-        const total  = r.total_equity ?? Object.values(eq).reduce((a,b)=>a+b,0);
+        const eq     = Object.assign({}, r.equity || {});
+        // carry21 is book-tracked (no daily run entry): take its value for the run date from its equity track
+        const c21    = (state.equity.carry21 || []).find(x => x.date === r.date);
+        if (c21 && eq.carry21 == null) eq.carry21 = c21.equity;
+        const total  = (r.total_equity ?? Object.entries(eq).filter(([k]) => k !== 'carry21').reduce((a,[,b])=>a+b,0)) + (eq.carry21 || 0);
         // Flag days where no actual trading happened (all equity == start capital)
-        const isFlat = total > 0 && Math.abs(total - START_EQUITY * 3) < 1 &&
+        const isFlat = total > 0 && Math.abs(total - START_EQUITY * TOTAL_STRATEGIES.length) < 1 &&
                        (r.total_fills === 0 || r.total_fills == null);
         const badge  = isFlat
             ? `<span class="status-badge skipped">no trades</span>`
@@ -3361,6 +3365,7 @@ function updateRunHistoryTable() {
             <td>${fmtEq(eq.sticks)}</td>
             <td>${fmtEq(eq.markowitz)}</td>
             <td>${fmtEq(eq.carry)}</td>
+            <td>${fmtEq(eq.carry21)}</td>
             <td style="color:#00d4aa;font-weight:600;">${total ? fmtDollars(total) : '—'}</td>
             <td>${r.total_orders ?? '—'}</td>
             <td>${r.total_fills  ?? '—'}</td>
@@ -7580,7 +7585,7 @@ function renderUtilTables(summary) {
 
 <script>
 /* Trend + Carry 2.1: forecaster scores, backtest replay and forecast-vs-realised chart.
-   Derived series only (data/research/v52f/); never part of portfolio totals. */
+   Derived series only (data/research/v52f/). */
 (function () {
   const C21 = '#c8742a', C13 = '#9a80e4';
   const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#626873';
@@ -7632,8 +7637,8 @@ function renderUtilTables(summary) {
   function facts() {
     const box = document.getElementById('c21Facts'); if (!box || !bt) return; const st = bt.status; box.textContent = '';
     [['Forecast skill on held-back data', 'p = ' + st.forecast_vault_p, 'Better than the 60-day window on QLIKE, Nov 2023 to Sep 2026'],
-     ['Book gain, P(ΔSharpe > 0)', st.book_p_dsharpe_gt0_dev.toFixed(2) + ' / ' + st.book_p_dsharpe_gt0_vault.toFixed(2), 'Development / held-back data. Promotion needs 0.90 at matched 8% volatility'],
-     ['First review', st.review_date, 'After 63 trading days of forward record']].forEach(([k, v, x]) => {
+     ['Book gain, P(ΔSharpe > 0)', st.book_p_dsharpe_gt0_dev.toFixed(2) + ' / ' + st.book_p_dsharpe_gt0_vault.toFixed(2), 'Chance 2.1 beats 1.3 on Sharpe at matched 8% volatility, development / held-back data'],
+     ['Live since', st.forward_start, 'Frozen model; forecasts recorded each morning before the open']].forEach(([k, v, x]) => {
       const d = el('div', 'c21-fact'); d.append(el('span', 'k', k), el('span', 'v', v), el('span', 's', x)); box.appendChild(d); });
   }
   function live() {
