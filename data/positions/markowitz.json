@@ -1,15 +1,15 @@
 {
   "as_of": "2026-10-27",
   "cash": 745.820223,
-  "equity_estimate": 10830.155243198822,
-  "last_run_id": "2026-10-29_markowitz_live",
+  "equity_estimate": 10867.270190041016,
+  "last_run_id": "2026-10-30_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
       "avg_cost": 82.434833,
       "entry_date": "2026-06-03",
-      "last_price": 77.230003,
+      "last_price": 76.199997,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "ADM"
@@ -17,7 +17,7 @@
     {
       "avg_cost": 14.526058,
       "entry_date": "2026-06-03",
-      "last_price": 14.98,
+      "last_price": 15.05,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "AES"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 38.765586,
       "entry_date": "2026-06-03",
-      "last_price": 51.110001,
+      "last_price": 51.509998,
       "shares": 13,
       "strategy": "markowitz",
       "ticker": "APA"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 74.12504,
       "entry_date": "2026-06-03",
-      "last_price": 80.959999,
+      "last_price": 82.080002,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "APH"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 29.903026,
       "entry_date": "2026-06-03",
-      "last_price": 31.73,
+      "last_price": 32.34,
       "shares": 5,
       "strategy": "markowitz",
       "ticker": "BEN"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 129.236114,
       "entry_date": "2026-06-03",
-      "last_price": 100.800003,
+      "last_price": 96.019997,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "BG"
@@ -57,7 +57,7 @@
     {
       "avg_cost": 64.029401,
       "entry_date": "2026-06-03",
-      "last_price": 54.66,
+      "last_price": 54.509998,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "BKR"
@@ -65,7 +65,7 @@
     {
       "avg_cost": 88.639504,
       "entry_date": "2026-06-03",
-      "last_price": 102.699997,
+      "last_price": 102.949997,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "CL=F"
@@ -73,7 +73,7 @@
     {
       "avg_cost": 46.00632,
       "entry_date": "2026-06-03",
-      "last_price": 51.98,
+      "last_price": 52.240002,
       "shares": 2,
       "strategy": "markowitz",
       "ticker": "CSX"
@@ -81,7 +81,7 @@
     {
       "avg_cost": 79.336186,
       "entry_date": "2026-06-03",
-      "last_price": 80.349998,
+      "last_price": 81.639999,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "DAL"
@@ -89,7 +89,7 @@
     {
       "avg_cost": 31.916486,
       "entry_date": "2026-06-03",
-      "last_price": 34.130001,
+      "last_price": 33.619999,
       "shares": 7,
       "strategy": "markowitz",
       "ticker": "DOW"
@@ -97,7 +97,7 @@
     {
       "avg_cost": 46.808337,
       "entry_date": "2026-06-03",
-      "last_price": 51.27,
+      "last_price": 51.169998,
       "shares": 6,
       "strategy": "markowitz",
       "ticker": "DVN"
@@ -105,7 +105,7 @@
     {
       "avg_cost": 15.849551,
       "entry_date": "2026-06-03",
-      "last_price": 11.95,
+      "last_price": 12.36,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "F"
@@ -113,7 +113,7 @@
     {
       "avg_cost": 71.372435,
       "entry_date": "2026-06-03",
-      "last_price": 66.599998,
+      "last_price": 66.139999,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "FCX"
@@ -121,7 +121,7 @@
     {
       "avg_cost": 39.962616,
       "entry_date": "2026-06-03",
-      "last_price": 35.759998,
+      "last_price": 35.900002,
       "shares": 5,
       "strategy": "markowitz",
       "ticker": "HAL"
@@ -129,7 +129,7 @@
     {
       "avg_cost": 55.402768,
       "entry_date": "2026-06-03",
-      "last_price": 60.330002,
+      "last_price": 58.869999,
       "shares": 13,
       "strategy": "markowitz",
       "ticker": "HPE"
@@ -137,7 +137,7 @@
     {
       "avg_cost": 22.612275,
       "entry_date": "2026-06-03",
-      "last_price": 25.27,
+      "last_price": 25.700001,
       "shares": 14,
       "strategy": "markowitz",
       "ticker": "HST"
@@ -145,7 +145,7 @@
     {
       "avg_cost": 106.799907,
       "entry_date": "2026-06-03",
-      "last_price": 95.529999,
+      "last_price": 92.07,
       "shares": 5,
       "strategy": "markowitz",
       "ticker": "INTC"
@@ -153,7 +153,7 @@
     {
       "avg_cost": 26.869209,
       "entry_date": "2026-06-03",
-      "last_price": 28.68,
+      "last_price": 29.02,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "IVZ"
@@ -161,7 +161,7 @@
     {
       "avg_cost": 20.835171,
       "entry_date": "2026-06-03",
-      "last_price": 21.200001,
+      "last_price": 21.49,
       "shares": 6,
       "strategy": "markowitz",
       "ticker": "KEY"
@@ -169,7 +169,7 @@
     {
       "avg_cost": 41.892252,
       "entry_date": "2026-06-03",
-      "last_price": 43.470001,
+      "last_price": 43.68,
       "shares": 7,
       "strategy": "markowitz",
       "ticker": "LUV"
@@ -177,7 +177,7 @@
     {
       "avg_cost": 48.113658,
       "entry_date": "2026-06-03",
-      "last_price": 27.27,
+      "last_price": 28.83,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "MGM"
@@ -185,7 +185,7 @@
     {
       "avg_cost": 46.422473,
       "entry_date": "2026-06-03",
-      "last_price": 45.66,
+      "last_price": 46.349998,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "MNST"
@@ -193,7 +193,7 @@
     {
       "avg_cost": 53.718148,
       "entry_date": "2026-06-03",
-      "last_price": 214.164993,
+      "last_price": 222.759995,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "MRNA"
@@ -201,7 +201,7 @@
     {
       "avg_cost": 3.066052,
       "entry_date": "2026-06-03",
-      "last_price": 2.898,
+      "last_price": 2.883,
       "shares": 130,
       "strategy": "markowitz",
       "ticker": "NG=F"
@@ -209,7 +209,7 @@
     {
       "avg_cost": 59.821228,
       "entry_date": "2026-06-03",
-      "last_price": 62.860001,
+      "last_price": 63.009998,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "OXY"
@@ -217,7 +217,7 @@
     {
       "avg_cost": 145.671896,
       "entry_date": "2026-06-03",
-      "last_price": 148.929993,
+      "last_price": 152.5,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "PODD"
@@ -225,7 +225,7 @@
     {
       "avg_cost": 27.530242,
       "entry_date": "2026-06-03",
-      "last_price": 28.389999,
+      "last_price": 28.879999,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "RF"
@@ -233,7 +233,7 @@
     {
       "avg_cost": 57.077311,
       "entry_date": "2026-06-03",
-      "last_price": 53.75,
+      "last_price": 53.810001,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "SLB"
@@ -241,7 +241,7 @@
     {
       "avg_cost": 49.50463,
       "entry_date": "2026-06-03",
-      "last_price": 35.810001,
+      "last_price": 34.43,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "SMCI"
@@ -249,7 +249,7 @@
     {
       "avg_cost": 16.294886,
       "entry_date": "2026-06-03",
-      "last_price": 18.77,
+      "last_price": 19.200001,
       "shares": 35,
       "strategy": "markowitz",
       "ticker": "VTRS"
@@ -257,7 +257,7 @@
     {
       "avg_cost": 69.371659,
       "entry_date": "2026-06-09",
-      "last_price": 58.830002,
+      "last_price": 59.380001,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "EIX"
@@ -265,7 +265,7 @@
     {
       "avg_cost": 84.434576,
       "entry_date": "2026-06-09",
-      "last_price": 82.480003,
+      "last_price": 85.720001,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "GM"
@@ -273,7 +273,7 @@
     {
       "avg_cost": 30.372284,
       "entry_date": "2026-06-16",
-      "last_price": 28.059999,
+      "last_price": 28.84,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "CCL"
@@ -281,7 +281,7 @@
     {
       "avg_cost": 66.59452,
       "entry_date": "2026-06-16",
-      "last_price": 65.269997,
+      "last_price": 65.760002,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "CFG"
@@ -289,7 +289,7 @@
     {
       "avg_cost": 20.179643,
       "entry_date": "2026-06-16",
-      "last_price": 18.549999,
+      "last_price": 18.940001,
       "shares": 5,
       "strategy": "markowitz",
       "ticker": "DOC"
@@ -297,7 +297,7 @@
     {
       "avg_cost": 47.007194,
       "entry_date": "2026-06-16",
-      "last_price": 46.400002,
+      "last_price": 46.830002,
       "shares": 2,
       "strategy": "markowitz",
       "ticker": "FE"
@@ -305,7 +305,7 @@
     {
       "avg_cost": 16.505384,
       "entry_date": "2026-06-16",
-      "last_price": 13.15,
+      "last_price": 13.23,
       "shares": 7,
       "strategy": "markowitz",
       "ticker": "PCG"
@@ -313,7 +313,7 @@
     {
       "avg_cost": 67.890823,
       "entry_date": "2026-07-07",
-      "last_price": 67.050003,
+      "last_price": 68.620003,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "CNC"
@@ -321,7 +321,7 @@
     {
       "avg_cost": 91.722453,
       "entry_date": "2026-07-07",
-      "last_price": 81.07,
+      "last_price": 83.709999,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "VTR"
@@ -329,7 +329,7 @@
     {
       "avg_cost": 83.799934,
       "entry_date": "2026-07-21",
-      "last_price": 96.959999,
+      "last_price": 100.389999,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "BBY"
@@ -345,7 +345,7 @@
     {
       "avg_cost": 26.316921,
       "entry_date": "2026-07-28",
-      "last_price": 23.4,
+      "last_price": 24.42,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "KIM"
@@ -353,7 +353,7 @@
     {
       "avg_cost": 47.152068,
       "entry_date": "2026-07-28",
-      "last_price": 43.18,
+      "last_price": 43.66,
       "shares": 2,
       "strategy": "markowitz",
       "ticker": "VZ"
@@ -361,7 +361,7 @@
     {
       "avg_cost": 27.748713,
       "entry_date": "2026-08-04",
-      "last_price": 25.459999,
+      "last_price": 23.5,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "BAX"
@@ -369,7 +369,7 @@
     {
       "avg_cost": 64.2698,
       "entry_date": "2026-08-04",
-      "last_price": 60.57,
+      "last_price": 61.389999,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "BMY"
@@ -377,7 +377,7 @@
     {
       "avg_cost": 61.399986,
       "entry_date": "2026-08-04",
-      "last_price": 67.129997,
+      "last_price": 65.370003,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "LYB"
@@ -385,7 +385,7 @@
     {
       "avg_cost": 29.434738,
       "entry_date": "2026-08-11",
-      "last_price": 32.450001,
+      "last_price": 31.83,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "HPQ"
@@ -393,7 +393,7 @@
     {
       "avg_cost": 32.772925,
       "entry_date": "2026-08-18",
-      "last_price": 33.560001,
+      "last_price": 33.970001,
       "shares": 5,
       "strategy": "markowitz",
       "ticker": "KMI"
@@ -401,7 +401,7 @@
     {
       "avg_cost": 18.789113,
       "entry_date": "2026-08-18",
-      "last_price": 19.33,
+      "last_price": 19.559999,
       "shares": 11,
       "strategy": "markowitz",
       "ticker": "KVUE"
@@ -409,7 +409,7 @@
     {
       "avg_cost": 126.52851,
       "entry_date": "2026-08-25",
-      "last_price": 119.919998,
+      "last_price": 118.089996,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "CF"
@@ -417,7 +417,7 @@
     {
       "avg_cost": 27.939544,
       "entry_date": "2026-08-25",
-      "last_price": 29.450001,
+      "last_price": 29.950001,
       "shares": 3,
       "strategy": "markowitz",
       "ticker": "PFE"
@@ -425,7 +425,7 @@
     {
       "avg_cost": 134.103802,
       "entry_date": "2026-09-01",
-      "last_price": 138.389999,
+      "last_price": 141.389999,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "TJX"
@@ -433,7 +433,7 @@
     {
       "avg_cost": 109.506601,
       "entry_date": "2026-09-15",
-      "last_price": 96.970001,
+      "last_price": 97.540001,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "NRG"
@@ -441,7 +441,7 @@
     {
       "avg_cost": 117.952512,
       "entry_date": "2026-09-22",
-      "last_price": 98.099998,
+      "last_price": 99.379997,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "AKAM"
@@ -449,7 +449,7 @@
     {
       "avg_cost": 86.960832,
       "entry_date": "2026-10-06",
-      "last_price": 75.629997,
+      "last_price": 75.239998,
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "ON"
