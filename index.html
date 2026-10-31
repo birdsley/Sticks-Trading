@@ -6766,6 +6766,24 @@ function renderUtilTables(summary) {
     #research-tab .rx-hide-sm { display:none; }
 }
 @media (prefers-reduced-motion: reduce) { #research-tab * { scroll-behavior:auto !important; } }
+
+/* strategy card header: badge stays on one line, gap before the meta text (2026-10-31) */
+.strat-overview-card .strat-card-header {
+    justify-content: flex-start !important;
+    align-items: baseline !important;
+    flex-wrap: wrap !important;
+    gap: 6px 14px !important;
+}
+.strat-overview-card .strat-card-header .strategy-section-badge {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    line-height: 1.4 !important;
+}
+.strat-overview-card .strat-card-header .strat-card-freq {
+    flex: 1 1 240px !important;
+    min-width: 0 !important;
+    line-height: 1.6 !important;
+}
 </style>
 <!-- RESEARCH-TAB:END style -->
 
