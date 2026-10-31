@@ -1306,10 +1306,11 @@
 
         <!-- Left: strategy cards -->
         <div>
-            <div class="overview-section-label">Three Strategies</div>
+            <div class="overview-section-label">Four Strategies</div>
 
             <div class="overview-strat-tabs">
-                <button class="ostab active" data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button>
+                <button class="ostab active" data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry 1.3</button>
+                <button class="ostab"        data-strat="carry21"   onclick="selectOverviewStrat('carry21')">Trend + Carry 2.1</button>
                 <button class="ostab"        data-strat="tga"       onclick="selectOverviewStrat('tga')">Sticks TGA</button>
                 <button class="ostab"        data-strat="markowitz" onclick="selectOverviewStrat('markowitz')">Markowitz</button>
             </div>
@@ -1331,7 +1332,7 @@
 
             <div class="strat-overview-card active-carry shown" data-strat="carry" onclick="selectOverviewStrat('carry')">
                 <div class="strat-card-header">
-                    <span class="strategy-section-badge carry">Trend + Carry</span>
+                    <span class="strategy-section-badge carry">Trend + Carry 1.3</span>
                     <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span style="color:#9d7bff;">Track since 2026-06-02 · forward record from 2026-10-08</span></span>
                 </div>
                 <div class="strat-card-desc">A diversified cross-asset book on 23 liquid ETFs spanning equity indices, Treasuries, credit, commodities and FX. Two complementary sleeves are risk-parity blended: a time-series momentum (trend) sleeve that goes long assets in positive trends and short those in negative ones, sized by how statistically strong each trend is (the Newey-West t-statistic of returns over 3, 6 and 12 months, capped, following Baltas &amp; Kosowski) rather than by its sign alone, and a long-only carry/defensive sleeve (Treasuries, credit, TIPS, gold, REITs) tilted by the Treasury yield-curve slope (10y−3m), damping duration when the curve inverts. On top, a gradient-boosted (XGBoost) meta-model sizes or vetoes each trend bet, and a regime overlay trims exposure when markets turn risk-off, which roughly halves drawdowns. The whole book is held to a steady volatility target. The book loses little in crisis windows (worst −6.4%, the 2020 COVID crash) and keeps a low correlation to the S&P.</div>
@@ -1341,6 +1342,39 @@
                     <span class="strat-pill">Backtest Sharpe +1.24 · 2007–2026 · 8% vol</span>
                     <span class="strat-pill">Backtest 2007–2026: corr to S&amp;P +0.17 · MaxDD −12.5%</span>
                     <span class="strat-pill" id="carryLiveCorr" style="display:none;"></span>
+                </div>
+                <div class="strat-active-indicator"></div>
+            </div>
+
+            <div class="strat-overview-card" data-strat="carry21" onclick="selectOverviewStrat('carry21')">
+                <div class="strat-card-header">
+                    <span class="strategy-section-badge carry21">Trend + Carry 2.1</span>
+                    <span class="strat-card-freq">Monthly &nbsp;·&nbsp; Cross-Asset &nbsp;·&nbsp; <span class="c21-amber">Incubating · track backfilled from 2026-06-02 · forward record from 2026-10-30</span></span>
+                </div>
+                <div class="strat-card-desc">The same cross-asset book as Trend + Carry 1.3, with one change to how positions are sized. 1.3 sizes each ETF by its trailing 60-day volatility, so a position stays large until a shock has already shown up in two months of returns. 2.1 sizes each ETF by a forecast of its volatility over the next 21 trading days. The forecaster is a gradient-boosted tree model (XGBoost) trained on all 23 ETFs together since 2006. It reads recent realised and intraday-range volatility, downside moves, overnight gaps and volume, the VIX term structure and VIX futures, each ETF's own options-implied volatility where CBOE publishes one (9 of the 23), and the number of days to the next Fed decision. Everything else is unchanged from 1.3: the trend signals, the yield-curve carry tilt, the XGBoost meta-model, the regime overlay and the 8% volatility target. The forecaster beats the 60-day window on held-back data. The gain in the book is small and not yet confirmed, so 2.1 is incubating and is kept out of the portfolio total.</div>
+                <div class="strat-card-pills">
+                    <span class="strat-pill">23-ETF Cross-Asset</span>
+                    <span class="strat-pill">Volatility-forecast sizing</span>
+                    <span class="strat-pill">Backtest Sharpe 1.10 vs 1.06 for 1.3 · 2012–2026</span>
+                    <span class="strat-pill">Max drawdown −10.7% vs −12.5% · 2012–2026</span>
+                </div>
+                <div class="c21" onclick="event.stopPropagation()">
+                    <h4 class="c21-h">How the forecaster scores</h4>
+                    <div class="c21-seg" role="group" aria-label="Scoring window">
+                        <button type="button" class="c21-segb active" data-win="held_back" aria-pressed="true">Held-back data, 2023–2026</button>
+                        <button type="button" class="c21-segb" data-win="development" aria-pressed="false">Development, 2012–2023</button>
+                    </div>
+                    <div class="c21-tablewrap"><table class="c21-table" id="c21Acc">
+                        <thead><tr><th scope="col">Volatility input</th><th scope="col">QLIKE</th><th scope="col">RMSE</th><th scope="col">MAE</th><th scope="col">MAPE</th><th scope="col">R²</th><th scope="col">Bias</th></tr></thead>
+                        <tbody></tbody>
+                    </table></div>
+                    <p class="c21-note">Out-of-sample forecasts of each ETF's volatility over the next 21 trading days, scored against what followed. QLIKE is the standard loss for volatility forecasts and the one used to select the model; lower is better. RMSE, MAE and bias are in annualised volatility points, MAPE is the mean absolute percentage error, and R² is on log volatility. The best value in each column is marked.</p>
+                    <div class="c21-facts" id="c21Facts"></div>
+                    <p class="c21-live" id="c21Live"></p>
+                    <h4 class="c21-h">Backtest replay, 2012–2026</h4>
+                    <div class="c21-keys"><span><i class="c21-k" style="border-color:#c8742a"></i>2.1 <b id="c21End21"></b></span><span><i class="c21-k" style="border-color:#9a80e4"></i>1.3 <b id="c21End13"></b></span><span class="c21-mut">Growth of 100, weekly</span></div>
+                    <div class="c21-chart"><canvas id="c21Backtest" aria-label="Backtest replay, growth of 100, Trend + Carry 2.1 and 1.3"></canvas></div>
+                    <p class="c21-note">The paper track from 2026-06-02 to 2026-10-29 is a backfill with forecasts from a model trained only through 2023-09; from 2026-10-30 the frozen model's forecasts are recorded each morning before the open. 1.3's track was recorded day by day, while 2.1's backfill is replayed on today's prices; the same replay of 1.3 differs from its recorded track by at most $42.</p>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1372,6 +1406,15 @@
                     <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="TGA Network"></iframe>
                     <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
                     <iframe id="demo-carry"      src="demos/carry.html"               style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="Trend + Carry Cross-Asset Engine"></iframe>
+                    <div id="demo-carry21" class="c21-canvas" style="display:none;">
+                        <div class="c21-cv-top">
+                            <label class="c21-cv-label" for="c21Etf">ETF</label>
+                            <select id="c21Etf" class="c21-select"></select>
+                            <div class="c21-keys"><span><i class="c21-k" style="border-color:#c8742a"></i>2.1 forecast</span><span><i class="c21-k" style="border-color:#9a80e4"></i>60-day window (1.3)</span><span><i class="c21-k c21-k-real"></i>What happened</span></div>
+                        </div>
+                        <div class="c21-cv-chart"><canvas id="c21Forecast" aria-label="Forecast and realised volatility for the selected ETF"></canvas></div>
+                        <p class="c21-cv-cap">Weekly, out of sample. What happened is the ETF's volatility over the 21 trading days after each date, annualised. A good forecast rises before the spike; the 60-day window rises after it.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1445,7 +1488,7 @@
             <span class="pg-mono">$10,000 PER STRATEGY · NEXT-OPEN FILLS · 7 BPS</span>
         </div>
         <h2 class="pg-h1">How the live books are doing</h2>
-        <p class="pg-lede">Each strategy started with $10,000 on 2026-06-02 and trades on a simulated broker: orders are decided at the close and filled at the next day’s open with 7 bps of slippage. Trend + Carry’s book changed in v44, so its forward record restarts with the 2026-10-08 session.</p>
+        <p class="pg-lede">Each strategy started with $10,000 on 2026-06-02 and trades on a simulated broker: orders are decided at the close and filled at the next day’s open with 7 bps of slippage. Trend + Carry 1.3’s book changed in v44, so its forward record restarts with the 2026-10-08 session. Trend + Carry 2.1 is backfilled to 2026-06-02 and records forward from 2026-10-30; it is not counted in the portfolio total.</p>
     </header>
 
     <!-- Strategy filter pills -->
@@ -1453,7 +1496,8 @@
         <span class="filter-label">View:</span>
         <button class="pill-btn active" data-strategy="all"       onclick="setStrategy(event,'all')">All Strategies</button>
         <button class="pill-btn"        data-strategy="sticks"    onclick="setStrategy(event,'sticks')">Sticks TGA</button>
-        <button class="pill-btn"        data-strategy="carry"     onclick="setStrategy(event,'carry')">Trend + Carry</button>
+        <button class="pill-btn"        data-strategy="carry"     onclick="setStrategy(event,'carry')">Trend + Carry 1.3</button>
+        <button class="pill-btn"        data-strategy="carry21"   onclick="setStrategy(event,'carry21')">Trend + Carry 2.1</button>
         <button class="pill-btn"        data-strategy="markowitz" onclick="setStrategy(event,'markowitz')">Markowitz</button>
         <div class="filter-right">
             Run status: <span id="runStatus" style="color:#00d4aa;">—</span>
@@ -1638,7 +1682,7 @@
                         <th>Status</th>
                         <th>Sticks Equity</th>
                         <th>Markowitz Equity</th>
-                        <th>Trend + Carry Equity</th>
+                        <th>Trend + Carry 1.3 Equity</th>
                         <th>Total Equity</th>
                         <th>Orders</th>
                         <th>Fills</th>
@@ -1683,10 +1727,16 @@
             <div class="analytics-cards" id="sticksAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="carrySection">
-                <span class="strategy-section-badge carry">Trend + Carry</span>
+                <span class="strategy-section-badge carry">Trend + Carry 1.3</span>
                 <span style="font-size:13px;color:#606060;">Cross-asset trend + carry on 23 ETFs (track since 2026-06-02, forward record from 2026-10-08)</span>
             </div>
             <div class="analytics-cards" id="carryAnalyticsCards"></div>
+
+            <div class="strategy-section-header" id="carry21Section">
+                <span class="strategy-section-badge carry21">Trend + Carry 2.1</span>
+                <span style="font-size:13px;color:#606060;">1.3 with positions sized by a volatility forecast. Incubating, not in the portfolio total. Track backfilled from 2026-06-02 with out-of-sample forecasts; forward record from 2026-10-30</span>
+            </div>
+            <div class="analytics-cards" id="carry21AnalyticsCards"></div>
 
             <div class="strategy-section-header" id="markowitzSection">
                 <span class="strategy-section-badge markowitz">Markowitz</span>
@@ -1934,7 +1984,8 @@
     <div id="heldTickerStrip" style="display:none; margin-bottom:18px;">
         <div class="held-strat-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
             <button class="ostab active" data-strat="sticks"    onclick="selectHeldStrategy('sticks')">Sticks TGA</button>
-            <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry</button>
+            <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry 1.3</button>
+            <button class="ostab"        data-strat="carry21"   onclick="selectHeldStrategy('carry21')">Trend + Carry 2.1</button>
             <button class="ostab"        data-strat="markowitz" onclick="selectHeldStrategy('markowitz')">Markowitz</button>
         </div>
         <div class="held-strip-label">Currently held: <span id="heldStripStratName">Sticks TGA</span> &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
@@ -2242,16 +2293,21 @@
 // ══════════════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════════════
-const STRATEGIES = ['sticks','carry','markowitz'];   // DRL Vol retired 2026-10-06
-const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', carry:'Trend + Carry' };
-const COLORS     = { sticks:'#00d4aa', markowitz:'#00a8ff', carry:'#9d7bff', spy:'#606060' };
+const STRATEGIES = ['sticks','carry','carry21','markowitz'];   // DRL Vol retired 2026-10-06
+// Capital pools summed in portfolio totals. carry21 (Trend + Carry 2.1) is a research variant of carry with a
+// backfilled track, shown on its own everywhere but never added to the totals.
+const TOTAL_STRATEGIES = ['sticks','carry','markowitz'];
+const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', carry:'Trend + Carry 1.3', carry21:'Trend + Carry 2.1' };
+// Series colours validated for colour-blind separation on the dark surface (dataviz validator, worst ΔE 11.5)
+const COLORS     = { sticks:'#1aa98d', markowitz:'#2a5ab0', carry:'#9a80e4', carry21:'#c8742a', spy:'#606060' };
+const CARRY21_FORWARD = '2026-10-30';   // before this date the 2.1 track is a backfill
 const START_EQUITY = 10000; // per strategy
 
 let currentStrategy = 'all';
 let state = {
-    equity:    { sticks:[], markowitz:[], carry:[] },   // [{date,equity}]
-    positions: { sticks:null, markowitz:null, carry:null }, // positions.json per strategy
-    orders:    { sticks:[], markowitz:[], carry:[] },   // orders.jsonl per strategy
+    equity:    { sticks:[], markowitz:[], carry:[], carry21:[] },   // [{date,equity}]
+    positions: { sticks:null, markowitz:null, carry:null, carry21:null }, // positions.json per strategy
+    orders:    { sticks:[], markowitz:[], carry:[], carry21:[] },   // orders.jsonl per strategy
     spy: [],                                           // [{date,price}]
     snapshot: null,                                    // equity_snapshot.json
     runSummary: null,                                  // run_summary.json
@@ -2365,7 +2421,8 @@ async function loadAll() {
 
         const [eSticks, eMarkowitz, eCarry, snap, summary,
                posSticks, posMarkowitz, posCarry,
-               ordSticks, ordMarkowitz, ordCarry] = await Promise.all([
+               ordSticks, ordMarkowitz, ordCarry,
+               eCarry21, posCarry21, ordCarry21] = await Promise.all([
             fetchCSV('data/equity/sticks.csv').catch(() => []),
             fetchCSV('data/equity/markowitz.csv').catch(() => []),
             fetchCSV('data/equity/carry.csv').catch(() => []),
@@ -2377,15 +2434,19 @@ async function loadAll() {
             fetchJSONL('data/orders/sticks.jsonl').catch(() => []),
             fetchJSONL('data/orders/markowitz.jsonl').catch(() => []),
             fetchJSONL('data/orders/carry.jsonl').catch(() => []),
+            fetchCSV('data/equity/carry21.csv').catch(() => []),
+            fetchJSON('data/positions/carry21.json').catch(() => null),
+            fetchJSONL('data/orders/carry21.jsonl').catch(() => []),
         ]);
 
         state.equity.sticks    = filterTradingDays(eSticks);
         state.equity.markowitz = filterTradingDays(eMarkowitz);
         state.equity.carry     = filterTradingDays(eCarry);
+        state.equity.carry21   = filterTradingDays(eCarry21);
         state.snapshot         = snap;
         state.runSummary       = summary;
-        state.positions        = { sticks: posSticks, markowitz: posMarkowitz, carry: posCarry };
-        state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, carry: ordCarry };
+        state.positions        = { sticks: posSticks, markowitz: posMarkowitz, carry: posCarry, carry21: posCarry21 };
+        state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, carry: ordCarry, carry21: ordCarry21 };
 
         // Load 30-day run history
         state.history = await loadRunHistory();
@@ -2416,7 +2477,7 @@ function refreshOverviewStats() {
     // Total equity
     const snap = state.snapshot;
     const equities = {};
-    STRATEGIES.forEach(s => {
+    TOTAL_STRATEGIES.forEach(s => {
         if (snap && snap[s] != null) {
             equities[s] = snap[s];
         } else {
@@ -2425,7 +2486,7 @@ function refreshOverviewStats() {
         }
     });
     const total = Object.values(equities).reduce((a,b) => a+b, 0);
-    const startTotal = START_EQUITY * STRATEGIES.length;
+    const startTotal = START_EQUITY * TOTAL_STRATEGIES.length;
     const totalRet = (total - startTotal) / startTotal * 100;
     const teEl = document.getElementById('overviewTotalEquity');
     const trEl = document.getElementById('overviewTotalReturn');
@@ -2617,7 +2678,7 @@ function combinedEquity(strats) {
 
 function getActiveRows() {
     if (currentStrategy === 'all') {
-        return combinedEquity(STRATEGIES.map(s => state.equity[s]));
+        return combinedEquity(TOTAL_STRATEGIES.map(s => state.equity[s]));
     }
     return state.equity[currentStrategy] || [];
 }
@@ -2638,7 +2699,7 @@ function colorClass(n) { return n >= 0 ? 'positive' : 'negative'; }
 function refreshPerformanceTab() {
     const rows    = getActiveRows();
     const isAll   = currentStrategy === 'all';
-    const startCap= isAll ? START_EQUITY * STRATEGIES.length : START_EQUITY;
+    const startCap= isAll ? START_EQUITY * TOTAL_STRATEGIES.length : START_EQUITY;
 
     const m = computeMetrics(rows, startCap);
 
@@ -2824,7 +2885,7 @@ function updateAllocationPanel() {
 
     // Get latest equity per strategy (from snapshot if available, else last CSV row)
     const equities = {};
-    STRATEGIES.forEach(s => {
+    TOTAL_STRATEGIES.forEach(s => {
         if (snap && snap[s] != null) {
             equities[s] = snap[s];
         } else {
@@ -2838,15 +2899,15 @@ function updateAllocationPanel() {
     document.getElementById('allocDate').textContent = snap?.date || '—';
 
     // Update allocation bars
-    STRATEGIES.forEach(s => {
-        const pct = total > 0 ? equities[s] / total * 100 : 100 / STRATEGIES.length;
+    TOTAL_STRATEGIES.forEach(s => {
+        const pct = total > 0 ? equities[s] / total * 100 : 100 / TOTAL_STRATEGIES.length;
         const barEl = document.getElementById('bar' + s.charAt(0).toUpperCase() + s.slice(1));
         if (barEl) barEl.style.width = pct + '%';   // null-guard: don't let a missing bar break the panel
     });
 
     // Render strategy rows
     const rs   = state.runSummary;
-    const html = STRATEGIES.map(s => {
+    const html = TOTAL_STRATEGIES.map(s => {
         const eq  = equities[s];
         const ret = (eq - START_EQUITY) / START_EQUITY * 100;
         const retClass = colorClass(ret);
@@ -3512,7 +3573,7 @@ function renderStrategyCards(s) {
 }
 
 // Track which strategies have their positions expanded
-const positionsExpanded = { sticks: false, markowitz: false, carry: false };
+const positionsExpanded = { sticks: false, markowitz: false, carry: false, carry21: false };
 
 function renderPositionsTable(container, s, sorted, expanded, cash, asOf) {
     const LIMIT   = 8;
@@ -3585,7 +3646,9 @@ function renderStrategyCompareChart() {
             data:  rows.map(r => (r.equity - START_EQUITY) / START_EQUITY * 100),
             xLabels: rows.map(r => r.date),
             borderColor: COLORS[s], backgroundColor: 'transparent',
-            borderWidth: 2, pointRadius: 0, tension: 0.3
+            borderWidth: 2, pointRadius: 0, tension: 0.3,
+            // 2.1's track before its forward record is a backfill: drawn dashed
+            segment: s === 'carry21' ? { borderDash: c => ((rows[c.p1DataIndex] || {}).date < CARRY21_FORWARD ? [5, 4] : undefined) } : undefined
         };
     }).filter(d => d.data.length > 0);
 
@@ -3707,12 +3770,13 @@ const DEMO_META = {
     tga:        { label: 'MST network: illustration of the original TGA idea',    dotColor: '#00d4aa', activeClass: 'active-tga' },
     markowitz:  { label: 'Efficient frontier: illustration of mean-variance optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
     carry:      { label: 'Cross-asset trend + carry engine',             dotColor: '#9d7bff', activeClass: 'active-carry' },
+    carry21:    { label: 'Volatility forecaster: forecast vs what happened', dotColor: '#c8742a', activeClass: 'active-carry21' },
 };
 
 function selectOverviewStrat(strat) {
     // Update card active classes
     document.querySelectorAll('.strat-overview-card').forEach(c => {
-        c.classList.remove('active-tga', 'active-markowitz', 'active-carry');
+        c.classList.remove('active-tga', 'active-markowitz', 'active-carry', 'active-carry21');
     });
     const card = document.querySelector(`.strat-overview-card[data-strat="${strat}"]`);
     if (card) card.classList.add(DEMO_META[strat].activeClass);
@@ -3733,10 +3797,11 @@ function selectOverviewStrat(strat) {
     }
 
     // Show/hide iframes
-    ['tga','markowitz','carry'].forEach(s => {
+    ['tga','markowitz','carry','carry21'].forEach(s => {
         const el = document.getElementById('demo-' + s);
-        if (el) el.style.display = s === strat ? 'block' : 'none';
+        if (el) el.style.display = s === strat ? (s === 'carry21' ? 'flex' : 'block') : 'none';
     });
+    if (strat === 'carry21' && window.c21Show) window.c21Show();
 }
 
 function initOverviewCanvas() {
@@ -4535,7 +4600,7 @@ async function loadMacroTab() {
 
     // Single combined portfolio curve (summed daily across strategies, date-aligned).
     // Concatenating per-strategy arrays produced overlapping points per x — use one clean line.
-    const allEquity = combinedEquity(STRATEGIES.map(s => state.equity[s] || []));
+    const allEquity = combinedEquity(TOTAL_STRATEGIES.map(s => state.equity[s] || []));
 
     renderMacroNarrative(fredData, mktData);
     renderMacroKPIs(fredData, mktData);
@@ -5791,7 +5856,7 @@ function renderUtilTables(summary) {
             if (strategy && strategy !== 'all'){
                 placeholder.style.display='';
                 document.getElementById('ffPlaceholderText').textContent =
-                    'Factor attribution needs a multi-year return series. It is shown on the Trend + Carry book for now; '+
+                    'Factor attribution needs a multi-year return series. It is shown on the Trend + Carry 1.3 book for now; '+
                     'the other strategies gain it once their backtest curves are added.';
             } else {
                 placeholder.style.display='none';
@@ -6499,7 +6564,7 @@ function renderUtilTables(summary) {
 .narrative-card { border-left: 1px solid var(--line) !important; }
 .overview-canvas-wrapper { overflow: hidden; }
 
-.strat-overview-card.active-tga, .strat-overview-card.active-markowitz, .strat-overview-card.active-carry {
+.strat-overview-card.active-tga, .strat-overview-card.active-markowitz, .strat-overview-card.active-carry, .strat-overview-card.active-carry21 {
     border-color: var(--teal) !important; box-shadow: none !important; background: rgba(35,199,166,.06) !important; }
 .strat-active-indicator { display: none !important; }
 
@@ -6784,6 +6849,53 @@ function renderUtilTables(summary) {
     min-width: 0 !important;
     line-height: 1.6 !important;
 }
+
+/* Trend + Carry 2.1 (2026-10-31): card section, forecaster canvas, colours from the validated strategy palette */
+.strategy-section-badge.carry21 { color: #c8742a !important; }
+.strategy-dot.carry21 { color: #c8742a; background-color: #c8742a; }
+.alloc-bar-segment.carry21 { background: #c8742a; }
+.overview-split > * { min-width: 0; }
+.c21-amber { color: var(--amber); }
+.c21 { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); cursor: default; }
+.c21-h { font-family: var(--font-serif); font-weight: 400; font-size: 18px; letter-spacing: -0.1px; color: var(--txt); margin: 0 0 10px; }
+.c21-h + .c21-keys { margin-top: -2px; }
+.c21-seg { display: inline-flex; border: 1px solid var(--line-hard); margin-bottom: 10px; max-width: 100%; }
+.c21-segb { font: inherit; font-size: 12.5px; color: var(--txt-dim); background: transparent; border: 0; padding: 6px 11px; cursor: pointer; white-space: nowrap; }
+.c21-segb + .c21-segb { border-left: 1px solid var(--line-hard); }
+.c21-segb:hover { color: var(--txt); }
+.c21-segb.active { color: var(--txt); background: var(--surface-hi); box-shadow: inset 0 -2px 0 #c8742a; }
+.c21-segb:focus-visible, .c21-select:focus-visible { outline: 1px solid var(--amber); outline-offset: 1px; }
+.c21-tablewrap { overflow-x: auto; }
+.c21-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; min-width: 460px; }
+.c21-table th { font-weight: 500; color: var(--txt-faint); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--line-hard); white-space: nowrap; }
+.c21-table td { color: var(--txt-dim); text-align: right; padding: 7px 8px; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+.c21-table th:first-child, .c21-table td:first-child { text-align: left; padding-left: 0; }
+.c21-table tr.is-21 td:first-child { color: var(--txt); }
+.c21-table td.best { color: var(--txt); font-weight: 600; }
+.c21-table td.best::after { content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 5px; vertical-align: 2px; background: #c8742a; border-radius: 50%; }
+.c21-sw { display: inline-block; width: 12px; height: 0; border-top: 2px solid; margin-right: 7px; vertical-align: 4px; }
+.c21-note { font-size: 12px; line-height: 1.6; color: var(--txt-faint); margin: 8px 0 14px; max-width: 76ch; }
+.c21-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin-bottom: 10px; }
+.c21-fact { background: var(--surface-hi); border: 1px solid var(--line); padding: 9px 11px; }
+.c21-fact .k { display: block; font-size: 11.5px; color: var(--txt-faint); }
+.c21-fact .v { display: block; font-size: 16px; font-weight: 600; color: var(--txt); margin: 2px 0 1px; }
+.c21-fact .s { display: block; font-size: 11.5px; line-height: 1.45; color: var(--txt-dim); }
+.c21-live { font-size: 12.5px; line-height: 1.6; color: var(--txt-dim); margin: 0 0 16px; }
+.c21-live b { color: var(--txt); font-weight: 600; }
+.c21-keys { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 12px; color: var(--txt-dim); }
+.c21-keys b { color: var(--txt); font-weight: 600; font-variant-numeric: tabular-nums; }
+.c21-k { display: inline-block; width: 16px; height: 0; border-top: 2px dashed; margin-right: 6px; vertical-align: 4px; }
+.c21-canvas .c21-k { border-top-style: solid; }
+.c21-k-real { border-top: 2px solid var(--txt-faint); }
+.c21-mut { color: var(--txt-faint); }
+.c21-chart { position: relative; height: 210px; margin-top: 6px; }
+.c21-canvas { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 14px 16px 12px; background: var(--surface); }
+.c21-cv-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
+.c21-cv-label { font-size: 12px; color: var(--txt-faint); }
+.c21-select { font: inherit; font-size: 13px; color: var(--txt); background: var(--surface-hi); border: 1px solid var(--line-hard); padding: 4px 8px; }
+.c21-cv-chart { position: relative; flex: 1 1 auto; min-height: 0; }
+.c21-cv-cap { font-size: 11.5px; line-height: 1.5; color: var(--txt-faint); margin: 8px 0 0; }
+@media (max-width: 420px) { .c21-seg { display: flex; } .c21-segb { flex: 1 1 0; white-space: normal; font-size: 11.5px; padding: 6px 8px; } }
 </style>
 <!-- RESEARCH-TAB:END style -->
 
@@ -7043,7 +7155,7 @@ function renderUtilTables(summary) {
         const sets = order.map((id, i) => {
             const st = lineStyle(id, c);
             if (st.label) labelIds.push(id);
-            return { key: id, label: id === 'spy' ? 'SPY' : id === 'sixty_forty' ? '60/40' : id === 'deployed' ? 'Trend + Carry' : name(id), data: rows.map(r => isNum(r[id]) && r[id] > 0 ? r[id] : null), labelColor: st.col,
+            return { key: id, label: id === 'spy' ? 'SPY' : id === 'sixty_forty' ? '60/40' : id === 'deployed' ? 'Trend + Carry 1.3' : name(id), data: rows.map(r => isNum(r[id]) && r[id] > 0 ? r[id] : null), labelColor: st.col,
                      borderColor: rgba(st.col, st.a), borderWidth: st.w, borderDash: st.dash || [], pointRadius: 0, pointHoverRadius: 3,
                      spanGaps: false, tension: 0, order: i, baseOrder: i, baseColor: st.col, baseA: st.a, baseW: st.w };
         });
@@ -7465,5 +7577,120 @@ function renderUtilTables(summary) {
 })();
 </script>
 <!-- RESEARCH-TAB:END script -->
+
+<script>
+/* Trend + Carry 2.1: forecaster scores, backtest replay and forecast-vs-realised chart.
+   Derived series only (data/research/v52f/); never part of portfolio totals. */
+(function () {
+  const C21 = '#c8742a', C13 = '#9a80e4';
+  const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#626873';
+  let card = null, bt = null, sb = null, win = 'held_back', charts = {}, series = {};
+  const cross = { id: 'c21Cross', afterDatasetsDraw(c) {
+      const a = c.tooltip && c.tooltip.getActiveElements && c.tooltip.getActiveElements();
+      if (!a || !a.length) return;
+      const x = a[0].element.x, ar = c.chartArea, g = c.ctx;
+      g.save(); g.strokeStyle = tok('--line-hard'); g.lineWidth = 1; g.beginPath(); g.moveTo(x, ar.top); g.lineTo(x, ar.bottom); g.stroke(); g.restore(); } };
+  function axis(vals, minFloor) {
+    const v = vals.flat().filter(x => x != null && isFinite(x));
+    let lo = Math.min(...v), hi = Math.max(...v);
+    const pad = Math.max((hi - lo) * 0.06, 0.5);
+    const raw = (hi - lo + 2 * pad) / 5, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(x => x >= raw);
+    lo = Math.floor((lo - pad) / step) * step; hi = Math.ceil((hi + pad) / step) * step;
+    if (minFloor != null) lo = Math.max(lo, minFloor);
+    return { min: lo, max: hi, ticks: { color: tok('--txt-faint'), font: { size: 11 }, count: Math.round((hi - lo) / step) + 1 } };
+  }
+  function opts(vals, fmt, minFloor) {
+    return { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false },
+        tooltip: { backgroundColor: tok('--surface-hi'), borderColor: tok('--line-hard'), borderWidth: 1, titleColor: tok('--txt-dim'),
+          bodyColor: tok('--txt'), bodyFont: { weight: '600' }, padding: 8, boxWidth: 14, boxHeight: 2,
+          callbacks: { label: x => ' ' + fmt(x.parsed.y) + '  ' + x.dataset.label } } },
+      scales: { x: { grid: { display: false }, border: { color: tok('--line') }, ticks: { color: tok('--txt-faint'), maxTicksLimit: window.innerWidth < 520 ? 4 : 6, maxRotation: 0, font: { size: 11 }, callback(v) { return String(this.getLabelForValue(v)).slice(0, 7); } } },
+                y: Object.assign({ grid: { color: tok('--line-soft') }, border: { display: false } }, axis(vals, minFloor)) } };
+  }
+  const line = (label, data, color, dash) => ({ label, data, borderColor: color, backgroundColor: color, borderWidth: 2,
+      borderDash: dash ? [5, 4] : [], pointRadius: 0, pointHoverRadius: 4, pointHoverBorderWidth: 2, pointHoverBorderColor: tok('--surface'), tension: 0 });
+  function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function table() {
+    const tb = document.querySelector('#c21Acc tbody'); if (!tb || !card) return;
+    const t = card.accuracy[win]; tb.textContent = '';
+    const cols = [['qlike', v => v.toFixed(3), 'min'], ['rmse_vol_pts', v => v.toFixed(2), 'min'], ['mae_vol_pts', v => v.toFixed(2), 'min'],
+                  ['mape_pct', v => v.toFixed(1) + '%', 'min'], ['r2_log', v => v.toFixed(3), 'max'], ['bias_vol_pts', v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2), 'abs']];
+    const names = Object.keys(t.rows);
+    const best = cols.map(([k, , m]) => { const vs = names.map(n => t.rows[n][k]);
+      const pick = m === 'max' ? Math.max(...vs) : m === 'abs' ? Math.min(...vs.map(Math.abs)) : Math.min(...vs);
+      return names.find(n => (m === 'abs' ? Math.abs(t.rows[n][k]) : t.rows[n][k]) === pick); });
+    const sw = { 'v52 forecast (2.1)': C21, '60-day trailing vol (1.3)': C13 };
+    names.forEach(n => { const tr = el('tr', n.indexOf('2.1') >= 0 ? 'is-21' : '');
+      const td0 = el('td'); if (sw[n]) { const i = el('i', 'c21-sw'); i.style.borderColor = sw[n]; td0.appendChild(i); } td0.append(n); tr.appendChild(td0);
+      cols.forEach(([k, f], j) => tr.appendChild(el('td', best[j] === n ? 'best' : '', f(t.rows[n][k]))));
+      tb.appendChild(tr); });
+    document.querySelectorAll('.c21-segb').forEach(b => { const on = b.dataset.win === win; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
+  }
+  function facts() {
+    const box = document.getElementById('c21Facts'); if (!box || !bt) return; const st = bt.status; box.textContent = '';
+    [['Forecast skill on held-back data', 'p = ' + st.forecast_vault_p, 'Better than the 60-day window on QLIKE, Nov 2023 to Sep 2026'],
+     ['Book gain, P(ΔSharpe > 0)', st.book_p_dsharpe_gt0_dev.toFixed(2) + ' / ' + st.book_p_dsharpe_gt0_vault.toFixed(2), 'Development / held-back data. Promotion needs 0.90 at matched 8% volatility'],
+     ['First review', st.review_date, 'After 63 trading days of forward record']].forEach(([k, v, x]) => {
+      const d = el('div', 'c21-fact'); d.append(el('span', 'k', k), el('span', 'v', v), el('span', 's', x)); box.appendChild(d); });
+  }
+  function live() {
+    const p = document.getElementById('c21Live'); if (!p) return; p.textContent = '';
+    if (sb && sb.scored > 0 && sb.latest) {
+      const a = sb.latest.v52, b = sb.latest.trailing60;
+      p.append('Forward record so far: ', el('b', null, sb.scored.toLocaleString()), ' forecasts scored. QLIKE ', el('b', null, a.qlike.toFixed(3)),
+               ' for 2.1 against ', el('b', null, b.qlike.toFixed(3)), ' for the 60-day window; RMSE ', el('b', null, a.rmse_vol_pts.toFixed(2)),
+               ' against ', el('b', null, b.rmse_vol_pts.toFixed(2)), ' volatility points; MAPE ', el('b', null, a.mape_pct.toFixed(1) + '%'), ' against ', el('b', null, b.mape_pct.toFixed(1) + '%'), '.');
+    } else {
+      p.append('Forward record: forecasts are scored once their 21 trading days have passed. The first scores are due ', el('b', null, (sb && sb.first_due) || '2026-12-01'), '.');
+    }
+  }
+  function backtest() {
+    const cv = document.getElementById('c21Backtest'); if (!cv || !bt) return;
+    document.getElementById('c21End21').textContent = bt.v52[bt.v52.length - 1].toFixed(1);
+    document.getElementById('c21End13').textContent = bt.deployed[bt.deployed.length - 1].toFixed(1);
+    charts.bt && charts.bt.destroy();
+    charts.bt = new Chart(cv, { type: 'line', data: { labels: bt.dates.map(d => d.slice(0, 7)),
+      datasets: [line('Trend + Carry 2.1', bt.v52, C21, true), line('Trend + Carry 1.3', bt.deployed, C13, true)] },
+      options: opts([bt.v52, bt.deployed], v => v.toFixed(1)), plugins: [cross] });
+  }
+  async function forecast(tk) {
+    const cv = document.getElementById('c21Forecast'); if (!cv) return;
+    if (!series[tk]) series[tk] = await get('data/research/v52f/series/' + encodeURIComponent(tk) + '.json');
+    const d = series[tk]; if (!d) return;
+    charts.fc && charts.fc.destroy();
+    charts.fc = new Chart(cv, { type: 'line', data: { labels: d.dates,
+      datasets: [line('2.1 forecast', d.forecast, C21, false), line('60-day window (1.3)', d.trailing60, C13, false),
+                 Object.assign(line('What happened', d.realised, tok('--txt-faint'), false), { borderWidth: 1.5 })] },
+      options: opts([d.forecast, d.trailing60, d.realised], v => v.toFixed(1) + '%', 0), plugins: [cross] });
+    charts.fc.options.scales.y.ticks.callback = v => v + '%'; charts.fc.update();
+  }
+  async function get(u) { try { const r = await fetch(u, { cache: 'no-cache' }); return r.ok ? r.json() : null; } catch (e) { return null; } }
+  let shown = false;
+  window.c21Show = function () {
+    if (!card) { window.c21Pending = true; return; }
+    const sel = document.getElementById('c21Etf');
+    if (!shown) { shown = true; forecast(sel.value || 'SPY'); }
+  };
+  async function init() {
+    if (!document.getElementById('c21Acc') || typeof Chart === 'undefined') return;
+    [card, bt, sb] = await Promise.all([get('data/research/v52f/model_card.json'), get('data/research/v52f/backtest.json'), get('data/research/v52f/scoreboard.json')]);
+    if (!card || !bt) { const c = document.querySelector('.c21'); if (c) c.style.display = 'none'; return; }
+    const sel = document.getElementById('c21Etf');
+    card.tickers.forEach(t => { const o = el('option', null, t); o.value = t; if (t === 'SPY') o.selected = true; sel.appendChild(o); });
+    sel.addEventListener('change', () => forecast(sel.value));
+    document.querySelectorAll('.c21-segb').forEach(b => b.addEventListener('click', () => { win = b.dataset.win; table(); }));
+    table(); facts(); live();
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !charts.bt) backtest(); }));
+    io.observe(document.getElementById('c21Backtest'));
+    const c21card = document.querySelector('.strat-overview-card[data-strat="carry21"]');
+    new MutationObserver(() => { if (c21card.classList.contains('shown')) { if (!charts.bt) backtest(); window.c21Show(); } }).observe(c21card, { attributes: true, attributeFilter: ['class'] });
+    if (window.c21Pending || c21card.classList.contains('shown')) window.c21Show();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
 </body>
 </html>
