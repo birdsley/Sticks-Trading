@@ -1406,15 +1406,7 @@
                     <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="TGA Network"></iframe>
                     <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
                     <iframe id="demo-carry"      src="demos/carry.html"               style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="Trend + Carry Cross-Asset Engine"></iframe>
-                    <div id="demo-carry21" class="c21-canvas" style="display:none;">
-                        <div class="c21-cv-top">
-                            <label class="c21-cv-label" for="c21Etf">ETF</label>
-                            <select id="c21Etf" class="c21-select"></select>
-                            <div class="c21-keys"><span><i class="c21-k" style="border-color:#c8742a"></i>2.1 forecast</span><span><i class="c21-k" style="border-color:#9a80e4"></i>60-day window (1.3)</span><span><i class="c21-k c21-k-real"></i>What happened</span></div>
-                        </div>
-                        <div class="c21-cv-chart"><canvas id="c21Forecast" aria-label="Forecast and realised volatility for the selected ETF"></canvas></div>
-                        <p class="c21-cv-cap">Weekly, out of sample. What happened is the ETF's volatility over the 21 trading days after each date, annualised. A good forecast rises before the spike; the 60-day window rises after it.</p>
-                    </div>
+                    <iframe id="demo-carry21"    src="demos/carry21.html"             style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Trend + Carry 2.1: positions sized by the volatility forecast"></iframe>
                 </div>
             </div>
         </div>
@@ -2437,7 +2429,7 @@ async function loadAll() {
             fetchJSONL('data/orders/carry.jsonl').catch(() => []),
             fetchCSV('data/equity/carry21.csv').catch(() => []),
             fetchJSON('data/positions/carry21.json').catch(() => null),
-            fetchJSONL('data/orders/carry21.jsonl').catch(() => []),
+            Promise.resolve([]),   // carry21 is book-tracked like carry: no order log
         ]);
 
         state.equity.sticks    = filterTradingDays(eSticks);
@@ -3775,7 +3767,7 @@ const DEMO_META = {
     tga:        { label: 'MST network: illustration of the original TGA idea',    dotColor: '#00d4aa', activeClass: 'active-tga' },
     markowitz:  { label: 'Efficient frontier: illustration of mean-variance optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
     carry:      { label: 'Cross-asset trend + carry engine',             dotColor: '#9d7bff', activeClass: 'active-carry' },
-    carry21:    { label: 'Volatility forecaster: forecast vs what happened', dotColor: '#c8742a', activeClass: 'active-carry21' },
+    carry21:    { label: 'Trend + Carry 2.1: positions sized by the volatility forecast', dotColor: '#c8742a', activeClass: 'active-carry21' },
 };
 
 function selectOverviewStrat(strat) {
@@ -3804,9 +3796,8 @@ function selectOverviewStrat(strat) {
     // Show/hide iframes
     ['tga','markowitz','carry','carry21'].forEach(s => {
         const el = document.getElementById('demo-' + s);
-        if (el) el.style.display = s === strat ? (s === 'carry21' ? 'flex' : 'block') : 'none';
+        if (el) el.style.display = s === strat ? 'block' : 'none';
     });
-    if (strat === 'carry21' && window.c21Show) window.c21Show();
 }
 
 function initOverviewCanvas() {
@@ -6869,7 +6860,7 @@ function renderUtilTables(summary) {
 .c21-segb + .c21-segb { border-left: 1px solid var(--line-hard); }
 .c21-segb:hover { color: var(--txt); }
 .c21-segb.active { color: var(--txt); background: var(--surface-hi); box-shadow: inset 0 -2px 0 #c8742a; }
-.c21-segb:focus-visible, .c21-select:focus-visible { outline: 1px solid var(--amber); outline-offset: 1px; }
+.c21-segb:focus-visible { outline: 1px solid var(--amber); outline-offset: 1px; }
 .c21-tablewrap { overflow-x: auto; }
 .c21-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; min-width: 460px; }
 .c21-table th { font-weight: 500; color: var(--txt-faint); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--line-hard); white-space: nowrap; }
@@ -6890,16 +6881,8 @@ function renderUtilTables(summary) {
 .c21-keys { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 12px; color: var(--txt-dim); }
 .c21-keys b { color: var(--txt); font-weight: 600; font-variant-numeric: tabular-nums; }
 .c21-k { display: inline-block; width: 16px; height: 0; border-top: 2px dashed; margin-right: 6px; vertical-align: 4px; }
-.c21-canvas .c21-k { border-top-style: solid; }
-.c21-k-real { border-top: 2px solid var(--txt-faint); }
 .c21-mut { color: var(--txt-faint); }
 .c21-chart { position: relative; height: 210px; margin-top: 6px; }
-.c21-canvas { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 14px 16px 12px; background: var(--surface); }
-.c21-cv-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
-.c21-cv-label { font-size: 12px; color: var(--txt-faint); }
-.c21-select { font: inherit; font-size: 13px; color: var(--txt); background: var(--surface-hi); border: 1px solid var(--line-hard); padding: 4px 8px; }
-.c21-cv-chart { position: relative; flex: 1 1 auto; min-height: 0; }
-.c21-cv-cap { font-size: 11.5px; line-height: 1.5; color: var(--txt-faint); margin: 8px 0 0; }
 @media (max-width: 420px) { .c21-seg { display: flex; } .c21-segb { flex: 1 1 0; white-space: normal; font-size: 11.5px; padding: 6px 8px; } }
 </style>
 <!-- RESEARCH-TAB:END style -->
@@ -7589,7 +7572,7 @@ function renderUtilTables(summary) {
 (function () {
   const C21 = '#c8742a', C13 = '#9a80e4';
   const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#626873';
-  let card = null, bt = null, sb = null, win = 'held_back', charts = {}, series = {};
+  let card = null, bt = null, sb = null, win = 'held_back', charts = {};
   const cross = { id: 'c21Cross', afterDatasetsDraw(c) {
       const a = c.tooltip && c.tooltip.getActiveElements && c.tooltip.getActiveElements();
       if (!a || !a.length) return;
@@ -7661,38 +7644,17 @@ function renderUtilTables(summary) {
       datasets: [line('Trend + Carry 2.1', bt.v52, C21, true), line('Trend + Carry 1.3', bt.deployed, C13, true)] },
       options: opts([bt.v52, bt.deployed], v => v.toFixed(1)), plugins: [cross] });
   }
-  async function forecast(tk) {
-    const cv = document.getElementById('c21Forecast'); if (!cv) return;
-    if (!series[tk]) series[tk] = await get('data/research/v52f/series/' + encodeURIComponent(tk) + '.json');
-    const d = series[tk]; if (!d) return;
-    charts.fc && charts.fc.destroy();
-    charts.fc = new Chart(cv, { type: 'line', data: { labels: d.dates,
-      datasets: [line('2.1 forecast', d.forecast, C21, false), line('60-day window (1.3)', d.trailing60, C13, false),
-                 Object.assign(line('What happened', d.realised, tok('--txt-faint'), false), { borderWidth: 1.5 })] },
-      options: opts([d.forecast, d.trailing60, d.realised], v => v.toFixed(1) + '%', 0), plugins: [cross] });
-    charts.fc.options.scales.y.ticks.callback = v => v + '%'; charts.fc.update();
-  }
   async function get(u) { try { const r = await fetch(u, { cache: 'no-cache' }); return r.ok ? r.json() : null; } catch (e) { return null; } }
-  let shown = false;
-  window.c21Show = function () {
-    if (!card) { window.c21Pending = true; return; }
-    const sel = document.getElementById('c21Etf');
-    if (!shown) { shown = true; forecast(sel.value || 'SPY'); }
-  };
   async function init() {
     if (!document.getElementById('c21Acc') || typeof Chart === 'undefined') return;
     [card, bt, sb] = await Promise.all([get('data/research/v52f/model_card.json'), get('data/research/v52f/backtest.json'), get('data/research/v52f/scoreboard.json')]);
     if (!card || !bt) { const c = document.querySelector('.c21'); if (c) c.style.display = 'none'; return; }
-    const sel = document.getElementById('c21Etf');
-    card.tickers.forEach(t => { const o = el('option', null, t); o.value = t; if (t === 'SPY') o.selected = true; sel.appendChild(o); });
-    sel.addEventListener('change', () => forecast(sel.value));
     document.querySelectorAll('.c21-segb').forEach(b => b.addEventListener('click', () => { win = b.dataset.win; table(); }));
     table(); facts(); live();
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !charts.bt) backtest(); }));
     io.observe(document.getElementById('c21Backtest'));
     const c21card = document.querySelector('.strat-overview-card[data-strat="carry21"]');
-    new MutationObserver(() => { if (c21card.classList.contains('shown')) { if (!charts.bt) backtest(); window.c21Show(); } }).observe(c21card, { attributes: true, attributeFilter: ['class'] });
-    if (window.c21Pending || c21card.classList.contains('shown')) window.c21Show();
+    new MutationObserver(() => { if (c21card.classList.contains('shown') && !charts.bt) backtest(); }).observe(c21card, { attributes: true, attributeFilter: ['class'] });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
