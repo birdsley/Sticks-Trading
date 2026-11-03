@@ -1,119 +1,126 @@
 {
-  "as_of": "2026-10-30",
-  "cash": 4226.015937,
-  "equity_estimate": 9728.076043,
-  "last_run_id": "2026-10-30_carry_catchup",
+  "as_of": "2026-11-02",
+  "cash": 3243.583302,
+  "equity_estimate": 9644.163159,
+  "last_run_id": "2026-11-02_carry_catchup",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
-      "avg_cost": 27.17,
-      "entry_date": "2026-10-30",
-      "shares": 15,
+      "avg_cost": 26.799999,
+      "entry_date": "2026-11-02",
+      "shares": 14,
       "strategy": "carry",
       "ticker": "DBA"
     },
     {
-      "avg_cost": 25.1,
-      "entry_date": "2026-10-30",
-      "shares": 6,
+      "avg_cost": 25.07,
+      "entry_date": "2026-11-02",
+      "shares": 5,
       "strategy": "carry",
       "ticker": "DBB"
     },
     {
-      "avg_cost": 33.720001,
-      "entry_date": "2026-10-30",
+      "avg_cost": 32.459999,
+      "entry_date": "2026-11-02",
       "shares": 12,
       "strategy": "carry",
       "ticker": "DBC"
     },
     {
-      "avg_cost": 62.720001,
-      "entry_date": "2026-10-30",
+      "avg_cost": 61.110001,
+      "entry_date": "2026-11-02",
       "shares": 2,
       "strategy": "carry",
       "ticker": "EEM"
     },
     {
-      "avg_cost": 104.349998,
-      "entry_date": "2026-10-30",
-      "shares": 2,
+      "avg_cost": 103.699997,
+      "entry_date": "2026-11-02",
+      "shares": 1,
       "strategy": "carry",
       "ticker": "EFA"
     },
     {
-      "avg_cost": 94.940002,
-      "entry_date": "2026-10-30",
+      "avg_cost": 92.839996,
+      "entry_date": "2026-11-02",
       "shares": 4,
       "strategy": "carry",
       "ticker": "EWJ"
     },
     {
-      "avg_cost": 103.010002,
-      "entry_date": "2026-10-30",
+      "avg_cost": 103.25,
+      "entry_date": "2026-11-02",
       "shares": -7,
       "strategy": "carry",
       "ticker": "FXE"
     },
     {
-      "avg_cost": 77.580002,
-      "entry_date": "2026-10-30",
-      "shares": 6,
+      "avg_cost": 76.889999,
+      "entry_date": "2026-11-02",
+      "shares": 9,
       "strategy": "carry",
       "ticker": "HYG"
     },
     {
-      "avg_cost": 91.25,
-      "entry_date": "2026-10-30",
-      "shares": -2,
+      "avg_cost": 91.5,
+      "entry_date": "2026-11-02",
+      "shares": -1,
       "strategy": "carry",
       "ticker": "IEF"
     },
     {
-      "avg_cost": 104.220001,
-      "entry_date": "2026-10-30",
-      "shares": -2,
+      "avg_cost": 103.709999,
+      "entry_date": "2026-11-02",
+      "shares": -1,
       "strategy": "carry",
       "ticker": "LQD"
     },
     {
-      "avg_cost": 81.580002,
-      "entry_date": "2026-10-30",
-      "shares": 31,
+      "avg_cost": 81.459999,
+      "entry_date": "2026-11-02",
+      "shares": 36,
       "strategy": "carry",
       "ticker": "SHY"
     },
     {
-      "avg_cost": 769.359985,
-      "entry_date": "2026-10-30",
+      "avg_cost": 752.099976,
+      "entry_date": "2026-11-02",
       "shares": 1,
       "strategy": "carry",
       "ticker": "SPY"
     },
     {
-      "avg_cost": 81.489998,
-      "entry_date": "2026-10-30",
-      "shares": -2,
+      "avg_cost": 106.400002,
+      "entry_date": "2026-11-02",
+      "shares": 2,
+      "strategy": "carry",
+      "ticker": "TIP"
+    },
+    {
+      "avg_cost": 81.730003,
+      "entry_date": "2026-11-02",
+      "shares": -1,
       "strategy": "carry",
       "ticker": "TLT"
     },
     {
-      "avg_cost": 168.190002,
-      "entry_date": "2026-10-30",
+      "avg_cost": 156.869995,
+      "entry_date": "2026-11-02",
       "shares": 1,
       "strategy": "carry",
       "ticker": "USO"
     },
     {
-      "avg_cost": 29.040001,
-      "entry_date": "2026-10-30",
+      "avg_cost": 28.959999,
+      "entry_date": "2026-11-02",
       "shares": 37,
       "strategy": "carry",
       "ticker": "UUP"
     },
     {
-      "avg_cost": 93.870003,
-      "entry_date": "2026-10-30",
+      "avg_cost": 95.059998,
+      "entry_date": "2026-11-02",
       "shares": 1,
       "strategy": "carry",
       "ticker": "VNQ"
