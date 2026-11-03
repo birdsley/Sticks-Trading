@@ -1368,13 +1368,13 @@
                         <thead><tr><th scope="col">Volatility input</th><th scope="col">QLIKE</th><th scope="col">RMSE</th><th scope="col">MAE</th><th scope="col">MAPE</th><th scope="col">R²</th><th scope="col">Bias</th></tr></thead>
                         <tbody></tbody>
                     </table></div>
-                    <p class="c21-note">Out-of-sample forecasts of each ETF's volatility over the next 21 trading days, scored against what followed. QLIKE is the standard loss for volatility forecasts and the one used to select the model; lower is better. RMSE, MAE and bias are in annualised volatility points, MAPE is the mean absolute percentage error, and R² is on log volatility. The best value in each column is marked.</p>
+                    <p class="c21-note">Each method forecasts every ETF's volatility for the next 21 trading days, using only what was known at the time, and is scored against what actually happened. Lower is better in every column except R², where higher is better, and bias, where closer to zero is better. QLIKE is the usual score for volatility forecasts and the one we chose the model on. RMSE, MAE and bias are in volatility points, so a 15% forecast against a 17% outcome is 2 points off. MAPE is that miss as a percentage, and R² is how much of the rises and falls the forecast caught. A dot marks the best value in each column.</p>
                     <div class="c21-facts" id="c21Facts"></div>
                     <p class="c21-live" id="c21Live"></p>
                     <h4 class="c21-h">Backtest replay, 2012–2026</h4>
                     <div class="c21-keys"><span><i class="c21-k" style="border-color:#c8742a"></i>2.1 <b id="c21End21"></b></span><span><i class="c21-k" style="border-color:#9a80e4"></i>1.3 <b id="c21End13"></b></span><span class="c21-mut">Growth of 100, weekly</span></div>
                     <div class="c21-chart"><canvas id="c21Backtest" aria-label="Backtest replay, growth of 100, Trend + Carry 2.1 and 1.3"></canvas></div>
-                    <p class="c21-note">The paper track from 2026-06-02 to 2026-10-29 is a backfill with forecasts from a model trained only through 2023-09; from 2026-10-30 the frozen model's forecasts are recorded each morning before the open. 1.3's track was recorded day by day, while 2.1's backfill is replayed on today's prices; the same replay of 1.3 differs from its recorded track by at most $42.</p>
+                    <p class="c21-note">The paper track from 2026-06-02 to 2026-10-29 is a backfill, using forecasts from a model trained only on data up to 2023-09. From 2026-10-30 the frozen model's forecasts are saved each morning before the open. 1.3's track was recorded day by day, while 2.1's backfill is replayed on today's prices. Replaying 1.3 the same way lands within $42 of its recorded track.</p>
                 </div>
                 <div class="strat-active-indicator"></div>
             </div>
@@ -1402,7 +1402,7 @@
                     <div class="canvas-dot-ind" id="canvasDot"></div>
                     <span class="canvas-label-text" id="canvasLabelText">Cross-asset trend + carry engine</span>
                 </div>
-                <div style="position:relative; height:420px;">
+                <div id="demoStage" style="position:relative; height:420px;">
                     <iframe id="demo-tga"        src="demos/tga_network.html"        style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="TGA Network"></iframe>
                     <iframe id="demo-markowitz"  src="demos/markowitz_frontier.html"  style="position:absolute;inset:0;width:100%;height:100%;border:none;display:none;"  title="Markowitz Frontier"></iframe>
                     <iframe id="demo-carry"      src="demos/carry.html"               style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;"  title="Trend + Carry Cross-Asset Engine"></iframe>
@@ -3794,6 +3794,10 @@ function selectOverviewStrat(strat) {
     document.querySelectorAll('.ostab').forEach(t => t.classList.toggle('active', t.dataset.strat === strat));
 
     // Update header label + dot
+    // the 2.1 demo has four panels under the 3D view, so its stage is taller (its card on the left is long too)
+    const stage = document.getElementById('demoStage');
+    if (stage) stage.style.height = strat === 'carry21' ? '760px' : '420px';
+
     const meta = DEMO_META[strat];
     const labelEl = document.getElementById('canvasLabelText');
     const dotEl   = document.getElementById('canvasDot');
@@ -6722,20 +6726,20 @@ function renderUtilTables(summary) {
   }
   function facts() {
     const box = document.getElementById('c21Facts'); if (!box || !bt) return; const st = bt.status; box.textContent = '';
-    [['Forecast skill on held-back data', 'p = ' + st.forecast_vault_p, 'Better than the 60-day window on QLIKE, Nov 2023 to Sep 2026'],
-     ['Book gain, P(ΔSharpe > 0)', st.book_p_dsharpe_gt0_dev.toFixed(2) + ' / ' + st.book_p_dsharpe_gt0_vault.toFixed(2), 'Chance 2.1 beats 1.3 on Sharpe at matched 8% volatility, development / held-back data'],
-     ['Live since', st.forward_start, 'Frozen model; forecasts recorded each morning before the open']].forEach(([k, v, x]) => {
+    [['Is the forecast better?', 'p = ' + st.forecast_vault_p, 'On data the model never saw, Nov 2023 to Sep 2026, a lead this size would turn up by chance less than once in 1,000 tries.'],
+     ['Is the book better?', Math.round(st.book_p_dsharpe_gt0_dev * 100) + '% and ' + Math.round(st.book_p_dsharpe_gt0_vault * 100) + '%', 'The chance 2.1 beats 1.3 on Sharpe at the same 8% risk: ' + Math.round(st.book_p_dsharpe_gt0_dev * 100) + '% for 2012 to 2023, and a coin flip for 2023 to 2026.'],
+     ['Recording live since', st.forward_start, 'The model is frozen. We save its forecasts each morning before the open, so none can be changed later.']].forEach(([k, v, x]) => {
       const d = el('div', 'c21-fact'); d.append(el('span', 'k', k), el('span', 'v', v), el('span', 's', x)); box.appendChild(d); });
   }
   function live() {
     const p = document.getElementById('c21Live'); if (!p) return; p.textContent = '';
     if (sb && sb.scored > 0 && sb.latest) {
       const a = sb.latest.v52, b = sb.latest.trailing60;
-      p.append('Forward record so far: ', el('b', null, sb.scored.toLocaleString()), ' forecasts scored. QLIKE ', el('b', null, a.qlike.toFixed(3)),
-               ' for 2.1 against ', el('b', null, b.qlike.toFixed(3)), ' for the 60-day window; RMSE ', el('b', null, a.rmse_vol_pts.toFixed(2)),
-               ' against ', el('b', null, b.rmse_vol_pts.toFixed(2)), ' volatility points; MAPE ', el('b', null, a.mape_pct.toFixed(1) + '%'), ' against ', el('b', null, b.mape_pct.toFixed(1) + '%'), '.');
+      p.append('So far ', el('b', null, sb.scored.toLocaleString()), ' live forecasts have been scored. 2.1 has a QLIKE of ', el('b', null, a.qlike.toFixed(3)),
+               ' against ', el('b', null, b.qlike.toFixed(3)), ' for the 60-day window, an RMSE of ', el('b', null, a.rmse_vol_pts.toFixed(2)),
+               ' against ', el('b', null, b.rmse_vol_pts.toFixed(2)), ' points, and a MAPE of ', el('b', null, a.mape_pct.toFixed(1) + '%'), ' against ', el('b', null, b.mape_pct.toFixed(1) + '%'), '.');
     } else {
-      p.append('Forward record: forecasts are scored once their 21 trading days have passed. The first scores are due ', el('b', null, (sb && sb.first_due) || '2026-12-01'), '.');
+      p.append('Each live forecast is scored once its 21 trading days have passed, so the first scores arrive on ', el('b', null, (sb && sb.first_due) || '2026-12-01'), '.');
     }
   }
   function backtest() {
@@ -6781,6 +6785,66 @@ function renderUtilTables(summary) {
 
 
 
+<style id="site-strategy-cards">
+/* Overview strategy cards and the Trend + Carry 2.1 section. Kept outside the RESEARCH-TAB markers so a
+   Research-tab splice never removes it (it was lost once that way, 2026-11-01). */
+/* strategy card header: badge stays on one line, gap before the meta text (2026-10-31) */
+.strat-overview-card .strat-card-header {
+    justify-content: flex-start !important;
+    align-items: baseline !important;
+    flex-wrap: wrap !important;
+    gap: 6px 14px !important;
+}
+.strat-overview-card .strat-card-header .strategy-section-badge {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    line-height: 1.4 !important;
+}
+.strat-overview-card .strat-card-header .strat-card-freq {
+    flex: 1 1 240px !important;
+    min-width: 0 !important;
+    line-height: 1.6 !important;
+}
+
+/* Trend + Carry 2.1 (2026-10-31): card section, forecaster canvas, colours from the validated strategy palette */
+.strategy-section-badge.carry21 { color: #c8742a !important; }
+.strategy-dot.carry21 { color: #c8742a; background-color: #c8742a; }
+.alloc-bar-segment.carry21 { background: #c8742a; }
+.overview-split > * { min-width: 0; }
+.c21-amber { color: var(--amber); }
+.c21 { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); cursor: default; }
+.c21-h { font-family: var(--font-serif); font-weight: 400; font-size: 18px; letter-spacing: -0.1px; color: var(--txt); margin: 0 0 10px; }
+.c21-h + .c21-keys { margin-top: -2px; }
+.c21-seg { display: inline-flex; border: 1px solid var(--line-hard); margin-bottom: 10px; max-width: 100%; }
+.c21-segb { font: inherit; font-size: 12.5px; color: var(--txt-dim); background: transparent; border: 0; padding: 6px 11px; cursor: pointer; white-space: nowrap; }
+.c21-segb + .c21-segb { border-left: 1px solid var(--line-hard); }
+.c21-segb:hover { color: var(--txt); }
+.c21-segb.active { color: var(--txt); background: var(--surface-hi); box-shadow: inset 0 -2px 0 #c8742a; }
+.c21-segb:focus-visible { outline: 1px solid var(--amber); outline-offset: 1px; }
+.c21-tablewrap { overflow-x: auto; }
+.c21-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; min-width: 460px; }
+.c21-table th { font-weight: 500; color: var(--txt-faint); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--line-hard); white-space: nowrap; }
+.c21-table td { color: var(--txt-dim); text-align: right; padding: 7px 8px; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+.c21-table th:first-child, .c21-table td:first-child { text-align: left; padding-left: 0; }
+.c21-table tr.is-21 td:first-child { color: var(--txt); }
+.c21-table td.best { color: var(--txt); font-weight: 600; }
+.c21-table td.best::after { content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 5px; vertical-align: 2px; background: #c8742a; border-radius: 50%; }
+.c21-sw { display: inline-block; width: 12px; height: 0; border-top: 2px solid; margin-right: 7px; vertical-align: 4px; }
+.c21-note { font-size: 12px; line-height: 1.6; color: var(--txt-faint); margin: 8px 0 14px; max-width: 76ch; }
+.c21-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin-bottom: 10px; }
+.c21-fact { background: var(--surface-hi); border: 1px solid var(--line); padding: 9px 11px; }
+.c21-fact .k { display: block; font-size: 11.5px; color: var(--txt-faint); }
+.c21-fact .v { display: block; font-size: 16px; font-weight: 600; color: var(--txt); margin: 2px 0 1px; }
+.c21-fact .s { display: block; font-size: 11.5px; line-height: 1.45; color: var(--txt-dim); }
+.c21-live { font-size: 12.5px; line-height: 1.6; color: var(--txt-dim); margin: 0 0 16px; }
+.c21-live b { color: var(--txt); font-weight: 600; }
+.c21-keys { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 12px; color: var(--txt-dim); }
+.c21-keys b { color: var(--txt); font-weight: 600; font-variant-numeric: tabular-nums; }
+.c21-k { display: inline-block; width: 16px; height: 0; border-top: 2px dashed; margin-right: 6px; vertical-align: 4px; }
+.c21-mut { color: var(--txt-faint); }
+.c21-chart { position: relative; height: 210px; margin-top: 6px; }
+@media (max-width: 420px) { .c21-seg { display: flex; } .c21-segb { flex: 1 1 0; white-space: normal; font-size: 11.5px; padding: 6px 8px; } }
+</style>
 <!-- RESEARCH-TAB:BEGIN style -->
 <style id="research-tab-css">
 /* Research tab, redesign 2026-11-01: one story (what survived, everything we tested, why we trust it), one table
