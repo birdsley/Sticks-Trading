@@ -1,8 +1,8 @@
 {
   "as_of": "2026-11-03",
   "cash": 10066.060641,
-  "equity_estimate": 10354.480555398193,
-  "last_run_id": "2026-11-04_sticks_live",
+  "equity_estimate": 10143.510691506592,
+  "last_run_id": "2026-11-05_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -17,7 +17,7 @@
     {
       "avg_cost": 189.062244,
       "entry_date": "2026-10-26",
-      "last_price": 223.119995,
+      "last_price": 213.559998,
       "shares": 5,
       "strategy": "sticks",
       "ticker": "HWM"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 65.445782,
       "entry_date": "2026-11-03",
-      "last_price": 60.549999,
+      "last_price": 58.27,
       "shares": 17,
       "strategy": "sticks",
       "ticker": "INTC"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 337.165844,
       "entry_date": "2026-11-03",
-      "last_price": 331.149994,
+      "last_price": 329.720001,
       "shares": 3,
       "strategy": "sticks",
       "ticker": "FFIV"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 69.271476,
       "entry_date": "2026-11-03",
-      "last_price": 71.279999,
+      "last_price": 77.559998,
       "shares": -14,
       "strategy": "sticks",
       "ticker": "CVNA"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 67.182942,
       "entry_date": "2026-11-03",
-      "last_price": 69.730003,
+      "last_price": 72.029999,
       "shares": -14,
       "strategy": "sticks",
       "ticker": "PNR"
