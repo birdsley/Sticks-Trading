@@ -1371,6 +1371,14 @@
                     <p class="c21-note">Each method forecasts every ETF's volatility for the next 21 trading days, using only what was known at the time, and is scored against what actually happened. Lower is better in every column except R², where higher is better, and bias, where closer to zero is better. QLIKE is the usual score for volatility forecasts and the one we chose the model on. RMSE, MAE and bias are in volatility points, so a 15% forecast against a 17% outcome is 2 points off. MAPE is that miss as a percentage, and R² is how much of the rises and falls the forecast caught. A dot marks the best value in each column.</p>
                     <div class="c21-facts" id="c21Facts"></div>
                     <p class="c21-live" id="c21Live"></p>
+                    <h4 class="c21-h">Why each ETF is sized as it is</h4>
+                    <div class="c21-why" id="c21Why">
+                        <div class="c21-whyhead"><label for="c21Etf">ETF</label><select id="c21Etf" class="c21-sel"></select><span class="c21-mut" id="c21WhyAsof"></span></div>
+                        <p class="c21-whysum" id="c21WhySum"></p>
+                        <div class="c21-drivers" id="c21Drivers" role="list"></div>
+                    </div>
+                    <p class="c21-note">What moves each forecast: the model's own attribution (TreeSHAP), grouped into plain-language inputs and measured against the ETF's usual forecast since 2006. The shaded range is an 80% band: on past forecasts, the outcome landed inside a band like it about 80% of the time, and we track how often it does from here. Sizes compare 2.1 with 1.3 on volatility alone, before the book's caps and its 8% risk target.</p>
+                    <div class="c21-facts" id="c21Mon"></div>
                     <h4 class="c21-h">Backtest replay, 2012–2026</h4>
                     <div class="c21-keys"><span><i class="c21-k" style="border-color:#c8742a"></i>2.1 <b id="c21End21"></b></span><span><i class="c21-k" style="border-color:#9a80e4"></i>1.3 <b id="c21End13"></b></span><span class="c21-mut">Growth of 100, weekly</span></div>
                     <div class="c21-chart"><canvas id="c21Backtest" aria-label="Backtest replay, growth of 100, Trend + Carry 2.1 and 1.3"></canvas></div>
@@ -1966,7 +1974,7 @@
             </details>
         </section>
 
-        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Each day’s dispatch is planned in time order, starting and ending empty, with at most four charging and four discharging hours. It is scored on settled day-ahead prices (ERCOT hub average, CAISO SP15), after 85% round-trip efficiency and $5 per MWh moved. <span id="utLiveNote">Every number here is walk-forward out of sample. None of it is live paper trading yet.</span></footer>
+        <footer class="ut-method"><strong>Methodology.</strong> Gradient-boosted trees forecast each hour 24 hours ahead, retrained on an expanding window with a gap the length of the forecast horizon so nothing leaks. Each day’s dispatch is planned in time order, starting and ending empty, with at most four charging and four discharging hours. It is scored on settled day-ahead prices (ERCOT hub average, CAISO SP15), after 85% round-trip efficiency and $5 per MWh moved. Prices: ERCOT, and California ISO OASIS; weather from Open-Meteo. <span id="utLiveNote">Every number here is walk-forward out of sample. None of it is live paper trading yet.</span></footer>
     </div>
 </div>
 </div><!-- /utilities-tab -->
@@ -2178,6 +2186,7 @@
                         <div class="chart-subtitle">Below 350 = risk-on &nbsp;|&nbsp; 350–500 = stress &nbsp;|&nbsp; &gt;500 = crisis</div>
                     </div>
                     <div id="macroHyChart" style="height:220px;"></div>
+                    <p class="data-credit">ICE BofA US High Yield Index Option-Adjusted Spread (BAMLH0A0HYM2). © ICE Data Indices, LLC. Retrieved from FRED, Federal Reserve Bank of St. Louis.</p>
                 </div>
             </div>
 
@@ -2210,6 +2219,7 @@
                 </div>
             </div>
 
+            <p class="data-credit">Sources: FRED, Federal Reserve Bank of St. Louis (Treasury yields, fed funds, CPI, GDP, payrolls, unemployment); ICE Data Indices, LLC (high-yield spread); University of Michigan Surveys of Consumers (consumer sentiment); Cboe (VIX), via Yahoo Finance; CFTC (positioning); Federal Reserve (FOMC statements).</p>
         </div><!-- /macro-main -->
     </div><!-- /macro-layout -->
 </div><!-- /macro-tab -->
@@ -2291,6 +2301,8 @@
         is populated by the weekly workflow.
     </div>
 </div><!-- /marketstructure-tab -->
+
+<footer class="site-legal">Data: Yahoo Finance via yfinance, FRED, EIA, Cboe and others. Research and education only; not investment advice.</footer>
 
 
 <script>
@@ -6751,6 +6763,71 @@ function renderUtilTables(summary) {
       datasets: [line('Trend + Carry 2.1', bt.v52, C21, true), line('Trend + Carry 1.3', bt.deployed, C13, true)] },
       options: opts([bt.v52, bt.deployed], v => v.toFixed(1)), plugins: [cross] });
   }
+  let ex = null, cf = null, dr = null;
+  const pct = v => (100 * v).toFixed(1) + '%';
+  function why() {
+    const sel = document.getElementById('c21Etf'), box = document.getElementById('c21Why');
+    if (!sel || !box) return;
+    if (!ex || !ex.tickers || !Object.keys(ex.tickers).length) {   // no data yet: hide the whole block
+      [box.previousElementSibling, box, box.nextElementSibling].forEach(n => { if (n) n.style.display = 'none'; }); return; }
+    const t = ex.tickers[sel.value]; if (!t) return;
+    document.getElementById('c21WhyAsof').textContent = 'as of ' + ex.as_of;
+    const sum = document.getElementById('c21WhySum'); sum.textContent = '';
+    if (t.forecast != null) {
+      sum.append('Forecast volatility for the next 21 trading days: ', el('b', null, pct(t.forecast)));
+      if (t.band80) sum.append(' (80% band ', el('b', null, pct(t.band80[0]) + '–' + pct(t.band80[1])), ')');
+      sum.append('. The 60-day window 1.3 uses reads ', el('b', null, pct(t.trailing60)), ', and this ETF usually sits near ', el('b', null, pct(t.usual_vol)), '. ');
+      const r = t.vol_ratio;
+      sum.append(Math.abs(r - 1) < 0.05 ? 'So 2.1 sizes it about the same as 1.3.'
+        : r < 1 ? 'So 2.1 holds about ' + r.toFixed(2) + '× the position 1.3 would: it expects more risk than the last 60 days show.'
+                : 'So 2.1 holds about ' + r.toFixed(2) + '× the position 1.3 would: it expects less risk than the last 60 days show.');
+      if (t.band80) {
+        const lo = Math.min(t.band80[0], t.trailing60, t.usual_vol) * 0.85, hi = Math.max(t.band80[1], t.trailing60, t.usual_vol) * 1.1;
+        const x = v => (100 * (v - lo) / (hi - lo)).toFixed(2) + '%';
+        const band = el('div', 'c21-band'); band.setAttribute('aria-hidden', 'true');
+        const rng = el('span', 'rng'); rng.style.left = x(t.band80[0]); rng.style.width = 'calc(' + x(t.band80[1]) + ' - ' + x(t.band80[0]) + ')';
+        const pt = el('span', 'pt'); pt.style.left = x(t.forecast);
+        const ref = el('span', 'ref'); ref.style.left = x(t.trailing60);
+        band.append(rng, ref, pt);
+        const key = el('div', 'c21-bandkey');
+        key.append(el('span', null, '▮ forecast and 80% band'), el('span', null, '┆ 60-day vol (1.3)'));
+        sum.after(band); band.after(key);
+      }
+    }
+    const dv = document.getElementById('c21Drivers'); dv.textContent = '';
+    const mx = Math.max(10, ...t.drivers.map(d => Math.abs(d.effect_pct)));
+    t.drivers.forEach(d => {
+      const row = el('div', 'c21-drv'); row.setAttribute('role', 'listitem');
+      const lab = el('div', 'lab', d.label[0].toUpperCase() + d.label.slice(1)); if (d.state) lab.appendChild(el('small', null, d.state));
+      const bar = el('div', 'bar'); const i = el('i', d.effect_pct >= 0 ? 'up' : 'dn'); i.style.width = (50 * Math.abs(d.effect_pct) / mx).toFixed(1) + '%'; bar.appendChild(i);
+      const v = el('div', 'val', (d.effect_pct >= 0 ? '+' : '−') + Math.abs(d.effect_pct).toFixed(0) + '%');
+      row.setAttribute('aria-label', d.label + (d.effect_pct >= 0 ? ' raises' : ' lowers') + ' the forecast ' + Math.abs(d.effect_pct).toFixed(0) + '%');
+      row.append(lab, bar, v); dv.appendChild(row); });
+  }
+  function whyInit() {
+    const sel = document.getElementById('c21Etf'); if (!sel || !ex || !ex.tickers) { why(); return; }
+    const tks = Object.keys(ex.tickers).sort();
+    tks.forEach(k => { const o = el('option', null, k); o.value = k; sel.appendChild(o); });
+    sel.value = tks.includes('USO') ? 'USO' : tks[0];
+    sel.addEventListener('change', () => { document.querySelectorAll('#c21Why .c21-band, #c21Why .c21-bandkey').forEach(n => n.remove()); why(); });
+    why();
+  }
+  function monitor() {
+    const box = document.getElementById('c21Mon'); if (!box) return; box.textContent = '';
+    const add = (k, v, x, warn) => { const d = el('div', 'c21-fact'); d.append(el('span', 'k', k), el('span', 'v' + (warn ? ' warn' : ''), v), el('span', 's', x)); box.appendChild(d); };
+    if (cf && cf.backfill && cf.backfill.coverage != null) {
+      const lv = cf.live && cf.live.n ? Math.round(100 * cf.live.coverage) + '% live' : 'live scores pending';
+      add('How often the band holds', Math.round(100 * cf.backfill.coverage) + '% · ' + lv,
+          'Target 80%. On past forecasts (' + cf.backfill.first.slice(0, 7) + ' to ' + cf.backfill.last.slice(0, 7) + ') the band held ' + Math.round(100 * cf.backfill.coverage) + '% of the time; it misses most in sudden sell-offs.');
+    }
+    if (dr && dr.features) {
+      const oor = dr.n_out_of_range || 0;
+      add('Inputs outside the training range', oor ? oor + ' of ' + dr.features.length : 'None',
+          'Weekly check, ' + dr.as_of + '. Trees can’t extrapolate, so we flag any input whose recent values fall outside what the model saw in 2006–2026.', oor > 0);
+      add('Inputs unlike their 20-year average', dr.n_drift + ' of ' + dr.features.length,
+          'Population stability index above 0.25 over the last 63 sessions. Market-wide inputs like the VIX read high whenever markets settle into one regime, so this is context, not an alarm.');
+    }
+  }
   async function get(u) { try { const r = await fetch(u, { cache: 'no-cache' }); return r.ok ? r.json() : null; } catch (e) { return null; } }
   async function init() {
     if (!document.getElementById('c21Acc') || typeof Chart === 'undefined') return;
@@ -6758,6 +6835,8 @@ function renderUtilTables(summary) {
     if (!card || !bt) { const c = document.querySelector('.c21'); if (c) c.style.display = 'none'; return; }
     document.querySelectorAll('.c21-segb').forEach(b => b.addEventListener('click', () => { win = b.dataset.win; table(); }));
     table(); facts(); live();
+    [ex, cf, dr] = await Promise.all([get('data/research/v52f/explain.json'), get('data/research/v52f/conformal.json'), get('data/research/v52f/drift.json')]);
+    whyInit(); monitor();
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !charts.bt) backtest(); }));
     io.observe(document.getElementById('c21Backtest'));
     const c21card = document.querySelector('.strat-overview-card[data-strat="carry21"]');
@@ -6785,6 +6864,10 @@ function renderUtilTables(summary) {
 
 
 
+<style id="site-legal-css">
+.site-legal { margin: 48px auto 24px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.5; color: var(--txt-dim); }
+.data-credit { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--txt-dim); max-width: 90ch; }
+</style>
 <style id="site-strategy-cards">
 /* Overview strategy cards and the Trend + Carry 2.1 section. Kept outside the RESEARCH-TAB markers so a
    Research-tab splice never removes it (it was lost once that way, 2026-11-01). */
@@ -6843,6 +6926,30 @@ function renderUtilTables(summary) {
 .c21-k { display: inline-block; width: 16px; height: 0; border-top: 2px dashed; margin-right: 6px; vertical-align: 4px; }
 .c21-mut { color: var(--txt-faint); }
 .c21-chart { position: relative; height: 210px; margin-top: 6px; }
+/* Trend + Carry 2.1 explainability and monitoring (C1, 2026-11-09) */
+.c21-why { border: 1px solid var(--line); background: var(--surface-hi); padding: 12px 14px; margin-bottom: 6px; }
+.c21-whyhead { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 12.5px; color: var(--txt-dim); }
+.c21-sel { font: inherit; font-size: 13px; color: var(--txt); background: var(--surface); border: 1px solid var(--line-hard); padding: 4px 8px; }
+.c21-sel:focus-visible { outline: 1px solid var(--amber); outline-offset: 1px; }
+.c21-whysum { font-size: 13px; line-height: 1.6; color: var(--txt-dim); margin: 10px 0 12px; }
+.c21-whysum b { color: var(--txt); font-weight: 600; font-variant-numeric: tabular-nums; }
+.c21-band { position: relative; height: 18px; margin: 4px 0 2px; }
+.c21-band .rng { position: absolute; top: 5px; height: 8px; background: rgba(200,116,42,.22); border: 1px solid rgba(200,116,42,.55); }
+.c21-band .pt { position: absolute; top: 1px; width: 2px; height: 16px; background: #c8742a; }
+.c21-band .ref { position: absolute; top: 1px; width: 0; height: 16px; border-left: 2px dashed #9a80e4; }
+.c21-bandkey { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11.5px; color: var(--txt-faint); margin-bottom: 10px; }
+.c21-drivers { display: flex; flex-direction: column; gap: 8px; }
+.c21-drv { display: grid; grid-template-columns: minmax(0, 1fr) 150px 52px; align-items: center; gap: 10px; font-size: 12.5px; }
+.c21-drv .lab { color: var(--txt); line-height: 1.35; }
+.c21-drv .lab small { display: block; color: var(--txt-faint); font-size: 11.5px; }
+.c21-drv .bar { position: relative; height: 10px; background: var(--line-soft); }
+.c21-drv .bar::before { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; border-left: 1px solid var(--line-hard); }
+.c21-drv .bar i { position: absolute; top: 0; bottom: 0; }
+.c21-drv .bar i.up { left: 50%; background: #c8742a; }
+.c21-drv .bar i.dn { right: 50%; background: var(--txt-faint); }
+.c21-drv .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--txt); font-weight: 600; }
+.c21-fact .v.warn { color: var(--amber); }
+@media (max-width: 520px) { .c21-drv { grid-template-columns: minmax(0, 1fr) 90px 46px; } }
 @media (max-width: 420px) { .c21-seg { display: flex; } .c21-segb { flex: 1 1 0; white-space: normal; font-size: 11.5px; padding: 6px 8px; } }
 </style>
 <!-- RESEARCH-TAB:BEGIN style -->
