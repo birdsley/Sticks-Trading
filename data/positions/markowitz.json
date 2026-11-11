@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-11-03",
-  "cash": 827.649322,
-  "equity_estimate": 10384.914300662169,
-  "last_run_id": "2026-11-09_markowitz_live",
+  "as_of": "2026-11-10",
+  "cash": 467.403009,
+  "equity_estimate": 10398.841973858687,
+  "last_run_id": "2026-11-10_markowitz_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -26,7 +26,7 @@
       "avg_cost": 38.765586,
       "entry_date": "2026-06-03",
       "last_price": 44.549999,
-      "shares": 13,
+      "shares": 11,
       "strategy": "markowitz",
       "ticker": "APA"
     },
@@ -39,10 +39,10 @@
       "ticker": "APH"
     },
     {
-      "avg_cost": 29.903026,
+      "avg_cost": 32.090285,
       "entry_date": "2026-06-03",
       "last_price": 35.869999,
-      "shares": 5,
+      "shares": 9,
       "strategy": "markowitz",
       "ticker": "BEN"
     },
@@ -65,7 +65,7 @@
     {
       "avg_cost": 88.639504,
       "entry_date": "2026-06-03",
-      "last_price": 85.830002,
+      "last_price": 86.529999,
       "shares": 4,
       "strategy": "markowitz",
       "ticker": "CL=F"
@@ -79,18 +79,18 @@
       "ticker": "CSX"
     },
     {
-      "avg_cost": 79.336186,
+      "avg_cost": 84.879719,
       "entry_date": "2026-06-03",
       "last_price": 91.800003,
-      "shares": 1,
+      "shares": 2,
       "strategy": "markowitz",
       "ticker": "DAL"
     },
     {
-      "avg_cost": 31.916486,
+      "avg_cost": 31.627036,
       "entry_date": "2026-06-03",
       "last_price": 30.959999,
-      "shares": 7,
+      "shares": 10,
       "strategy": "markowitz",
       "ticker": "DOW"
     },
@@ -122,7 +122,7 @@
       "avg_cost": 39.962616,
       "entry_date": "2026-06-03",
       "last_price": 31.879999,
-      "shares": 5,
+      "shares": 2,
       "strategy": "markowitz",
       "ticker": "HAL"
     },
@@ -201,7 +201,7 @@
     {
       "avg_cost": 3.066052,
       "entry_date": "2026-06-03",
-      "last_price": 3.205,
+      "last_price": 3.313,
       "shares": 23,
       "strategy": "markowitz",
       "ticker": "NG=F"
@@ -314,7 +314,7 @@
       "avg_cost": 67.890823,
       "entry_date": "2026-07-07",
       "last_price": 68.540001,
-      "shares": 2,
+      "shares": 1,
       "strategy": "markowitz",
       "ticker": "CNC"
     },
@@ -359,10 +359,10 @@
       "ticker": "VZ"
     },
     {
-      "avg_cost": 27.748713,
+      "avg_cost": 26.755735,
       "entry_date": "2026-08-04",
       "last_price": 26.41,
-      "shares": 4,
+      "shares": 11,
       "strategy": "markowitz",
       "ticker": "BAX"
     },
@@ -485,6 +485,14 @@
       "shares": 1,
       "strategy": "markowitz",
       "ticker": "TMUS"
+    },
+    {
+      "avg_cost": 53.717576,
+      "entry_date": "2026-11-10",
+      "last_price": 54.57,
+      "shares": 2,
+      "strategy": "markowitz",
+      "ticker": "FAST"
     }
   ]
 }
