@@ -1,8 +1,8 @@
 {
   "as_of": "2026-11-10",
   "cash": 11492.708168,
-  "equity_estimate": 10046.648193482177,
-  "last_run_id": "2026-11-10_sticks_live",
+  "equity_estimate": 10146.33814442517,
+  "last_run_id": "2026-11-11_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -17,7 +17,7 @@
     {
       "avg_cost": 189.062244,
       "entry_date": "2026-10-26",
-      "last_price": 216.240005,
+      "last_price": 219.050003,
       "shares": 5,
       "strategy": "sticks",
       "ticker": "HWM"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 387.438594,
       "entry_date": "2026-11-10",
-      "last_price": 410.0,
+      "last_price": 395.51001,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "APP"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 28.670055,
       "entry_date": "2026-11-10",
-      "last_price": 28.34,
+      "last_price": 28.309999,
       "shares": 35,
       "strategy": "sticks",
       "ticker": "FIS"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 63.055828,
       "entry_date": "2026-11-10",
-      "last_price": 63.52,
+      "last_price": 63.32,
       "shares": -16,
       "strategy": "sticks",
       "ticker": "FISV"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 257.674512,
       "entry_date": "2026-11-10",
-      "last_price": 269.0,
+      "last_price": 250.830002,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "MRNA"
