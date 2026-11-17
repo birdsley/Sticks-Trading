@@ -1,0 +1,218 @@
+{
+ "as_of": "2026-11-13",
+ "window_sessions": 63,
+ "thresholds": {
+  "moderate": 0.1,
+  "drift": 0.25
+ },
+ "reference": "training panel 2006-01-03 to 2026-09-30, decile bins",
+ "n_drift": 9,
+ "n_moderate": 6,
+ "n_out_of_range": 0,
+ "out_of_range_flag": 0.1,
+ "features": [
+  {
+   "feature": "lvix",
+   "group": "vix",
+   "psi": 2.8129,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lvvix",
+   "group": "vix",
+   "psi": 1.6754,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lvix9d",
+   "group": "term",
+   "psi": 1.033,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "vx_f1f2",
+   "group": "term",
+   "psi": 0.6251,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "vix3m_slope",
+   "group": "term",
+   "psi": 0.3556,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lgk63",
+   "group": "quarter",
+   "psi": 0.3277,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "liv",
+   "group": "implied",
+   "psi": 0.3075,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lpk63",
+   "group": "quarter",
+   "psi": 0.2845,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lup63",
+   "group": "quarter",
+   "psi": 0.2843,
+   "status": "drift",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lrv63",
+   "group": "quarter",
+   "psi": 0.2173,
+   "status": "moderate",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lgk21",
+   "group": "month",
+   "psi": 0.1919,
+   "status": "moderate",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lpk21",
+   "group": "month",
+   "psi": 0.1726,
+   "status": "moderate",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "ldn63",
+   "group": "quarter",
+   "psi": 0.1323,
+   "status": "moderate",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lrv21",
+   "group": "month",
+   "psi": 0.1317,
+   "status": "moderate",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lgk5",
+   "group": "week",
+   "psi": 0.1078,
+   "status": "moderate",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lpk5",
+   "group": "week",
+   "psi": 0.0971,
+   "status": "stable",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "fomc_days",
+   "group": "fomc",
+   "psi": 0.0794,
+   "status": "stable",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "ldv_5_63",
+   "group": "volume",
+   "psi": 0.0691,
+   "status": "stable",
+   "out_of_range": 0.009
+  },
+  {
+   "feature": "ldn21",
+   "group": "month",
+   "psi": 0.062,
+   "status": "stable",
+   "out_of_range": 0.0055
+  },
+  {
+   "feature": "iv_minus_rv21",
+   "group": "implied",
+   "psi": 0.0603,
+   "status": "stable",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lup21",
+   "group": "month",
+   "psi": 0.0602,
+   "status": "stable",
+   "out_of_range": 0.0007
+  },
+  {
+   "feature": "lpk1",
+   "group": "week",
+   "psi": 0.0546,
+   "status": "stable",
+   "out_of_range": 0.0062
+  },
+  {
+   "feature": "lgk1",
+   "group": "week",
+   "psi": 0.0478,
+   "status": "stable",
+   "out_of_range": 0.0055
+  },
+  {
+   "feature": "ret",
+   "group": "week",
+   "psi": 0.0217,
+   "status": "stable",
+   "out_of_range": 0.0179
+  },
+  {
+   "feature": "fomc_n21",
+   "group": "fomc",
+   "psi": 0.0209,
+   "status": "stable",
+   "out_of_range": 0.0
+  },
+  {
+   "feature": "lrv5",
+   "group": "week",
+   "psi": 0.0201,
+   "status": "stable",
+   "out_of_range": 0.0035
+  },
+  {
+   "feature": "lgap21",
+   "group": "month",
+   "psi": 0.0186,
+   "status": "stable",
+   "out_of_range": 0.0035
+  },
+  {
+   "feature": "lrv1",
+   "group": "week",
+   "psi": 0.0074,
+   "status": "stable",
+   "out_of_range": 0.0235
+  },
+  {
+   "feature": "absret",
+   "group": "week",
+   "psi": 0.0074,
+   "status": "stable",
+   "out_of_range": 0.009
+  }
+ ]
+}

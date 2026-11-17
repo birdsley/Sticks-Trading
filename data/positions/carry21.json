@@ -1,128 +1,128 @@
 {
-  "as_of": "2026-11-13",
-  "cash": 3930.160032,
-  "equity_estimate": 9526.36,
-  "last_run_id": "2026-11-13_carry21_track",
+  "as_of": "2026-11-16",
+  "cash": 4457.04986,
+  "equity_estimate": 9518.4,
+  "last_run_id": "2026-11-16_carry21_track",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
       "ticker": "DBA",
       "shares": -10,
-      "avg_cost": 26.549999,
-      "entry_date": "2026-11-13",
+      "avg_cost": 26.389999,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "DBB",
       "shares": -3,
-      "avg_cost": 24.059999,
-      "entry_date": "2026-11-13",
+      "avg_cost": 23.809999,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "DBC",
-      "shares": 5,
-      "avg_cost": 30.790001,
-      "entry_date": "2026-11-13",
+      "shares": 6,
+      "avg_cost": 30.25,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "EEM",
       "shares": -1,
-      "avg_cost": 60.919998,
-      "entry_date": "2026-11-13",
+      "avg_cost": 58.889999,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "FXE",
-      "shares": -7,
-      "avg_cost": 101.709999,
-      "entry_date": "2026-11-13",
+      "shares": -9,
+      "avg_cost": 101.480003,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "FXY",
-      "shares": -4,
-      "avg_cost": 57.380001,
-      "entry_date": "2026-11-13",
+      "shares": -5,
+      "avg_cost": 57.459999,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "HYG",
-      "shares": 11,
-      "avg_cost": 76.940002,
-      "entry_date": "2026-11-13",
+      "shares": 10,
+      "avg_cost": 76.730003,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "IEF",
-      "shares": 3,
-      "avg_cost": 90.040001,
-      "entry_date": "2026-11-13",
+      "shares": 1,
+      "avg_cost": 90.239998,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "LQD",
-      "shares": 3,
-      "avg_cost": 102.809998,
-      "entry_date": "2026-11-13",
+      "shares": 1,
+      "avg_cost": 102.800003,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "SHY",
-      "shares": 39,
-      "avg_cost": 81.169998,
-      "entry_date": "2026-11-13",
+      "shares": 41,
+      "avg_cost": 81.230003,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "SLV",
-      "shares": -2,
-      "avg_cost": 44.130001,
-      "entry_date": "2026-11-13",
+      "shares": -3,
+      "avg_cost": 42.389999,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "TIP",
-      "shares": 4,
-      "avg_cost": 104.610001,
-      "entry_date": "2026-11-13",
+      "shares": 2,
+      "avg_cost": 104.57,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "TLT",
-      "shares": 3,
+      "shares": 2,
       "avg_cost": 79.379997,
-      "entry_date": "2026-11-13",
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "USO",
       "shares": 1,
-      "avg_cost": 145.580002,
-      "entry_date": "2026-11-13",
+      "avg_cost": 140.029999,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "UUP",
-      "shares": 34,
-      "avg_cost": 29.5,
-      "entry_date": "2026-11-13",
+      "shares": 45,
+      "avg_cost": 29.559999,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "VGK",
       "shares": 1,
-      "avg_cost": 89.040001,
-      "entry_date": "2026-11-13",
+      "avg_cost": 88.040001,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     },
     {
       "ticker": "VNQ",
       "shares": 4,
-      "avg_cost": 96.470001,
-      "entry_date": "2026-11-13",
+      "avg_cost": 96.230003,
+      "entry_date": "2026-11-16",
       "strategy": "carry21"
     }
   ]

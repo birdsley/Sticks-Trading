@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-11-10",
-  "cash": 11492.708168,
-  "equity_estimate": 10252.97825253369,
-  "last_run_id": "2026-11-13_sticks_live",
+  "as_of": "2026-11-16",
+  "cash": 9755.403099,
+  "equity_estimate": 10121.393085572265,
+  "last_run_id": "2026-11-16_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -15,17 +15,9 @@
       "ticker": "CTVA"
     },
     {
-      "avg_cost": 189.062244,
-      "entry_date": "2026-10-26",
-      "last_price": 220.820007,
-      "shares": 5,
-      "strategy": "sticks",
-      "ticker": "HWM"
-    },
-    {
       "avg_cost": 387.438594,
       "entry_date": "2026-11-10",
-      "last_price": 393.679993,
+      "last_price": 415.220001,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "APP"
@@ -33,26 +25,50 @@
     {
       "avg_cost": 28.670055,
       "entry_date": "2026-11-10",
-      "last_price": 29.540001,
+      "last_price": 28.299999,
       "shares": 35,
       "strategy": "sticks",
       "ticker": "FIS"
     },
     {
-      "avg_cost": 63.055828,
-      "entry_date": "2026-11-10",
-      "last_price": 63.779999,
-      "shares": -16,
-      "strategy": "sticks",
-      "ticker": "FISV"
-    },
-    {
       "avg_cost": 257.674512,
       "entry_date": "2026-11-10",
-      "last_price": 231.350006,
+      "last_price": 215.270004,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "MRNA"
+    },
+    {
+      "avg_cost": 159.131318,
+      "entry_date": "2026-11-16",
+      "last_price": 156.139999,
+      "shares": 6,
+      "strategy": "sticks",
+      "ticker": "NVDA"
+    },
+    {
+      "avg_cost": 139.102557,
+      "entry_date": "2026-11-16",
+      "last_price": 138.949997,
+      "shares": -7,
+      "strategy": "sticks",
+      "ticker": "CHTR"
+    },
+    {
+      "avg_cost": 169.018224,
+      "entry_date": "2026-11-16",
+      "last_price": 162.449997,
+      "shares": 5,
+      "strategy": "sticks",
+      "ticker": "FSLR"
+    },
+    {
+      "avg_cost": 25.567884,
+      "entry_date": "2026-11-16",
+      "last_price": 25.030001,
+      "shares": 38,
+      "strategy": "sticks",
+      "ticker": "SMCI"
     }
   ]
 }
