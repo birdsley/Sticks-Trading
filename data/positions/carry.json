@@ -1,126 +1,126 @@
 {
-  "as_of": "2026-11-17",
-  "cash": 2928.905797,
-  "equity_estimate": 9527.705806,
-  "last_run_id": "2026-11-17_carry_catchup",
+  "as_of": "2026-11-18",
+  "cash": 3844.313272,
+  "equity_estimate": 9542.543163,
+  "last_run_id": "2026-11-18_carry_catchup",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
-      "avg_cost": 26.379999,
-      "entry_date": "2026-11-17",
-      "shares": -11,
+      "avg_cost": 26.02,
+      "entry_date": "2026-11-18",
+      "shares": -12,
       "strategy": "carry",
       "ticker": "DBA"
     },
     {
-      "avg_cost": 23.77,
-      "entry_date": "2026-11-17",
+      "avg_cost": 22.809999,
+      "entry_date": "2026-11-18",
       "shares": -3,
       "strategy": "carry",
       "ticker": "DBB"
     },
     {
-      "avg_cost": 30.190001,
-      "entry_date": "2026-11-17",
+      "avg_cost": 29.51,
+      "entry_date": "2026-11-18",
       "shares": 6,
       "strategy": "carry",
       "ticker": "DBC"
     },
     {
-      "avg_cost": 58.27,
-      "entry_date": "2026-11-17",
+      "avg_cost": 57.880001,
+      "entry_date": "2026-11-18",
       "shares": -1,
       "strategy": "carry",
       "ticker": "EEM"
     },
     {
-      "avg_cost": 101.580002,
-      "entry_date": "2026-11-17",
-      "shares": -8,
+      "avg_cost": 101.330002,
+      "entry_date": "2026-11-18",
+      "shares": -9,
       "strategy": "carry",
       "ticker": "FXE"
     },
     {
-      "avg_cost": 57.5,
-      "entry_date": "2026-11-17",
+      "avg_cost": 57.509998,
+      "entry_date": "2026-11-18",
       "shares": -5,
       "strategy": "carry",
       "ticker": "FXY"
     },
     {
-      "avg_cost": 76.629997,
-      "entry_date": "2026-11-17",
-      "shares": 14,
+      "avg_cost": 76.650002,
+      "entry_date": "2026-11-18",
+      "shares": 12,
       "strategy": "carry",
       "ticker": "HYG"
     },
     {
-      "avg_cost": 90.410004,
-      "entry_date": "2026-11-17",
-      "shares": 3,
+      "avg_cost": 90.669998,
+      "entry_date": "2026-11-18",
+      "shares": 2,
       "strategy": "carry",
       "ticker": "IEF"
     },
     {
-      "avg_cost": 102.739998,
-      "entry_date": "2026-11-17",
-      "shares": 3,
+      "avg_cost": 103.150002,
+      "entry_date": "2026-11-18",
+      "shares": 2,
       "strategy": "carry",
       "ticker": "LQD"
     },
     {
-      "avg_cost": 81.32,
-      "entry_date": "2026-11-17",
-      "shares": 46,
+      "avg_cost": 81.339996,
+      "entry_date": "2026-11-18",
+      "shares": 43,
       "strategy": "carry",
       "ticker": "SHY"
     },
     {
-      "avg_cost": 42.639999,
-      "entry_date": "2026-11-17",
-      "shares": -2,
+      "avg_cost": 40.700001,
+      "entry_date": "2026-11-18",
+      "shares": -3,
       "strategy": "carry",
       "ticker": "SLV"
     },
     {
-      "avg_cost": 104.830002,
-      "entry_date": "2026-11-17",
-      "shares": 4,
+      "avg_cost": 104.900002,
+      "entry_date": "2026-11-18",
+      "shares": 3,
       "strategy": "carry",
       "ticker": "TIP"
     },
     {
-      "avg_cost": 79.550003,
-      "entry_date": "2026-11-17",
-      "shares": 3,
+      "avg_cost": 80.220001,
+      "entry_date": "2026-11-18",
+      "shares": 2,
       "strategy": "carry",
       "ticker": "TLT"
     },
     {
-      "avg_cost": 140.240005,
-      "entry_date": "2026-11-17",
+      "avg_cost": 136.110001,
+      "entry_date": "2026-11-18",
       "shares": 1,
       "strategy": "carry",
       "ticker": "USO"
     },
     {
-      "avg_cost": 29.540001,
-      "entry_date": "2026-11-17",
-      "shares": 43,
+      "avg_cost": 29.620001,
+      "entry_date": "2026-11-18",
+      "shares": 44,
       "strategy": "carry",
       "ticker": "UUP"
     },
     {
-      "avg_cost": 86.970001,
-      "entry_date": "2026-11-17",
+      "avg_cost": 85.849998,
+      "entry_date": "2026-11-18",
       "shares": 1,
       "strategy": "carry",
       "ticker": "VGK"
     },
     {
-      "avg_cost": 94.889999,
-      "entry_date": "2026-11-17",
+      "avg_cost": 95.18,
+      "entry_date": "2026-11-18",
       "shares": 5,
       "strategy": "carry",
       "ticker": "VNQ"

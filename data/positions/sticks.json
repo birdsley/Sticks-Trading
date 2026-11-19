@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-11-17",
-  "cash": 12502.069316,
-  "equity_estimate": 10172.209273580565,
-  "last_run_id": "2026-11-17_sticks_live",
+  "as_of": "2026-11-18",
+  "cash": 11594.865867,
+  "equity_estimate": 10294.385905757325,
+  "last_run_id": "2026-11-18_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -17,7 +17,7 @@
     {
       "avg_cost": 257.674512,
       "entry_date": "2026-11-10",
-      "last_price": 206.800003,
+      "last_price": 196.789993,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "MRNA"
@@ -25,23 +25,15 @@
     {
       "avg_cost": 139.102557,
       "entry_date": "2026-11-16",
-      "last_price": 138.5,
+      "last_price": 139.190002,
       "shares": -7,
       "strategy": "sticks",
       "ticker": "CHTR"
     },
     {
-      "avg_cost": 89.642708,
-      "entry_date": "2026-11-17",
-      "last_price": 87.669998,
-      "shares": 11,
-      "strategy": "sticks",
-      "ticker": "ALB"
-    },
-    {
       "avg_cost": 110.57735,
       "entry_date": "2026-11-17",
-      "last_price": 111.260002,
+      "last_price": 104.529999,
       "shares": 9,
       "strategy": "sticks",
       "ticker": "NEM"
@@ -49,7 +41,7 @@
     {
       "avg_cost": 73.098797,
       "entry_date": "2026-11-17",
-      "last_price": 72.550003,
+      "last_price": 67.449997,
       "shares": -13,
       "strategy": "sticks",
       "ticker": "CNC"
@@ -57,10 +49,26 @@
     {
       "avg_cost": 446.6871,
       "entry_date": "2026-11-17",
-      "last_price": 443.339996,
+      "last_price": 385.779999,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "HUM"
+    },
+    {
+      "avg_cost": 85.850054,
+      "entry_date": "2026-11-18",
+      "last_price": 85.620003,
+      "shares": 11,
+      "strategy": "sticks",
+      "ticker": "GPN"
+    },
+    {
+      "avg_cost": 153.197159,
+      "entry_date": "2026-11-18",
+      "last_price": 150.979996,
+      "shares": 6,
+      "strategy": "sticks",
+      "ticker": "FSLR"
     }
   ]
 }
