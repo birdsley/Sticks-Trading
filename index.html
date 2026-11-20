@@ -1243,6 +1243,12 @@
             outline: 2px solid var(--teal); outline-offset: 2px;
         }
     </style>
+<style id="site-fixes-2026-11">
+.data-asof { margin-left: 10px; font-size: 12px; color: var(--txt-dim, #9a9a9a); }
+.data-asof.stale { color: var(--amber, #f0a020); }
+.pg-lede.replay-note { font-size: 13px; color: var(--txt-dim, #9a9a9a); margin-top: -6px; }
+.empty-note { font-size: 13px; color: var(--txt-dim, #9a9a9a); padding: 14px 0; }
+</style>
 </head>
 <body>
 
@@ -1268,6 +1274,7 @@
         <div class="status">
             <span class="status-dot" id="statusDot"></span>
             <span id="lastUpdate">Loading…</span>
+            <span id="dataAsOf" class="data-asof"></span>
         </div>
         <button class="refresh-btn" onclick="loadAll()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -1339,7 +1346,7 @@
                 <div class="strat-card-pills">
                     <span class="strat-pill">23-ETF Cross-Asset</span>
                     <span class="strat-pill">Trend + Yield-Curve Carry</span>
-                    <span class="strat-pill">Backtest Sharpe +1.24 · 2007–2026 · 8% vol</span>
+                    <span class="strat-pill">Backtest Sharpe +1.24 (2007–2026) · +1.06 (2012–2026) · 8% vol</span>
                     <span class="strat-pill">Backtest 2007–2026: corr to S&amp;P +0.17 · MaxDD −12.5%</span>
                     <span class="strat-pill" id="carryLiveCorr" style="display:none;"></span>
                 </div>
@@ -1392,7 +1399,7 @@
                     <span class="strategy-section-badge markowitz">Markowitz</span>
                     <span class="strat-card-freq">Weekly &nbsp;·&nbsp; Portfolio Optimization</span>
                 </div>
-                <div class="strat-card-desc">Classical mean-variance optimization over S&amp;P 500 stocks and a set of commodity futures (gold, silver, crude oil, natural gas, corn, wheat, and soy). It estimates a Ledoit-Wolf-shrunk covariance matrix over a 252-day rolling window and solves for the maximum Sharpe ratio, subject to long-only, fully invested and 10% per-position constraints. It re-optimises after each Monday close and the trades fill at Tuesday’s open; a Monday market holiday skips that week. Trades under $100 are dropped, so in practice the book holds about 59–90% of its capital.</div>
+                <div class="strat-card-desc"><span id="mkDescWrap">Classical mean-variance optimization over S&amp;P 500 stocks and a set of commodity futures (gold, silver, crude oil, natural gas, corn, wheat, and soy). It estimates a Ledoit-Wolf-shrunk covariance matrix over a 252-day rolling window and solves for the maximum Sharpe ratio, subject to long-only and 10% per-position constraints; the optimiser allocates all capital on paper. It re-optimises after each Monday close and the trades fill at Tuesday’s open; a Monday market holiday skips that week. Trades under $100 are dropped, so the live book is not fully invested: since 2026-06-03 it has held <span id="mkInvested">—</span> of its capital in positions.</span></div>
                 <div class="strat-card-pills">
                     <span class="strat-pill">S&amp;P 500 + Commodities</span>
                     <span class="strat-pill">Ledoit-Wolf Shrinkage</span>
@@ -1468,7 +1475,7 @@
         <div class="overview-stat-item">
             <div class="overview-stat-label">Paper Trading</div>
             <div class="overview-stat-value" id="overviewDaysLive">— days live</div>
-            <div class="overview-stat-sub">$10,000 per strategy · $30k total</div>
+            <div class="overview-stat-sub">$10,000 per book · $40k total across all four</div>
         </div>
         <div class="overview-stat-item">
             <div class="overview-stat-label">Total Portfolio</div>
@@ -1489,6 +1496,7 @@
         </div>
         <h2 class="pg-h1">How the live books are doing</h2>
         <p class="pg-lede">Each strategy started with $10,000 on 2026-06-02 and trades on a simulated broker: orders are decided at the close and filled at the next day’s open with 7 bps of slippage. Trend + Carry 1.3’s book changed in v44, so its forward record restarts with the 2026-10-08 session. Trend + Carry 2.1 starts on the same day as 1.3: its track is backfilled to 2026-10-29 and live from 2026-10-30. It has no order log, since its value is tracked from the book like 1.3’s.</p>
+        <p class="pg-lede replay-note">Replayed or recorded live: Sticks TGA and Markowitz were replayed from 2026-06-02 to 2026-10-15 (an accounting fix and a date-label fix) and are recorded live from 2026-10-16. Trend + Carry 1.3 was replayed to 2026-10-07 under its v44 rules and is live from 2026-10-08. Trend + Carry 2.1 is a backfill to 2026-10-29 and live from 2026-10-30. The equity chart marks each start of live recording.</p>
     </header>
 
     <!-- Strategy filter pills -->
@@ -1783,19 +1791,10 @@
                 </div>
             </div>
         </div>
+        <div id="ffPlaceholderText" class="chart-subtitle" style="display:none;margin-bottom:6px;"></div>
         <div id="ffNote" class="ind-foot" style="margin-bottom:14px;"></div>
         <div id="ffCards" class="ff-grid"></div>
         <div id="ffFoot" class="ind-foot" style="margin-top:10px;"></div>
-    </div>
-
-    <!-- Placeholder shown on strategy drilldowns without factor attribution yet -->
-    <div id="ffPlaceholder" class="chart-container" style="display:none;margin-top:20px;">
-        <div class="chart-header">
-            <div>
-                <div class="chart-title">Factor attribution: Fama-French</div>
-                <div class="chart-subtitle" id="ffPlaceholderText"></div>
-            </div>
-        </div>
     </div>
 
 </div><!-- /performance-tab -->
@@ -2460,6 +2459,8 @@ async function loadAll() {
         state.equity.carry21   = filterTradingDays(eCarry21);
         state.snapshot         = snap;
         state.runSummary       = summary;
+        renderDataAsOf(summary);
+        renderMarkowitzInvested();
         state.positions        = { sticks: posSticks, markowitz: posMarkowitz, carry: posCarry, carry21: posCarry21 };
         state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, carry: ordCarry, carry21: ordCarry21 };
 
@@ -2570,22 +2571,49 @@ async function fetchJSONL(url) {
 }
 
 async function loadRunHistory() {
-    // Enumerate last 30 trading-day dates and try fetching each
-    const dates = [];
-    const d = new Date();
-    while (dates.length < 30) {
-        const dow = d.getDay();
-        if (dow !== 0 && dow !== 6) {
-            dates.push(d.toISOString().split('T')[0]);
+    // 1. The daily run publishes data/history/index.json (one entry per run summary).
+    try {
+        const man = await fetchJSON('data/history/index.json');
+        if (man && Array.isArray(man.dates) && man.dates.length) {
+            const dates = man.dates.slice().sort().reverse().slice(0, 30);
+            const res = await Promise.all(dates.map(d => fetchJSON(`data/history/${d}_run_summary.json`).catch(() => null)));
+            return res.filter(Boolean).sort((a, b) => b.date < a.date ? -1 : 1);
         }
-        d.setDate(d.getDate() - 1);
+    } catch (e) {}
+    // 2. Fallback: probe the last 30 New York trading days. Weekday and date string come from the same
+    //    New York calendar date, so US evenings no longer skip Mondays or request Saturdays.
+    const dates = [];
+    const ny = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date());
+    const d = new Date(ny + 'T12:00:00Z');
+    while (dates.length < 30) {
+        const dow = d.getUTCDay();
+        if (dow !== 0 && dow !== 6) dates.push(d.toISOString().slice(0, 10));
+        d.setUTCDate(d.getUTCDate() - 1);
     }
-    const results = await Promise.all(
-        dates.map(date =>
-            fetchJSON(`data/history/${date}_run_summary.json`).catch(() => null)
-        )
-    );
+    const results = await Promise.all(dates.map(date => fetchJSON(`data/history/${date}_run_summary.json`).catch(() => null)));
     return results.filter(Boolean).sort((a,b) => b.date < a.date ? -1 : 1);
+}
+
+// B10: 'Data as of' stamp and a stale warning when the latest run is more than 2 New York trading days old
+const NYSE_HOLIDAYS = new Set(['2026-01-01','2026-01-19','2026-02-16','2026-04-03','2026-05-25','2026-06-19','2026-07-03',
+    '2026-09-07','2026-11-26','2026-12-25','2027-01-01','2027-01-18','2027-02-15','2027-03-26','2027-05-31','2027-06-18',
+    '2027-07-05','2027-09-06','2027-11-25','2027-12-24']);
+function tradingDaysBetween(a, b) {      // sessions strictly after date a and strictly before date b (YYYY-MM-DD)
+    let n = 0; const d = new Date(a + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + 1);
+    while (d.toISOString().slice(0, 10) < b) {
+        const k = d.toISOString().slice(0, 10), w = d.getUTCDay();
+        if (w !== 0 && w !== 6 && !NYSE_HOLIDAYS.has(k)) n++;
+        d.setUTCDate(d.getUTCDate() + 1);
+    }
+    return n;
+}
+function renderDataAsOf(rs) {
+    const el = document.getElementById('dataAsOf'); if (!el) return;
+    if (!rs || !rs.date) { el.textContent = 'Data date not available'; el.className = 'data-asof stale'; return; }
+    const ny = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date());
+    const late = tradingDaysBetween(rs.date, ny);
+    el.textContent = 'Data as of ' + rs.date + (late > 2 ? ' · stale: ' + late + ' trading days without a new run' : '');
+    el.className = 'data-asof' + (late > 2 ? ' stale' : '');
 }
 
 async function fetchSpy() {
@@ -2614,6 +2642,14 @@ async function fetchSpy() {
             price: close[i]
         })).filter(d => d.price != null);
     } catch { return []; }
+}
+
+function renderMarkowitzInvested() {
+    const el = document.getElementById('mkInvested'); if (!el) return;
+    const rows = (state.equity.markowitz || []).filter(r => r.equity > 0 && r.gross_exposure != null && r.date >= '2026-06-03');
+    if (rows.length < 2) { el.textContent = 'a varying share'; return; }
+    const x = rows.map(r => r.gross_exposure / r.equity * 100).sort((a, b) => a - b);
+    el.textContent = Math.round(x[0]) + '–' + Math.round(x[x.length - 1]) + '% (median ' + Math.round(x[Math.floor(x.length / 2)]) + '%)';
 }
 
 function setStatus(type, text) {
@@ -2856,9 +2892,29 @@ function updateEquityChart() {
     // Unified date axis (all series are aligned to it by date)
     const chartLabels = allDates;
 
+    const LIVE_FROM = { sticks: '2026-10-16', markowitz: '2026-10-16', carry: '2026-10-08', carry21: '2026-10-30' };
+    const marks = {};
+    stratList.forEach(s => { const d = LIVE_FROM[s]; if (d) (marks[d] = marks[d] || []).push(isAll ? LABELS[s].replace('Trend + Carry ', '').replace('Sticks TGA', 'TGA') : 'live'); });
+    const liveLines = { id: 'liveLines', afterDatasetsDraw(c) {
+        const xs = c.scales.x, area = c.chartArea, g = c.ctx;
+        Object.entries(marks).sort().forEach(([d, names], k) => {
+            const i = chartLabels.findIndex(x => x >= d); if (i < 0) return;
+            const px = xs.getPixelForValue(i);
+            g.save(); g.strokeStyle = 'rgba(200,200,200,.35)'; g.setLineDash([3, 3]); g.lineWidth = 1;
+            g.beginPath(); g.moveTo(px, area.top); g.lineTo(px, area.bottom); g.stroke(); g.setLineDash([]);
+            g.fillStyle = '#9a9a9a'; g.font = '10px sans-serif';
+            const lab = isAll ? names.join(', ') + ' live' : 'recorded live';
+            const fits = px + 4 + g.measureText(lab).width <= area.right;
+            g.textAlign = fits ? 'left' : 'right';
+            g.fillText(lab, fits ? px + 4 : px - 4, area.top + 11 + 13 * k);
+            g.restore();
+        });
+    }};
+
     charts.equity = new Chart(ctx, {
         type: 'line',
         data: { labels: chartLabels, datasets },
+        plugins: [liveLines],
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: {
@@ -5632,7 +5688,12 @@ function renderUtilPlan(summary) {
     if (!plan || !plan.charge_hours) { el.innerHTML = '<p class="ut-foot">No dispatch plan available.</p>'; return; }
     document.getElementById('utPlanTitle').textContent = lf && lf.plan
         ? `Tomorrow's plan: ${plan.plan_date}`
-        : 'Dispatch for ' + plan.plan_date + ', the last day of the backtest';
+        : 'Live planning paused: showing the backtest’s last plan, ' + plan.plan_date;
+    if (!(lf && lf.plan)) {
+        meta.innerHTML = '<span id="utPlanPaused">The daily forecast job has been paused since 2026-10-19: in v47 a naive plan built on the ' +
+            'last 14 days’ average price shape beat the forecast. Its scored record is a backfill (2026-06-28 to 2026-10-15); no day was scored live before the pause.</span>';
+        meta.style.display = '';
+    }
     const ch = plan.charge_hours, di = plan.discharge_hours;
     el.innerHTML =
         `<div><div class="ut-cells">` + Array.from({ length: 24 }, (_, h) =>
@@ -5868,27 +5929,27 @@ function renderUtilTables(summary) {
     };
 
     // ───────────────────────────────── Fama-French (Performance drilldown)
+    let ffToken = 0;
     window.renderFactorPanel = async function(strategy){
         const section = document.getElementById('ffSection');
-        const placeholder = document.getElementById('ffPlaceholder');
         if (!section) return;
-        // Flagship only for now: factor attribution lives on the Trend+Carry drilldown.
+        const tok = ++ffToken;                         // a slower earlier call must not overwrite a newer one
+        const ph = document.getElementById('ffPlaceholderText');
+        const parts = ['ffNote', 'ffCards', 'ffFoot', 'ffScopePill'].map(id => document.getElementById(id));
+        const showPh = (msg) => { section.style.display = ''; ph.style.display = ''; ph.textContent = msg;
+                                  parts.forEach(el => { if (el) el.style.display = 'none'; }); };
         if (strategy !== 'carry'){
-            section.style.display='none';
             if (strategy && strategy !== 'all'){
-                placeholder.style.display='';
-                document.getElementById('ffPlaceholderText').textContent =
-                    'Factor attribution needs a multi-year return series. It is shown on the Trend + Carry 1.3 book for now; '+
-                    'the other strategies gain it once their backtest curves are added.';
-            } else {
-                placeholder.style.display='none';
-            }
+                showPh('Factor attribution needs a multi-year return series. It is shown on the Trend + Carry 1.3 book for now; '+
+                       'the other strategies gain it once their backtest curves are added.');
+            } else { section.style.display = 'none'; }
             return;
         }
-        placeholder.style.display='none';
         const d = await getJSON('famafrench');
-        if (!d){ section.style.display='none'; return; }
-        section.style.display='';
+        if (tok !== ffToken) return;
+        if (!d){ showPh('Factor attribution is not available right now: its data file could not be loaded.'); return; }
+        section.style.display=''; ph.style.display = 'none';
+        parts.forEach(el => { if (el) el.style.display = ''; });
         const sp = document.getElementById('ffScopePill');
         sp.className='ind-pill blue'; sp.textContent='flagship';
         document.getElementById('ffNote').textContent = 'These are backtest curves to ' + String(d.window || '').split('→').pop().trim() + '. The flagship line is the base Trend + Carry blend (v33), before the meta-label, regime and 8% vol layers of the deployed v44 book. Re-running it on the deployed book is an open item.';
@@ -6769,7 +6830,8 @@ function renderUtilTables(summary) {
     const sel = document.getElementById('c21Etf'), box = document.getElementById('c21Why');
     if (!sel || !box) return;
     if (!ex || !ex.tickers || !Object.keys(ex.tickers).length) {   // no data yet: hide the whole block
-      [box.previousElementSibling, box, box.nextElementSibling].forEach(n => { if (n) n.style.display = 'none'; }); return; }
+      box.innerHTML = '<p class="empty-note c21-empty">Not yet available: the daily attribution file (explain.json) has not been published. It appears after the next daily run.</p>';
+      if (box.nextElementSibling) box.nextElementSibling.style.display = 'none'; return; }
     const t = ex.tickers[sel.value]; if (!t) return;
     document.getElementById('c21WhyAsof').textContent = 'as of ' + ex.as_of;
     const sum = document.getElementById('c21WhySum'); sum.textContent = '';
@@ -6815,11 +6877,15 @@ function renderUtilTables(summary) {
   function monitor() {
     const box = document.getElementById('c21Mon'); if (!box) return; box.textContent = '';
     const add = (k, v, x, warn) => { const d = el('div', 'c21-fact'); d.append(el('span', 'k', k), el('span', 'v' + (warn ? ' warn' : ''), v), el('span', 's', x)); box.appendChild(d); };
+    if (!cf || !cf.backfill || cf.backfill.coverage == null)
+      add('How often the band holds', 'Not yet available', 'The forecast band file (conformal.json) has not been published yet.');
     if (cf && cf.backfill && cf.backfill.coverage != null) {
       const lv = cf.live && cf.live.n ? Math.round(100 * cf.live.coverage) + '% live' : 'live scores pending';
       add('How often the band holds', Math.round(100 * cf.backfill.coverage) + '% · ' + lv,
           'Target 80%. On past forecasts (' + cf.backfill.first.slice(0, 7) + ' to ' + cf.backfill.last.slice(0, 7) + ') the band held ' + Math.round(100 * cf.backfill.coverage) + '% of the time; it misses most in sudden sell-offs.');
     }
+    if (!dr || !dr.features)
+      add('Inputs outside the training range', 'Not yet available', 'The weekly drift check (drift.json) runs on Saturdays and is published by the next daily run.');
     if (dr && dr.features) {
       const oor = dr.n_out_of_range || 0;
       add('Inputs outside the training range', oor ? oor + ' of ' + dr.features.length : 'None',
@@ -6832,7 +6898,7 @@ function renderUtilTables(summary) {
   async function init() {
     if (!document.getElementById('c21Acc') || typeof Chart === 'undefined') return;
     [card, bt, sb] = await Promise.all([get('data/research/v52f/model_card.json'), get('data/research/v52f/backtest.json'), get('data/research/v52f/scoreboard.json')]);
-    if (!card || !bt) { const c = document.querySelector('.c21'); if (c) c.style.display = 'none'; return; }
+    if (!card || !bt) { const c = document.querySelector('.c21'); if (c) c.innerHTML = '<p class="empty-note c21-empty">The forecaster scores and backtest replay are not available right now: their data files could not be loaded.</p>'; return; }
     document.querySelectorAll('.c21-segb').forEach(b => b.addEventListener('click', () => { win = b.dataset.win; table(); }));
     table(); facts(); live();
     [ex, cf, dr] = await Promise.all([get('data/research/v52f/explain.json'), get('data/research/v52f/conformal.json'), get('data/research/v52f/drift.json')]);
