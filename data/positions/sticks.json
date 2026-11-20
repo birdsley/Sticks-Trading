@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-11-18",
-  "cash": 11594.865867,
-  "equity_estimate": 10294.385905757325,
-  "last_run_id": "2026-11-18_sticks_live",
+  "as_of": "2026-11-19",
+  "cash": 15209.001022,
+  "equity_estimate": 10388.41107922046,
+  "last_run_id": "2026-11-19_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -23,25 +23,9 @@
       "ticker": "MRNA"
     },
     {
-      "avg_cost": 139.102557,
-      "entry_date": "2026-11-16",
-      "last_price": 139.190002,
-      "shares": -7,
-      "strategy": "sticks",
-      "ticker": "CHTR"
-    },
-    {
-      "avg_cost": 110.57735,
-      "entry_date": "2026-11-17",
-      "last_price": 104.529999,
-      "shares": 9,
-      "strategy": "sticks",
-      "ticker": "NEM"
-    },
-    {
       "avg_cost": 73.098797,
       "entry_date": "2026-11-17",
-      "last_price": 67.449997,
+      "last_price": 65.580002,
       "shares": -13,
       "strategy": "sticks",
       "ticker": "CNC"
@@ -49,26 +33,42 @@
     {
       "avg_cost": 446.6871,
       "entry_date": "2026-11-17",
-      "last_price": 385.779999,
+      "last_price": 380.0,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "HUM"
     },
     {
-      "avg_cost": 85.850054,
-      "entry_date": "2026-11-18",
-      "last_price": 85.620003,
-      "shares": 11,
+      "avg_cost": 210.892265,
+      "entry_date": "2026-11-19",
+      "last_price": 205.089996,
+      "shares": -5,
       "strategy": "sticks",
-      "ticker": "GPN"
+      "ticker": "GNRC"
     },
     {
-      "avg_cost": 153.197159,
-      "entry_date": "2026-11-18",
-      "last_price": 150.979996,
-      "shares": 6,
+      "avg_cost": 93.274658,
+      "entry_date": "2026-11-19",
+      "last_price": 91.709999,
+      "shares": -11,
       "strategy": "sticks",
-      "ticker": "FSLR"
+      "ticker": "AKAM"
+    },
+    {
+      "avg_cost": 26.668655,
+      "entry_date": "2026-11-19",
+      "last_price": 25.940001,
+      "shares": 38,
+      "strategy": "sticks",
+      "ticker": "FIS"
+    },
+    {
+      "avg_cost": 362.685944,
+      "entry_date": "2026-11-19",
+      "last_price": 346.649994,
+      "shares": -2,
+      "strategy": "sticks",
+      "ticker": "AVGO"
     }
   ]
 }
