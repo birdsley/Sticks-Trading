@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-11-20",
-  "cash": 16199.727034,
-  "equity_estimate": 10618.617029727538,
-  "last_run_id": "2026-11-20_sticks_live",
+  "as_of": "2026-11-23",
+  "cash": 17284.427234,
+  "equity_estimate": 10489.267280081542,
+  "last_run_id": "2026-11-23_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -17,7 +17,7 @@
     {
       "avg_cost": 257.674512,
       "entry_date": "2026-11-10",
-      "last_price": 195.0,
+      "last_price": 212.080002,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "MRNA"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 73.098797,
       "entry_date": "2026-11-17",
-      "last_price": 63.779999,
+      "last_price": 63.32,
       "shares": -13,
       "strategy": "sticks",
       "ticker": "CNC"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 446.6871,
       "entry_date": "2026-11-17",
-      "last_price": 390.0,
+      "last_price": 383.679993,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "HUM"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 210.892265,
       "entry_date": "2026-11-19",
-      "last_price": 193.220001,
+      "last_price": 204.75,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "GNRC"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 93.274658,
       "entry_date": "2026-11-19",
-      "last_price": 85.110001,
+      "last_price": 89.220001,
       "shares": -11,
       "strategy": "sticks",
       "ticker": "AKAM"
@@ -57,10 +57,18 @@
     {
       "avg_cost": 362.685944,
       "entry_date": "2026-11-19",
-      "last_price": 304.410004,
+      "last_price": 313.549988,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "AVGO"
+    },
+    {
+      "avg_cost": 361.566733,
+      "entry_date": "2026-11-23",
+      "last_price": 353.429993,
+      "shares": -3,
+      "strategy": "sticks",
+      "ticker": "PANW"
     }
   ]
 }
