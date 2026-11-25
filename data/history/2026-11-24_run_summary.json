@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-24",
+  "strategies_run": [
+    "sticks",
+    "markowitz",
+    "carry"
+  ],
+  "order_counts": {
+    "sticks": 1,
+    "markowitz": 0,
+    "carry": 0
+  },
+  "fill_counts": {
+    "sticks": 2,
+    "markowitz": 9,
+    "carry": 0
+  },
+  "equity": {
+    "sticks": 10471.94590785254,
+    "markowitz": 9985.43577332959,
+    "carry": 9540.15
+  },
+  "total_equity": 29997.53,
+  "total_orders": 1,
+  "total_fills": 11,
+  "elapsed_s": 220.8,
+  "errors": [],
+  "status": "ok"
+}
