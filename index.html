@@ -1306,11 +1306,10 @@
 
         <!-- Left: strategy cards -->
         <div>
-            <div class="overview-section-label">Four Strategies</div>
+            <div class="overview-section-label">Three Strategies</div>
 
             <div class="overview-strat-tabs">
-                <button class="ostab active" data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry 1.3</button>
-                <button class="ostab"        data-strat="carry21"   onclick="selectOverviewStrat('carry21')">Trend + Carry 2.1</button>
+                <button class="ostab active" data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button><span class="tc-ver" role="group" aria-label="Trend + Carry version"><button class="tc-ver-btn" data-ver="2.1" onclick="event.stopPropagation(); setTCVersion('2.1')">2.1</button><button class="tc-ver-btn" data-ver="1.3" onclick="event.stopPropagation(); setTCVersion('1.3')">1.3</button></span>
                 <button class="ostab"        data-strat="tga"       onclick="selectOverviewStrat('tga')">Sticks TGA</button>
                 <button class="ostab"        data-strat="markowitz" onclick="selectOverviewStrat('markowitz')">Markowitz</button>
             </div>
@@ -1496,8 +1495,7 @@
         <span class="filter-label">View:</span>
         <button class="pill-btn active" data-strategy="all"       onclick="setStrategy(event,'all')">All Strategies</button>
         <button class="pill-btn"        data-strategy="sticks"    onclick="setStrategy(event,'sticks')">Sticks TGA</button>
-        <button class="pill-btn"        data-strategy="carry"     onclick="setStrategy(event,'carry')">Trend + Carry 1.3</button>
-        <button class="pill-btn"        data-strategy="carry21"   onclick="setStrategy(event,'carry21')">Trend + Carry 2.1</button>
+        <button class="pill-btn"        data-strategy="carry"     onclick="setStrategy(event,'carry')">Trend + Carry</button><span class="tc-ver" role="group" aria-label="Trend + Carry version"><button class="tc-ver-btn" data-ver="2.1" onclick="event.stopPropagation(); setTCVersion('2.1')">2.1</button><button class="tc-ver-btn" data-ver="1.3" onclick="event.stopPropagation(); setTCVersion('1.3')">1.3</button></span>
         <button class="pill-btn"        data-strategy="markowitz" onclick="setStrategy(event,'markowitz')">Markowitz</button>
         <div class="filter-right">
             Run status: <span id="runStatus" style="color:#00d4aa;">—</span>
@@ -1564,7 +1562,7 @@
             <div class="alloc-bar-track" id="allocBar">
                 <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:25%"></div>
                 <div class="alloc-bar-segment carry"     id="barCarry"     style="width:25%"></div>
-                <div class="alloc-bar-segment carry21"   id="barCarry21"   style="width:25%"></div>
+                <div class="alloc-bar-segment carry21"   id="barCarry21"   style="width:0;display:none"></div>
                 <div class="alloc-bar-segment markowitz" id="barMarkowitz" style="width:25%"></div>
             </div>
             <div id="strategyRows"></div>
@@ -1683,8 +1681,7 @@
                         <th>Status</th>
                         <th>Sticks Equity</th>
                         <th>Markowitz Equity</th>
-                        <th>Trend + Carry 1.3 Equity</th>
-                        <th>Trend + Carry 2.1 Equity</th>
+                        <th id="runThCarry">Trend + Carry 2.1 Equity</th>
                         <th>Total Equity</th>
                         <th>Orders</th>
                         <th>Fills</th>
@@ -1729,16 +1726,16 @@
             <div class="analytics-cards" id="sticksAnalyticsCards"></div>
 
             <div class="strategy-section-header" id="carrySection">
-                <span class="strategy-section-badge carry">Trend + Carry 1.3</span>
-                <span style="font-size:13px;color:#606060;">Cross-asset trend + carry on 23 ETFs (track since 2026-06-02, forward record from 2026-10-08)</span>
+                <span class="strategy-section-badge carry" id="carrySectionBadge">Trend + Carry</span>
+                <span style="font-size:13px;color:#606060;" id="carrySectionDesc">Cross-asset trend + carry on 23 ETFs</span>
             </div>
             <div class="analytics-cards" id="carryAnalyticsCards"></div>
 
-            <div class="strategy-section-header" id="carry21Section">
+            <div class="strategy-section-header" id="carry21Section" style="display:none">
                 <span class="strategy-section-badge carry21">Trend + Carry 2.1</span>
                 <span style="font-size:13px;color:#606060;">1.3 with positions sized by a volatility forecast (track since 2026-06-02, backfilled with out-of-sample forecasts to 2026-10-29, live from 2026-10-30)</span>
             </div>
-            <div class="analytics-cards" id="carry21AnalyticsCards"></div>
+            <div class="analytics-cards" id="carry21AnalyticsCards" style="display:none"></div>
 
             <div class="strategy-section-header" id="markowitzSection">
                 <span class="strategy-section-badge markowitz">Markowitz</span>
@@ -1996,8 +1993,7 @@
     <div id="heldTickerStrip" style="display:none; margin-bottom:18px;">
         <div class="held-strat-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
             <button class="ostab active" data-strat="sticks"    onclick="selectHeldStrategy('sticks')">Sticks TGA</button>
-            <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry 1.3</button>
-            <button class="ostab"        data-strat="carry21"   onclick="selectHeldStrategy('carry21')">Trend + Carry 2.1</button>
+            <button class="ostab"        data-strat="carry"     onclick="selectHeldStrategy('carry')">Trend + Carry</button>
             <button class="ostab"        data-strat="markowitz" onclick="selectHeldStrategy('markowitz')">Markowitz</button>
         </div>
         <div class="held-strip-label">Currently held: <span id="heldStripStratName">Sticks TGA</span> &nbsp;<span id="heldStripCount" style="font-weight:400;color:#404040;"></span></div>
@@ -2309,10 +2305,15 @@
 // ══════════════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════════════
-const STRATEGIES = ['sticks','carry','carry21','markowitz'];   // DRL Vol retired 2026-10-06
-// Capital pools summed in portfolio totals: all four $10,000 books (carry21's track is backfilled to 2026-06-02).
-const TOTAL_STRATEGIES = ['sticks','carry','carry21','markowitz'];
-const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', carry:'Trend + Carry 1.3', carry21:'Trend + Carry 2.1' };
+const STRATEGIES = ['sticks','carry','markowitz'];   // DRL Vol retired 2026-10-06
+// Three $10,000 books in the totals. Trend + Carry 1.3 and 2.1 are the same strategy (2.1 differs only in position
+// sizing), so the 'carry' slot shows one version at a time, chosen with the version toggle (default 2.1).
+const TOTAL_STRATEGIES = ['sticks','carry','markowitz'];
+const LABELS     = { sticks:'Sticks TGA', markowitz:'Markowitz', carry:'Trend + Carry 2.1', carry21:'Trend + Carry 2.1' };
+const TC_COLORS  = { '1.3': '#9a80e4', '2.1': '#c8742a' };
+let TC_VERSION = '2.1';
+try { const v = localStorage.getItem('tcVersion'); if (v === '1.3' || v === '2.1') TC_VERSION = v; } catch (e) {}
+const TC_RAW = { '1.3': { equity: [], positions: null, orders: [] }, '2.1': { equity: [], positions: null, orders: [] } };
 // Series colours validated for colour-blind separation on the dark surface (dataviz validator, worst ΔE 11.5)
 const COLORS     = { sticks:'#1aa98d', markowitz:'#2a5ab0', carry:'#9a80e4', carry21:'#c8742a', spy:'#606060' };
 const CARRY21_FORWARD = '2026-10-30';   // before this date the 2.1 track is a backfill
@@ -2462,6 +2463,9 @@ async function loadAll() {
         state.runSummary       = summary;
         state.positions        = { sticks: posSticks, markowitz: posMarkowitz, carry: posCarry, carry21: posCarry21 };
         state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, carry: ordCarry, carry21: ordCarry21 };
+        TC_RAW['1.3'] = { equity: state.equity.carry, positions: posCarry, orders: ordCarry };
+        TC_RAW['2.1'] = { equity: state.equity.carry21, positions: posCarry21, orders: ordCarry21 };
+        applyTCVersion();
 
         // Load 30-day run history
         state.history = await loadRunHistory();
@@ -2492,14 +2496,7 @@ function refreshOverviewStats() {
     // Total equity
     const snap = state.snapshot;
     const equities = {};
-    TOTAL_STRATEGIES.forEach(s => {
-        if (snap && snap[s] != null) {
-            equities[s] = snap[s];
-        } else {
-            const rows = state.equity[s];
-            equities[s] = rows.length ? rows[rows.length-1].equity : START_EQUITY;
-        }
-    });
+    TOTAL_STRATEGIES.forEach(s => { equities[s] = latestEquity(s, snap); });
     const total = Object.values(equities).reduce((a,b) => a+b, 0);
     const startTotal = START_EQUITY * TOTAL_STRATEGIES.length;
     const totalRet = (total - startTotal) / startTotal * 100;
@@ -2900,14 +2897,7 @@ function updateAllocationPanel() {
 
     // Get latest equity per strategy (from snapshot if available, else last CSV row)
     const equities = {};
-    TOTAL_STRATEGIES.forEach(s => {
-        if (snap && snap[s] != null) {
-            equities[s] = snap[s];
-        } else {
-            const rows = state.equity[s];
-            equities[s] = rows.length ? rows[rows.length-1].equity : START_EQUITY;
-        }
-    });
+    TOTAL_STRATEGIES.forEach(s => { equities[s] = latestEquity(s, snap); });
 
     const total = Object.values(equities).reduce((a,b) => a+b, 0);
     document.getElementById('totalEquityValue').textContent = fmtDollars(total);
@@ -3355,7 +3345,7 @@ function updateRunHistoryTable() {
     const show = showAllRuns ? history : history.slice(0, 10);
 
     if (show.length === 0) {
-        body.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#606060;padding:30px;">No run history yet. The first trading day is Monday.</td></tr>';
+        body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#606060;padding:30px;">No run history yet. The first trading day is Monday.</td></tr>';
         btn.classList.remove('visible');
         return;
     }
@@ -3365,7 +3355,10 @@ function updateRunHistoryTable() {
         // carry21 is book-tracked (no daily run entry): take its value for the run date from its equity track
         const c21    = (state.equity.carry21 || []).find(x => x.date === r.date);
         if (c21 && eq.carry21 == null) eq.carry21 = c21.equity;
-        const total  = (r.total_equity ?? Object.entries(eq).filter(([k]) => k !== 'carry21').reduce((a,[,b])=>a+b,0)) + (eq.carry21 || 0);
+        // Three books in the total: Sticks, Markowitz and the selected Trend + Carry version
+        const base   = (r.total_equity ?? Object.entries(eq).filter(([k]) => k !== 'carry21').reduce((a,[,b])=>a+b,0));
+        const tcVal  = TC_VERSION === '2.1' ? eq.carry21 : eq.carry;
+        const total  = TC_VERSION === '2.1' ? (eq.carry21 != null ? base - (eq.carry || 0) + eq.carry21 : null) : base;
         // Flag days where no actual trading happened (all equity == start capital)
         const isFlat = total > 0 && Math.abs(total - START_EQUITY * TOTAL_STRATEGIES.length) < 1 &&
                        (r.total_fills === 0 || r.total_fills == null);
@@ -3378,8 +3371,7 @@ function updateRunHistoryTable() {
             <td>${badge}</td>
             <td>${fmtEq(eq.sticks)}</td>
             <td>${fmtEq(eq.markowitz)}</td>
-            <td>${fmtEq(eq.carry)}</td>
-            <td>${fmtEq(eq.carry21)}</td>
+            <td>${fmtEq(tcVal)}</td>
             <td style="color:#00d4aa;font-weight:600;">${total ? fmtDollars(total) : '—'}</td>
             <td>${r.total_orders ?? '—'}</td>
             <td>${r.total_fills  ?? '—'}</td>
@@ -3667,7 +3659,7 @@ function renderStrategyCompareChart() {
             borderColor: COLORS[s], backgroundColor: 'transparent',
             borderWidth: 2, pointRadius: 0, tension: 0.3,
             // 2.1's track before its forward record is a backfill: drawn dashed
-            segment: s === 'carry21' ? { borderDash: c => ((rows[c.p1DataIndex] || {}).date < CARRY21_FORWARD ? [5, 4] : undefined) } : undefined
+            segment: (s === 'carry21' || (s === 'carry' && TC_VERSION === '2.1')) ? { borderDash: c => ((rows[c.p1DataIndex] || {}).date < CARRY21_FORWARD ? [5, 4] : undefined) } : undefined
         };
     }).filter(d => d.data.length > 0);
 
@@ -3785,6 +3777,46 @@ function renderCorrelationChart() {
 let overviewAnimId = null; // unused for iframe approach; kept for switchMainTab compat
 let _overviewCanvasReady = false;
 
+// ── Trend + Carry version toggle (1.3 / 2.1) ─────────────────────────────────────────
+function latestEquity(s, snap) {
+    // the daily snapshot's 'carry' is 1.3; when 2.1 is selected read its own track
+    if (snap && snap[s] != null && !(s === 'carry' && TC_VERSION === '2.1')) return snap[s];
+    const rows = state.equity[s] || [];
+    return rows.length ? rows[rows.length - 1].equity : START_EQUITY;
+}
+
+function applyTCVersion() {
+    const raw = TC_RAW[TC_VERSION];
+    state.equity.carry    = raw.equity || [];
+    state.positions.carry = raw.positions;
+    state.orders.carry    = raw.orders || [];
+    LABELS.carry = 'Trend + Carry ' + TC_VERSION;
+    COLORS.carry = TC_COLORS[TC_VERSION];
+    document.body.classList.toggle('tc21', TC_VERSION === '2.1');
+    document.querySelectorAll('.tc-ver-btn').forEach(b => b.classList.toggle('active', b.dataset.ver === TC_VERSION));
+    const badge = document.getElementById('carrySectionBadge');
+    if (badge) { badge.textContent = LABELS.carry; badge.classList.toggle('carry21', TC_VERSION === '2.1'); badge.classList.toggle('carry', TC_VERSION === '1.3'); }
+    const desc = document.getElementById('carrySectionDesc');
+    if (desc) desc.textContent = TC_VERSION === '2.1'
+        ? 'Cross-asset trend + carry on 23 ETFs, positions sized by a volatility forecast (track since 2026-06-02, backfilled to 2026-10-29, live from 2026-10-30; dashed before that)'
+        : 'Cross-asset trend + carry on 23 ETFs, positions sized by trailing 60-day volatility (track since 2026-06-02, forward record from 2026-10-08)';
+    const th = document.getElementById('runThCarry');
+    if (th) th.textContent = LABELS.carry + ' Equity';
+}
+
+function setTCVersion(v) {
+    if (v !== '1.3' && v !== '2.1') return;
+    TC_VERSION = v;
+    try { localStorage.setItem('tcVersion', v); } catch (e) {}
+    applyTCVersion();
+    try { refreshPerformanceTab(); } catch (e) { console.error(e); }
+    try { refreshOverviewStats(); } catch (e) { console.error(e); }
+    try { renderFactorPanel(currentStrategy); } catch (e) {}
+    try { if (document.getElementById('ticker-tab').classList.contains('active')) renderHeldTickers(); } catch (e) {}
+    const shown = document.querySelector('.strat-overview-card.shown');
+    if (shown && (shown.dataset.strat === 'carry' || shown.dataset.strat === 'carry21')) selectOverviewStrat('carry');
+}
+
 const DEMO_META = {
     tga:        { label: 'MST network: illustration of the original TGA idea',    dotColor: '#00d4aa', activeClass: 'active-tga' },
     markowitz:  { label: 'Efficient frontier: illustration of mean-variance optimization', dotColor: '#00a8ff', activeClass: 'active-markowitz' },
@@ -3793,6 +3825,8 @@ const DEMO_META = {
 };
 
 function selectOverviewStrat(strat) {
+    if (strat === 'carry' && TC_VERSION === '2.1') strat = 'carry21';
+    const tabStrat = strat === 'carry21' ? 'carry' : strat;
     // Update card active classes
     document.querySelectorAll('.strat-overview-card').forEach(c => {
         c.classList.remove('active-tga', 'active-markowitz', 'active-carry', 'active-carry21');
@@ -3803,7 +3837,7 @@ function selectOverviewStrat(strat) {
     // Tabbed view: show only the selected strategy's card, sync tab highlight
     document.querySelectorAll('.strat-overview-card').forEach(c => c.classList.remove('shown'));
     if (card) card.classList.add('shown');
-    document.querySelectorAll('.ostab').forEach(t => t.classList.toggle('active', t.dataset.strat === strat));
+    document.querySelectorAll('.overview-strat-tabs .ostab').forEach(t => t.classList.toggle('active', t.dataset.strat === tabStrat));
 
     // Update header label + dot
     // the 2.1 demo has four panels under the 3D view, so its stage is taller (its card on the left is long too)
@@ -3830,6 +3864,7 @@ function initOverviewCanvas() {
     if (_overviewCanvasReady) return;
     _overviewCanvasReady = true;
     // Trend + Carry (the flagship) is the default card on first visit
+    applyTCVersion();
     selectOverviewStrat('carry');
 }
 
@@ -6891,6 +6926,14 @@ function renderUtilTables(summary) {
 
 /* Trend + Carry 2.1 (2026-10-31): card section, forecaster canvas, colours from the validated strategy palette */
 .strategy-section-badge.carry21 { color: #c8742a !important; }
+body.tc21 .alloc-bar-segment.carry { background: #c8742a; }
+body.tc21 .strategy-dot.carry { color: #c8742a; background-color: #c8742a; }
+body.tc21 .strategy-section-badge.carry { color: #c8742a !important; }
+.tc-ver { display: inline-flex; align-items: center; gap: 0; margin-left: 4px; border: 1px solid #2a2a2a; border-radius: 6px; overflow: hidden; vertical-align: middle; }
+.tc-ver-btn { background: transparent; color: #707070; border: none; padding: 5px 9px; font: inherit; font-size: 12px; cursor: pointer; }
+.tc-ver-btn.active { background: #c8742a22; color: #e0a060; }
+.tc-ver-btn[data-ver="1.3"].active { background: #9a80e422; color: #b8a6f0; }
+.tc-ver-btn:focus-visible { outline: 2px solid #e0a060; outline-offset: -2px; }
 .strategy-dot.carry21 { color: #c8742a; background-color: #c8742a; }
 .alloc-bar-segment.carry21 { background: #c8742a; }
 .overview-split > * { min-width: 0; }
