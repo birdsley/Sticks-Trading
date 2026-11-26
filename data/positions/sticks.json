@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "cash": 16281.725834,
-  "equity_estimate": 10471.94590785254,
-  "last_run_id": "2026-11-24_sticks_live",
+  "equity_estimate": 10461.945778152833,
+  "last_run_id": "2026-11-25_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
@@ -17,7 +17,7 @@
     {
       "avg_cost": 257.674512,
       "entry_date": "2026-11-10",
-      "last_price": 227.380005,
+      "last_price": 220.839996,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "MRNA"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 73.098797,
       "entry_date": "2026-11-17",
-      "last_price": 64.349998,
+      "last_price": 64.739998,
       "shares": -13,
       "strategy": "sticks",
       "ticker": "CNC"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 446.6871,
       "entry_date": "2026-11-17",
-      "last_price": 402.720001,
+      "last_price": 406.51001,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "HUM"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 210.892265,
       "entry_date": "2026-11-19",
-      "last_price": 198.360001,
+      "last_price": 203.990005,
       "shares": -5,
       "strategy": "sticks",
       "ticker": "GNRC"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 93.274658,
       "entry_date": "2026-11-19",
-      "last_price": 89.32,
+      "last_price": 88.660004,
       "shares": -11,
       "strategy": "sticks",
       "ticker": "AKAM"
@@ -57,7 +57,7 @@
     {
       "avg_cost": 362.685944,
       "entry_date": "2026-11-19",
-      "last_price": 301.079987,
+      "last_price": 300.859985,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "AVGO"
@@ -65,7 +65,7 @@
     {
       "avg_cost": 361.566733,
       "entry_date": "2026-11-23",
-      "last_price": 352.98999,
+      "last_price": 356.140015,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "PANW"
@@ -73,7 +73,7 @@
     {
       "avg_cost": 334.2338,
       "entry_date": "2026-11-24",
-      "last_price": 341.880005,
+      "last_price": 346.190002,
       "shares": 3,
       "strategy": "sticks",
       "ticker": "UNH"
