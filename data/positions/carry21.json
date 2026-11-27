@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-25",
-  "cash": 6484.640018,
+  "cash": 6566.280017,
   "equity_estimate": 9542.03,
   "last_run_id": "2026-11-25_carry21_track",
   "open_orders": [],
@@ -57,7 +57,7 @@
     },
     {
       "ticker": "SHY",
-      "shares": 23,
+      "shares": 22,
       "avg_cost": 81.639999,
       "entry_date": "2026-11-25",
       "strategy": "carry21"
