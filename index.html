@@ -1350,9 +1350,9 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <header class="pg-hero">
         <div class="pg-tags">
             <span class="pg-eyebrow-box">ALPHA EXPERIMENT</span>
-            <span class="pg-mono">DAILY BARS · PAPER TRADING SINCE 2026-06-02</span>
+            <span class="pg-mono">Daily bars, paper trading since 2 June 2026</span>
         </div>
-        <h2 class="pg-h1">Trading Research Suite</h2>
+        <h2 class="pg-h1">Which trading ideas survive real costs</h2>
         <p class="pg-lede">This project tests whether structural signals keep a statistical edge on daily bars once fills and costs are realistic and nothing looks ahead. It does not compete on execution speed. It started on point-in-time S&amp;P 500 single names with graph topology, portfolio theory and reinforcement learning. None of those found a standalone edge. The one that survived is a cross-asset trend and carry book on 23 ETFs.</p>
     </header>
 
@@ -1361,7 +1361,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
 
         <!-- Left: strategy cards -->
         <div>
-            <div class="overview-section-label">Three Strategies</div>
+            <div class="overview-section-label">Three strategies</div>
 
             <div class="overview-strat-tabs">
                 <button class="ostab active" data-strat="carry"     onclick="selectOverviewStrat('carry')">Trend + Carry</button><span class="tc-ver" role="group" aria-label="Trend + Carry version"><button class="tc-ver-btn" data-ver="2.1" onclick="event.stopPropagation(); setTCVersion('2.1')">2.1</button><button class="tc-ver-btn" data-ver="1.3" onclick="event.stopPropagation(); setTCVersion('1.3')">1.3</button></span>
@@ -1469,27 +1469,27 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <!-- Validation stats bar -->
     <div class="overview-stats-bar">
         <div class="overview-stat-item">
-            <div class="overview-stat-label">Data Source</div>
+            <div class="overview-stat-label">Data source</div>
             <div class="overview-stat-value">yfinance daily OHLCV</div>
             <div class="overview-stat-sub">PIT-correct via allsp96.csv</div>
         </div>
         <div class="overview-stat-item">
-            <div class="overview-stat-label">Validation Method</div>
+            <div class="overview-stat-label">Validation method</div>
             <div class="overview-stat-value">Walk-forward only</div>
             <div class="overview-stat-sub">S&amp;P engine: 252-day train · 21-day test</div>
         </div>
         <div class="overview-stat-item">
-            <div class="overview-stat-label">Execution Model</div>
+            <div class="overview-stat-label">Execution model</div>
             <div class="overview-stat-value">MOO T+1 · 7 bps drag</div>
             <div class="overview-stat-sub">Market-on-open, no midpoint fills</div>
         </div>
         <div class="overview-stat-item">
-            <div class="overview-stat-label">Paper Trading</div>
+            <div class="overview-stat-label">Paper trading</div>
             <div class="overview-stat-value" id="overviewDaysLive">— days live</div>
             <div class="overview-stat-sub">$10,000 per strategy · $30k total</div>
         </div>
         <div class="overview-stat-item">
-            <div class="overview-stat-label">Total Portfolio</div>
+            <div class="overview-stat-label">Total portfolio</div>
             <div class="overview-stat-value" id="overviewTotalEquity">—</div>
             <div class="overview-stat-sub" id="overviewTotalReturn">—</div>
         </div>
@@ -1503,7 +1503,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <header class="pg-hero">
         <div class="pg-tags">
             <span class="pg-eyebrow-box">PAPER TRADING</span>
-            <span class="pg-mono">$10,000 PER STRATEGY · NEXT-OPEN FILLS · 7 BPS</span>
+            <span class="pg-mono">$10,000 per strategy, filled at the next open, 7 bps a side</span>
         </div>
         <h2 class="pg-h1">How the live books are doing</h2>
         <p class="pg-lede">Each strategy started with $10,000 on 2026-06-02 and trades on a simulated broker: orders are decided at the close and filled at the next day’s open with 7 bps of slippage.</p>
@@ -1525,32 +1525,32 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <!-- Metrics cards -->
     <div class="metrics-grid">
         <div class="metric-card">
-            <div class="metric-label">Total Return</div>
+            <div class="metric-label">Total return</div>
             <div class="metric-value" id="metTotalReturn">—</div>
             <div class="metric-subtitle">vs SPY: <span id="metAlpha">—</span></div>
         </div>
         <div class="metric-card">
-            <div class="metric-label">Sharpe Ratio</div>
+            <div class="metric-label">Sharpe ratio</div>
             <div class="metric-value" id="metSharpe">—</div>
             <div class="metric-subtitle">Annualized, rf=0</div>
         </div>
         <div class="metric-card">
-            <div class="metric-label">Max Drawdown</div>
+            <div class="metric-label">Max drawdown</div>
             <div class="metric-value negative" id="metDrawdown">—</div>
             <div class="metric-subtitle">Peak to trough</div>
         </div>
         <div class="metric-card">
-            <div class="metric-label">Portfolio Value</div>
+            <div class="metric-label">Portfolio value</div>
             <div class="metric-value positive" id="metPortfolioValue">—</div>
             <div class="metric-subtitle">Started at <span id="metStartValue">—</span></div>
         </div>
         <div class="metric-card">
-            <div class="metric-label">Today's Fills</div>
+            <div class="metric-label">Today's fills</div>
             <div class="metric-value" id="metFills">—</div>
             <div class="metric-subtitle"><span id="metOrders">—</span> orders placed</div>
         </div>
         <div class="metric-card">
-            <div class="metric-label">Days Live</div>
+            <div class="metric-label">Days live</div>
             <div class="metric-value" id="metDaysLive">—</div>
             <div class="metric-subtitle">Trading days tracked</div>
         </div>
@@ -1576,7 +1576,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
                 <div class="chart-title">Portfolio allocation</div>
                 <div class="chart-subtitle" id="allocDate">—</div>
             </div>
-            <div class="total-equity-label">TOTAL EQUITY</div>
+            <div class="total-equity-label">Total equity</div>
             <div class="total-equity-value" id="totalEquityValue">—</div>
             <div class="alloc-bar-track" id="allocBar">
                 <div class="alloc-bar-segment sticks"    id="barSticks"    style="width:25%"></div>
@@ -1649,15 +1649,15 @@ body.tc21 .tch { --tch-book: #c8742a; }
             <div style="margin-top:20px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; text-align:center;">
                 <div>
                     <div style="font-size:22px;font-weight:600;" id="actTotalOrders">—</div>
-                    <div style="font-size:11px;color:#606060;">Total Orders</div>
+                    <div style="font-size:11px;color:#606060;">Orders</div>
                 </div>
                 <div>
                     <div style="font-size:22px;font-weight:600;color:#00d4aa;" id="actTotalFills">—</div>
-                    <div style="font-size:11px;color:#606060;">Total Fills</div>
+                    <div style="font-size:11px;color:#606060;">Fills</div>
                 </div>
                 <div>
                     <div style="font-size:22px;font-weight:600;" id="actElapsed">—</div>
-                    <div style="font-size:11px;color:#606060;">Run Time (s)</div>
+                    <div style="font-size:11px;color:#606060;">Run time</div>
                 </div>
             </div>
         </div>
@@ -1668,19 +1668,19 @@ body.tc21 .tch { --tch-book: #c8742a; }
         <div class="chart-title">Against the SPY benchmark</div>
         <div class="comparison-stats">
             <div class="comparison-stat">
-                <div class="comparison-stat-label">Return Delta</div>
+                <div class="comparison-stat-label">Return vs SPY</div>
                 <div class="comparison-stat-value" id="cmpReturn">—</div>
             </div>
             <div class="comparison-stat">
-                <div class="comparison-stat-label">Sharpe Delta</div>
+                <div class="comparison-stat-label">Sharpe vs SPY</div>
                 <div class="comparison-stat-value" id="cmpSharpe">—</div>
             </div>
             <div class="comparison-stat">
-                <div class="comparison-stat-label">Drawdown Delta</div>
+                <div class="comparison-stat-label">Drawdown vs SPY</div>
                 <div class="comparison-stat-value" id="cmpDrawdown">—</div>
             </div>
             <div class="comparison-stat">
-                <div class="comparison-stat-label">SPY Return</div>
+                <div class="comparison-stat-label">SPY return</div>
                 <div class="comparison-stat-value" id="cmpSpyReturn">—</div>
             </div>
         </div>
@@ -1699,13 +1699,13 @@ body.tc21 .tch { --tch-book: #c8742a; }
                     <tr>
                         <th>Date</th>
                         <th>Status</th>
-                        <th>Sticks Equity</th>
-                        <th>Markowitz Equity</th>
-                        <th id="runThCarry">Trend + Carry 2.1 Equity</th>
-                        <th>Total Equity</th>
+                        <th>Sticks equity</th>
+                        <th>Markowitz equity</th>
+                        <th id="runThCarry">Trend + Carry 2.1 equity</th>
+                        <th>Total equity</th>
                         <th>Orders</th>
                         <th>Fills</th>
-                        <th>Run Time</th>
+                        <th>Run time</th>
                     </tr>
                 </thead>
                 <tbody id="runTableBody"></tbody>
@@ -1863,7 +1863,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <header class="ut-hero">
         <div class="ut-tags">
             <span class="ut-eyebrow-box" id="utEyebrow">POWER MARKETS · ERCOT</span>
-            <span class="ut-mono-dim">1 MW / 4 MWh · ONE CYCLE / DAY · WALK-FORWARD OOS</span>
+            <span class="ut-mono-dim">1 MW / 4 MWh battery, one cycle a day, walk-forward out of sample</span>
         </div>
         <h2 class="ut-h1">A forecast that decides when a battery buys and sells power.</h2>
         <p class="ut-lede">A gradient-boosted model forecasts the next day’s 24 day-ahead prices. Each day is then planned hour by hour so the battery stays between empty and full: it buys in up to four cheap hours, sells in up to four dear ones, and every trade is scored against the price that settled. This tab replays that rule out of sample from October 2025 to June 2026 and measures how much of the perfect-insight profit the forecast captures, and how much better that is than running the battery on a fixed schedule.</p>
@@ -2003,7 +2003,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <header class="pg-hero">
         <div class="pg-tags">
             <span class="pg-eyebrow-box">TICKER ANALYSIS</span>
-            <span class="pg-mono">S&amp;P 500 · MINUTE BARS</span>
+            <span class="pg-mono">S&amp;P 500 minute bars</span>
         </div>
         <h2 class="pg-h1">Look inside any stock the books hold</h2>
         <p class="pg-lede">Pick a strategy’s current holding or search the S&amp;P 500. The charts show one day of minute bars with VWAP and Bollinger bands, 15-minute realised volatility, volume by price level and a mean-reversion z-score.</p>
@@ -2023,7 +2023,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <!-- Controls: Ticker + Date + Button -->
     <div class="ticker-controls" style="grid-template-columns:2fr 1fr auto;">
         <div class="control-group">
-            <label class="control-label">Ticker Symbol</label>
+            <label class="control-label">Ticker</label>
             <div class="autocomplete-container">
                 <input type="text" class="autocomplete-input" id="tickerInput"
                     placeholder="Type to search (e.g., AAPL, MSFT, TSLA…)" autocomplete="off">
@@ -2117,7 +2117,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <header class="pg-hero">
         <div class="pg-tags">
             <span class="pg-eyebrow-box">MACRO</span>
-            <span class="pg-mono">FRED · FOMC · ECONOMIC RELEASES</span>
+            <span class="pg-mono">FRED, FOMC statements and economic releases</span>
         </div>
         <h2 class="pg-h1">The economy the books trade into</h2>
         <p class="pg-lede">Rates, inflation, credit spreads and volatility from FRED, a hawk-dove score for FOMC statements, and recent economic releases with SPY’s move on the day. Headlines run down the side.</p>
@@ -2130,7 +2130,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="#00d4aa">
                     <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h12v2H6zm0 4h8v2H6z"/>
                 </svg>
-                Macro Headlines
+                Macro headlines
             </div>
             <div id="macroNewsFeed">
                 <div class="macro-empty" style="padding:24px 8px;">
@@ -2247,7 +2247,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
     <header class="pg-hero">
         <div class="pg-tags">
             <span class="pg-eyebrow-box">SYSTEMIC RISK &amp; POSITIONING</span>
-            <span class="pg-mono">RANDOM MATRIX THEORY · CFTC COT · WEEKLY</span>
+            <span class="pg-mono">Random matrix theory and CFTC positioning, updated weekly</span>
         </div>
         <h2 class="pg-h1">Market structure</h2>
         <p class="pg-lede">Two weekly gauges of the market our books trade in. The first measures how much
@@ -3438,7 +3438,7 @@ function updateActivitySection() {
         <div class="signal-bar-item">
             <div class="signal-bar-label">
                 <span>${LABELS[s]}</span>
-                <span style="color:${COLORS[s]}">${fills}/${orders} filled</span>
+                <span style="color:var(--txt-dim)">${orders} order${orders === 1 ? '' : 's'}, ${fills} fill${fills === 1 ? '' : 's'}</span>
             </div>
             <div class="signal-bar">
                 <div class="signal-bar-fill ${s}" style="width:${pct}%"></div>
@@ -3647,14 +3647,14 @@ function renderStrategyCards(s) {
 
     const cards = [];
     if (m) {
-        cards.push({ label:'Total Return',   value: fmtPct(m.totalReturn), sub: m.rows+' days' });
+        cards.push({ label:'Total return',   value: fmtPct(m.totalReturn), sub: m.rows+' days' });
         cards.push({ label:'Sharpe',          value: fmt(m.sharpe),         sub: 'rf=0, annualized' });
-        cards.push({ label:'Max Drawdown',    value: fmt(m.maxDD)+'%',      sub: 'Peak to trough' });
-        cards.push({ label:'Final Equity',    value: fmtDollars(m.lastEquity), sub: 'Started $10,000' });
+        cards.push({ label:'Max drawdown',    value: fmt(m.maxDD)+'%',      sub: 'Peak to trough' });
+        cards.push({ label:'Final equity',    value: fmtDollars(m.lastEquity), sub: 'Started $10,000' });
     }
     if (rs) {
         cards.push({
-            label: "Today's Orders",
+            label: "Today's orders",
             value: String(rs.order_counts?.[s] ?? '—'),
             sub:   (rs.fill_counts?.[s] ?? '—') + ' filled'
         });
@@ -3926,7 +3926,7 @@ function applyTCVersion() {
         ? 'Cross-asset trend + carry on 23 ETFs, positions sized by a volatility forecast (track since 2026-06-02, backfilled to 2026-10-29, live from 2026-10-30; dashed before that)'
         : 'Cross-asset trend + carry on 23 ETFs, positions sized by trailing 60-day volatility (track since 2026-06-02, forward record from 2026-10-08)';
     const th = document.getElementById('runThCarry');
-    if (th) th.textContent = LABELS.carry + ' Equity';
+    if (th) th.textContent = LABELS.carry + ' equity';
 }
 
 function setTCVersion(v) {
@@ -5020,7 +5020,7 @@ function renderMacroKPIs(fred, mkt) {
         const lbl = cs.stagflation_flag ? 'Stagflation watch'
                   : cs.below_trend ? 'Below trend' : 'Above trend';
         indicators.push({
-            label: 'Consumer Sentiment',
+            label: 'Consumer sentiment',
             value: Number(cs.value).toFixed(1),
             change: cs.ma12 != null ? '12-mo MA ' + Number(cs.ma12).toFixed(1) : '',
             changeClass: 'neutral',
@@ -5262,7 +5262,7 @@ function renderMacroReleases(fred) {
             <thead>
                 <tr>
                     <th>Indicator</th><th>Date</th><th>Actual</th>
-                    <th>Prior Period</th><th>vs Prior</th><th>SPY React.</th><th>Note</th>
+                    <th>Prior period</th><th>vs Prior</th><th>SPY reaction</th><th>Note</th>
                 </tr>
             </thead>
             <tbody>${rows}</tbody>
@@ -6012,7 +6012,7 @@ function renderUtilTables(summary) {
         tp.className='ind-pill '+tone; tp.textContent=toneTxt;
         document.getElementById('fomcKpis').innerHTML =
             kpi('Latest statement ('+L.date+')', (L.net>=0?'+':'')+L.net.toFixed(2), toneTxt+' · '+L.action, tone==='red'?PAL.red:tone==='teal'?PAL.teal:'#e8eaed') +
-            kpi('Hawk / Dove term hits', L.hawk+' / '+L.dove, 'latest statement') +
+            kpi('Hawkish and dovish terms', L.hawk+' / '+L.dove, 'latest statement') +
             kpi('Meetings scored', d.n, 'real FOMC statements');
         document.getElementById('fomcFoot').innerHTML =
             `${d.method} Source: ${d.source}`;
@@ -7662,5 +7662,24 @@ body.tc21 .strategy-section-badge.carry { color: #c8742a !important; }
 })();
 </script>
 <!-- RESEARCH-TAB:END script -->
+
+<style id="unslop-polish">
+/* Polish pass following unslop (Damir Sokolovsky, @heydamir, CC BY 4.0): labels in sentence case, no boxed eyebrows,
+   no looping or glowing dots. Palette, type and layout unchanged. */
+.metric-label, .analytics-card-label, .ticker-metric-label, .control-label, .indicator-label, .comparison-stat-label,
+.metric-subtitle, .overview-stat-label, .news-pane-title, .overview-section-label, .history-table th, .release-table th,
+.ind-kpi .label, .held-strip-label, .total-equity-label, .narrative-label, .filter-label, .section-divider span,
+.logo-text p, .status, .refresh-btn, .pos-info-badge, .strat-pill, .status-badge, .strategy-section-badge,
+.overview-badge, .ind-pill, .strat-card-freq, .pill-btn, .ostab, .cot-btn, .inner-tab, .show-more-btn, .analyze-btn,
+.pg-mono, .ut-mono-dim, .c21-fact .k {
+  text-transform: none !important; letter-spacing: 0 !important; font-family: var(--font-ui) !important; }
+.metric-label, .analytics-card-label, .ticker-metric-label, .indicator-label, .comparison-stat-label, .overview-stat-label,
+.ind-kpi .label, .total-equity-label, .overview-section-label, .held-strip-label, .history-table th, .release-table th {
+  font-size: 12px !important; font-weight: 500 !important; color: var(--txt-faint) !important; }
+.pg-eyebrow-box { display: none !important; }
+.pg-mono, .ut-mono-dim { font-size: 13px !important; color: var(--txt-faint) !important; }
+.status-dot, .canvas-dot-ind, .run-status-dot { animation: none !important; box-shadow: none !important; }
+.cu-flash { animation: none !important; }
+</style>
 </body>
 </html>
