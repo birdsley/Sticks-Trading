@@ -1613,7 +1613,7 @@ body.tc21 .tch { --tch-book: #c8742a; }
             <div class="chart-header">
                 <div>
                     <div class="chart-title" id="tradeLogTitle">Recent closed trades</div>
-                    <div class="chart-subtitle" id="tradeLogSub">Entry &amp; exit prices from orders log · click a ticker to inspect minute data</div>
+                    <div class="chart-subtitle" id="tradeLogSub">Executed entry and exit prices · click a ticker to inspect minute data</div>
                 </div>
             </div>
             <div id="tradeLogContent" style="overflow-x:auto;"></div>
@@ -2460,7 +2460,7 @@ async function loadAll() {
         const [eSticks, eMarkowitz, eCarry, snap, summary,
                posSticks, posMarkowitz, posCarry,
                ordSticks, ordMarkowitz, ordCarry,
-               eCarry21, posCarry21, ordCarry21, holdCarry, holdCarry21] = await Promise.all([
+               eCarry21, posCarry21, ordCarry21, holdCarry, holdCarry21, fillSticks, fillMarkowitz] = await Promise.all([
             fetchCSV('data/equity/sticks.csv').catch(() => []),
             fetchCSV('data/equity/markowitz.csv').catch(() => []),
             fetchCSV('data/equity/carry.csv').catch(() => []),
@@ -2477,6 +2477,8 @@ async function loadAll() {
             Promise.resolve([]),   // carry21 is book-tracked like carry: no order log
             fetchJSON('data/positions/carry_holdings.json').catch(() => null),
             fetchJSON('data/positions/carry21_holdings.json').catch(() => null),
+            fetchJSONL('data/fills/sticks.jsonl').catch(() => []),
+            fetchJSONL('data/fills/markowitz.jsonl').catch(() => []),
         ]);
 
         state.equity.sticks    = filterTradingDays(eSticks);
@@ -2487,6 +2489,7 @@ async function loadAll() {
         state.runSummary       = summary;
         state.positions        = { sticks: posSticks, markowitz: posMarkowitz, carry: posCarry, carry21: posCarry21 };
         state.orders           = { sticks: ordSticks, markowitz: ordMarkowitz, carry: ordCarry, carry21: ordCarry21 };
+        state.fills            = { sticks: fillSticks, markowitz: fillMarkowitz };
         TC_RAW['1.3'] = { equity: state.equity.carry, positions: posCarry, orders: ordCarry, holdings: holdCarry };
         TC_RAW['2.1'] = { equity: state.equity.carry21, positions: posCarry21, orders: ordCarry21, holdings: holdCarry21 };
         applyTCVersion();
@@ -3053,90 +3056,65 @@ function updateStrategyHoldingsPanel() {
 // ══════════════════════════════════════════════════════════════
 
 /**
- * Match opens → closes from a strategy's orders array.
+ * Match opens → closes from a strategy's executed fills.
  * Returns closed trades sorted most-recent-exit first.
- * Open (unmatched) orders are ignored — they're shown in the holdings panel.
+ * Open (unmatched) lots are ignored — they're shown in the holdings panel.
  */
-function buildClosedTrades(orders) {
-    // Clean the intent log before reconstructing round trips:
-    //  (1) drop future-dated orders — a T+1 order whose trade_date hasn't arrived
-    //      has NOT filled, so it must not appear as a completed exit;
-    //  (2) de-duplicate identical entries (e.g. from a re-run that re-logged the
-    //      same orders) by a content key, so they don't double-count or mis-pair.
-    const todayStr = new Date().toISOString().slice(0, 10);
+function buildClosedTrades(fills) {
+    // Round trips from EXECUTED fills (data/fills/<strategy>.jsonl), not order intents: only filled or partial
+    // fills count, at executed price and shares, so a rejected or expired exit never shows as a closed trade.
+    // Lots are matched first in, first out, so a partial exit closes only the shares it filled.
     const seen = new Set();
-    const cleaned = [];
-    for (const o of orders) {
-        if (o.trade_date && o.trade_date > todayStr) continue;            // not yet filled
-        const key = [o.ticker, o.side, o.trade_date, o.position_action,
-                     o.intended_price, o.intended_shares].join('|');
-        if (seen.has(key)) continue;                                      // duplicate log entry
+    const rows = [];
+    for (const f of fills || []) {
+        if (f.fill_status !== 'filled' && f.fill_status !== 'partial') continue;
+        const sh = +f.executed_shares || 0, px = +f.executed_price || 0;
+        if (!(sh > 0 && px > 0)) continue;
+        const key = f.trade_id || [f.ticker, f.side, f.trade_date, sh, px].join('|');
+        if (seen.has(key)) continue;                                     // duplicate log entry
         seen.add(key);
-        cleaned.push(o);
+        rows.push(f);
     }
-    // Sort chronologically (decision timestamp is most precise)
-    const sorted = cleaned.sort((a, b) =>
-        (a.decision_ts_utc || '').localeCompare(b.decision_ts_utc || '')
-    );
+    rows.sort((a, b) => ((a.trade_date || '') + (a.execution_ts_utc || '')).localeCompare((b.trade_date || '') + (b.execution_ts_utc || '')));
 
-    // Per-ticker queue of open lots (FIFO)
-    const openBook = {};   // ticker → [{price, shares, date, side}]
+    const openBook = {};   // ticker → [{price, shares, date, side, signal}]
     const closed   = [];
-
-    for (const o of sorted) {
-        if (o.position_action === 'open') {
-            if (!openBook[o.ticker]) openBook[o.ticker] = [];
-            openBook[o.ticker].push({
-                price:  o.intended_price,
-                shares: o.intended_shares,
-                date:   o.trade_date,
-                side:   o.side,          // 'buy' | 'short'
-                ts:     o.decision_ts_utc,
-                signal: o.strategy_metrics?.signal || {},
+    for (const f of rows) {
+        const sh = +f.executed_shares, px = +f.executed_price;
+        if (f.side === 'buy' || f.side === 'short') {
+            (openBook[f.ticker] = openBook[f.ticker] || []).push({
+                price: px, shares: sh, date: f.trade_date, side: f.side,
+                signal: f.strategy_metrics?.signal || {},
             });
-
-        } else if (o.position_action === 'close') {
-            const lots = openBook[o.ticker] || [];
-
-            // Weighted-average entry price across all open lots for this ticker
-            const totalOpenShares = lots.reduce((s, l) => s + l.shares, 0);
-            const wAvgEntry = totalOpenShares > 0
-                ? lots.reduce((s, l) => s + l.price * l.shares, 0) / totalOpenShares
-                : o.intended_price;
-
-            const entryDate = lots.length ? lots[0].date : o.trade_date;
-            const openSide  = lots.length ? lots[0].side : (o.side === 'sell' ? 'buy' : 'short');
-            const isLong    = openSide === 'buy';
-
-            const exitPrice  = o.intended_price;
-            const exitShares = o.intended_shares;
-
-            // P&L: long = (exit - entry) * shares; short = (entry - exit) * shares
-            const pnl = isLong
-                ? (exitPrice - wAvgEntry) * exitShares
-                : (wAvgEntry - exitPrice) * exitShares;
-
-            closed.push({
-                ticker:     o.ticker,
-                direction:  isLong ? 'LONG' : 'SHORT',
-                shares:     exitShares,
-                entryDate,
-                exitDate:   o.trade_date,
-                entryPrice: wAvgEntry,
-                exitPrice,
-                pnl,
-                exitReason: o.strategy_metrics?.exit_reason || null,
-                strategy:   o.strategy,
-                openSignal: lots[0]?.signal || {},
-            });
-
-            // Remove consumed lots
-            delete openBook[o.ticker];
+            continue;
         }
+        if (f.side !== 'sell' && f.side !== 'cover') continue;
+        const lots = openBook[f.ticker] || [];
+        const want = f.side === 'sell' ? 'buy' : 'short';
+        let left = sh, cost = 0, used = 0, entryDate = null, signal = {};
+        while (left > 0 && lots.length && lots[0].side === want) {
+            const lot = lots[0], take = Math.min(left, lot.shares);
+            if (entryDate === null) { entryDate = lot.date; signal = lot.signal; }
+            cost += take * lot.price; used += take; left -= take; lot.shares -= take;
+            if (lot.shares <= 0) lots.shift();
+        }
+        if (!used) continue;                                            // exit with no matching open lot in the log
+        const entryPrice = cost / used, isLong = want === 'buy';
+        closed.push({
+            ticker:     f.ticker,
+            direction:  isLong ? 'LONG' : 'SHORT',
+            shares:     used,
+            entryDate,
+            exitDate:   f.trade_date,
+            entryPrice,
+            exitPrice:  px,
+            pnl:        isLong ? (px - entryPrice) * used : (entryPrice - px) * used,
+            exitReason: f.strategy_metrics?.exit_reason || null,
+            strategy:   f.strategy,
+            openSignal: signal,
+        });
     }
-
-    // Most-recent exit first
-    return closed.sort((a, b) => b.exitDate.localeCompare(a.exitDate));
+    return closed.sort((a, b) => b.exitDate.localeCompare(a.exitDate));   // most-recent exit first
 }
 
 const EXIT_REASON_LABELS = {
@@ -3164,8 +3142,7 @@ function updateTradeLogPanel() {
         return;
     }
 
-    const orders = state.orders?.[currentStrategy] || [];
-    const closed = buildClosedTrades(orders);
+    const closed = buildClosedTrades(state.fills?.[currentStrategy] || []);
 
     panel.style.display = 'block';
     tradeLogExpanded = false;   // reset on strategy switch
@@ -3180,7 +3157,7 @@ function updateTradeLogPanel() {
     const title = document.getElementById('tradeLogTitle');
     const sub   = document.getElementById('tradeLogSub');
     title.textContent = LABELS[currentStrategy] + ': closed trades';
-    sub.textContent   = 'Entry & exit prices from orders log · click a ticker to inspect minute data';
+    sub.textContent   = 'Executed entry and exit prices · click a ticker to inspect minute data';
 
     if (closed.length === 0) {
         document.getElementById('tradeLogContent').innerHTML =
@@ -3319,7 +3296,7 @@ function renderTradeLogRows(closed) {
 
     const rows = toShow.map(t => {
         const pnlColor = t.pnl >= 0 ? '#00d4aa' : '#ff4757';
-        const pnlSign  = t.pnl >= 0 ? '+' : '';
+        const pnlSign  = t.pnl >= 0 ? '+' : '−';
         const dirColor = t.direction === 'LONG' ? '#00d4aa' : '#ff6b6b';
 
         const tickerLink = `<span style="color:#00d4aa;cursor:pointer;font-weight:600;"
@@ -3385,8 +3362,7 @@ function renderTradeLogRows(closed) {
 
 function toggleTradeLogExpand() {
     tradeLogExpanded = !tradeLogExpanded;
-    const orders = state.orders?.[currentStrategy] || [];
-    const closed = buildClosedTrades(orders);
+    const closed = buildClosedTrades(state.fills?.[currentStrategy] || []);
     renderTradeLogRows(closed);
 }
 
