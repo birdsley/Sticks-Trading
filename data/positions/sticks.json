@@ -1,48 +1,32 @@
 {
-  "as_of": "2026-11-25",
-  "cash": 16281.725834,
-  "equity_estimate": 10461.945778152833,
-  "last_run_id": "2026-11-25_sticks_live",
+  "as_of": "2026-11-23",
+  "cash": 15692.400399,
+  "equity_estimate": 10657.340309888672,
+  "last_run_id": "2026-11-27_sticks_live",
   "open_orders": [],
   "pending_orders": [],
   "positions": [
     {
-      "avg_cost": 14.19006,
-      "entry_date": "2026-10-08",
-      "last_price": 12.88,
-      "shares": -68,
+      "avg_cost": 15.838905,
+      "entry_date": "2026-11-12",
+      "last_price": 14.09,
+      "shares": -64,
       "strategy": "sticks",
-      "ticker": "CTVA"
+      "ticker": "TTD"
     },
     {
-      "avg_cost": 257.674512,
-      "entry_date": "2026-11-10",
-      "last_price": 220.839996,
-      "shares": -3,
-      "strategy": "sticks",
-      "ticker": "MRNA"
-    },
-    {
-      "avg_cost": 73.098797,
+      "avg_cost": 226.881065,
       "entry_date": "2026-11-17",
-      "last_price": 64.739998,
-      "shares": -13,
+      "last_price": 205.630005,
+      "shares": -4,
       "strategy": "sticks",
-      "ticker": "CNC"
-    },
-    {
-      "avg_cost": 446.6871,
-      "entry_date": "2026-11-17",
-      "last_price": 406.51001,
-      "shares": -2,
-      "strategy": "sticks",
-      "ticker": "HUM"
+      "ticker": "MOH"
     },
     {
       "avg_cost": 210.892265,
       "entry_date": "2026-11-19",
       "last_price": 203.990005,
-      "shares": -5,
+      "shares": -4,
       "strategy": "sticks",
       "ticker": "GNRC"
     },
@@ -63,20 +47,28 @@
       "ticker": "AVGO"
     },
     {
+      "avg_cost": 237.208837,
+      "entry_date": "2026-11-20",
+      "last_price": 209.300003,
+      "shares": -4,
+      "strategy": "sticks",
+      "ticker": "CRWD"
+    },
+    {
+      "avg_cost": 153.1071,
+      "entry_date": "2026-11-20",
+      "last_price": 164.630005,
+      "shares": 6,
+      "strategy": "sticks",
+      "ticker": "EPAM"
+    },
+    {
       "avg_cost": 361.566733,
       "entry_date": "2026-11-23",
       "last_price": 356.140015,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "PANW"
-    },
-    {
-      "avg_cost": 334.2338,
-      "entry_date": "2026-11-24",
-      "last_price": 346.190002,
-      "shares": 3,
-      "strategy": "sticks",
-      "ticker": "UNH"
     }
   ]
 }
