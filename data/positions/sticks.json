@@ -1,7 +1,7 @@
 {
   "as_of": "2026-11-23",
   "cash": 15692.400399,
-  "equity_estimate": 10657.340309888672,
+  "equity_estimate": 10472.440384656738,
   "last_run_id": "2026-11-27_sticks_live",
   "open_orders": [],
   "pending_orders": [],
@@ -9,7 +9,7 @@
     {
       "avg_cost": 15.838905,
       "entry_date": "2026-11-12",
-      "last_price": 14.09,
+      "last_price": 14.44,
       "shares": -64,
       "strategy": "sticks",
       "ticker": "TTD"
@@ -17,7 +17,7 @@
     {
       "avg_cost": 226.881065,
       "entry_date": "2026-11-17",
-      "last_price": 205.630005,
+      "last_price": 202.880005,
       "shares": -4,
       "strategy": "sticks",
       "ticker": "MOH"
@@ -25,7 +25,7 @@
     {
       "avg_cost": 210.892265,
       "entry_date": "2026-11-19",
-      "last_price": 203.990005,
+      "last_price": 219.169998,
       "shares": -4,
       "strategy": "sticks",
       "ticker": "GNRC"
@@ -33,7 +33,7 @@
     {
       "avg_cost": 93.274658,
       "entry_date": "2026-11-19",
-      "last_price": 88.660004,
+      "last_price": 90.620003,
       "shares": -11,
       "strategy": "sticks",
       "ticker": "AKAM"
@@ -41,7 +41,7 @@
     {
       "avg_cost": 362.685944,
       "entry_date": "2026-11-19",
-      "last_price": 300.859985,
+      "last_price": 312.339996,
       "shares": -2,
       "strategy": "sticks",
       "ticker": "AVGO"
@@ -49,7 +49,7 @@
     {
       "avg_cost": 237.208837,
       "entry_date": "2026-11-20",
-      "last_price": 209.300003,
+      "last_price": 217.199997,
       "shares": -4,
       "strategy": "sticks",
       "ticker": "CRWD"
@@ -57,7 +57,7 @@
     {
       "avg_cost": 153.1071,
       "entry_date": "2026-11-20",
-      "last_price": 164.630005,
+      "last_price": 163.830002,
       "shares": 6,
       "strategy": "sticks",
       "ticker": "EPAM"
@@ -65,7 +65,7 @@
     {
       "avg_cost": 361.566733,
       "entry_date": "2026-11-23",
-      "last_price": 356.140015,
+      "last_price": 366.76001,
       "shares": -3,
       "strategy": "sticks",
       "ticker": "PANW"
